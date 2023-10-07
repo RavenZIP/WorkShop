@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
@@ -79,19 +80,20 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**Простая кнопка с текстом*/
 @Composable
 fun SimpleButton(
     text: String,
     textSize: Int,
     textAlign: TextAlign,
-    //colors: ButtonColors,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
 ){
     Button(
         onClick = { onClick() },
         modifier = Modifier.fillMaxWidth(0.9f),
-        //colors = colors,
+        colors = colors,
         shape = shape
     ) {
         Text(
@@ -106,20 +108,21 @@ fun SimpleButton(
     }
 }
 
+/**Кнопка с заголовком и описанием*/
 @Composable
 fun ButtonWithTitle(
     title : String,
     titleSize: Int,
     text: String,
     textSize: Int,
-    //colors: ButtonColors,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
 ){
     Button(
         onClick = { onClick() },
         modifier = Modifier.fillMaxWidth(0.9f),
-        //colors = colors,
+        colors = colors,
         shape = shape
     ) {
         Column (
@@ -142,13 +145,14 @@ fun ButtonWithTitle(
     }
 }
 
+/**Кнопка с иконкой и текстом*/
 @Composable
 fun ButtonWithIcon(
     text: String,
     textSize: Int,
     icon: ImageVector,
     contentDescription: String = "",
-    //colors: ButtonColors,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
 ){
@@ -156,7 +160,7 @@ fun ButtonWithIcon(
         onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth(0.9f),
-        //colors = colors,
+        colors = colors,
         shape = shape
     ) {
         Row (
