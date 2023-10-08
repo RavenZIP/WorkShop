@@ -44,7 +44,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        SimpleButton(text = "Простая кнопка", textSize = 16, TextAlign.Start) {}
+                        SimpleButton(
+                            text = "Простая кнопка",
+                            textSize = 16,
+                            textAlign = TextAlign.Start
+                        ) {}
 
                         Spacer(modifier = Modifier.padding(top = 20.dp))
                         SimpleButtonWithIcon(
@@ -76,6 +80,7 @@ class MainActivity : ComponentActivity() {
 /** Простая кнопка с текстом */
 @Composable
 fun SimpleButton(
+    width: Float = 0.9f,
     text: String,
     textSize: Int,
     textAlign: TextAlign,
@@ -85,7 +90,7 @@ fun SimpleButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.fillMaxWidth(width),
         colors = colors,
         shape = shape
     ) {
@@ -102,23 +107,25 @@ fun SimpleButton(
 /** Кнопка с заголовком и описанием */
 @Composable
 fun SimpleButtonWithTitle(
+    width: Float = 0.9f,
     title: String,
     titleSize: Int,
     text: String,
     textSize: Int,
+    textAlign: Alignment.Horizontal = Alignment.Start,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.fillMaxWidth(width),
         colors = colors,
         shape = shape
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = textAlign
         ) {
             Text(text = title, fontSize = titleSize.sp, fontWeight = FontWeight.Bold)
             Text(text = text, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
@@ -129,6 +136,7 @@ fun SimpleButtonWithTitle(
 /** Кнопка с иконкой и текстом */
 @Composable
 fun SimpleButtonWithIcon(
+    width: Float = 0.9f,
     text: String,
     textSize: Int,
     icon: ImageVector,
@@ -141,7 +149,7 @@ fun SimpleButtonWithIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(0.9f),
+        modifier = Modifier.fillMaxWidth(width),
         colors = colors,
         shape = shape
     ) {
