@@ -12,4 +12,4 @@ Button
 
 ❌ **Элементы, которые предстоит разработать:**
 
-IconButton, TextField, Switch, RadioButton, BottomBar, TopBar
+IconButton, TextField, Card, RadioButton, Switch, TopBar, BottomBar
