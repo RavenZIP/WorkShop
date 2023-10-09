@@ -53,7 +53,7 @@ fun SimpleButton(
 
 /** Кнопка с заголовком и описанием */
 @Composable
-fun SimpleButtonWithTitle(
+fun SimpleButtonWithTitleAndIcon(
     width: Float = 0.9f,
     title: String,
     titleColor: Color = MaterialTheme.colorScheme.onPrimary,
@@ -62,6 +62,9 @@ fun SimpleButtonWithTitle(
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textSize: Int,
     textAlign: Alignment.Horizontal = Alignment.Start,
+    icon: ImageVector?,
+    contentDescription: String = "",
+    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
@@ -72,23 +75,59 @@ fun SimpleButtonWithTitle(
         colors = colors,
         shape = shape
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
-            horizontalAlignment = textAlign
-        ) {
-            Text(
-                text = title,
-                color = titleColor,
-                fontSize = titleSize.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
+        if (icon == null) {
+            PrepareTextContent(
+                title = title,
+                titleColor = titleColor,
+                titleSize = titleSize,
                 text = text,
-                color = textColor,
-                fontSize = textSize.sp,
-                fontWeight = FontWeight.Medium
+                textColor = textColor,
+                textSize = textSize,
+                textAlign = textAlign
             )
+        } else {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.padding(end = 10.dp),
+                    tint = iconColor
+                )
+                PrepareTextContent(
+                    title = title,
+                    titleColor = titleColor,
+                    titleSize = titleSize,
+                    text = text,
+                    textColor = textColor,
+                    textSize = textSize,
+                    textAlign = textAlign
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun PrepareTextContent(
+    title: String,
+    titleColor: Color,
+    titleSize: Int,
+    text: String,
+    textColor: Color,
+    textSize: Int,
+    textAlign: Alignment.Horizontal
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
+        horizontalAlignment = textAlign
+    ) {
+        Text(
+            text = title,
+            color = titleColor,
+            fontSize = titleSize.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(text = text, color = textColor, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
     }
 }
 
@@ -100,6 +139,7 @@ fun SimpleButtonWithIcon(
     textSize: Int,
     icon: ImageVector,
     contentDescription: String = "",
+    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     iconPositionIsLeft: Boolean = true,
     iconRightAtTheEnd: Boolean = false,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -130,19 +170,22 @@ fun SimpleButtonWithIcon(
                     fontSize = textSize.sp,
                     fontWeight = FontWeight.Medium
                 )
-                Icon(imageVector = icon, contentDescription = contentDescription)
+                Icon(imageVector = icon, contentDescription = contentDescription, tint = iconColor)
             }
         }
     }
 }
 
+/** Квадратная кнопка с иконкой и текстом по центру */
 @Composable
 fun TextButtonWithIcon(
     text: String,
+    textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textSize: Int,
     icon: ImageVector,
     contentDescription: String = "",
     iconSize: Int = 25,
+    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
@@ -155,10 +198,12 @@ fun TextButtonWithIcon(
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
-                modifier = Modifier.padding(bottom = 5.dp).size(iconSize.dp)
+                modifier = Modifier.padding(bottom = 5.dp).size(iconSize.dp),
+                tint = iconColor
             )
             Text(
                 text = text,
+                color = textColor,
                 fontSize = textSize.sp,
                 fontWeight = FontWeight.Medium,
             )

@@ -52,11 +52,12 @@ class MainActivity : ComponentActivity() {
                             iconPositionIsLeft = false
                         ) {}
                         Spacer(modifier = Modifier.padding(top = 20.dp))
-                        SimpleButtonWithTitle(
+                        SimpleButtonWithTitleAndIcon(
                             title = "Кнопка с заголовком и описанием",
                             titleSize = 16,
                             text = "Описание",
-                            textSize = 14
+                            textSize = 14,
+                            icon = Icons.Outlined.FavoriteBorder
                         ) {}
                         Spacer(modifier = Modifier.padding(top = 20.dp))
                         TextButtonWithIcon(
