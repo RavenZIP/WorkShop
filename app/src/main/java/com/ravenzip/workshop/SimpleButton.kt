@@ -24,7 +24,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/** Простая кнопка с текстом */
+/** Простая кнопка с текстом
+ *
+ * Опционально:
+ * 1) Ширина кнопки
+ * 2) Общие цвета для кнопки
+ * 3) Радиус скругления кнопки*/
 @Composable
 fun SimpleButton(
     width: Float = 0.9f,
@@ -51,7 +56,16 @@ fun SimpleButton(
     }
 }
 
-/** Кнопка с заголовком и описанием */
+/** Кнопка с заголовком и описанием.
+ *
+ * Опционально:
+ * 1) Ширина кнопки
+ * 2) Цвет заголовка
+ * 3) Цвет текста
+ * 4) Расположение текста внутри кнопки
+ * 5) Описание иконки
+ * 6) Общие цвета для кнопки
+ * 7) Радиус скругления кнопки*/
 @Composable
 fun SimpleButtonWithTitleAndIcon(
     width: Float = 0.9f,
@@ -107,8 +121,9 @@ fun SimpleButtonWithTitleAndIcon(
     }
 }
 
+/** Текстовый контент для SimpleButtonWithTitleAndIcon */
 @Composable
-fun PrepareTextContent(
+private fun PrepareTextContent(
     title: String,
     titleColor: Color,
     titleSize: Int,
@@ -131,7 +146,16 @@ fun PrepareTextContent(
     }
 }
 
-/** Кнопка с иконкой и текстом */
+/** Кнопка с иконкой и текстом
+ *
+ * Опционально:
+ * 1) Ширина кнопки
+ * 2) Описание иконки
+ * 3) Цвет иконки
+ * 4) Расположение иконки относительно текста
+ * 5) Расположение иконки справа (близко к тексту или с краю кнопки)
+ * 6) Общие цвета для кнопки
+ * 7) Радиус скругления кнопки*/
 @Composable
 fun SimpleButtonWithIcon(
     width: Float = 0.9f,
@@ -176,7 +200,14 @@ fun SimpleButtonWithIcon(
     }
 }
 
-/** Квадратная кнопка с иконкой и текстом по центру */
+/** Квадратная кнопка с иконкой и текстом по центру
+ *
+ * Опицонально:
+ * 1) Цвет текста
+ * 2) Описание иконки
+ * 3) Цвет иконки
+ * 4) Общие цвета для кнопки
+ * 5) Скругление кнопки*/
 @Composable
 fun TextButtonWithIcon(
     text: String,
