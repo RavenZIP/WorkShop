@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -11,6 +12,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -123,13 +125,43 @@ fun SimpleButtonWithIcon(
                 Text(
                     text = text,
                     modifier =
-                    if (iconRightAtTheEnd) Modifier.fillMaxWidth(0.9f).padding(end = 10.dp)
-                    else Modifier.padding(end = 10.dp),
+                        if (iconRightAtTheEnd) Modifier.fillMaxWidth(0.9f).padding(end = 10.dp)
+                        else Modifier.padding(end = 10.dp),
                     fontSize = textSize.sp,
                     fontWeight = FontWeight.Medium
                 )
                 Icon(imageVector = icon, contentDescription = contentDescription)
             }
+        }
+    }
+}
+
+@Composable
+fun TextButtonWithIcon(
+    text: String,
+    textSize: Int,
+    icon: ImageVector,
+    contentDescription: String = "",
+    iconSize: Int = 25,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    shape: Shape = RoundedCornerShape(15),
+    onClick: () -> Unit
+) {
+    TextButton(onClick = { onClick() }, shape = shape, colors = colors) {
+        Column(
+            modifier = Modifier.padding(5.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                modifier = Modifier.padding(bottom = 5.dp).size(iconSize.dp)
+            )
+            Text(
+                text = text,
+                fontSize = textSize.sp,
+                fontWeight = FontWeight.Medium,
+            )
         }
     }
 }

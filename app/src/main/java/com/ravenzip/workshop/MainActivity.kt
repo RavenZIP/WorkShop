@@ -58,6 +58,12 @@ class MainActivity : ComponentActivity() {
                             text = "Описание",
                             textSize = 14
                         ) {}
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
+                        TextButtonWithIcon(
+                            text = "Подпись",
+                            textSize = 12,
+                            icon = Icons.Outlined.FavoriteBorder,
+                        ) {}
                     }
                 }
             }
