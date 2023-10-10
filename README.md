@@ -1,7 +1,7 @@
 # WorkShop
 
 <p align="center">
-      <img src="app/src/main/ic_launcher-playstore.png" width="256">
+      <img src="width_logo.png" width="100%">
 </p>
 
 ✔ **Готовые элементы:**
