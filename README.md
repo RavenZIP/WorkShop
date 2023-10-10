@@ -1,6 +1,6 @@
 # WorkShop
 
-Мастерская кастомных элементов Material You (Material 3)
+Мастерская кастомных элементов Material 3 (Jetpack Compose)
 
 ✔ **Готовые элементы:**
 
