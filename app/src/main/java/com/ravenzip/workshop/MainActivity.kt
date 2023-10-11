@@ -52,6 +52,14 @@ class MainActivity : ComponentActivity() {
                             iconPositionIsLeft = false
                         ) {}
                         Spacer(modifier = Modifier.padding(top = 20.dp))
+                        SimpleButtonWithIcon(
+                            text = "Кнопка с иконкой справа с краю",
+                            textSize = 16,
+                            icon = Icons.Outlined.FavoriteBorder,
+                            iconPositionIsLeft = false,
+                            iconRightAtTheEnd = true
+                        ) {}
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
                         SimpleButtonWithTitleAndIcon(
                             title = "Кнопка с заголовком, описанием и иконкой",
                             titleSize = 16,
