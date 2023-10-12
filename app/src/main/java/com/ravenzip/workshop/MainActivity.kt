@@ -1,5 +1,6 @@
 package com.ravenzip.workshop
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -19,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.ui.theme.WorkShopTheme
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnrememberedMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -32,7 +36,45 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        var text = mutableStateOf("")
+                        var numbers = mutableStateOf("")
+                        SimpleTextField(
+                            text = text,
+                            label = "Простое текстовое поле",
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.FavoriteBorder,
+                                    contentDescription = ""
+                                )
+                            },
+                        )
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
+                        SimpleTextField(
+                            text = numbers,
+                            label = "Числовое текстовое поле",
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.FavoriteBorder,
+                                    contentDescription = ""
+                                )
+                            },
+                        )
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
                         SimpleButton(
+                            text = "Простая кнопка",
+                            textSize = 16,
+                            textAlign = TextAlign.Start,
+                            width = null
+                        ) {}
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*
+SimpleButton(
                             text = "Простая кнопка",
                             textSize = 16,
                             textAlign = TextAlign.Start
@@ -81,9 +123,4 @@ class MainActivity : ComponentActivity() {
                             textSize = 12,
                             icon = Icons.Outlined.FavoriteBorder,
                         ) {}
-                    }
-                }
-            }
-        }
-    }
-}
+*/

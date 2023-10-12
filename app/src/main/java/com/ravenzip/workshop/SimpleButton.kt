@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun SimpleButton(
-    width: Float = 0.9f,
+    width: Float? = 0.9f,
     text: String,
     textSize: Int,
     textAlign: TextAlign,
@@ -44,13 +44,17 @@ fun SimpleButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(width),
+        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
         colors = colors,
         shape = shape
     ) {
         Text(
             text = text,
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
+            modifier =
+                (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
+                    top = 10.dp,
+                    bottom = 10.dp
+                ),
             fontSize = textSize.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
@@ -72,7 +76,7 @@ fun SimpleButton(
  */
 @Composable
 fun SimpleButtonWithTitleAndIcon(
-    width: Float = 0.9f,
+    width: Float? = 0.9f,
     title: String,
     titleColor: Color = MaterialTheme.colorScheme.onPrimary,
     titleSize: Int,
@@ -89,12 +93,13 @@ fun SimpleButtonWithTitleAndIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(width),
+        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
         colors = colors,
         shape = shape
     ) {
         if (icon == null) {
             PrepareTextContent(
+                width = width,
                 title = title,
                 titleColor = titleColor,
                 titleSize = titleSize,
@@ -112,6 +117,7 @@ fun SimpleButtonWithTitleAndIcon(
                     tint = iconColor
                 )
                 PrepareTextContent(
+                    width = width,
                     title = title,
                     titleColor = titleColor,
                     titleSize = titleSize,
@@ -128,6 +134,7 @@ fun SimpleButtonWithTitleAndIcon(
 /** Текстовый контент для SimpleButtonWithTitleAndIcon */
 @Composable
 private fun PrepareTextContent(
+    width: Float?,
     title: String,
     titleColor: Color,
     titleSize: Int,
@@ -137,7 +144,11 @@ private fun PrepareTextContent(
     textAlign: Alignment.Horizontal
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
+        modifier =
+            (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
+                top = 10.dp,
+                bottom = 10.dp
+            ),
         horizontalAlignment = textAlign
     ) {
         Text(
@@ -164,7 +175,7 @@ private fun PrepareTextContent(
  */
 @Composable
 fun SimpleButtonWithIcon(
-    width: Float = 0.9f,
+    width: Float? = 0.9f,
     text: String,
     textSize: Int,
     icon: ImageVector,
@@ -178,12 +189,16 @@ fun SimpleButtonWithIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.fillMaxWidth(width),
+        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
         colors = colors,
         shape = shape
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
+            modifier =
+                (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
+                    top = 10.dp,
+                    bottom = 10.dp
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (iconPositionIsLeft) {
