@@ -1,6 +1,7 @@
 package com.ravenzip.workshop
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -12,6 +13,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 /**
  * Текстовое поле
@@ -68,6 +72,15 @@ fun SimpleTextField(
         shape = shape,
         colors = colors
     )
+    if (maxLength > 0) {
+        Text(
+            text = "${text.value.length}/${maxLength}",
+            modifier = Modifier.fillMaxWidth(width).padding(end = 5.dp),
+            color = colors.focusedIndicatorColor,
+            fontSize = 12.sp,
+            textAlign = TextAlign.End
+        )
+    }
 }
 
 private fun checkPattern(text: String, pattern: Regex?): Boolean {
