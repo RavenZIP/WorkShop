@@ -31,6 +31,7 @@
 - **-** **`Card`**
 - **-** **`TopBar`**
 - **-** **`BottomBar`**
+- **-** **`RichTextField`**
 
 ## Разработчик
 - [Черных Александр](https://github.com/RavenZIP)
