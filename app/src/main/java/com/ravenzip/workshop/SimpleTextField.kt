@@ -3,11 +3,10 @@ package com.ravenzip.workshop
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.input.VisualTransformation
  *
  * Опционально:
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTextField(
     text: MutableState<String>,
@@ -38,15 +36,15 @@ fun SimpleTextField(
     singleLine: Boolean = true,
     maxLines: Int = 1,
     shape: Shape = RoundedCornerShape(15),
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors()
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
 ) {
     OutlinedTextField(
         value = text.value,
         onValueChange = {
             if (
-                pattern != null &&
+                pattern == null ||
                     it.matches(pattern) &&
-                    (maxLength == 0 || (maxLength > 0 && it.length <= maxLength))
+                        (maxLength == 0 || (maxLength > 0 && it.length <= maxLength))
             ) {
                 text.value = it
             }

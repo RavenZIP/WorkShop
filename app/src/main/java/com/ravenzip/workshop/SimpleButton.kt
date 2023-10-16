@@ -169,9 +169,8 @@ private fun PrepareTextContent(
  * 2) Описание иконки
  * 3) Цвет иконки
  * 4) Расположение иконки относительно текста
- * 5) Расположение иконки справа (близко к тексту или с краю кнопки)
- * 6) Общие цвета для кнопки
- * 7) Радиус скругления кнопки
+ * 5) Общие цвета для кнопки
+ * 6) Радиус скругления кнопки
  */
 @Composable
 fun SimpleButtonWithIcon(
@@ -181,8 +180,7 @@ fun SimpleButtonWithIcon(
     icon: ImageVector,
     contentDescription: String = "",
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
-    iconPositionIsLeft: Boolean = true,
-    iconRightAtTheEnd: Boolean = false,
+    iconPositionLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(15),
     onClick: () -> Unit
@@ -201,7 +199,7 @@ fun SimpleButtonWithIcon(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (iconPositionIsLeft) {
+            if (iconPositionLeft) {
                 Icon(imageVector = icon, contentDescription = contentDescription)
                 Text(
                     text = text,
@@ -212,9 +210,7 @@ fun SimpleButtonWithIcon(
             } else {
                 Text(
                     text = text,
-                    modifier =
-                        if (iconRightAtTheEnd) Modifier.fillMaxWidth(0.9f).padding(end = 10.dp)
-                        else Modifier.padding(end = 10.dp),
+                    modifier = Modifier.fillMaxWidth(0.9f).padding(end = 10.dp),
                     fontSize = textSize.sp,
                     fontWeight = FontWeight.Medium
                 )

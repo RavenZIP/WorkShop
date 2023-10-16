@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.padding(top = 20.dp))
                         SimpleTextField(
                             text = numbers,
+                            pattern = Regex("^\\d*\$"),
                             label = "Числовое текстовое поле",
                             leadingIcon = {
                                 Icon(
