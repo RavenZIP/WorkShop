@@ -17,6 +17,11 @@ import androidx.compose.ui.text.input.VisualTransformation
  * Текстовое поле
  *
  * Опционально:
+ * 1) Максимальное количество символов
+ * 2) Ширина текстового поля
+ * 3) Паттерн
+ * 4) Состояние (вкл\выкл)
+ * 5) Только для чтения
  */
 @Composable
 fun SimpleTextField(
@@ -42,9 +47,8 @@ fun SimpleTextField(
         value = text.value,
         onValueChange = {
             if (
-                pattern == null ||
-                    it.matches(pattern) &&
-                        (maxLength == 0 || (maxLength > 0 && it.length <= maxLength))
+                checkPattern(it, pattern) && checkLength(it.length, maxLength) ||
+                    pattern == null && checkLength(it.length, maxLength)
             ) {
                 text.value = it
             }
@@ -64,4 +68,12 @@ fun SimpleTextField(
         shape = shape,
         colors = colors
     )
+}
+
+private fun checkPattern(text: String, pattern: Regex?): Boolean {
+    return pattern != null && text.matches(pattern)
+}
+
+private fun checkLength(textLength: Int, maxLength: Int): Boolean {
+    return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
 }

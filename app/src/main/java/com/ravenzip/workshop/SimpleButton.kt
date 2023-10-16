@@ -75,7 +75,7 @@ fun SimpleButton(
  * 7) Радиус скругления кнопки
  */
 @Composable
-fun SimpleButtonWithTitleAndIcon(
+fun ButtonWithTitleAndIcon(
     width: Float? = 0.9f,
     title: String,
     titleColor: Color = MaterialTheme.colorScheme.onPrimary,
@@ -173,7 +173,7 @@ private fun PrepareTextContent(
  * 6) Радиус скругления кнопки
  */
 @Composable
-fun SimpleButtonWithIcon(
+fun ButtonWithIcon(
     width: Float? = 0.9f,
     text: String,
     textSize: Int,
