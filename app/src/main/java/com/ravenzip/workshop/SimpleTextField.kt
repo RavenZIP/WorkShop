@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,10 +33,10 @@ import androidx.compose.ui.unit.sp
  * 8) Иконка слева
  * 9) Иконка справа
  * 10) Статус "Ошибка"
- * 11) VisualTransformation (......)
- * 12) KeyboardOptions (......)
+ * 11) Изменение визуального отображения текста в поле
+ * 12) Опции для клавиатуры
  * 13) Радиус скругления
- * 14) Цвета
+ * 14) Цвета текстового поля (по умолчанию берутся из темы приложения)
  * 15) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
  *     максимального количества символов)
  */
@@ -52,9 +53,9 @@ fun SimpleTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
+    isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    shape: Shape = RoundedCornerShape(15),
+    shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = true
 ) {
@@ -76,7 +77,8 @@ fun SimpleTextField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         isError = isError,
-        visualTransformation = visualTransformation,
+        visualTransformation =
+            if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = keyboardOptions,
         singleLine = true,
         shape = shape,
@@ -103,13 +105,12 @@ fun SimpleTextField(
  * 5) Название поля
  * 6) Текст плейсхолдера
  * 7) Статус "Ошибка"
- * 8) VisualTransformation (......)
- * 9) KeyboardOptions (......)
- * 10) Максимальное число строк
- * 11) Минимальное число строк
- * 12) Радиус скругления
- * 13) Цвета
- * 14) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
+ * 8) Опции для клавиатуры
+ * 9) Максимальное число строк
+ * 10) Минимальное число строк
+ * 11) Опции для клавиатуры
+ * 12) Цвета текстового поля (по умолчанию берутся из темы приложения)
+ * 13) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
  *     максимального количества символов)
  */
 @Composable
@@ -122,11 +123,10 @@ fun MultilineTextField(
     label: String = "",
     placeholder: String = "",
     isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
-    shape: Shape = RoundedCornerShape(15),
+    shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = true
 ) {
@@ -139,7 +139,6 @@ fun MultilineTextField(
         label = { Text(text = label) },
         placeholder = { Text(text = placeholder) },
         isError = isError,
-        visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         maxLines = maxLines,
         minLines = minLines,
@@ -157,7 +156,7 @@ fun MultilineTextField(
 }
 
 @Composable
-fun ErrorMessageAndSymbolsCounter(
+private fun ErrorMessageAndSymbolsCounter(
     text: String,
     width: Float,
     isError: Boolean,

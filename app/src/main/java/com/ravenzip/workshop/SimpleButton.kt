@@ -39,7 +39,7 @@ fun SimpleButton(
     textSize: Int,
     textAlign: TextAlign,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
-    shape: Shape = RoundedCornerShape(15),
+    shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit
 ) {
     Button(
@@ -88,7 +88,7 @@ fun ButtonWithTitleAndIcon(
     contentDescription: String = "",
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
-    shape: Shape = RoundedCornerShape(15),
+    shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit
 ) {
     Button(
@@ -131,36 +131,6 @@ fun ButtonWithTitleAndIcon(
     }
 }
 
-/** Текстовый контент для SimpleButtonWithTitleAndIcon */
-@Composable
-private fun PrepareTextContent(
-    width: Float?,
-    title: String,
-    titleColor: Color,
-    titleSize: Int,
-    text: String,
-    textColor: Color,
-    textSize: Int,
-    textAlign: Alignment.Horizontal
-) {
-    Column(
-        modifier =
-            (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
-                top = 10.dp,
-                bottom = 10.dp
-            ),
-        horizontalAlignment = textAlign
-    ) {
-        Text(
-            text = title,
-            color = titleColor,
-            fontSize = titleSize.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(text = text, color = textColor, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
-    }
-}
-
 /**
  * Кнопка с иконкой и текстом
  *
@@ -182,7 +152,7 @@ fun ButtonWithIcon(
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     iconPositionLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
-    shape: Shape = RoundedCornerShape(15),
+    shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit
 ) {
     Button(
@@ -261,5 +231,35 @@ fun TextButtonWithIcon(
                 fontWeight = FontWeight.Medium,
             )
         }
+    }
+}
+
+/** Текстовый контент для SimpleButtonWithTitleAndIcon */
+@Composable
+private fun PrepareTextContent(
+    width: Float?,
+    title: String,
+    titleColor: Color,
+    titleSize: Int,
+    text: String,
+    textColor: Color,
+    textSize: Int,
+    textAlign: Alignment.Horizontal
+) {
+    Column(
+        modifier =
+        (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
+            top = 10.dp,
+            bottom = 10.dp
+        ),
+        horizontalAlignment = textAlign
+    ) {
+        Text(
+            text = title,
+            color = titleColor,
+            fontSize = titleSize.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(text = text, color = textColor, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
     }
 }

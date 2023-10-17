@@ -67,6 +67,8 @@ class MainActivity : ComponentActivity() {
                             textAlign = TextAlign.Start,
                             width = null
                         ) {}
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
+                        MultilineTextField(text = text)
                     }
                 }
             }
