@@ -84,7 +84,7 @@ fun ButtonWithTitleAndIcon(
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textSize: Int,
     textAlign: Alignment.Horizontal = Alignment.Start,
-    icon: ImageVector?,
+    icon: ImageVector? = null,
     contentDescription: String = "",
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -97,35 +97,30 @@ fun ButtonWithTitleAndIcon(
         colors = colors,
         shape = shape
     ) {
-        if (icon == null) {
-            PrepareTextContent(
-                width = width,
-                title = title,
-                titleColor = titleColor,
-                titleSize = titleSize,
-                text = text,
-                textColor = textColor,
-                textSize = textSize,
-                textAlign = textAlign
-            )
-        } else {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (icon != null){
                 Icon(
                     imageVector = icon,
                     contentDescription = contentDescription,
                     modifier = Modifier.padding(end = 10.dp),
                     tint = iconColor
                 )
-                PrepareTextContent(
-                    width = width,
-                    title = title,
-                    titleColor = titleColor,
-                    titleSize = titleSize,
-                    text = text,
-                    textColor = textColor,
-                    textSize = textSize,
-                    textAlign = textAlign
+            }
+            Column(
+                modifier =
+                (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
+                    top = 10.dp,
+                    bottom = 10.dp
+                ),
+                horizontalAlignment = textAlign
+            ) {
+                Text(
+                    text = title,
+                    color = titleColor,
+                    fontSize = titleSize.sp,
+                    fontWeight = FontWeight.Bold
                 )
+                Text(text = text, color = textColor, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
             }
         }
     }
@@ -231,35 +226,5 @@ fun TextButtonWithIcon(
                 fontWeight = FontWeight.Medium,
             )
         }
-    }
-}
-
-/** Текстовый контент для SimpleButtonWithTitleAndIcon */
-@Composable
-private fun PrepareTextContent(
-    width: Float?,
-    title: String,
-    titleColor: Color,
-    titleSize: Int,
-    text: String,
-    textColor: Color,
-    textSize: Int,
-    textAlign: Alignment.Horizontal
-) {
-    Column(
-        modifier =
-        (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
-            top = 10.dp,
-            bottom = 10.dp
-        ),
-        horizontalAlignment = textAlign
-    ) {
-        Text(
-            text = title,
-            color = titleColor,
-            fontSize = titleSize.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(text = text, color = textColor, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
     }
 }

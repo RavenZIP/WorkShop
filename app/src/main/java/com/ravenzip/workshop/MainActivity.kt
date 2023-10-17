@@ -69,6 +69,14 @@ class MainActivity : ComponentActivity() {
                         ) {}
                         Spacer(modifier = Modifier.padding(top = 20.dp))
                         MultilineTextField(text = text)
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
+                        ButtonWithTitleAndIcon(
+                            title = "Кнопка с заголовком, описанием и иконкой",
+                            titleSize = 16,
+                            text = "Описание",
+                            textSize = 14,
+                            icon = Icons.Outlined.FavoriteBorder
+                        ) {}
                     }
                 }
             }
