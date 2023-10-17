@@ -68,11 +68,14 @@ fun SimpleButton(
  * Опционально:
  * 1) Ширина кнопки
  * 2) Цвет заголовка
- * 3) Цвет текста
- * 4) Расположение текста внутри кнопки
- * 5) Описание иконки
- * 6) Общие цвета для кнопки
- * 7) Радиус скругления кнопки
+ * 3) Наличие текста
+ * 4) Цвет текста
+ * 5) Размер текста
+ * 6) Расположение заголовка и текста внутри кнопки
+ * 7) Размер иконки
+ * 8) Описание иконки
+ * 9) Общие цвета для кнопки
+ * 10) Радиус скругления кнопки
  */
 @Composable
 fun ButtonWithTitleAndIcon(
@@ -80,11 +83,12 @@ fun ButtonWithTitleAndIcon(
     title: String,
     titleColor: Color = MaterialTheme.colorScheme.onPrimary,
     titleSize: Int,
-    text: String,
+    text: String? = null,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
-    textSize: Int,
+    textSize: Int = 0,
     textAlign: Alignment.Horizontal = Alignment.Start,
-    icon: ImageVector? = null,
+    icon: ImageVector,
+    iconSize: Int = 25,
     contentDescription: String = "",
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -97,21 +101,18 @@ fun ButtonWithTitleAndIcon(
         colors = colors,
         shape = shape
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (icon != null){
-                Icon(
-                    imageVector = icon,
-                    contentDescription = contentDescription,
-                    modifier = Modifier.padding(end = 10.dp),
-                    tint = iconColor
-                )
-            }
+        Row(
+            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                modifier = Modifier.padding(end = 10.dp).size(iconSize.dp),
+                tint = iconColor
+            )
             Column(
-                modifier =
-                (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
-                    top = 10.dp,
-                    bottom = 10.dp
-                ),
+                modifier = (if (width != null) Modifier.fillMaxWidth() else Modifier),
                 horizontalAlignment = textAlign
             ) {
                 Text(
@@ -120,7 +121,14 @@ fun ButtonWithTitleAndIcon(
                     fontSize = titleSize.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Text(text = text, color = textColor, fontSize = textSize.sp, fontWeight = FontWeight.Medium)
+                if (text != null) {
+                    Text(
+                        text = text,
+                        color = textColor,
+                        fontSize = textSize.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
         }
     }
@@ -132,10 +140,11 @@ fun ButtonWithTitleAndIcon(
  * Опционально:
  * 1) Ширина кнопки
  * 2) Описание иконки
- * 3) Цвет иконки
- * 4) Расположение иконки относительно текста
- * 5) Общие цвета для кнопки
- * 6) Радиус скругления кнопки
+ * 3) Размер иконки
+ * 4) Цвет иконки
+ * 5) Расположение иконки относительно текста
+ * 6) Общие цвета для кнопки
+ * 7) Радиус скругления кнопки
  */
 @Composable
 fun ButtonWithIcon(
@@ -144,6 +153,7 @@ fun ButtonWithIcon(
     textSize: Int,
     icon: ImageVector,
     contentDescription: String = "",
+    iconSize: Int = 25,
     iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     iconPositionLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -165,7 +175,11 @@ fun ButtonWithIcon(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (iconPositionLeft) {
-                Icon(imageVector = icon, contentDescription = contentDescription)
+                Icon(
+                    imageVector = icon,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.size(iconSize.dp)
+                )
                 Text(
                     text = text,
                     modifier = Modifier.padding(start = 10.dp),

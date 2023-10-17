@@ -71,10 +71,8 @@ class MainActivity : ComponentActivity() {
                         MultilineTextField(text = text)
                         Spacer(modifier = Modifier.padding(top = 20.dp))
                         ButtonWithTitleAndIcon(
-                            title = "Кнопка с заголовком, описанием и иконкой",
-                            titleSize = 16,
-                            text = "Описание",
-                            textSize = 14,
+                            title = "Заголовок",
+                            titleSize = 18,
                             icon = Icons.Outlined.FavoriteBorder
                         ) {}
                     }
