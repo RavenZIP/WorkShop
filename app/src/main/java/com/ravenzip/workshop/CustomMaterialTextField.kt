@@ -33,11 +33,12 @@ import androidx.compose.ui.unit.sp
  * 8) Иконка слева
  * 9) Иконка справа
  * 10) Статус "Ошибка"
- * 11) Изменение визуального отображения текста в поле
- * 12) Опции для клавиатуры
- * 13) Радиус скругления
- * 14) Цвета текстового поля (по умолчанию берутся из темы приложения)
- * 15) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
+ * 11) Текст ошибки
+ * 12) Изменение визуального отображения текста в поле
+ * 13) Опции для клавиатуры
+ * 14) Радиус скругления
+ * 15) Цвета текстового поля (по умолчанию берутся из темы приложения)
+ * 16) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
  *     максимального количества символов)
  */
 @Composable
@@ -53,6 +54,7 @@ fun SimpleTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
+    textError: String = "",
     isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
@@ -88,6 +90,7 @@ fun SimpleTextField(
         text.value,
         width,
         isError,
+        textError,
         maxLength,
         colors,
         showTextLengthCounter
@@ -105,12 +108,13 @@ fun SimpleTextField(
  * 5) Название поля
  * 6) Текст плейсхолдера
  * 7) Статус "Ошибка"
- * 8) Опции для клавиатуры
- * 9) Максимальное число строк
- * 10) Минимальное число строк
- * 11) Опции для клавиатуры
- * 12) Цвета текстового поля (по умолчанию берутся из темы приложения)
- * 13) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
+ * 8) Текст ошибки
+ * 9) Опции для клавиатуры
+ * 10) Максимальное число строк
+ * 11) Минимальное число строк
+ * 12) Опции для клавиатуры
+ * 13) Цвета текстового поля (по умолчанию берутся из темы приложения)
+ * 14) Отображать счетчик введенных сообщений (на данный момент работает относительно указанного
  *     максимального количества символов)
  */
 @Composable
@@ -123,6 +127,7 @@ fun MultilineTextField(
     label: String = "",
     placeholder: String = "",
     isError: Boolean = false,
+    textError: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
@@ -149,6 +154,7 @@ fun MultilineTextField(
         text.value,
         width,
         isError,
+        textError,
         maxLength,
         colors,
         showTextLengthCounter
@@ -160,6 +166,7 @@ private fun ErrorMessageAndSymbolsCounter(
     text: String,
     width: Float,
     isError: Boolean,
+    textError: String,
     maxLength: Int,
     colors: TextFieldColors,
     showTextLengthCounter: Boolean,
@@ -167,7 +174,7 @@ private fun ErrorMessageAndSymbolsCounter(
     Row(modifier = Modifier.fillMaxWidth(width), horizontalArrangement = Arrangement.SpaceBetween) {
         if (isError) {
             Text(
-                text = "Error",
+                text = textError,
                 modifier = Modifier.padding(start = 10.dp),
                 color = colors.errorLabelColor,
                 fontSize = 12.sp
