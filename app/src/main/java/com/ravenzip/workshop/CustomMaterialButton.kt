@@ -86,7 +86,7 @@ fun ButtonWithTitleAndIcon(
     text: String? = null,
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
     textSize: Int = 0,
-    textAlign: Alignment.Horizontal = Alignment.Start,
+    textContainerAlign: Alignment.Horizontal = Alignment.Start,
     icon: ImageVector,
     iconSize: Int = 25,
     contentDescription: String = "",
@@ -113,20 +113,20 @@ fun ButtonWithTitleAndIcon(
             )
             Column(
                 modifier = (if (width != null) Modifier.fillMaxWidth() else Modifier),
-                horizontalAlignment = textAlign
+                horizontalAlignment = textContainerAlign
             ) {
                 Text(
                     text = title,
                     color = titleColor,
                     fontSize = titleSize.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Medium
                 )
-                if (text != null) {
+                if (text != null && textSize > 0) {
                     Text(
                         text = text,
                         color = textColor,
                         fontSize = textSize.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.W400
                     )
                 }
             }

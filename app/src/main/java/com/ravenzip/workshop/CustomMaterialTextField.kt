@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
- * Текстовое поле
+ * Простое текстовое поле
  *
  * Опционально:
  * 1) Максимальное количество символов
@@ -50,7 +50,6 @@ fun SimpleTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "",
-    placeholder: String = "",
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
@@ -75,7 +74,6 @@ fun SimpleTextField(
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        placeholder = { Text(text = placeholder) },
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         isError = isError,
@@ -125,7 +123,6 @@ fun MultilineTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "",
-    placeholder: String = "",
     isError: Boolean = false,
     textError: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -142,7 +139,6 @@ fun MultilineTextField(
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        placeholder = { Text(text = placeholder) },
         isError = isError,
         keyboardOptions = keyboardOptions,
         maxLines = maxLines,
@@ -161,6 +157,7 @@ fun MultilineTextField(
     )
 }
 
+/** Элемент вывода сообщения об ошибке при вводе и счетчик введенных символов */
 @Composable
 private fun ErrorMessageAndSymbolsCounter(
     text: String,
@@ -191,10 +188,15 @@ private fun ErrorMessageAndSymbolsCounter(
     }
 }
 
+/** Проверка на наличие паттерна и соответствие введенной строки патеррну */
 private fun checkPattern(text: String, pattern: Regex?): Boolean {
     return pattern != null && text.matches(pattern)
 }
 
+/**
+ * Проверка на то, что максимальная длина не задана или если задана, то проверка на соответствие
+ * длины введенных символов заданному ограничению
+ */
 private fun checkLength(textLength: Int, maxLength: Int): Boolean {
     return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
 }

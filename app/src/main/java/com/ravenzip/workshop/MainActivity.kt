@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         var text = mutableStateOf("")
                         var numbers = mutableStateOf("")
+
                         SimpleTextField(
                             text = text,
                             label = "Простое текстовое поле",
@@ -48,10 +49,13 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                         )
+
                         Spacer(modifier = Modifier.padding(top = 20.dp))
+
                         SimpleTextField(
                             text = numbers,
                             pattern = Regex("^\\d*\$"),
+                            maxLength = 50,
                             label = "Числовое текстовое поле",
                             leadingIcon = {
                                 Icon(
@@ -59,8 +63,11 @@ class MainActivity : ComponentActivity() {
                                     contentDescription = ""
                                 )
                             },
+                            showTextLengthCounter = true
                         )
+
                         Spacer(modifier = Modifier.padding(top = 20.dp))
+
                         SimpleButton(
                             text = "Простая кнопка",
                             textSize = 16,
@@ -68,13 +75,18 @@ class MainActivity : ComponentActivity() {
                             width = null
                         ) {}
                         Spacer(modifier = Modifier.padding(top = 20.dp))
+
                         MultilineTextField(text = text)
+
                         Spacer(modifier = Modifier.padding(top = 20.dp))
+
                         ButtonWithTitleAndIcon(
                             title = "Заголовок",
                             titleSize = 18,
                             icon = Icons.Outlined.FavoriteBorder
                         ) {}
+
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
                     }
                 }
             }
