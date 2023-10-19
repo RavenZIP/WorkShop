@@ -180,9 +180,9 @@ private fun ErrorMessageAndSymbolsCounter(
                 fontSize = 12.sp
             )
         }
-        if (maxLength > 0 && showTextLengthCounter) {
+        if (showTextLengthCounter) {
             Text(
-                text = "${text.length}/${maxLength}",
+                text = if (maxLength > 0) "${text.length}/${maxLength}" else "${text.length}",
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
                 color = colors.focusedIndicatorColor,
                 fontSize = 12.sp,
