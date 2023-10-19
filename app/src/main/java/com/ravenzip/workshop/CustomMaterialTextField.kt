@@ -1,12 +1,11 @@
 package com.ravenzip.workshop
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -14,8 +13,8 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -53,15 +52,15 @@ fun SimpleTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "",
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: ImageVector? = null,
+    trailingIcon: ImageVector? = null,
     isError: Boolean = false,
     textError: String = "",
     isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    showTextLengthCounter: Boolean = true
+    showTextLengthCounter: Boolean = false
 ) {
     OutlinedTextField(
         value = text.value,
@@ -77,8 +76,14 @@ fun SimpleTextField(
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
+        leadingIcon =
+            if (leadingIcon != null) {
+                { Icon(imageVector = leadingIcon, contentDescription = "") }
+            } else null,
+        trailingIcon =
+            if (trailingIcon != null) {
+                { Icon(imageVector = trailingIcon, contentDescription = "") }
+            } else null,
         isError = isError,
         visualTransformation =
             if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,

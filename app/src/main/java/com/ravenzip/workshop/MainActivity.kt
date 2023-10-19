@@ -42,12 +42,7 @@ class MainActivity : ComponentActivity() {
                         SimpleTextField(
                             text = text,
                             label = "Простое текстовое поле",
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
-                                    contentDescription = ""
-                                )
-                            },
+                            leadingIcon = Icons.Outlined.FavoriteBorder
                         )
 
                         Spacer(modifier = Modifier.padding(top = 20.dp))
@@ -57,12 +52,7 @@ class MainActivity : ComponentActivity() {
                             pattern = Regex("^\\d*\$"),
                             maxLength = 50,
                             label = "Числовое текстовое поле",
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
-                                    contentDescription = ""
-                                )
-                            },
+                            leadingIcon = Icons.Outlined.FavoriteBorder,
                             showTextLengthCounter = true
                         )
 
