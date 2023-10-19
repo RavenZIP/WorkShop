@@ -1,5 +1,6 @@
 package com.ravenzip.workshop
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,9 +14,11 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -168,11 +171,11 @@ private fun ErrorMessageAndSymbolsCounter(
     colors: TextFieldColors,
     showTextLengthCounter: Boolean,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(width), horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(modifier = Modifier.fillMaxWidth(width)) {
         if (isError) {
             Text(
                 text = textError,
-                modifier = Modifier.padding(start = 10.dp),
+                modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
                 color = colors.errorLabelColor,
                 fontSize = 12.sp
             )
@@ -180,9 +183,10 @@ private fun ErrorMessageAndSymbolsCounter(
         if (maxLength > 0 && showTextLengthCounter) {
             Text(
                 text = "${text.length}/${maxLength}",
-                modifier = Modifier.padding(end = 5.dp),
+                modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
                 color = colors.focusedIndicatorColor,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                textAlign = TextAlign.End
             )
         }
     }
