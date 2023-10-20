@@ -53,37 +53,28 @@ fun SimpleTextField(
     readOnly: Boolean = false,
     label: String = "",
     leadingIcon: ImageVector? = null,
+    leadingIconDescription: String = "",
     trailingIcon: ImageVector? = null,
+    trailingIconDescription: String = "",
     isError: Boolean = false,
     textError: String = "",
     isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    showTextLengthCounter: Boolean = false
+    showTextLengthCounter: Boolean = false,
 ) {
     OutlinedTextField(
         value = text.value,
         onValueChange = {
-            if (
-                checkPattern(it, pattern) && checkLength(it.length, maxLength) ||
-                    pattern == null && checkLength(it.length, maxLength)
-            ) {
-                text.value = it
-            }
+            getText(input = it, output = text, pattern = pattern, maxLength = maxLength)
         },
         modifier = Modifier.fillMaxWidth(width),
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        leadingIcon =
-            if (leadingIcon != null) {
-                { Icon(imageVector = leadingIcon, contentDescription = "") }
-            } else null,
-        trailingIcon =
-            if (trailingIcon != null) {
-                { Icon(imageVector = trailingIcon, contentDescription = "") }
-            } else null,
+        leadingIcon = getIcon(icon = leadingIcon, description = leadingIconDescription),
+        trailingIcon = getIcon(icon = trailingIcon, description = trailingIconDescription),
         isError = isError,
         visualTransformation =
             if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
@@ -177,7 +168,7 @@ private fun ErrorMessageAndSymbolsCounter(
     showTextLengthCounter: Boolean,
 ) {
     Row(modifier = Modifier.fillMaxWidth(width)) {
-        if (isError) {
+        if (isError && textError != "") {
             Text(
                 text = textError,
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
@@ -189,7 +180,7 @@ private fun ErrorMessageAndSymbolsCounter(
             Text(
                 text = if (maxLength > 0) "${text.length}/${maxLength}" else "${text.length}",
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
-                color = colors.focusedIndicatorColor,
+                color = if (isError) colors.errorLabelColor else colors.focusedIndicatorColor,
                 fontSize = 12.sp,
                 textAlign = TextAlign.End
             )
@@ -208,4 +199,19 @@ private fun checkPattern(text: String, pattern: Regex?): Boolean {
  */
 private fun checkLength(textLength: Int, maxLength: Int): Boolean {
     return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
+}
+
+private fun getText(input: String, output: MutableState<String>, pattern: Regex?, maxLength: Int) {
+    if (
+        checkPattern(input, pattern) && checkLength(input.length, maxLength) ||
+            pattern == null && checkLength(input.length, maxLength)
+    )
+        output.value = input
+    else {}
+}
+
+private fun getIcon(icon: ImageVector?, description: String): @Composable (() -> Unit)? {
+    return if (icon != null) {
+        { Icon(imageVector = icon, contentDescription = description) }
+    } else null
 }
