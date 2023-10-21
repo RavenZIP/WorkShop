@@ -27,10 +27,14 @@ import androidx.compose.ui.unit.sp
 /**
  * Простая кнопка с текстом
  *
- * Опционально:
- * 1) Ширина кнопки
- * 2) Общие цвета для кнопки
- * 3) Радиус скругления кнопки
+ * Параметры:
+ * 1) width - ширина кнопки (по умолчанию 0.9f, не обязательный)
+ * 2) text: текст на кнопке (обязательный)
+ * 3) textSize - размер текста (обязательный)
+ * 4) textAlign - расположение текста (обязательный)
+ * 5) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 6) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 7) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun SimpleButton(
@@ -50,11 +54,7 @@ fun SimpleButton(
     ) {
         Text(
             text = text,
-            modifier =
-                (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
-                    top = 10.dp,
-                    bottom = 10.dp
-                ),
+            modifier = getModifier(width),
             fontSize = textSize.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
@@ -65,17 +65,25 @@ fun SimpleButton(
 /**
  * Кнопка с заголовком и описанием.
  *
- * Опционально:
- * 1) Ширина кнопки
- * 2) Цвет заголовка
- * 3) Наличие текста
- * 4) Цвет текста
- * 5) Размер текста
- * 6) Расположение заголовка и текста внутри кнопки
- * 7) Размер иконки
- * 8) Описание иконки
- * 9) Общие цвета для кнопки
- * 10) Радиус скругления кнопки
+ * Параметры:
+ * 1) width - ширина кнопки (по умолчанию 0.9f, не обязательный)
+ * 2) title - текст заголовка (обязательный)
+ * 3) titleColor - цвет текста заголовка (по умолчанию берется из темы из темы приложения, не
+ *    обязательный)
+ * 4) titleSize - размер текста заголовка (обязательный)
+ * 5) text - текст описания (по умолчанию не задан, не обязательный)
+ * 6) textColor - цвет текста описания (по умолчанию берется из темы из темы приложения, не
+ *    обязательный)
+ * 7) textSize - размер текста описания (по умолчанию не задан, не обязательный)
+ * 8) textContainerAlign - выравнивание заголовка и описания (по умолчанию Alignment.Start, не
+ *    обязательный)
+ * 9) icon - иконка (обязательный)
+ * 10) iconSize - размер иконки (по умолчанию 25.dp, не обязательный)
+ * 11) contentDescription - описание иконки (по умолчанию не задан, не обязательный)
+ * 12) iconColor - цвет иконки (по умолчанию берется из темы приложения, не обязательный)
+ * 13) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 14) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 15) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun ButtonWithTitleAndIcon(
@@ -97,7 +105,7 @@ fun ButtonWithTitleAndIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
+        modifier = getModifier(width = width, padding = false),
         colors = colors,
         shape = shape
     ) {
@@ -137,14 +145,18 @@ fun ButtonWithTitleAndIcon(
 /**
  * Кнопка с иконкой и текстом
  *
- * Опционально:
- * 1) Ширина кнопки
- * 2) Описание иконки
- * 3) Размер иконки
- * 4) Цвет иконки
- * 5) Расположение иконки относительно текста
- * 6) Общие цвета для кнопки
- * 7) Радиус скругления кнопки
+ * Параметры:
+ * 1) width - ширина кнопки (по умолчанию 0.9f, не обязательный)
+ * 2) text - текст на кнопке (обязательный)
+ * 3) textSize - размер текста (обязательный)
+ * 4) icon - иконка (обязательный)
+ * 5) contentDescription - описание иконки (по умолчанию не задан, не обязательный)
+ * 6) iconSize - размер иконки (по умолчанию 25.dp, не обязательный)
+ * 7) iconColor - цвет иконки (по умолчанию берется из темы приложения, не обязательный)
+ * 8) iconPositionLeft - расположить иконку слева (по умолчанию true, не обязательный)
+ * 9) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 10) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 11) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun ButtonWithIcon(
@@ -162,16 +174,12 @@ fun ButtonWithIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
+        modifier = getModifier(width = width, addWidth = true),
         colors = colors,
         shape = shape
     ) {
         Row(
-            modifier =
-                (if (width != null) Modifier.fillMaxWidth() else Modifier).padding(
-                    top = 10.dp,
-                    bottom = 10.dp
-                ),
+            modifier = getModifier(width = width, addWidth = false, padding = true),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (iconPositionLeft) {
@@ -202,12 +210,17 @@ fun ButtonWithIcon(
 /**
  * Квадратная кнопка с иконкой и текстом по центру
  *
- * Опицонально:
- * 1) Цвет текста
- * 2) Описание иконки
- * 3) Цвет иконки
- * 4) Общие цвета для кнопки
- * 5) Скругление кнопки
+ * Параметры:
+ * 1) text - текст на кнопке (обязательный)
+ * 2) textColor - цвет текста (по умолчанию берется из темы приложения, не обязательный)
+ * 3) textSize - размер текста (обязательный)
+ * 4) icon - иконка (обязательный)
+ * 5) contentDescription - описание иконки (по умолчанию не задан, не обязательный)
+ * 6) iconSize - размер иконки (по умолчанию 25.dp, не обязательный)
+ * 7) iconColor - цвет иконки (по умолчанию берется из темы приложения, не обязательный)
+ * 8) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 9) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 10) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun TextButtonWithIcon(
@@ -241,4 +254,21 @@ fun TextButtonWithIcon(
             )
         }
     }
+}
+
+// TODO: предстоит переделать, первая реализация
+private fun getModifier(width: Float?, addWidth: Boolean, padding: Boolean = false): Modifier {
+    val modifier: Modifier = Modifier
+    if (width != null){
+        if (addWidth){
+            modifier.fillMaxWidth(width)
+        }
+        else {
+            modifier.fillMaxWidth()
+        }
+        if (padding){
+            modifier.padding(top = 10.dp, bottom = 10.dp)
+        }
+    }
+    return modifier
 }
