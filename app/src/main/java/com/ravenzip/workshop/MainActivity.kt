@@ -35,10 +35,10 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        var text = mutableStateOf("")
-                        var numbers = mutableStateOf("")
+                        val text = mutableStateOf("")
+                        val numbers = mutableStateOf("")
 
-                        SimpleTextField(
+                        SinglenessTextField(
                             text = text,
                             label = "Простое текстовое поле",
                             leadingIcon = Icons.Outlined.FavoriteBorder
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
                         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-                        SimpleTextField(
+                        SinglenessTextField(
                             text = numbers,
                             pattern = Regex("^\\d*\$"),
                             maxLength = 50,
@@ -76,6 +76,8 @@ class MainActivity : ComponentActivity() {
                         ) {}
 
                         Spacer(modifier = Modifier.padding(top = 20.dp))
+
+                        SimpleTextField(text = text, textSize = 16, placeholder = "Простое текстовое поле")
                     }
                 }
             }
