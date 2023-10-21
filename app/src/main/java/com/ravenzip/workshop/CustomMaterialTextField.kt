@@ -218,6 +218,12 @@ fun MultilineTextField(
     )
 }
 
+//TODO RichTextField
+@Composable
+fun RichTexField(){
+
+}
+
 /** Элемент вывода сообщения об ошибке при вводе и счетчик введенных символов */
 @Composable
 private fun ErrorMessageAndSymbolsCounter(
