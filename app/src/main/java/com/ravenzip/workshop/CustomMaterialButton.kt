@@ -105,7 +105,7 @@ fun ButtonWithTitleAndIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = getModifier(width = width, padding = false),
+        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
         colors = colors,
         shape = shape
     ) {
@@ -174,14 +174,11 @@ fun ButtonWithIcon(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = getModifier(width = width, addWidth = true),
+        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
         colors = colors,
         shape = shape
     ) {
-        Row(
-            modifier = getModifier(width = width, addWidth = false, padding = true),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = getModifier(width = width), verticalAlignment = Alignment.CenterVertically) {
             if (iconPositionLeft) {
                 Icon(
                     imageVector = icon,
@@ -257,18 +254,8 @@ fun TextButtonWithIcon(
 }
 
 // TODO: предстоит переделать, первая реализация
-private fun getModifier(width: Float?, addWidth: Boolean, padding: Boolean = false): Modifier {
+private fun getModifier(width: Float?): Modifier {
     val modifier: Modifier = Modifier
-    if (width != null){
-        if (addWidth){
-            modifier.fillMaxWidth(width)
-        }
-        else {
-            modifier.fillMaxWidth()
-        }
-        if (padding){
-            modifier.padding(top = 10.dp, bottom = 10.dp)
-        }
-    }
-    return modifier
+    if (width != null) modifier.fillMaxWidth()
+    return modifier.padding(top = 10.dp, bottom = 10.dp)
 }
