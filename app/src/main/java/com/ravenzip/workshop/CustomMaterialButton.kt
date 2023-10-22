@@ -255,7 +255,7 @@ fun TextButtonWithIcon(
 
 // TODO: предстоит переделать, первая реализация
 private fun getModifier(width: Float?): Modifier {
-    val modifier: Modifier = Modifier
-    if (width != null) modifier.fillMaxWidth()
+    var modifier: Modifier = Modifier
+    if (width != null) modifier = modifier.fillMaxWidth()
     return modifier.padding(top = 10.dp, bottom = 10.dp)
 }
