@@ -11,11 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.ButtonWithTitleAndIcon
 import com.ravenzip.workshop.MultilineTextField
-import com.ravenzip.workshop.SimpleButton
 import com.ravenzip.workshop.SimpleTextField
 import com.ravenzip.workshop.SinglenessTextField
 
@@ -27,6 +24,8 @@ fun CustomTextFieldsScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val text = mutableStateOf("")
+        val text2 = mutableStateOf("")
+        val text3 = mutableStateOf("")
         val numbers = mutableStateOf("")
 
         SinglenessTextField(
@@ -45,29 +44,12 @@ fun CustomTextFieldsScreen() {
             leadingIcon = Icons.Outlined.FavoriteBorder,
             showTextLengthCounter = true
         )
+        Spacer(modifier = Modifier.padding(top = 20.dp))
+
+        MultilineTextField(text = text2)
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(
-            text = "Простая кнопка",
-            textSize = 16,
-            textAlign = TextAlign.Start,
-            width = null
-        ) {}
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-
-        MultilineTextField(text = text)
-
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-
-        ButtonWithTitleAndIcon(
-            title = "Заголовок",
-            titleSize = 18,
-            icon = Icons.Outlined.FavoriteBorder
-        ) {}
-
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-
-        SimpleTextField(text = text, textSize = 16, placeholder = "Простое текстовое поле")
+        SimpleTextField(text = text3, textSize = 16, placeholder = "Простое текстовое поле")
     }
 }

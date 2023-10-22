@@ -22,13 +22,22 @@ fun CustomButtonsScreen() {
         modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SimpleButton(text = "Простая кнопка", textSize = 16, textAlign = TextAlign.Start) {}
+        SimpleButton(
+            width = null,
+            text = "Простая кнопка",
+            textSize = 18,
+            textAlign = TextAlign.Start
+        ) {}
+
+        Spacer(modifier = Modifier.padding(top = 20.dp))
+
+        SimpleButton(text = "Простая кнопка", textSize = 18, textAlign = TextAlign.Start) {}
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
         ButtonWithIcon(
             text = "Кнопка с иконкой слева",
-            textSize = 16,
+            textSize = 18,
             icon = Icons.Outlined.FavoriteBorder,
         ) {}
 
@@ -36,7 +45,7 @@ fun CustomButtonsScreen() {
 
         ButtonWithIcon(
             text = "Кнопка с иконкой справа",
-            textSize = 16,
+            textSize = 18,
             icon = Icons.Outlined.FavoriteBorder,
             iconPositionLeft = false
         ) {}
@@ -44,9 +53,9 @@ fun CustomButtonsScreen() {
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
         ButtonWithTitleAndIcon(
-            title = "Кнопка с заголовком, описанием и иконкой",
-            titleSize = 16,
-            text = "Описание",
+            title = "Нажми меня",
+            titleSize = 18,
+            text = "Если нажмешь, то ничего не будет",
             textSize = 14,
             icon = Icons.Outlined.FavoriteBorder
         ) {}
@@ -55,7 +64,7 @@ fun CustomButtonsScreen() {
 
         TextButtonWithIcon(
             text = "Подпись",
-            textSize = 12,
+            textSize = 14,
             icon = Icons.Outlined.FavoriteBorder,
         ) {}
     }

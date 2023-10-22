@@ -24,20 +24,20 @@ fun Menu(navController: NavController) {
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(text = "Кнопки", textSize = 16, textAlign = TextAlign.Start) {
+        SimpleButton(text = "Кнопки", textSize = 18, textAlign = TextAlign.Center) {
             navController.navigate("buttons")
         }
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(text = "Текстовые поля", textSize = 16, textAlign = TextAlign.Start) {
+        SimpleButton(text = "Текстовые поля", textSize = 18, textAlign = TextAlign.Center) {
             navController.navigate("textfields")
         }
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(text = "Карточки", textSize = 16, textAlign = TextAlign.Start) {
-            ///navController.navigate("cards")
+        SimpleButton(text = "Карточки", textSize = 18, textAlign = TextAlign.Center) {
+            /// navController.navigate("cards")
         }
     }
 }

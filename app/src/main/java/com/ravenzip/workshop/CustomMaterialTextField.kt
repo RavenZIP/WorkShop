@@ -191,7 +191,7 @@ fun MultilineTextField(
     minLines: Int = 1,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    showTextLengthCounter: Boolean = true
+    showTextLengthCounter: Boolean = false
 ) {
     OutlinedTextField(
         value = text.value,
@@ -218,11 +218,8 @@ fun MultilineTextField(
     )
 }
 
-//TODO RichTextField
-@Composable
-fun RichTexField(){
-
-}
+// TODO RichTextField
+@Composable fun RichTexField() {}
 
 /** Элемент вывода сообщения об ошибке при вводе и счетчик введенных символов */
 @Composable
