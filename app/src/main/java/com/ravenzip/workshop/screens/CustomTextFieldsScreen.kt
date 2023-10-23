@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
@@ -30,7 +31,7 @@ fun CustomTextFieldsScreen() {
 
         SinglenessTextField(
             text = text,
-            label = "Простое текстовое поле",
+            label = "Однострочное текстовое поле",
             leadingIcon = Icons.Outlined.FavoriteBorder
         )
 
@@ -42,11 +43,18 @@ fun CustomTextFieldsScreen() {
             maxLength = 50,
             label = "Числовое текстовое поле",
             leadingIcon = Icons.Outlined.FavoriteBorder,
-            showTextLengthCounter = true
+            showTextLengthCounter = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedLeadingIconColor =
+                OutlinedTextFieldDefaults.colors().focusedIndicatorColor
+            )
         )
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        MultilineTextField(text = text2)
+        MultilineTextField(
+            text = text2,
+            label = "Многострочное текстовое поле"
+        )
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
