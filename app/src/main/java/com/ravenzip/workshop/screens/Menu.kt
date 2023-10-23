@@ -36,7 +36,11 @@ fun Menu(navController: NavController) {
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(text = "Нижняя и верхняя панель", textSize = 18, textAlign = TextAlign.Center) {
+        SimpleButton(
+            text = "Нижняя и верхняя панель",
+            textSize = 18,
+            textAlign = TextAlign.Center
+        ) {
             /// navController.navigate("panels")
         }
 
@@ -55,7 +59,7 @@ fun Menu(navController: NavController) {
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
         SimpleButton(text = "Прочие элементы", textSize = 18, textAlign = TextAlign.Center) {
-             navController.navigate("other elements")
+            navController.navigate("other elements")
         }
     }
 }

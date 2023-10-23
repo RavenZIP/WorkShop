@@ -1,3 +1,6 @@
 package com.ravenzip.workshop.components
 
-//TODO CustomCard
+import androidx.compose.runtime.Composable
+
+// TODO CustomCard
+@Composable fun SimpleCard() {}

@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ravenzip.workshop.screens.CustomButtonsScreen
 import com.ravenzip.workshop.screens.CustomTextFieldsScreen
 import com.ravenzip.workshop.screens.Menu
-import com.ravenzip.workshop.screens.OtherElementsScreen
+import com.ravenzip.workshop.screens.SelectionElementsScreen
 import com.ravenzip.workshop.ui.theme.WorkShopTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         composable("menu") { Menu(navController) }
                         composable("buttons") { CustomButtonsScreen() }
                         composable("text fields") { CustomTextFieldsScreen() }
-                        composable("other elements") { OtherElementsScreen() }
+                        composable("other elements") { SelectionElementsScreen() }
                     }
                 }
             }

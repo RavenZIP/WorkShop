@@ -9,11 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun OtherElementsScreen(){
+fun SelectionElementsScreen() {
     Column(
         modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-    }
+    ) {}
 }

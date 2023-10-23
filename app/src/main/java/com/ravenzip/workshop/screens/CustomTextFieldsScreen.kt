@@ -44,17 +44,15 @@ fun CustomTextFieldsScreen() {
             label = "Числовое текстовое поле",
             leadingIcon = Icons.Outlined.FavoriteBorder,
             showTextLengthCounter = true,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedLeadingIconColor =
-                OutlinedTextFieldDefaults.colors().focusedIndicatorColor
-            )
+            colors =
+                OutlinedTextFieldDefaults.colors(
+                    focusedLeadingIconColor =
+                        OutlinedTextFieldDefaults.colors().focusedIndicatorColor
+                )
         )
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        MultilineTextField(
-            text = text2,
-            label = "Многострочное текстовое поле"
-        )
+        MultilineTextField(text = text2, label = "Многострочное текстовое поле")
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
