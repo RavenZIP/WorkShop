@@ -1,4 +1,4 @@
-package com.ravenzip.workshop
+package com.ravenzip.workshop.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.interaction.InteractionSource

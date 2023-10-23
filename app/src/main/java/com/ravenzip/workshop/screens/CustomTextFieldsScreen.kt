@@ -13,9 +13,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.MultilineTextField
-import com.ravenzip.workshop.SimpleTextField
-import com.ravenzip.workshop.SinglenessTextField
+import com.ravenzip.workshop.components.MultilineTextField
+import com.ravenzip.workshop.components.SimpleTextField
+import com.ravenzip.workshop.components.SinglenessTextField
 
 @SuppressLint("UnrememberedMutableState")
 @Composable

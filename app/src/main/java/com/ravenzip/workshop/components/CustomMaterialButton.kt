@@ -1,4 +1,4 @@
-package com.ravenzip.workshop
+package com.ravenzip.workshop.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

@@ -11,10 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.ButtonWithIcon
-import com.ravenzip.workshop.ButtonWithTitleAndIcon
-import com.ravenzip.workshop.SimpleButton
-import com.ravenzip.workshop.TextButtonWithIcon
+import com.ravenzip.workshop.components.ButtonWithIcon
+import com.ravenzip.workshop.components.ButtonWithTitleAndIcon
+import com.ravenzip.workshop.components.SimpleButton
+import com.ravenzip.workshop.components.TextButtonWithIcon
 
 @Composable
 fun CustomButtonsScreen() {
