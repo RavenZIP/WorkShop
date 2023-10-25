@@ -24,7 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class ComponentInfo(val isChecked: Boolean, val text: String) {}
+data class ComponentInfo(val isSelected: Boolean, val text: String) {}
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -62,23 +62,28 @@ fun SimpleSwitch(
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun RadioGroup(
-    list: SnapshotStateList<ComponentInfo>,
+    width: Float = 0.9f,
+    radioButtons: SnapshotStateList<ComponentInfo>,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors()
 ) {
-    Column(modifier = Modifier.fillMaxWidth(0.9f)) {
-        list.forEach { item ->
+    Column(modifier = Modifier.fillMaxWidth(width)) {
+        radioButtons.forEach { item ->
             Row(
                 modifier =
                     Modifier.fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
-                        .clickable { list.replaceAll { it.copy(isChecked = it.text == item.text) } }
+                        .clickable {
+                            radioButtons.replaceAll { it.copy(isSelected = it.text == item.text) }
+                        }
                         .padding(top = 5.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = item.isChecked,
-                    onClick = { list.replaceAll { it.copy(isChecked = it.text == item.text) } },
+                    selected = item.isSelected,
+                    onClick = {
+                        radioButtons.replaceAll { it.copy(isSelected = it.text == item.text) }
+                    },
                     enabled = enabled,
                     colors = colors
                 )

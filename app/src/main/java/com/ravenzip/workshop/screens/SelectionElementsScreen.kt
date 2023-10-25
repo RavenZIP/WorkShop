@@ -27,9 +27,9 @@ fun SelectionElementsScreen() {
     ) {
         val isChecked = mutableStateOf(false)
         val radioList = mutableStateListOf<ComponentInfo>()
-        val radioButton1 = ComponentInfo(true, "Первая")
-        val radioButton2 = ComponentInfo(false, "Вторая")
-        val radioButton3 = ComponentInfo(false, "Третья")
+        val radioButton1 = ComponentInfo(isSelected = true, text = "Первая")
+        val radioButton2 = ComponentInfo(isSelected = false, text = "Вторая")
+        val radioButton3 = ComponentInfo(isSelected = false, text = "Третья")
         radioList.addAll(arrayListOf(radioButton1, radioButton2, radioButton3))
 
         Text(text = "Элементы выбора", fontSize = 30.sp)
@@ -44,10 +44,12 @@ fun SelectionElementsScreen() {
         Text(text = "RadioButtons", fontSize = 25.sp)
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        RadioGroup(list = radioList)
+        RadioGroup(radioButtons = radioList)
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
         Text(text = "CheckBoxes", fontSize = 25.sp)
+        Spacer(modifier = Modifier.padding(top = 20.dp))
+
         CheckBoxes()
     }
 }
