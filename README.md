@@ -33,6 +33,7 @@
 - **-** **`BottomBar`**
 - **-** **`Card`**
 - **-** **`Spinner`**
+- **-** **`Chip`**
 - **-** **`RichTextField`**
 - **-** **`ItemList`**
 - **-** **`ItemGrid`**
