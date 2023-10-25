@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.components.MultilineTextField
 import com.ravenzip.workshop.components.SimpleTextField
 import com.ravenzip.workshop.components.SinglenessTextField
@@ -28,6 +30,9 @@ fun CustomTextFieldsScreen() {
         val text2 = mutableStateOf("")
         val text3 = mutableStateOf("")
         val numbers = mutableStateOf("")
+
+        Text(text = "Текстовые поля", fontSize = 30.sp)
+        Spacer(modifier = Modifier.padding(top = 30.dp))
 
         SinglenessTextField(
             text = text,

@@ -33,8 +33,8 @@ fun SelectionElementsScreen() {
         radioList.addAll(arrayListOf(radioButton1, radioButton2, radioButton3))
 
         Text(text = "Элементы выбора", fontSize = 30.sp)
-
         Spacer(modifier = Modifier.padding(top = 50.dp))
+
         Text(text = "Switch", fontSize = 25.sp)
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
