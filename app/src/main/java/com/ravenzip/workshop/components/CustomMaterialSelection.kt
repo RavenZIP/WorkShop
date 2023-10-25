@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.RadioButtonDefaults
@@ -63,27 +66,25 @@ fun SimpleSwitch(
 @Composable
 fun RadioGroup(
     width: Float = 0.9f,
-    radioButtons: SnapshotStateList<ComponentInfo>,
+    list: SnapshotStateList<ComponentInfo>,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors()
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
-        radioButtons.forEach { item ->
+        list.forEach { item ->
             Row(
                 modifier =
                     Modifier.fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            radioButtons.replaceAll { it.copy(isSelected = it.text == item.text) }
+                            list.replaceAll { it.copy(isSelected = it.text == item.text) }
                         }
                         .padding(top = 5.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
                     selected = item.isSelected,
-                    onClick = {
-                        radioButtons.replaceAll { it.copy(isSelected = it.text == item.text) }
-                    },
+                    onClick = { list.replaceAll { it.copy(isSelected = it.text == item.text) } },
                     enabled = enabled,
                     colors = colors
                 )
@@ -93,5 +94,33 @@ fun RadioGroup(
     }
 }
 
-// TODO CheckBox
-@Composable fun CheckBoxes() {}
+@Composable
+fun CheckBoxes(
+    width: Float = 0.9f,
+    list: SnapshotStateList<ComponentInfo>,
+    enabled: Boolean = true,
+    colors: CheckboxColors = CheckboxDefaults.colors()
+) {
+    Column(modifier = Modifier.fillMaxWidth(width)) {
+        list.forEach { item ->
+            Row(
+                modifier =
+                Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable {
+
+                    }
+                    .padding(top = 5.dp, bottom = 5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = item.isSelected,
+                    onCheckedChange = {  },
+                    enabled = enabled,
+                    colors = colors
+                )
+                Text(text = item.text)
+            }
+        }
+    }
+}
