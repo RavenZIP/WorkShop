@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         composable("menu") { Menu(navController) }
                         composable("buttons") { CustomButtonsScreen() }
                         composable("text fields") { CustomTextFieldsScreen() }
-                        composable("other elements") { SelectionElementsScreen() }
+                        composable("selection elements") { SelectionElementsScreen() }
                     }
                 }
             }

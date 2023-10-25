@@ -52,14 +52,14 @@ fun Menu(navController: NavController) {
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(text = "Списки", textSize = 18, textAlign = TextAlign.Center) {
-            /// navController.navigate("lists")
+        SimpleButton(text = "Элементы выбора", textSize = 18, textAlign = TextAlign.Center) {
+            navController.navigate("selection elements")
         }
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        SimpleButton(text = "Прочие элементы", textSize = 18, textAlign = TextAlign.Center) {
-            navController.navigate("other elements")
+        SimpleButton(text = "Списки", textSize = 18, textAlign = TextAlign.Center) {
+            /// navController.navigate("lists")
         }
     }
 }
