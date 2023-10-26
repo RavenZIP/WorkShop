@@ -32,6 +32,7 @@ data class ComponentInfo(val isSelected: Boolean, val text: String) {}
 
 @Composable
 fun Switch(
+    width: Float = 0.9f,
     isChecked: MutableState<Boolean>,
     title: String,
     titleSize: Int = 18,
@@ -42,7 +43,7 @@ fun Switch(
 ) {
     Row(
         modifier =
-            Modifier.fillMaxWidth(0.9f)
+            Modifier.fillMaxWidth(width)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable { isChecked.value = !isChecked.value }
                 .padding(15.dp),
@@ -66,6 +67,7 @@ fun Switch(
 fun RadioGroup(
     width: Float = 0.9f,
     list: SnapshotStateList<ComponentInfo>,
+    textSize: Int = 18,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors()
 ) {
@@ -87,7 +89,7 @@ fun RadioGroup(
                     enabled = enabled,
                     colors = colors
                 )
-                Text(text = item.text)
+                Text(text = item.text, fontSize = textSize.sp)
             }
         }
     }
@@ -97,12 +99,13 @@ fun RadioGroup(
 fun CheckBoxes(
     width: Float = 0.9f,
     list: SnapshotStateList<ComponentInfo>,
+    textSize: Int = 18,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors()
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         list.forEachIndexed { index, item ->
-            GetCheckBox(item = item, enabled = enabled, colors = colors) {
+            GetCheckBox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
                 list[index] = item.copy(isSelected = !item.isSelected)
             }
         }
@@ -114,8 +117,10 @@ fun CheckBoxesTree(
     width: Float = 0.9f,
     triState: MutableState<ToggleableState>,
     triText: String,
+    textSize: Int = 18,
     list: SnapshotStateList<ComponentInfo>,
     enabled: Boolean = true,
+    triColors: CheckboxColors = CheckboxDefaults.colors(),
     colors: CheckboxColors = CheckboxDefaults.colors()
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
@@ -127,11 +132,16 @@ fun CheckBoxesTree(
                     .clickable { triStateClick(list, triState) }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
-            TriStateCheckbox(state = triState.value, onClick = { triStateClick(list, triState) })
+            TriStateCheckbox(
+                state = triState.value,
+                onClick = { triStateClick(list, triState) },
+                enabled = enabled,
+                colors = triColors
+            )
             Text(text = triText)
         }
         list.forEachIndexed { index, item ->
-            GetCheckBox(item = item, enabled = enabled, colors = colors) {
+            GetCheckBox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
                 list[index] = item.copy(isSelected = !item.isSelected)
                 getTriState(list, triState)
             }
@@ -142,6 +152,7 @@ fun CheckBoxesTree(
 @Composable
 private fun GetCheckBox(
     item: ComponentInfo,
+    textSize: Int,
     enabled: Boolean,
     colors: CheckboxColors,
     onClick: () -> Unit
@@ -160,7 +171,7 @@ private fun GetCheckBox(
             enabled = enabled,
             colors = colors
         )
-        Text(text = item.text)
+        Text(text = item.text, fontSize = textSize.sp)
     }
 }
 

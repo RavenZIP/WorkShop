@@ -59,7 +59,7 @@ fun CustomTextFieldsScreen() {
 
         MultilineTextField(text = text2, label = "Многострочное текстовое поле")
 
-        Spacer(modifier = Modifier.padding(top = 20.dp))
+        Spacer(modifier = Modifier.padding(top = 40.dp))
 
         SimpleTextField(text = text3, textSize = 16, placeholder = "Простое текстовое поле")
     }
