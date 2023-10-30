@@ -41,7 +41,7 @@ fun Menu(navController: NavController) {
             textSize = 18,
             textAlign = TextAlign.Center
         ) {
-            /// navController.navigate("panels")
+             navController.navigate("app bars")
         }
 
         Spacer(modifier = Modifier.padding(top = 20.dp))

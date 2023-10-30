@@ -175,12 +175,12 @@ fun CheckBoxesTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { triStateClick(list, rootState) }
+                    .clickable { rootClick(list, rootState) }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
                 state = rootState.value,
-                onClick = { triStateClick(list, rootState) },
+                onClick = { rootClick(list, rootState) },
                 enabled = enabled,
                 colors = rootColors
             )
@@ -236,7 +236,7 @@ private fun getTriState(
         }
 }
 
-private fun triStateClick(
+private fun rootClick(
     list: SnapshotStateList<ComponentInfo>,
     rootState: MutableState<ToggleableState>
 ) {
