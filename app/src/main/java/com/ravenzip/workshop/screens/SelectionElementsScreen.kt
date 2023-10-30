@@ -71,6 +71,6 @@ fun SelectionElementsScreen() {
         CheckBoxes(list = checkBoxList)
         Spacer(modifier = Modifier.padding(top = 20.dp))
 
-        CheckBoxesTree(triState = triState, triText = "Главный", list = checkBoxList2)
+        CheckBoxesTree(rootState = triState, rootText = "Главный", list = checkBoxList2)
     }
 }

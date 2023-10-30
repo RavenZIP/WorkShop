@@ -28,8 +28,21 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-data class ComponentInfo(val isSelected: Boolean, val text: String) {}
+data class ComponentInfo(val isSelected: Boolean, val text: String)
 
+/**
+ * Switch
+ *
+ * Параметры:
+ * 1) width - ширина (по умолчанию 0.9f, не обязательный)
+ * 2) isChecked - состояние свича (обязательный)
+ * 3) title: заголовок (обязательный)
+ * 4) titleSize - размер текста заголовка (по умолчанию 18, не обязательный)
+ * 5) text: описание (обязательный)
+ * 6) textSize - размер текста описания (по умолчанию 14, не обязательный)
+ * 7) enabled - вкл\выкл свича (по умолчанию false, не обязательный)
+ * 8) colors - цвета свича (по умолчанию берутся из темы приложения, не обязательный)
+ */
 @Composable
 fun Switch(
     width: Float = 0.9f,
@@ -63,6 +76,16 @@ fun Switch(
     }
 }
 
+/**
+ * RadioGroup
+ *
+ * Параметры:
+ * 1) width - ширина (по умолчанию 0.9f, не обязательный)
+ * 2) list - список радиокнопок (обязательный)
+ * 3) textSize: размер текста (по умолчанию 18, не обязательный)
+ * 4) enabled - вкл\выкл радиокнопок (по умолчанию false, не обязательный)
+ * 5) colors - цвета радиокнопок (по умолчанию берутся из темы приложения, не обязательный)
+ */
 @Composable
 fun RadioGroup(
     width: Float = 0.9f,
@@ -95,6 +118,16 @@ fun RadioGroup(
     }
 }
 
+/**
+ * CheckBoxes
+ *
+ * Параметры:
+ * 1) width - ширина (по умолчанию 0.9f, не обязательный)
+ * 2) list - список чекбоксов (обязательный)
+ * 3) textSize: размер текста (по умолчанию 18, не обязательный)
+ * 4) enabled - вкл\выкл чекбоксов (по умолчанию false, не обязательный)
+ * 5) colors - цвета чекбоксов (по умолчанию берутся из темы приложения, не обязательный)
+ */
 @Composable
 fun CheckBoxes(
     width: Float = 0.9f,
@@ -112,15 +145,28 @@ fun CheckBoxes(
     }
 }
 
+/**
+ * CheckBoxesTree
+ *
+ * Параметры:
+ * 1) width - ширина (по умолчанию 0.9f, не обязательный)
+ * 2) triState - состояние главного чекбокса (обязательный)
+ * 3) triText: текст главного чекбокса (обязательный)
+ * 4) triColors - цвета главного чекбокса (по умолчанию берутся из темы приложения, не обязательный)
+ * 5) textSize: размер текста (по умолчанию 18, не обязательный)
+ * 6) list - список чекбоксов (обязательный)
+ * 7) enabled - вкл\выкл чекбоксов (по умолчанию false, не обязательный)
+ * 8) colors - цвета чекбоксов (по умолчанию берутся из темы приложения, не обязательный)
+ */
 @Composable
 fun CheckBoxesTree(
     width: Float = 0.9f,
-    triState: MutableState<ToggleableState>,
-    triText: String,
+    rootState: MutableState<ToggleableState>,
+    rootText: String,
+    rootColors: CheckboxColors = CheckboxDefaults.colors(),
     textSize: Int = 18,
     list: SnapshotStateList<ComponentInfo>,
     enabled: Boolean = true,
-    triColors: CheckboxColors = CheckboxDefaults.colors(),
     colors: CheckboxColors = CheckboxDefaults.colors()
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
@@ -129,21 +175,21 @@ fun CheckBoxesTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { triStateClick(list, triState) }
+                    .clickable { triStateClick(list, rootState) }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
-                state = triState.value,
-                onClick = { triStateClick(list, triState) },
+                state = rootState.value,
+                onClick = { triStateClick(list, rootState) },
                 enabled = enabled,
-                colors = triColors
+                colors = rootColors
             )
-            Text(text = triText)
+            Text(text = rootText, fontSize = textSize.sp)
         }
         list.forEachIndexed { index, item ->
-            GetCheckBox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
+            GetCheckBox(item = item, textSize = textSize, colors = colors, enabled = enabled, isTree = true) {
                 list[index] = item.copy(isSelected = !item.isSelected)
-                getTriState(list, triState)
+                getTriState(list, rootState)
             }
         }
     }
@@ -155,6 +201,7 @@ private fun GetCheckBox(
     textSize: Int,
     enabled: Boolean,
     colors: CheckboxColors,
+    isTree: Boolean = false,
     onClick: () -> Unit
 ) {
     Row(
@@ -162,7 +209,7 @@ private fun GetCheckBox(
             Modifier.fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
                 .clickable { onClick() }
-                .padding(top = 5.dp, bottom = 5.dp),
+                .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
@@ -177,11 +224,11 @@ private fun GetCheckBox(
 
 private fun getTriState(
     list: SnapshotStateList<ComponentInfo>,
-    triState: MutableState<ToggleableState>
+    rootState: MutableState<ToggleableState>
 ) {
     var activeCheckboxes = 0
     list.forEach { if (it.isSelected) activeCheckboxes += 1 }
-    triState.value =
+    rootState.value =
         when (activeCheckboxes) {
             0 -> ToggleableState.Off
             list.count() -> ToggleableState.On
@@ -191,14 +238,14 @@ private fun getTriState(
 
 private fun triStateClick(
     list: SnapshotStateList<ComponentInfo>,
-    triState: MutableState<ToggleableState>
+    rootState: MutableState<ToggleableState>
 ) {
-    triState.value =
-        when (triState.value) {
+    rootState.value =
+        when (rootState.value) {
             ToggleableState.On -> ToggleableState.Off
             else -> ToggleableState.On
         }
     list.indices.forEach { index ->
-        list[index] = list[index].copy(isSelected = triState.value == ToggleableState.On)
+        list[index] = list[index].copy(isSelected = rootState.value == ToggleableState.On)
     }
 }
