@@ -9,7 +9,12 @@ import com.ravenzip.workshop.components.TopAppBar
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CustomAppBarsScreen() {
-    Scaffold(topBar = { TopAppBar() }, bottomBar = { BottomAppBar() }) {
-        //Элементы...
+    Scaffold(
+        topBar = {
+            TopAppBar("Главная", rightButton = true, backArrowClick = {}, rightButtonClick = {})
+        },
+        bottomBar = { BottomAppBar() }
+    ) {
+        // Элементы...
     }
 }

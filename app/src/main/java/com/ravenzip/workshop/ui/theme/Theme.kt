@@ -22,7 +22,12 @@ private val lightColorScheme =
     lightColorScheme(
         primary = defaultLightPrimary,
         onPrimary = defaultLightOnPrimary,
-        secondary = defaultLightSecondary
+        onPrimaryContainer = defaultLightOnPrimaryContainer,
+        secondary = defaultLightSecondary,
+        secondaryContainer = defaultLightSecondaryContainer,
+        surface = defaultLightSurface,
+        surfaceContainer = defaultLightSurfaceContainer,
+        background = defaultLightSurface
 
         /* Other default colors to override
         background = Color(0xFFFFFBFE),
@@ -60,9 +65,9 @@ fun WorkShopTheme(
         SideEffect {
             val window = (view.context as Activity).window
             // Цвет фона статус бара
-            window.statusBarColor = colorScheme.onPrimary.toArgb()
+            window.statusBarColor = colorScheme.surfaceContainer.toArgb()
             // Цвет нижней навигационной панели
-            window.navigationBarColor = colorScheme.onPrimary.toArgb()
+            window.navigationBarColor = colorScheme.surfaceContainer.toArgb()
             // Цвет иконок в статус баре
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
