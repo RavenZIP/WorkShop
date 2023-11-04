@@ -1,8 +1,10 @@
 package com.ravenzip.workshop.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,11 +15,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +43,7 @@ data class SquareIconButton(
 data class IconButton(
     val icon: ImageVector,
     val description: String,
-    val iconColor: Color,
+    val tint: Color,
     val text: String,
     val onClick: () -> Unit
 )
@@ -68,7 +74,11 @@ fun TopAppBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (backArrow) {
-                AppBarIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Назад", Color.Black) {
+                AppBarIconButton(
+                    icon = Icons.AutoMirrored.Outlined.ArrowBack,
+                    description = "Назад",
+                    color = Color.Black
+                ) {
                     backArrowClick()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
@@ -82,7 +92,11 @@ fun TopAppBar(
             Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
             if (buttonsList !== null && buttonsList.isNotEmpty() && buttonsList.count() <= 3) {
                 buttonsList.forEachIndexed { index, button ->
-                    AppBarIconButton(button.icon, button.description, button.color) {
+                    AppBarIconButton(
+                        icon = button.icon,
+                        description = button.description,
+                        color = button.color
+                    ) {
                         button.onClick()
                     }
                     if (index != 2) {
@@ -103,6 +117,7 @@ fun TopAppBar(
  * 3) Список элементов меню (обязательный)
  * 4) Действие при нажатии на кнопку назад (не обязательный, по умолчанию действие не назначено)
  */
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun TopAppBarWithMenu(
     text: String,
@@ -110,6 +125,7 @@ fun TopAppBarWithMenu(
     menuItems: List<IconButton>,
     backArrowClick: () -> Unit
 ) {
+    val expanded = mutableStateOf(false)
     Box(
         Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
         Alignment.Center
@@ -120,7 +136,11 @@ fun TopAppBarWithMenu(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (backArrow) {
-                AppBarIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "", Color.Black) {
+                AppBarIconButton(
+                    icon = Icons.AutoMirrored.Outlined.ArrowBack,
+                    description = "",
+                    color = Color.Black
+                ) {
                     backArrowClick()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
@@ -132,7 +152,9 @@ fun TopAppBarWithMenu(
                 letterSpacing = 1.5.sp
             )
             Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
-            AppBarIconButton(Icons.Outlined.MoreVert, "Menu", Color.Black) {}
+            AppBarMenuIconButton(expanded = expanded, menuItems = menuItems) {
+                expanded.value = true
+            }
         }
     }
 }
@@ -154,6 +176,48 @@ private fun AppBarIconButton(
             modifier = Modifier.size(25.dp),
             tint = color
         )
+    }
+}
+
+@Composable
+private fun AppBarMenuIconButton(
+    expanded: MutableState<Boolean>,
+    menuItems: List<IconButton>,
+    onClick: () -> Unit
+) {
+    val lastItem = menuItems.count() - 1
+    Box(
+        modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.MoreVert,
+            contentDescription = "Меню",
+            modifier = Modifier.size(25.dp),
+        )
+        DropdownMenu(
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false },
+            Modifier.padding(start = 10.dp, top = 2.5.dp, end = 10.dp, bottom = 2.5.dp)
+        ) {
+            menuItems.forEachIndexed { index, it ->
+                DropdownMenuItem(
+                    text = { Text(it.text) },
+                    onClick = {
+                        it.onClick()
+                        // expanded.value = false
+                    },
+                    modifier = Modifier.clip(RoundedCornerShape(10.dp)),
+                    leadingIcon = {
+                        Icon(imageVector = it.icon, contentDescription = it.text, tint = it.tint)
+                    },
+                    contentPadding = PaddingValues(15.dp)
+                )
+                if (index != lastItem) {
+                    Spacer(modifier = Modifier.padding(bottom = 10.dp))
+                }
+            }
+        }
     }
 }
 

@@ -27,9 +27,9 @@ import com.ravenzip.workshop.components.TopAppBar
 fun Menu(navController: NavController) {
     val topBarButtons =
         listOf(
-            SquareIconButton(Icons.Outlined.Add, "", Color.Black) {},
-            SquareIconButton(Icons.Outlined.Edit, "", Color.Black) {},
-            SquareIconButton(Icons.Outlined.Delete, "", Color.Black) {}
+            SquareIconButton(icon = Icons.Outlined.Add, description = "", color = Color.Black) {},
+            SquareIconButton(icon = Icons.Outlined.Edit, description = "", color = Color.Black) {},
+            SquareIconButton(icon = Icons.Outlined.Delete, description = "", color = Color.Black) {}
         )
     Scaffold(
         topBar = {
