@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +34,7 @@ data class SquareIconButton(
     val onClick: () -> Unit
 )
 
-data class IconButton (
+data class IconButton(
     val icon: ImageVector,
     val description: String,
     val iconColor: Color,
@@ -99,6 +98,10 @@ fun TopAppBar(
  * TopAppBar (с меню)
  *
  * Параметры:
+ * 1) Текст (обязательный)
+ * 2) Кнопка назад (по умолчанию false, не обязательный)
+ * 3) Список элементов меню (обязательный)
+ * 4) Действие при нажатии на кнопку назад (не обязательный, по умолчанию действие не назначено)
  */
 @Composable
 fun TopAppBarWithMenu(
@@ -117,7 +120,9 @@ fun TopAppBarWithMenu(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (backArrow) {
-                AppBarIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "", Color.Black) { backArrowClick() }
+                AppBarIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "", Color.Black) {
+                    backArrowClick()
+                }
                 Spacer(modifier = Modifier.weight(0.1f))
             }
             Text(
@@ -127,7 +132,7 @@ fun TopAppBarWithMenu(
                 letterSpacing = 1.5.sp
             )
             Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
-            AppBarIconButton(Icons.Outlined.MoreVert, "Menu", Color.Black) {  }
+            AppBarIconButton(Icons.Outlined.MoreVert, "Menu", Color.Black) {}
         }
     }
 }

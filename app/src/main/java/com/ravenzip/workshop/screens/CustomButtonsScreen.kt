@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -20,17 +22,18 @@ import com.ravenzip.workshop.components.ButtonWithTitleAndIcon
 import com.ravenzip.workshop.components.IconButton
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.TextButtonWithIcon
-import com.ravenzip.workshop.components.TopAppBar
 import com.ravenzip.workshop.components.TopAppBarWithMenu
 
 @Composable
 fun CustomButtonsScreen() {
-    val menuItems = listOf(IconButton(Icons.Outlined.Add, "", Color.Black, text = "Добавить") {})
+    val menuItems =
+        listOf(
+            IconButton(Icons.Outlined.Add, "", Color.Black, text = "Добавить") {},
+            IconButton(Icons.Outlined.Edit, "", Color.Black, text = "Редактировать") {},
+            IconButton(Icons.Outlined.Delete, "", Color.Black, text = "Удалить") {}
+        )
     Scaffold(
-        topBar = {
-            TopAppBarWithMenu(text = "Кнопки", backArrow = true, menuItems = menuItems) {
-            }
-        },
+        topBar = { TopAppBarWithMenu(text = "Кнопки", backArrow = true, menuItems = menuItems) {} },
         bottomBar = { BottomAppBar() }
     ) {
         Column(

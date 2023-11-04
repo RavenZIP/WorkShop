@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
-import com.ravenzip.workshop.components.IconButton
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SquareIconButton
 import com.ravenzip.workshop.components.TopAppBar
@@ -30,7 +29,7 @@ fun Menu(navController: NavController) {
         listOf(
             SquareIconButton(Icons.Outlined.Add, "", Color.Black) {},
             SquareIconButton(Icons.Outlined.Edit, "", Color.Black) {},
-            SquareIconButton(Icons.Outlined.Close, "", Color.Black) {}
+            SquareIconButton(Icons.Outlined.Delete, "", Color.Black) {}
         )
     Scaffold(
         topBar = {
