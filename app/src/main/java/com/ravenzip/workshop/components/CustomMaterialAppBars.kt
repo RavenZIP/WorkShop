@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,6 +35,7 @@ fun TopAppBar(
     text: String,
     backArrow: Boolean = false,
     rightButton: Boolean = false,
+    rightButtonIcon: ImageVector? = null,
     backArrowClick: () -> Unit,
     rightButtonClick: () -> Unit
 ) {
@@ -57,9 +58,9 @@ fun TopAppBar(
                 fontWeight = FontWeight.Medium,
                 letterSpacing = 1.5.sp
             )
-            if (rightButton) {
+            if (rightButton && rightButtonIcon !== null) {
                 Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
-                AppBarIconButton(Icons.Outlined.Close) { rightButtonClick() }
+                AppBarIconButton(rightButtonIcon) { rightButtonClick() }
             }
         }
     }
@@ -80,4 +81,9 @@ private fun AppBarIconButton(icon: ImageVector, onClick: () -> Unit) {
  *
  * Параметры:
  */
-@Composable fun BottomAppBar() {}
+@Composable
+fun BottomAppBar() {
+    NavigationBar {
+        //
+    }
+}
