@@ -45,6 +45,7 @@ data class IconButton(
     val description: String,
     val tint: Color,
     val text: String,
+    val color: Color,
     val onClick: () -> Unit
 )
 
@@ -202,7 +203,7 @@ private fun AppBarMenuIconButton(
         ) {
             menuItems.forEachIndexed { index, it ->
                 DropdownMenuItem(
-                    text = { Text(it.text) },
+                    text = { Text(it.text, color = it.color) },
                     onClick = {
                         it.onClick()
                         // expanded.value = false

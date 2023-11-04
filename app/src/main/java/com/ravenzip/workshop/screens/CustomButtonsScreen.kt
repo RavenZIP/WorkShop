@@ -28,14 +28,27 @@ import com.ravenzip.workshop.components.TopAppBarWithMenu
 fun CustomButtonsScreen() {
     val menuItems =
         listOf(
-            IconButton(icon = Icons.Outlined.Add, "", tint = Color.Black, text = "Добавить") {},
+            IconButton(
+                icon = Icons.Outlined.Add,
+                description = "",
+                tint = Color.Black,
+                text = "Добавить",
+                color = Color.Black
+            ) {},
             IconButton(
                 icon = Icons.Outlined.Edit,
-                "",
+                description = "",
                 tint = Color.Black,
-                text = "Редактировать"
+                text = "Редактировать",
+                color = Color.Black
             ) {},
-            IconButton(icon = Icons.Outlined.Delete, "", tint = Color.Black, text = "Удалить") {}
+            IconButton(
+                icon = Icons.Outlined.Delete,
+                description = "",
+                tint = Color.Black,
+                text = "Удалить",
+                color = Color.Black
+            ) {}
         )
     Scaffold(
         topBar = { TopAppBarWithMenu(text = "Кнопки", backArrow = true, menuItems = menuItems) {} },
