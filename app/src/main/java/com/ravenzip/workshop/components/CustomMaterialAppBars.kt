@@ -19,6 +19,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +28,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,16 +36,15 @@ import androidx.compose.ui.unit.sp
 data class SquareIconButton(
     val icon: ImageVector,
     val description: String,
-    val color: Color,
     val onClick: () -> Unit
 )
 
 data class IconButton(
     val icon: ImageVector,
     val description: String,
-    val tint: Color,
     val text: String,
-    val color: Color,
+    val colors: MenuItemColors,
+    val enabled: Boolean,
     val onClick: () -> Unit
 )
 
@@ -78,7 +77,6 @@ fun TopAppBar(
                 AppBarIconButton(
                     icon = Icons.AutoMirrored.Outlined.ArrowBack,
                     description = "Назад",
-                    color = Color.Black
                 ) {
                     backArrowClick()
                 }
@@ -93,11 +91,7 @@ fun TopAppBar(
             Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
             if (buttonsList !== null && buttonsList.isNotEmpty() && buttonsList.count() <= 3) {
                 buttonsList.forEachIndexed { index, button ->
-                    AppBarIconButton(
-                        icon = button.icon,
-                        description = button.description,
-                        color = button.color
-                    ) {
+                    AppBarIconButton(icon = button.icon, description = button.description) {
                         button.onClick()
                     }
                     if (index != 2) {
@@ -140,7 +134,6 @@ fun TopAppBarWithMenu(
                 AppBarIconButton(
                     icon = Icons.AutoMirrored.Outlined.ArrowBack,
                     description = "",
-                    color = Color.Black
                 ) {
                     backArrowClick()
                 }
@@ -161,12 +154,7 @@ fun TopAppBarWithMenu(
 }
 
 @Composable
-private fun AppBarIconButton(
-    icon: ImageVector,
-    description: String,
-    color: Color,
-    onClick: () -> Unit
-) {
+private fun AppBarIconButton(icon: ImageVector, description: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -175,7 +163,6 @@ private fun AppBarIconButton(
             imageVector = icon,
             contentDescription = description,
             modifier = Modifier.size(25.dp),
-            tint = color
         )
     }
 }
@@ -203,19 +190,19 @@ private fun AppBarMenuIconButton(
         ) {
             menuItems.forEachIndexed { index, it ->
                 DropdownMenuItem(
-                    text = { Text(it.text, color = it.color) },
+                    text = { Text(it.text) },
                     onClick = {
                         it.onClick()
                         // expanded.value = false
                     },
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)),
-                    leadingIcon = {
-                        Icon(imageVector = it.icon, contentDescription = it.text, tint = it.tint)
-                    },
+                    leadingIcon = { Icon(imageVector = it.icon, contentDescription = it.text) },
+                    enabled = it.enabled,
+                    colors = it.colors,
                     contentPadding = PaddingValues(15.dp)
                 )
                 if (index != lastItem) {
-                    Spacer(modifier = Modifier.padding(bottom = 10.dp))
+                    Spacer(modifier = Modifier.padding(bottom = 5.dp))
                 }
             }
         }

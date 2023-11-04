@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,23 +32,23 @@ fun CustomButtonsScreen() {
             IconButton(
                 icon = Icons.Outlined.Add,
                 description = "",
-                tint = Color.Black,
                 text = "Добавить",
-                color = Color.Black
+                colors = MenuDefaults.itemColors(),
+                enabled = true
             ) {},
             IconButton(
                 icon = Icons.Outlined.Edit,
                 description = "",
-                tint = Color.Black,
                 text = "Редактировать",
-                color = Color.Black
+                colors = MenuDefaults.itemColors(),
+                enabled = true
             ) {},
             IconButton(
                 icon = Icons.Outlined.Delete,
                 description = "",
-                tint = Color.Black,
                 text = "Удалить",
-                color = Color.Black
+                colors = MenuDefaults.itemColors(),
+                enabled = true
             ) {}
         )
     Scaffold(

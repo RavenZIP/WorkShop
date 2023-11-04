@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -27,9 +26,9 @@ import com.ravenzip.workshop.components.TopAppBar
 fun Menu(navController: NavController) {
     val topBarButtons =
         listOf(
-            SquareIconButton(icon = Icons.Outlined.Add, description = "", color = Color.Black) {},
-            SquareIconButton(icon = Icons.Outlined.Edit, description = "", color = Color.Black) {},
-            SquareIconButton(icon = Icons.Outlined.Delete, description = "", color = Color.Black) {}
+            SquareIconButton(icon = Icons.Outlined.Add, description = "") {},
+            SquareIconButton(icon = Icons.Outlined.Edit, description = "") {},
+            SquareIconButton(icon = Icons.Outlined.Delete, description = "") {}
         )
     Scaffold(
         topBar = {
