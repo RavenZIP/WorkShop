@@ -29,27 +29,30 @@ import com.ravenzip.workshop.components.TopAppBar
 @Composable
 fun SelectionElementsScreen() {
     val isChecked = mutableStateOf(false)
-    val radioList = mutableStateListOf<ComponentInfo>()
-    val radioButton1 = ComponentInfo(isSelected = true, text = "Первая")
-    val radioButton2 = ComponentInfo(isSelected = false, text = "Вторая")
-    val radioButton3 = ComponentInfo(isSelected = false, text = "Третья")
-    radioList.addAll(arrayListOf(radioButton1, radioButton2, radioButton3))
+    val radioList =
+        mutableStateListOf(
+            ComponentInfo(isSelected = true, text = "Первая"),
+            ComponentInfo(isSelected = false, text = "Вторая"),
+            ComponentInfo(isSelected = false, text = "Третья")
+        )
 
-    val checkBoxList = mutableStateListOf<ComponentInfo>()
-    val checkbox1 = ComponentInfo(isSelected = false, text = "Первый")
-    val checkbox2 = ComponentInfo(isSelected = false, text = "Второй")
-    val checkbox3 = ComponentInfo(isSelected = false, text = "Третий")
-    checkBoxList.addAll(arrayListOf(checkbox1, checkbox2, checkbox3))
+    val checkBoxList =
+        mutableStateListOf(
+            ComponentInfo(isSelected = false, text = "Первый"),
+            ComponentInfo(isSelected = false, text = "Второй"),
+            ComponentInfo(isSelected = false, text = "Третий")
+        )
 
     val triState = mutableStateOf(ToggleableState.Off)
-    val checkBoxList2 = mutableStateListOf<ComponentInfo>()
-    val checkbox4 = ComponentInfo(isSelected = false, text = "Первый")
-    val checkbox5 = ComponentInfo(isSelected = false, text = "Второй")
-    val checkbox6 = ComponentInfo(isSelected = false, text = "Третий")
-    checkBoxList2.addAll(arrayListOf(checkbox4, checkbox5, checkbox6))
+    val checkBoxList2 =
+        mutableStateListOf(
+            ComponentInfo(isSelected = false, text = "Первый"),
+            ComponentInfo(isSelected = false, text = "Второй"),
+            ComponentInfo(isSelected = false, text = "Третий")
+        )
 
     Scaffold(
-        topBar = { TopAppBar("Кнопки", backArrowClick = {}, rightButtonClick = {}) },
+        topBar = { TopAppBar("Элементы выбора", backArrow = true) },
         bottomBar = { BottomAppBar() }
     ) {
         Column(

@@ -29,7 +29,7 @@ fun CustomTextFieldsScreen() {
     val numbers = mutableStateOf("")
 
     Scaffold(
-        topBar = { TopAppBar("Текстовые поля", backArrowClick = {}, rightButtonClick = {}) },
+        topBar = { TopAppBar("Текстовые поля", backArrow = true) },
         bottomBar = { BottomAppBar() }
     ) {
         Column(

@@ -187,7 +187,13 @@ fun CheckBoxesTree(
             Text(text = rootText, fontSize = textSize.sp)
         }
         list.forEachIndexed { index, item ->
-            GetCheckBox(item = item, textSize = textSize, colors = colors, enabled = enabled, isTree = true) {
+            GetCheckBox(
+                item = item,
+                textSize = textSize,
+                colors = colors,
+                enabled = enabled,
+                isTree = true
+            ) {
                 list[index] = item.copy(isSelected = !item.isSelected)
                 getTriState(list, rootState)
             }

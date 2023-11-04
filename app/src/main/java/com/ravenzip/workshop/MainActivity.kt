@@ -6,13 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ravenzip.workshop.screens.CustomAppBarsScreen
 import com.ravenzip.workshop.screens.CustomButtonsScreen
 import com.ravenzip.workshop.screens.CustomTextFieldsScreen
 import com.ravenzip.workshop.screens.Menu
@@ -35,7 +33,6 @@ class MainActivity : ComponentActivity() {
                         composable("menu") { Menu(navController) }
                         composable("buttons") { CustomButtonsScreen() }
                         composable("text fields") { CustomTextFieldsScreen() }
-                        composable("app bars") { CustomAppBarsScreen() }
                         composable("selection elements") { SelectionElementsScreen() }
                     }
                 }
