@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 data class SquareIconButton(
+    val icon: ImageVector,
     val description: String,
     val color: Color,
     val onClick: () -> Unit
