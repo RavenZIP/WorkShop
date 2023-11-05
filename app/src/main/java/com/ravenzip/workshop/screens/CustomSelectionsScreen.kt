@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
 import com.ravenzip.workshop.components.CheckBoxes
 import com.ravenzip.workshop.components.CheckBoxesTree
@@ -27,7 +28,7 @@ import com.ravenzip.workshop.components.TopAppBar
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun SelectionElementsScreen() {
+fun SelectionElementsScreen(navController: NavController) {
     val isChecked = mutableStateOf(false)
     val radioList =
         mutableStateListOf(
@@ -53,7 +54,7 @@ fun SelectionElementsScreen() {
 
     Scaffold(
         topBar = { TopAppBar("Элементы выбора", backArrow = true) },
-        bottomBar = { BottomAppBar() }
+        bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(it).verticalScroll(rememberScrollState()),

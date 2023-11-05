@@ -3,6 +3,7 @@ package com.ravenzip.workshop.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,12 +16,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -28,24 +32,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 
-data class SquareIconButton(
+data class TopNavigationItem(
     val icon: ImageVector,
     val description: String,
     val onClick: () -> Unit
 )
 
-data class IconButton(
+data class TopNavigationItemMenu(
     val icon: ImageVector,
     val description: String,
     val text: String,
     val colors: MenuItemColors,
     val enabled: Boolean,
     val onClick: () -> Unit
+)
+
+data class BottomNavigationItem(
+    val text: String,
+    val icon: ImageVector,
+    val hasNews: Boolean,
+    val badgeCount: Int? = null
 )
 
 /**
@@ -61,7 +75,7 @@ data class IconButton(
 fun TopAppBar(
     text: String,
     backArrow: Boolean = false,
-    buttonsList: List<SquareIconButton>? = null,
+    buttonsList: List<TopNavigationItem>? = null,
     backArrowClick: () -> Unit = {},
 ) {
     Box(
@@ -117,7 +131,7 @@ fun TopAppBar(
 fun TopAppBarWithMenu(
     text: String,
     backArrow: Boolean = false,
-    menuItems: List<IconButton>,
+    menuItems: List<TopNavigationItemMenu>,
     backArrowClick: () -> Unit
 ) {
     val expanded = mutableStateOf(false)
@@ -170,7 +184,7 @@ private fun AppBarIconButton(icon: ImageVector, description: String, onClick: ()
 @Composable
 private fun AppBarMenuIconButton(
     expanded: MutableState<Boolean>,
-    menuItems: List<IconButton>,
+    menuItems: List<TopNavigationItemMenu>,
     onClick: () -> Unit
 ) {
     val lastItem = menuItems.count() - 1
@@ -213,10 +227,65 @@ private fun AppBarMenuIconButton(
  * BottomAppBar
  *
  * Параметры:
+ *
+ * 1)
+ * 2)
  */
 @Composable
-fun BottomAppBar() {
-    NavigationBar {
-        //
+fun BottomAppBar(navController: NavController, buttonsList: List<BottomNavigationItem>) {
+    NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
+        Row(
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            buttonsList.forEach { NavigationBarItem(navController = navController, item = it) }
+        }
+    }
+}
+
+@Composable
+private fun NavigationBarItem(navController: NavController, item: BottomNavigationItem) {
+    val selected = navController.currentDestination?.route == item.text
+    // Цвета экспериментальные, потребуется доработка
+    val background =
+        if (selected) MaterialTheme.colorScheme.secondaryContainer
+        else MaterialTheme.colorScheme.surfaceContainer
+    val tint = if (selected) MaterialTheme.colorScheme.secondary else Color.Black
+    BadgedBox(
+        badge = {
+            if (item.badgeCount != null) {
+                Badge { Text(text = item.badgeCount.toString()) }
+            } else if (item.hasNews) {
+                Badge()
+            }
+        }
+    ) {
+        Box(
+            modifier =
+                Modifier.size(45.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(background)
+                    .clickable {
+                        navController.navigate(item.text) {
+                            // Разобраться надо ли это делать :D
+                            // Просто перетянул из старого проекта
+                            popUpTo(navController.graph.findStartDestination().navigatorName) {
+                                saveState = true
+                            }
+                            // Отключаем возможность роутинга в одно и тоже место при неоднократном
+                            // нажатии
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = item.text,
+                modifier = Modifier.size(25.dp),
+                tint = tint
+            )
+        }
     }
 }

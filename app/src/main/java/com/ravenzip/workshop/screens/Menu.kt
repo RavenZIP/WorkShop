@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,18 +21,32 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
+import com.ravenzip.workshop.components.BottomNavigationItem
 import com.ravenzip.workshop.components.SimpleButton
-import com.ravenzip.workshop.components.SquareIconButton
 import com.ravenzip.workshop.components.TopAppBar
+import com.ravenzip.workshop.components.TopNavigationItem
+
+val bottomBarButtons =
+    listOf(
+        BottomNavigationItem(text = "Menu", icon = Icons.Outlined.Home, hasNews = false),
+        BottomNavigationItem(text = "Buttons", icon = Icons.Outlined.Build, hasNews = false),
+        BottomNavigationItem(
+            text = "Text fields",
+            icon = Icons.Outlined.Lock,
+            hasNews = false,
+            badgeCount = 5
+        ),
+        BottomNavigationItem(text = "Selection elements", icon = Icons.Outlined.Menu, hasNews = true)
+    )
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun Menu(navController: NavController) {
     val topBarButtons =
         listOf(
-            SquareIconButton(icon = Icons.Outlined.Add, description = "") {},
-            SquareIconButton(icon = Icons.Outlined.Edit, description = "") {},
-            SquareIconButton(icon = Icons.Outlined.Delete, description = "") {}
+            TopNavigationItem(icon = Icons.Outlined.Add, description = "") {},
+            TopNavigationItem(icon = Icons.Outlined.Edit, description = "") {},
+            TopNavigationItem(icon = Icons.Outlined.Delete, description = "") {}
         )
     Scaffold(
         topBar = {
@@ -36,7 +54,7 @@ fun Menu(navController: NavController) {
                 //
             }
         },
-        bottomBar = { BottomAppBar() }
+        bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(it),
@@ -45,13 +63,13 @@ fun Menu(navController: NavController) {
             Spacer(modifier = Modifier.padding(top = 30.dp))
 
             SimpleButton(text = "Кнопки", textSize = 18, textAlign = TextAlign.Center) {
-                navController.navigate("buttons")
+                navController.navigate("Buttons")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             SimpleButton(text = "Текстовые поля", textSize = 18, textAlign = TextAlign.Center) {
-                navController.navigate("text fields")
+                navController.navigate("Text fields")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
@@ -63,7 +81,7 @@ fun Menu(navController: NavController) {
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             SimpleButton(text = "Элементы выбора", textSize = 18, textAlign = TextAlign.Center) {
-                navController.navigate("selection elements")
+                navController.navigate("Selection elements")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))

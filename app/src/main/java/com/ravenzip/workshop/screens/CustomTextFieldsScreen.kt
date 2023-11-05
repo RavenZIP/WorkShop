@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
 import com.ravenzip.workshop.components.MultilineTextField
 import com.ravenzip.workshop.components.SimpleTextField
@@ -22,7 +23,7 @@ import com.ravenzip.workshop.components.TopAppBar
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun CustomTextFieldsScreen() {
+fun CustomTextFieldsScreen(navController: NavController) {
     val text = mutableStateOf("")
     val text2 = mutableStateOf("")
     val text3 = mutableStateOf("")
@@ -30,7 +31,7 @@ fun CustomTextFieldsScreen() {
 
     Scaffold(
         topBar = { TopAppBar("Текстовые поля", backArrow = true) },
-        bottomBar = { BottomAppBar() }
+        bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(it),

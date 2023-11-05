@@ -29,11 +29,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "menu") {
-                        composable("menu") { Menu(navController) }
-                        composable("buttons") { CustomButtonsScreen() }
-                        composable("text fields") { CustomTextFieldsScreen() }
-                        composable("selection elements") { SelectionElementsScreen() }
+                    NavHost(navController = navController, startDestination = "Menu") {
+                        composable("Menu") { Menu(navController) }
+                        composable("Buttons") { CustomButtonsScreen(navController = navController) }
+                        composable("Text fields") { CustomTextFieldsScreen(navController = navController) }
+                        composable("Selection elements") { SelectionElementsScreen(navController = navController) }
                     }
                 }
             }
