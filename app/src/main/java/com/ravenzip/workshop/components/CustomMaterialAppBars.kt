@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -56,20 +57,28 @@ data class TopNavigationItemMenu(
 )
 
 data class BottomNavigationItem(
-    val text: String,
+    val label: String,
+    val route: String,
     val icon: ImageVector,
     val hasNews: Boolean,
     val badgeCount: Int? = null
 )
 
+private enum class BottomItemsTextState {
+    SHOW_ALL,
+    ONLY_SELECTED,
+    HIDDEN
+}
+
 /**
  * TopAppBar
  *
  * Параметры:
- * 1) Текст (обязательный)
- * 2) Кнопка назад (по умолчанию false, не обязательный)
- * 3) Кнопки справа (по умолчанию null, не обязательный, максимум 3 кнопки)
- * 4) Действие при нажатии на кнопку назад (не обязательный, по умолчанию действие не назначено)
+ * 1) text - текст (обязательный)
+ * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
+ * 3) buttonsList - кнопки справа (по умолчанию null, не обязательный, максимум 3 кнопки)
+ * 4) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию действие
+ *    не назначено)
  */
 @Composable
 fun TopAppBar(
@@ -121,10 +130,11 @@ fun TopAppBar(
  * TopAppBar (с меню)
  *
  * Параметры:
- * 1) Текст (обязательный)
- * 2) Кнопка назад (по умолчанию false, не обязательный)
- * 3) Список элементов меню (обязательный)
- * 4) Действие при нажатии на кнопку назад (не обязательный, по умолчанию действие не назначено)
+ * 1) text - текст (обязательный)
+ * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
+ * 3) menuItems - список элементов меню (обязательный)
+ * 4) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию действие
+ *    не назначено)
  */
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -227,64 +237,102 @@ private fun AppBarMenuIconButton(
  * BottomAppBar
  *
  * Параметры:
- *
- * 1)
- * 2)
+ * 1) navController - навигационный контроллер (обязательный)
+ * 2) buttonsList - список кнопок (обязательный)
+ * 3) showLabelOnlyOnSelected - отображать название только на активном экране (по умолчанию false,
+ *    не обязательный)
  */
 @Composable
-fun BottomAppBar(navController: NavController, buttonsList: List<BottomNavigationItem>) {
+fun BottomAppBar(
+    navController: NavController,
+    buttonsList: List<BottomNavigationItem>,
+    showLabelOnlyOnSelected: Boolean = false
+) {
+    val labelState =
+        if (showLabelOnlyOnSelected) BottomItemsTextState.ONLY_SELECTED
+        else if (buttonsList.count() <= 3) BottomItemsTextState.SHOW_ALL
+        else BottomItemsTextState.HIDDEN
+
     NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
         Row(
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp).fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier =
+                Modifier.padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        top = if (labelState !== BottomItemsTextState.HIDDEN) 20.dp else 0.dp
+                    )
+                    .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            buttonsList.forEach { NavigationBarItem(navController = navController, item = it) }
+            buttonsList.forEach {
+                NavigationBarItem(navController = navController, item = it, labelState = labelState)
+            }
         }
     }
 }
 
 @Composable
-private fun NavigationBarItem(navController: NavController, item: BottomNavigationItem) {
-    val selected = navController.currentDestination?.route == item.text
+private fun NavigationBarItem(
+    navController: NavController,
+    item: BottomNavigationItem,
+    labelState: BottomItemsTextState
+) {
+    val selected = navController.currentDestination?.route == item.route
     // Цвета экспериментальные, потребуется доработка
     val background =
         if (selected) MaterialTheme.colorScheme.secondaryContainer
         else MaterialTheme.colorScheme.surfaceContainer
     val tint = if (selected) MaterialTheme.colorScheme.secondary else Color.Black
-    BadgedBox(
-        badge = {
-            if (item.badgeCount != null) {
-                Badge { Text(text = item.badgeCount.toString()) }
-            } else if (item.hasNews) {
-                Badge()
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        BadgedBox(
+            badge = {
+                if (item.badgeCount != null) {
+                    Badge { Text(text = item.badgeCount.toString()) }
+                } else if (item.hasNews) {
+                    Badge()
+                }
+            }
+        ) {
+            Box(
+                modifier =
+                    Modifier.size(45.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(background)
+                        .clickable {
+                            navController.navigate(item.route) {
+                                // Разобраться надо ли это делать :D
+                                // Просто перетянул из старого проекта
+                                popUpTo(navController.graph.findStartDestination().navigatorName) {
+                                    saveState = true
+                                }
+                                // Отключаем возможность роутинга в одно и тоже место при
+                                // неоднократном
+                                // нажатии
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = item.icon,
+                    contentDescription = item.label,
+                    modifier = Modifier.size(25.dp),
+                    tint = tint
+                )
             }
         }
-    ) {
-        Box(
-            modifier =
-                Modifier.size(45.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(background)
-                    .clickable {
-                        navController.navigate(item.text) {
-                            // Разобраться надо ли это делать :D
-                            // Просто перетянул из старого проекта
-                            popUpTo(navController.graph.findStartDestination().navigatorName) {
-                                saveState = true
-                            }
-                            // Отключаем возможность роутинга в одно и тоже место при неоднократном
-                            // нажатии
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-            contentAlignment = Alignment.Center
+        if (
+            labelState === BottomItemsTextState.SHOW_ALL ||
+                labelState === BottomItemsTextState.ONLY_SELECTED &&
+                    navController.currentDestination?.route == item.route
         ) {
-            Icon(
-                imageVector = item.icon,
-                contentDescription = item.text,
-                modifier = Modifier.size(25.dp),
-                tint = tint
+            Text(
+                text = item.label,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium,
+                letterSpacing = 0.sp,
+                color = tint
             )
         }
     }

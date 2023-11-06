@@ -28,15 +28,31 @@ import com.ravenzip.workshop.components.TopNavigationItem
 
 val bottomBarButtons =
     listOf(
-        BottomNavigationItem(text = "Menu", icon = Icons.Outlined.Home, hasNews = false),
-        BottomNavigationItem(text = "Buttons", icon = Icons.Outlined.Build, hasNews = false),
         BottomNavigationItem(
-            text = "Text fields",
+            label = "Меню",
+            route = "Menu",
+            icon = Icons.Outlined.Home,
+            hasNews = false
+        ),
+        BottomNavigationItem(
+            label = "Кнопки",
+            route = "Buttons",
+            icon = Icons.Outlined.Build,
+            hasNews = false
+        ),
+        BottomNavigationItem(
+            label = "Текстовые поля",
+            route = "Text fields",
             icon = Icons.Outlined.Lock,
             hasNews = false,
             badgeCount = 5
         ),
-        BottomNavigationItem(text = "Selection elements", icon = Icons.Outlined.Menu, hasNews = true)
+        BottomNavigationItem(
+            label = "Элементы выбора",
+            route = "Selection elements",
+            icon = Icons.Outlined.Menu,
+            hasNews = true
+        )
     )
 
 @SuppressLint("UnrememberedMutableState")
@@ -54,7 +70,13 @@ fun Menu(navController: NavController) {
                 //
             }
         },
-        bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
+        bottomBar = {
+            BottomAppBar(
+                navController = navController,
+                buttonsList = bottomBarButtons,
+                showLabelOnlyOnSelected = false
+            )
+        }
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(it),
