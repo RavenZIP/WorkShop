@@ -18,10 +18,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
-import com.ravenzip.workshop.components.ButtonWithIcon
-import com.ravenzip.workshop.components.ButtonWithTitleAndIcon
+import com.ravenzip.workshop.components.ColIconButton
+import com.ravenzip.workshop.components.CustomButton
+import com.ravenzip.workshop.components.RowIconButton
 import com.ravenzip.workshop.components.SimpleButton
-import com.ravenzip.workshop.components.TextButtonWithIcon
 import com.ravenzip.workshop.components.TopAppBarWithMenu
 import com.ravenzip.workshop.components.TopNavigationItemMenu
 
@@ -78,7 +78,7 @@ fun CustomButtonsScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            ButtonWithIcon(
+            RowIconButton(
                 text = "Кнопка с иконкой слева",
                 textSize = 18,
                 icon = Icons.Outlined.FavoriteBorder,
@@ -86,7 +86,7 @@ fun CustomButtonsScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            ButtonWithIcon(
+            RowIconButton(
                 text = "Кнопка с иконкой справа",
                 textSize = 18,
                 icon = Icons.Outlined.FavoriteBorder,
@@ -95,7 +95,7 @@ fun CustomButtonsScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            ButtonWithTitleAndIcon(
+            CustomButton(
                 title = "Нажми меня",
                 titleSize = 18,
                 text = "Если нажмешь, то ничего не будет",
@@ -105,7 +105,7 @@ fun CustomButtonsScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            TextButtonWithIcon(
+            ColIconButton(
                 text = "Подпись",
                 textSize = 14,
                 icon = Icons.Outlined.FavoriteBorder,
