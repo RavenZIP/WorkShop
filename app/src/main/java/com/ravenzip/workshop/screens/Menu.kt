@@ -97,7 +97,7 @@ fun Menu(navController: NavController) {
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             SimpleButton(text = "Карточки", textSize = 18, textAlign = TextAlign.Center) {
-                /// navController.navigate("cards")
+                navController.navigate("Cards")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
