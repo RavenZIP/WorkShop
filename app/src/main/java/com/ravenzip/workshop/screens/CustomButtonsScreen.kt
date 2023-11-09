@@ -23,7 +23,9 @@ import com.ravenzip.workshop.components.CustomButton
 import com.ravenzip.workshop.components.RowIconButton
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.TopAppBarWithMenu
-import com.ravenzip.workshop.components.TopNavigationItemMenu
+import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.data.TopNavigationItemMenu
 
 @Composable
 fun CustomButtonsScreen(navController: NavController) {
@@ -67,48 +69,45 @@ fun CustomButtonsScreen(navController: NavController) {
 
             SimpleButton(
                 width = null,
-                text = "Простая кнопка",
-                textSize = 18,
+                text = TextParameters(value = "Простая кнопка", size = 18),
                 textAlign = TextAlign.Start
             ) {}
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            SimpleButton(text = "Простая кнопка", textSize = 18, textAlign = TextAlign.Start) {}
-
-            Spacer(modifier = Modifier.padding(top = 20.dp))
-
-            RowIconButton(
-                text = "Кнопка с иконкой слева",
-                textSize = 18,
-                icon = Icons.Outlined.FavoriteBorder,
+            SimpleButton(
+                text = TextParameters(value = "Простая кнопка", size = 18),
+                textAlign = TextAlign.Start
             ) {}
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             RowIconButton(
-                text = "Кнопка с иконкой справа",
-                textSize = 18,
-                icon = Icons.Outlined.FavoriteBorder,
-                iconPositionLeft = false
+                text = TextParameters(value = "Кнопка с иконкой слева", size = 18),
+                icon = IconParameters(value = Icons.Outlined.FavoriteBorder),
+            ) {}
+
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+
+            RowIconButton(
+                text = TextParameters(value = "Кнопка с иконкой справа", size = 18),
+                icon = IconParameters(value = Icons.Outlined.FavoriteBorder),
+                iconPositionIsLeft = false
             ) {}
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             CustomButton(
-                title = "Нажми меня",
-                titleSize = 18,
-                text = "Если нажмешь, то ничего не будет",
-                textSize = 14,
-                icon = Icons.Outlined.FavoriteBorder
+                title = TextParameters(value = "Нажми меня", size = 18),
+                text = TextParameters(value = "Если нажмешь, то ничего не будет", size = 14),
+                icon = IconParameters(value = Icons.Outlined.FavoriteBorder)
             ) {}
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
             ColIconButton(
-                text = "Подпись",
-                textSize = 14,
-                icon = Icons.Outlined.FavoriteBorder,
+                text = TextParameters(value = "Подпись", size = 14),
+                icon = IconParameters(value = Icons.Outlined.FavoriteBorder)
             ) {}
         }
     }

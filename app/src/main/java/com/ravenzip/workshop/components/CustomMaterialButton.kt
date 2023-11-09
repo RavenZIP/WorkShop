@@ -11,19 +11,18 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.data.TextParameters
 
 /**
  * Простая кнопка с текстом
@@ -31,17 +30,15 @@ import androidx.compose.ui.unit.sp
  * Параметры:
  * 1) width - ширина кнопки (по умолчанию 0.9f, не обязательный)
  * 2) text: текст на кнопке (обязательный)
- * 3) textSize - размер текста (обязательный)
- * 4) textAlign - расположение текста (обязательный)
- * 5) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * 6) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 7) onClick - действие при нажатии (обязательный)
+ * 3) textAlign - расположение текста (обязательный)
+ * 4) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 5) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 6) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun SimpleButton(
     width: Float? = 0.9f,
-    text: String,
-    textSize: Int,
+    text: TextParameters,
     textAlign: TextAlign,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -54,9 +51,9 @@ fun SimpleButton(
         shape = shape
     ) {
         Text(
-            text = text,
+            text = text.value,
             modifier = getModifier(width),
-            fontSize = textSize.sp,
+            fontSize = text.size.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
         )
@@ -68,38 +65,22 @@ fun SimpleButton(
  *
  * Параметры:
  * 1) width - ширина кнопки (по умолчанию 0.9f, не обязательный)
- * 2) title - текст заголовка (обязательный)
- * 3) titleColor - цвет текста заголовка (по умолчанию берется из темы из темы приложения, не
+ * 2) title - заголовок (обязательный)
+ * 3) text - описание (обязательный)
+ * 4) textContainerAlign - выравнивание заголовка и описания (по умолчанию Alignment.Start, не
  *    обязательный)
- * 4) titleSize - размер текста заголовка (обязательный)
- * 5) text - текст описания (обязательный)
- * 6) textColor - цвет текста описания (по умолчанию берется из темы из темы приложения, не
- *    обязательный)
- * 7) textSize - размер текста описания (обязательный)
- * 8) textContainerAlign - выравнивание заголовка и описания (по умолчанию Alignment.Start, не
- *    обязательный)
- * 9) icon - иконка (обязательный)
- * 10) iconSize - размер иконки (по умолчанию 25.dp, не обязательный)
- * 11) contentDescription - описание иконки (по умолчанию не задан, не обязательный)
- * 12) iconColor - цвет иконки (по умолчанию берется из темы приложения, не обязательный)
- * 13) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * 14) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 15) onClick - действие при нажатии (обязательный)
+ * 5) icon - иконка (обязательный)
+ * 6) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 7) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 8) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun CustomButton(
     width: Float? = 0.9f,
-    title: String,
-    titleColor: Color = MaterialTheme.colorScheme.onPrimary,
-    titleSize: Int,
-    text: String,
-    textColor: Color = MaterialTheme.colorScheme.onPrimary,
-    textSize: Int,
+    title: TextParameters,
+    text: TextParameters,
+    icon: IconParameters,
     textContainerAlign: Alignment.Horizontal = Alignment.Start,
-    icon: ImageVector,
-    iconSize: Int = 25,
-    contentDescription: String = "",
-    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit
@@ -115,25 +96,25 @@ fun CustomButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = icon,
-                contentDescription = contentDescription,
-                modifier = Modifier.padding(end = 10.dp).size(iconSize.dp),
-                tint = iconColor
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.padding(end = 10.dp).size(icon.size.dp),
+                tint = icon.color ?: colors.contentColor
             )
             Column(
                 modifier = (if (width != null) Modifier.fillMaxWidth() else Modifier),
                 horizontalAlignment = textContainerAlign
             ) {
                 Text(
-                    text = title,
-                    color = titleColor,
-                    fontSize = titleSize.sp,
+                    text = title.value,
+                    color = title.color ?: colors.contentColor,
+                    fontSize = title.size.sp,
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = text,
-                    color = textColor,
-                    fontSize = textSize.sp,
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    fontSize = text.size.sp,
                     fontWeight = FontWeight.W400
                 )
             }
@@ -146,27 +127,19 @@ fun CustomButton(
  *
  * Параметры:
  * 1) width - ширина кнопки (по умолчанию 0.9f, не обязательный)
- * 2) text - текст на кнопке (обязательный)
- * 3) textSize - размер текста (обязательный)
- * 4) icon - иконка (обязательный)
- * 5) contentDescription - описание иконки (по умолчанию не задан, не обязательный)
- * 6) iconSize - размер иконки (по умолчанию 25.dp, не обязательный)
- * 7) iconColor - цвет иконки (по умолчанию берется из темы приложения, не обязательный)
- * 8) iconPositionLeft - расположить иконку слева (по умолчанию true, не обязательный)
- * 9) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * 10) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 11) onClick - действие при нажатии (обязательный)
+ * 2) text - текст (обязательный)
+ * 3) icon - иконка (обязательный)
+ * 4) iconPositionLeft - расположить иконку слева (по умолчанию true, не обязательный)
+ * 5) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 6) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 7) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun RowIconButton(
     width: Float? = 0.9f,
-    text: String,
-    textSize: Int,
-    icon: ImageVector,
-    contentDescription: String = "",
-    iconSize: Int = 25,
-    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
-    iconPositionLeft: Boolean = true,
+    text: TextParameters,
+    icon: IconParameters,
+    iconPositionIsLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit
@@ -178,26 +151,30 @@ fun RowIconButton(
         shape = shape
     ) {
         Row(modifier = getModifier(width = width), verticalAlignment = Alignment.CenterVertically) {
-            if (iconPositionLeft) {
+            if (iconPositionIsLeft) {
                 Icon(
-                    imageVector = icon,
-                    contentDescription = contentDescription,
-                    modifier = Modifier.size(iconSize.dp)
+                    imageVector = icon.value,
+                    contentDescription = icon.description,
+                    modifier = Modifier.size(icon.size.dp)
                 )
                 Text(
-                    text = text,
+                    text = text.value,
                     modifier = Modifier.padding(start = 10.dp),
-                    fontSize = textSize.sp,
+                    fontSize = text.size.sp,
                     fontWeight = FontWeight.Medium
                 )
             } else {
                 Text(
-                    text = text,
+                    text = text.value,
                     modifier = Modifier.fillMaxWidth(0.9f).padding(end = 10.dp),
-                    fontSize = textSize.sp,
+                    fontSize = text.size.sp,
                     fontWeight = FontWeight.Medium
                 )
-                Icon(imageVector = icon, contentDescription = contentDescription, tint = iconColor)
+                Icon(
+                    imageVector = icon.value,
+                    contentDescription = icon.description,
+                    tint = icon.color ?: colors.contentColor
+                )
             }
         }
     }
@@ -207,26 +184,16 @@ fun RowIconButton(
  * Кнопка с иконкой и текстом, расположенными по вертикали
  *
  * Параметры:
- * 1) text - текст на кнопке (по умолчанию пустая строка, не обязательный)
- * 2) textColor - цвет текста (по умолчанию берется из темы приложения, не обязательный)
- * 3) textSize - размер текста (по умолчанию 0, не обязательный)
- * 4) icon - иконка (обязательный)
- * 5) contentDescription - описание иконки (по умолчанию не задан, не обязательный)
- * 6) iconSize - размер иконки (по умолчанию 25.dp, не обязательный)
- * 7) iconColor - цвет иконки (по умолчанию берется из темы приложения, не обязательный)
- * 8) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * 9) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 10) onClick - действие при нажатии (обязательный)
+ * 1) text - текст на кнопке (обязательный)
+ * 2) icon - иконка (обязательный)
+ * 3) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
+ * 4) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
+ * 5) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun ColIconButton(
-    text: String = "",
-    textColor: Color = MaterialTheme.colorScheme.onPrimary,
-    textSize: Int = 0,
-    icon: ImageVector,
-    contentDescription: String = "",
-    iconSize: Int = 25,
-    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
+    text: TextParameters,
+    icon: IconParameters,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit
@@ -237,17 +204,17 @@ fun ColIconButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = icon,
-                contentDescription = contentDescription,
-                modifier = Modifier.size(iconSize.dp),
-                tint = iconColor
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.size(icon.size.dp),
+                tint = icon.color ?: colors.contentColor
             )
-            if (text !== "" && textSize > 0) {
+            if (text.value !== "" && text.size > 0) {
                 Spacer(modifier = Modifier.padding(bottom = 5.dp))
                 Text(
-                    text = text,
-                    color = textColor,
-                    fontSize = textSize.sp,
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    fontSize = text.size.sp,
                     fontWeight = FontWeight.Medium,
                 )
             }

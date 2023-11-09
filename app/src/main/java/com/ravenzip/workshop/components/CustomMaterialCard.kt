@@ -7,24 +7,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class CustomCardColors(
-    val backgroundColor: Color,
-    val iconColor: Color,
-    val titleColor: Color,
-    val textColor: Color
-)
+import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.data.TextParameters
 
 /**
  * Информационная карточка
@@ -35,43 +29,43 @@ data class CustomCardColors(
  * 3) title - заголовок (обязательный)
  * 4) text - текст (обязательный)
  * 5) shape - радиус скругления (по умолчанию 10.dp, не обязательный)
- * 6) colors - цвета карточки (обязательный)
+ * 6) colors - цвета карточки (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
 fun InfoCard(
     width: Float = 0.9f,
-    icon: ImageVector,
-    title: String,
-    text: String,
+    icon: IconParameters,
+    title: TextParameters,
+    text: TextParameters,
     shape: Shape = RoundedCornerShape(10.dp),
-    colors: CustomCardColors
+    colors: CardColors = CardDefaults.cardColors()
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(width),
-        colors = CardDefaults.cardColors(containerColor = colors.backgroundColor),
+        colors = colors,
         shape = shape,
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
         Column(modifier = Modifier.padding(15.dp)) {
             Icon(
-                imageVector = icon,
-                contentDescription = "",
-                tint = colors.iconColor,
-                modifier = Modifier.size(25.dp)
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                tint = icon.color ?: colors.contentColor,
+                modifier = Modifier.size(icon.size.dp)
             )
             Spacer(modifier = Modifier.padding(top = 10.dp))
             Text(
-                text = title,
-                fontSize = 18.sp,
-                color = colors.titleColor,
+                text = title.value,
+                color = title.color ?: colors.contentColor,
+                fontSize = title.size.sp,
                 fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.padding(top = 10.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(0.9f),
-                text = text,
-                color = colors.textColor,
-                fontSize = 14.sp,
+                text = text.value,
+                color = text.color ?: colors.contentColor,
+                fontSize = text.size.sp,
                 fontWeight = FontWeight.W400
             )
         }

@@ -21,10 +21,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
-import com.ravenzip.workshop.components.BottomNavigationItem
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.TopAppBar
-import com.ravenzip.workshop.components.TopNavigationItem
+import com.ravenzip.workshop.data.BottomNavigationItem
+import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.data.TopNavigationItem
 
 val bottomBarButtons =
     listOf(
@@ -84,31 +85,46 @@ fun Menu(navController: NavController) {
         ) {
             Spacer(modifier = Modifier.padding(top = 30.dp))
 
-            SimpleButton(text = "Кнопки", textSize = 18, textAlign = TextAlign.Center) {
+            SimpleButton(
+                text = TextParameters(value = "Кнопки", size = 18),
+                textAlign = TextAlign.Center
+            ) {
                 navController.navigate("Buttons")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            SimpleButton(text = "Текстовые поля", textSize = 18, textAlign = TextAlign.Center) {
+            SimpleButton(
+                text = TextParameters(value = "Текстовые поля", size = 18),
+                textAlign = TextAlign.Center
+            ) {
                 navController.navigate("Text fields")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            SimpleButton(text = "Карточки", textSize = 18, textAlign = TextAlign.Center) {
+            SimpleButton(
+                text = TextParameters(value = "Карточки", size = 18),
+                textAlign = TextAlign.Center
+            ) {
                 navController.navigate("Cards")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            SimpleButton(text = "Элементы выбора", textSize = 18, textAlign = TextAlign.Center) {
+            SimpleButton(
+                text = TextParameters(value = "Элементы выбора", size = 18),
+                textAlign = TextAlign.Center
+            ) {
                 navController.navigate("Selection elements")
             }
 
             Spacer(modifier = Modifier.padding(top = 20.dp))
 
-            SimpleButton(text = "Списки", textSize = 18, textAlign = TextAlign.Center) {
+            SimpleButton(
+                text = TextParameters(value = "Списки", size = 18),
+                textAlign = TextAlign.Center
+            ) {
                 /// navController.navigate("lists")
             }
         }
