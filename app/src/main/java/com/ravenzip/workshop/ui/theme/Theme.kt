@@ -28,11 +28,24 @@ private val lightColorScheme =
     lightColorScheme(
         primary = defaultLightPrimary,
         onPrimary = defaultLightOnPrimary,
+        primaryContainer = defaultLightPrimaryContainer,
         onPrimaryContainer = defaultLightOnPrimaryContainer,
         secondary = defaultLightSecondary,
+        onSecondary = defaultLightOnPrimary,
         secondaryContainer = defaultLightSecondaryContainer,
+        onSecondaryContainer = defaultLightOnSecondaryContainer,
+        tertiary = defaultLightTertiary,
+        onTertiary = defaultLightOnPrimary,
+        tertiaryContainer = defaultLightTertiaryContainer,
+        onTertiaryContainer = defaultLightOnTertiaryContainer,
+        error = defaultLightError,
+        onError = defaultLightOnPrimary,
+        errorContainer = defaultLightErrorContainer,
+        onErrorContainer = defaultLightOnErrorContainer,
         surface = defaultLightSurface,
+        onSurfaceVariant = defaultLightOnSurfaceVariant,
         surfaceContainer = defaultLightSurfaceContainer,
+        onSurface = defaultLightOnSurface,
         background = defaultLightSurface
 
         /* Other default colors to override
