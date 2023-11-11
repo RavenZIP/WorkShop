@@ -27,8 +27,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class ComponentInfo(val isSelected: Boolean, val text: String)
+import com.ravenzip.workshop.data.RootParameters
+import com.ravenzip.workshop.data.SelectionParameters
+import com.ravenzip.workshop.data.TextParameters
 
 /**
  * Switch
@@ -37,20 +38,16 @@ data class ComponentInfo(val isSelected: Boolean, val text: String)
  * 1) width - ширина (по умолчанию 0.9f, не обязательный)
  * 2) isChecked - состояние свича (обязательный)
  * 3) title: заголовок (обязательный)
- * 4) titleSize - размер текста заголовка (по умолчанию 18, не обязательный)
- * 5) text: описание (обязательный)
- * 6) textSize - размер текста описания (по умолчанию 14, не обязательный)
- * 7) enabled - вкл\выкл свича (по умолчанию false, не обязательный)
- * 8) colors - цвета свича (по умолчанию берутся из темы приложения, не обязательный)
+ * 4) text: описание (обязательный)
+ * 5) enabled - вкл\выкл свича (по умолчанию false, не обязательный)
+ * 6) colors - цвета свича (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
 fun Switch(
     width: Float = 0.9f,
     isChecked: MutableState<Boolean>,
-    title: String,
-    titleSize: Int = 18,
-    text: String,
-    textSize: Int = 14,
+    title: TextParameters,
+    text: TextParameters,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors()
 ) {
@@ -63,8 +60,8 @@ fun Switch(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column {
-            Text(text = title, fontSize = titleSize.sp)
-            Text(text = text, fontSize = textSize.sp)
+            Text(text = title.value, fontSize = title.size.sp)
+            Text(text = text.value, fontSize = text.size.sp)
         }
         Spacer(modifier = Modifier.weight(1f))
         Switch(
@@ -89,7 +86,7 @@ fun Switch(
 @Composable
 fun RadioGroup(
     width: Float = 0.9f,
-    list: SnapshotStateList<ComponentInfo>,
+    list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors()
@@ -131,7 +128,7 @@ fun RadioGroup(
 @Composable
 fun CheckBoxes(
     width: Float = 0.9f,
-    list: SnapshotStateList<ComponentInfo>,
+    list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors()
@@ -150,22 +147,18 @@ fun CheckBoxes(
  *
  * Параметры:
  * 1) width - ширина (по умолчанию 0.9f, не обязательный)
- * 2) triState - состояние главного чекбокса (обязательный)
- * 3) triText: текст главного чекбокса (обязательный)
- * 4) triColors - цвета главного чекбокса (по умолчанию берутся из темы приложения, не обязательный)
- * 5) textSize: размер текста (по умолчанию 18, не обязательный)
- * 6) list - список чекбоксов (обязательный)
- * 7) enabled - вкл\выкл чекбоксов (по умолчанию false, не обязательный)
- * 8) colors - цвета чекбоксов (по умолчанию берутся из темы приложения, не обязательный)
+ * 2) root - главный чекбокс (обязательный)
+ * 3) textSize: размер текста (по умолчанию 18, не обязательный)
+ * 4) list - список чекбоксов (обязательный)
+ * 5) enabled - вкл\выкл чекбоксов (по умолчанию false, не обязательный)
+ * 6) colors - цвета чекбоксов (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
 fun CheckBoxesTree(
     width: Float = 0.9f,
-    rootState: MutableState<ToggleableState>,
-    rootText: String,
-    rootColors: CheckboxColors = CheckboxDefaults.colors(),
+    root: RootParameters,
     textSize: Int = 18,
-    list: SnapshotStateList<ComponentInfo>,
+    list: SnapshotStateList<SelectionParameters>,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors()
 ) {
@@ -175,16 +168,16 @@ fun CheckBoxesTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { rootClick(list, rootState) }
+                    .clickable { rootClick(list, root.state) }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
-                state = rootState.value,
-                onClick = { rootClick(list, rootState) },
+                state = root.state.value,
+                onClick = { rootClick(list, root.state) },
                 enabled = enabled,
-                colors = rootColors
+                colors = root.colors
             )
-            Text(text = rootText, fontSize = textSize.sp)
+            Text(text = root.text, fontSize = textSize.sp)
         }
         list.forEachIndexed { index, item ->
             GetCheckBox(
@@ -195,7 +188,7 @@ fun CheckBoxesTree(
                 isTree = true
             ) {
                 list[index] = item.copy(isSelected = !item.isSelected)
-                getTriState(list, rootState)
+                getTriState(list, root.state)
             }
         }
     }
@@ -203,7 +196,7 @@ fun CheckBoxesTree(
 
 @Composable
 private fun GetCheckBox(
-    item: ComponentInfo,
+    item: SelectionParameters,
     textSize: Int,
     enabled: Boolean,
     colors: CheckboxColors,
@@ -229,7 +222,7 @@ private fun GetCheckBox(
 }
 
 private fun getTriState(
-    list: SnapshotStateList<ComponentInfo>,
+    list: SnapshotStateList<SelectionParameters>,
     rootState: MutableState<ToggleableState>
 ) {
     var activeCheckboxes = 0
@@ -243,7 +236,7 @@ private fun getTriState(
 }
 
 private fun rootClick(
-    list: SnapshotStateList<ComponentInfo>,
+    list: SnapshotStateList<SelectionParameters>,
     rootState: MutableState<ToggleableState>
 ) {
     rootState.value =

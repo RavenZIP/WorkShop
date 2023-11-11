@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ravenzip.workshop.screens.CustomButtonsScreen
+import com.ravenzip.workshop.screens.CustomCardsScreen
 import com.ravenzip.workshop.screens.CustomTextFieldsScreen
 import com.ravenzip.workshop.screens.Menu
 import com.ravenzip.workshop.screens.SelectionElementsScreen
@@ -32,8 +33,13 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "Menu") {
                         composable("Menu") { Menu(navController) }
                         composable("Buttons") { CustomButtonsScreen(navController = navController) }
-                        composable("Text fields") { CustomTextFieldsScreen(navController = navController) }
-                        composable("Selection elements") { SelectionElementsScreen(navController = navController) }
+                        composable("Text fields") {
+                            CustomTextFieldsScreen(navController = navController)
+                        }
+                        composable("Selection elements") {
+                            SelectionElementsScreen(navController = navController)
+                        }
+                        composable("Cards") { CustomCardsScreen(navController = navController) }
                     }
                 }
             }

@@ -23,9 +23,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -40,29 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-
-data class TopNavigationItem(
-    val icon: ImageVector,
-    val description: String,
-    val onClick: () -> Unit
-)
-
-data class TopNavigationItemMenu(
-    val icon: ImageVector,
-    val description: String,
-    val text: String,
-    val colors: MenuItemColors,
-    val enabled: Boolean,
-    val onClick: () -> Unit
-)
-
-data class BottomNavigationItem(
-    val label: String,
-    val route: String,
-    val icon: ImageVector,
-    val hasNews: Boolean,
-    val badgeCount: Int? = null
-)
+import com.ravenzip.workshop.data.BottomNavigationItem
+import com.ravenzip.workshop.data.TopNavigationItem
+import com.ravenzip.workshop.data.TopNavigationItemMenu
 
 private enum class BottomItemsTextState {
     SHOW_ALL,
