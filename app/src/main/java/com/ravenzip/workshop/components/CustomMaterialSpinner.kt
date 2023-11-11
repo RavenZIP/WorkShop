@@ -26,6 +26,9 @@ import com.ravenzip.workshop.data.TextParameters
  * Spinner
  *
  * Параметры:
+ * 1) show - показать (обязательный)
+ * 2) text - текст (обязательный)
+ * 3) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
 fun Spinner(
@@ -60,6 +63,11 @@ fun Spinner(
  * DeterminateSpinner
  *
  * Параметры:
+ * 1) show - показать (обязательный)
+ * 2) progressValue - прогресс (обязательный)
+ * 3) text - текст (обязательный)
+ * 4) showProgressPercentages - отображать проценты прогресса (по умолчанию false, не обязательный)
+ * 5) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
 fun DeterminateSpinner(
