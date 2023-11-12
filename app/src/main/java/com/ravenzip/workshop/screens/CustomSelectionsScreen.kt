@@ -24,7 +24,7 @@ import com.ravenzip.workshop.components.CheckBoxes
 import com.ravenzip.workshop.components.CheckBoxesTree
 import com.ravenzip.workshop.components.RadioGroup
 import com.ravenzip.workshop.components.Switch
-import com.ravenzip.workshop.components.TopAppBar_v2
+import com.ravenzip.workshop.components.TopAppBar
 import com.ravenzip.workshop.data.RootParameters
 import com.ravenzip.workshop.data.SelectionParameters
 import com.ravenzip.workshop.data.TextParameters
@@ -56,7 +56,7 @@ fun SelectionElementsScreen(navController: NavController) {
         )
 
     Scaffold(
-        topBar = { TopAppBar_v2("Элементы выбора", backArrow = true, isMenu = false) },
+        topBar = { TopAppBar("Элементы выбора", backArrow = true) },
         bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
     ) {
         Column(

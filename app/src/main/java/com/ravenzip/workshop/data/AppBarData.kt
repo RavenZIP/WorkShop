@@ -12,17 +12,6 @@ class TopNavigationItem(
     val onClick: () -> Unit
 )
 
-// class TopNavigationItem(val icon: ImageVector, val description: String, val onClick: () -> Unit)
-//
-// class TopNavigationItemMenu(
-//    val icon: ImageVector,
-//    val description: String,
-//    val text: String,
-//    val colors: MenuItemColors,
-//    val enabled: Boolean,
-//    val onClick: () -> Unit
-// )
-
 data class BottomNavigationItem(
     val label: String,
     val route: String,

@@ -22,7 +22,7 @@ import com.ravenzip.workshop.components.ColIconButton
 import com.ravenzip.workshop.components.CustomButton
 import com.ravenzip.workshop.components.RowIconButton
 import com.ravenzip.workshop.components.SimpleButton
-import com.ravenzip.workshop.components.TopAppBar_v2
+import com.ravenzip.workshop.components.TopAppBar
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
 import com.ravenzip.workshop.data.TopNavigationItem
@@ -55,7 +55,7 @@ fun CustomButtonsScreen(navController: NavController) {
         )
     Scaffold(
         topBar = {
-            TopAppBar_v2(text = "Кнопки", backArrow = true, items = menuItems, isMenu = true) {
+            TopAppBar(text = "Кнопки", backArrow = true, items = menuItems, isMenu = true) {
                 navController.popBackStack()
             }
         },
