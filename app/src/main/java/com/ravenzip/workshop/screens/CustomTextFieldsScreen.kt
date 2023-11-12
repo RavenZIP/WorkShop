@@ -19,7 +19,7 @@ import com.ravenzip.workshop.components.BottomAppBar
 import com.ravenzip.workshop.components.MultilineTextField
 import com.ravenzip.workshop.components.SimpleTextField
 import com.ravenzip.workshop.components.SinglenessTextField
-import com.ravenzip.workshop.components.TopAppBar
+import com.ravenzip.workshop.components.TopAppBar_v2
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -30,7 +30,7 @@ fun CustomTextFieldsScreen(navController: NavController) {
     val numbers = mutableStateOf("")
 
     Scaffold(
-        topBar = { TopAppBar("Текстовые поля", backArrow = true) },
+        topBar = { TopAppBar_v2("Текстовые поля", backArrow = true, isMenu = false) },
         bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
     ) {
         Column(

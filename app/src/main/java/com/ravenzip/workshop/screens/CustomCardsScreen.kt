@@ -26,7 +26,7 @@ import com.ravenzip.workshop.components.DeterminateSpinner
 import com.ravenzip.workshop.components.InfoCard
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.Spinner
-import com.ravenzip.workshop.components.TopAppBar
+import com.ravenzip.workshop.components.TopAppBar_v2
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
 import kotlin.random.Random
@@ -42,7 +42,7 @@ fun CustomCardsScreen(navController: NavController) {
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        topBar = { TopAppBar("Карточки", backArrow = true) { navController.popBackStack() } },
+        topBar = { TopAppBar_v2("Карточки", backArrow = true, isMenu = false) { navController.popBackStack() } },
         bottomBar = { BottomAppBar(navController = navController, buttonsList = bottomBarButtons) }
     ) {
         Column(

@@ -22,30 +22,30 @@ import com.ravenzip.workshop.components.ColIconButton
 import com.ravenzip.workshop.components.CustomButton
 import com.ravenzip.workshop.components.RowIconButton
 import com.ravenzip.workshop.components.SimpleButton
-import com.ravenzip.workshop.components.TopAppBarWithMenu
+import com.ravenzip.workshop.components.TopAppBar_v2
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
-import com.ravenzip.workshop.data.TopNavigationItemMenu
+import com.ravenzip.workshop.data.TopNavigationItem
 
 @Composable
 fun CustomButtonsScreen(navController: NavController) {
     val menuItems =
         listOf(
-            TopNavigationItemMenu(
+            TopNavigationItem(
                 icon = Icons.Outlined.Add,
                 description = "",
                 text = "Добавить",
                 colors = MenuDefaults.itemColors(),
                 enabled = true
             ) {},
-            TopNavigationItemMenu(
+            TopNavigationItem(
                 icon = Icons.Outlined.Edit,
                 description = "",
                 text = "Редактировать",
                 colors = MenuDefaults.itemColors(),
                 enabled = true
             ) {},
-            TopNavigationItemMenu(
+            TopNavigationItem(
                 icon = Icons.Outlined.Delete,
                 description = "",
                 text = "Удалить",
@@ -55,7 +55,7 @@ fun CustomButtonsScreen(navController: NavController) {
         )
     Scaffold(
         topBar = {
-            TopAppBarWithMenu(text = "Кнопки", backArrow = true, menuItems = menuItems) {
+            TopAppBar_v2(text = "Кнопки", backArrow = true, items = menuItems, isMenu = true) {
                 navController.popBackStack()
             }
         },

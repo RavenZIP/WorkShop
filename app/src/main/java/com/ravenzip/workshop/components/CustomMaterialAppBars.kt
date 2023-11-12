@@ -1,6 +1,5 @@
 package com.ravenzip.workshop.components
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +22,13 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,7 +41,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.ravenzip.workshop.data.BottomNavigationItem
 import com.ravenzip.workshop.data.TopNavigationItem
-import com.ravenzip.workshop.data.TopNavigationItemMenu
 
 private enum class BottomItemsTextState {
     SHOW_ALL,
@@ -54,16 +54,19 @@ private enum class BottomItemsTextState {
  * Параметры:
  * 1) text - текст (обязательный)
  * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
- * 3) buttonsList - кнопки справа (по умолчанию null, не обязательный, максимум 3 кнопки)
- * 4) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию действие
+ * 3) items - кнопки (по умолчанию пустой список, не обязательный)
+ * 4) isMenu - выбор расположения кнопок: в меню или ряд на панели (по умолчанию false, не
+ *    обязательный)
+ * 5) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию действие
  *    не назначено)
  */
 @Composable
-fun TopAppBar(
+fun TopAppBar_v2(
     text: String,
     backArrow: Boolean = false,
-    buttonsList: List<TopNavigationItem>? = null,
-    backArrowClick: () -> Unit = {},
+    items: List<TopNavigationItem> = listOf(),
+    isMenu: Boolean = false,
+    backArrowClick: () -> Unit = {}
 ) {
     Box(
         Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
@@ -90,70 +93,135 @@ fun TopAppBar(
                 letterSpacing = 1.5.sp
             )
             Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
-            if (buttonsList !== null && buttonsList.isNotEmpty() && buttonsList.count() <= 3) {
-                buttonsList.forEachIndexed { index, button ->
-                    AppBarIconButton(icon = button.icon, description = button.description) {
-                        button.onClick()
+            if (items.isNotEmpty()) {
+                if (items.count() <= 3 && !isMenu) {
+                    items.forEachIndexed { index, button ->
+                        AppBarIconButton(icon = button.icon, description = button.description) {
+                            button.onClick()
+                        }
+                        if (index != 2) {
+                            Spacer(modifier = Modifier.padding(start = 5.dp))
+                        }
                     }
-                    if (index != 2) {
-                        Spacer(modifier = Modifier.padding(start = 5.dp))
+                } else {
+                    val expanded = remember { mutableStateOf(false) }
+                    AppBarMenuIconButton(expanded = expanded, menuItems = items) {
+                        expanded.value = true
                     }
                 }
             }
         }
     }
 }
-
-/**
- * TopAppBar (с меню)
- *
- * Параметры:
- * 1) text - текст (обязательный)
- * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
- * 3) menuItems - список элементов меню (обязательный)
- * 4) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию действие
- *    не назначено)
- */
-@SuppressLint("UnrememberedMutableState")
-@Composable
-fun TopAppBarWithMenu(
-    text: String,
-    backArrow: Boolean = false,
-    menuItems: List<TopNavigationItemMenu>,
-    backArrowClick: () -> Unit
-) {
-    val expanded = mutableStateOf(false)
-    Box(
-        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
-        Alignment.Center
-    ) {
-        Row(
-            modifier =
-                Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (backArrow) {
-                AppBarIconButton(
-                    icon = Icons.AutoMirrored.Outlined.ArrowBack,
-                    description = "",
-                ) {
-                    backArrowClick()
-                }
-                Spacer(modifier = Modifier.weight(0.1f))
-            }
-            Text(
-                text = text,
-                fontSize = 23.sp,
-                fontWeight = FontWeight.Medium,
-                letterSpacing = 1.5.sp
-            )
-            Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
-            AppBarMenuIconButton(expanded = expanded, menuItems = menuItems) {
-                expanded.value = true
-            }
-        }
-    }
-}
+//
+/// **
+// * TopAppBar
+// *
+// * Параметры:
+// * 1) text - текст (обязательный)
+// * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
+// * 3) buttonsList - кнопки справа (по умолчанию null, не обязательный, максимум 3 кнопки)
+// * 4) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию
+// действие
+// *    не назначено)
+// */
+// @Composable
+// fun TopAppBar(
+//    text: String,
+//    backArrow: Boolean = false,
+//    buttonsList: List<TopNavigationItem>? = null,
+//    backArrowClick: () -> Unit = {},
+// ) {
+//    Box(
+//        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
+//        Alignment.Center
+//    ) {
+//        Row(
+//            modifier =
+//                Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            if (backArrow) {
+//                AppBarIconButton(
+//                    icon = Icons.AutoMirrored.Outlined.ArrowBack,
+//                    description = "Назад",
+//                ) {
+//                    backArrowClick()
+//                }
+//                Spacer(modifier = Modifier.weight(0.1f))
+//            }
+//            Text(
+//                text = text,
+//                fontSize = 23.sp,
+//                fontWeight = FontWeight.Medium,
+//                letterSpacing = 1.5.sp
+//            )
+//            Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
+//            if (buttonsList !== null && buttonsList.isNotEmpty() && buttonsList.count() <= 3) {
+//                buttonsList.forEachIndexed { index, button ->
+//                    AppBarIconButton(icon = button.icon, description = button.description) {
+//                        button.onClick()
+//                    }
+//                    if (index != 2) {
+//                        Spacer(modifier = Modifier.padding(start = 5.dp))
+//                    }
+//                }
+//            }
+//        }
+//    }
+// }
+//
+/// **
+// * TopAppBar (с меню)
+// *
+// * Параметры:
+// * 1) text - текст (обязательный)
+// * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
+// * 3) menuItems - список элементов меню (обязательный)
+// * 4) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию
+// действие
+// *    не назначено)
+// */
+// @SuppressLint("UnrememberedMutableState")
+// @Composable
+// fun TopAppBar(
+//    text: String,
+//    backArrow: Boolean = false,
+//    menuItems: List<TopNavigationItemMenu>,
+//    backArrowClick: () -> Unit
+// ) {
+//    val expanded = mutableStateOf(false)
+//    Box(
+//        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
+//        Alignment.Center
+//    ) {
+//        Row(
+//            modifier =
+//                Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            if (backArrow) {
+//                AppBarIconButton(
+//                    icon = Icons.AutoMirrored.Outlined.ArrowBack,
+//                    description = "",
+//                ) {
+//                    backArrowClick()
+//                }
+//                Spacer(modifier = Modifier.weight(0.1f))
+//            }
+//            Text(
+//                text = text,
+//                fontSize = 23.sp,
+//                fontWeight = FontWeight.Medium,
+//                letterSpacing = 1.5.sp
+//            )
+//            Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
+//            AppBarMenuIconButton(expanded = expanded, menuItems = menuItems) {
+//                expanded.value = true
+//            }
+//        }
+//    }
+// }
 
 @Composable
 private fun AppBarIconButton(icon: ImageVector, description: String, onClick: () -> Unit) {
@@ -172,7 +240,7 @@ private fun AppBarIconButton(icon: ImageVector, description: String, onClick: ()
 @Composable
 private fun AppBarMenuIconButton(
     expanded: MutableState<Boolean>,
-    menuItems: List<TopNavigationItemMenu>,
+    menuItems: List<TopNavigationItem>,
     onClick: () -> Unit
 ) {
     val lastItem = menuItems.count() - 1
@@ -200,7 +268,7 @@ private fun AppBarMenuIconButton(
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)),
                     leadingIcon = { Icon(imageVector = it.icon, contentDescription = it.text) },
                     enabled = it.enabled,
-                    colors = it.colors,
+                    colors = if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
                     contentPadding = PaddingValues(15.dp)
                 )
                 if (index != lastItem) {
