@@ -232,7 +232,7 @@ private fun NavigationBarItem(
         ) {
             Box(
                 modifier =
-                    Modifier.size(45.dp)
+                    Modifier.size(50.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(background)
                         .clickable {
