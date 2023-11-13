@@ -1,6 +1,7 @@
 package com.ravenzip.workshop.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +34,9 @@ import com.ravenzip.workshop.data.TextParameters
  * 3) textAlign - расположение текста (обязательный)
  * 4) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
  * 5) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 6) onClick - действие при нажатии (обязательный)
+ * 6) contentPadding - внутренние отступы (по умолчанию ButtonDefaults.ContentPadding, не
+ *    обязательный)
+ * 7) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun SimpleButton(
@@ -42,13 +45,15 @@ fun SimpleButton(
     textAlign: TextAlign,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     onClick: () -> Unit
 ) {
     Button(
         onClick = { onClick() },
         modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
         colors = colors,
-        shape = shape
+        shape = shape,
+        contentPadding = contentPadding
     ) {
         Text(
             text = text.value,

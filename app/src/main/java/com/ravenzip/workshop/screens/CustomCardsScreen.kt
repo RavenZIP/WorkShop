@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ravenzip.workshop.components.AlertDialog
 import com.ravenzip.workshop.components.BottomAppBar
 import com.ravenzip.workshop.components.DeterminateSpinner
 import com.ravenzip.workshop.components.InfoCard
@@ -40,6 +42,7 @@ fun CustomCardsScreen(navController: NavController) {
     var timer = 0
     var progress by remember { mutableFloatStateOf(0.00f) }
     val scope = rememberCoroutineScope()
+    val openAlertDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopAppBar("Карточки", backArrow = true) { navController.popBackStack() } },
@@ -103,6 +106,15 @@ fun CustomCardsScreen(navController: NavController) {
                     isLoadingDeterminate = false
                 }
             }
+
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+
+            SimpleButton(
+                text = TextParameters(value = "Показать диалоговое окно", size = 18),
+                textAlign = TextAlign.Center
+            ) {
+                openAlertDialog.value = true
+            }
         }
         Spinner(
             show = isLoading,
@@ -118,5 +130,24 @@ fun CustomCardsScreen(navController: NavController) {
             containerColors =
                 CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
         )
+        if (openAlertDialog.value)
+            AlertDialog(
+                icon = IconParameters(value = Icons.Outlined.Warning),
+                title = TextParameters(value = "Заголовок", size = 22),
+                text =
+                    TextParameters(
+                        value =
+                            "Ну типа тут какое-то описание, бла бла бла, куча полезной информации, после которой ты должен нажать на одну из кнопочек.",
+                        size = 14
+                    ),
+                onDismissText = TextParameters(value = "Отменить", size = 14),
+                onConfirmationText = TextParameters(value = "Подтвердить", size = 14),
+                containerColors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    ),
+                onDismiss = { openAlertDialog.value = false },
+                onConfirmation = { openAlertDialog.value = false }
+            )
     }
 }
