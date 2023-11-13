@@ -22,36 +22,25 @@ import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextParameters
 
 /**
- * Spinner
+ * Бесконечный спиннер
  *
  * Параметры:
- * 1) show - показать (обязательный)
- * 2) text - текст (обязательный)
- * 3) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
+ * 1) text - текст (обязательный)
+ * 2) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
-fun Spinner(
-    show: Boolean,
-    text: TextParameters,
-    containerColors: CardColors = CardDefaults.cardColors()
-) {
-    if (show) {
-        Dialog(onDismissRequest = {}) {
-            Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator(modifier = Modifier.size(50.dp))
-                    if (text.value !== "" && text.size > 0) {
-                        Spacer(modifier = Modifier.padding(top = 10.dp))
-                        Text(
-                            text = text.value,
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
+fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.cardColors()) {
+    Dialog(onDismissRequest = {}) {
+        Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator(modifier = Modifier.size(50.dp))
+                if (text.value !== "" && text.size > 0) {
+                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Text(text = text.value, fontSize = text.size.sp, fontWeight = FontWeight.Medium)
                 }
             }
         }
@@ -59,50 +48,42 @@ fun Spinner(
 }
 
 /**
- * DeterminateSpinner
+ * Пошаговый спиннер (круговой прогресс бар)
  *
  * Параметры:
- * 1) show - показать (обязательный)
- * 2) progressValue - прогресс (обязательный)
- * 3) text - текст (обязательный)
- * 4) showProgressPercentages - отображать проценты прогресса (по умолчанию false, не обязательный)
- * 5) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
+ * 1) progressValue - прогресс (обязательный)
+ * 2) text - текст (обязательный)
+ * 3) showProgressPercentages - отображать проценты прогресса (по умолчанию false, не обязательный)
+ * 4) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
 fun DeterminateSpinner(
-    show: Boolean,
     progressValue: Float,
     text: TextParameters,
     showProgressPercentages: Boolean = false,
-    containerColors: CardColors = CardDefaults.cardColors()
+    containerColors: CardColors = CardDefaults.cardColors(),
 ) {
-    if (show) {
-        Dialog(onDismissRequest = {}) {
-            Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(55.dp),
-                        progress = { progressValue },
-                        trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f)
-                    )
-                    if (text.value !== "" && text.size > 0) {
-                        Spacer(modifier = Modifier.padding(top = 10.dp))
+    Dialog(onDismissRequest = {}) {
+        Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(55.dp),
+                    progress = { progressValue },
+                    trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f)
+                )
+                if (text.value !== "" && text.size > 0) {
+                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Text(text = text.value, fontSize = text.size.sp, fontWeight = FontWeight.Medium)
+                    if (showProgressPercentages)
                         Text(
-                            text = text.value,
+                            text = "${String.format("%.2f", progressValue * 100)}%",
                             fontSize = text.size.sp,
                             fontWeight = FontWeight.Medium
                         )
-                        if (showProgressPercentages)
-                            Text(
-                                text = "${String.format("%.2f", progressValue * 100)}%",
-                                fontSize = text.size.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                    }
                 }
             }
         }

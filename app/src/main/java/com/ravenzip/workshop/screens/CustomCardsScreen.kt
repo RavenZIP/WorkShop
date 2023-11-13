@@ -116,20 +116,24 @@ fun CustomCardsScreen(navController: NavController) {
                 openAlertDialog.value = true
             }
         }
-        Spinner(
-            show = isLoading,
-            text = TextParameters("Загрузка", size = 14),
-            containerColors =
-                CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-        )
-        DeterminateSpinner(
-            show = isLoadingDeterminate,
-            progressValue = progress,
-            text = TextParameters("Загрузка", size = 14),
-            showProgressPercentages = true,
-            containerColors =
-                CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-        )
+        if (isLoading)
+            Spinner(
+                text = TextParameters("Загрузка", size = 14),
+                containerColors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+            )
+        if (isLoadingDeterminate)
+            DeterminateSpinner(
+                progressValue = progress,
+                text = TextParameters("Загрузка", size = 14),
+                showProgressPercentages = true,
+                containerColors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+            )
         if (openAlertDialog.value)
             AlertDialog(
                 icon = IconParameters(value = Icons.Outlined.Warning),
