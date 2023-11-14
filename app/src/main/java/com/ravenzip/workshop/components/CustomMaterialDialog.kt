@@ -59,7 +59,7 @@ fun AlertDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                if (icon !== null) {
+                if (icon !== null && icon.size > 0) {
                     Icon(
                         imageVector = icon.value,
                         contentDescription = icon.description,

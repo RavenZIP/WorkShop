@@ -10,7 +10,9 @@ import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -27,9 +29,12 @@ import com.ravenzip.workshop.components.BottomAppBar
 import com.ravenzip.workshop.components.DeterminateSpinner
 import com.ravenzip.workshop.components.InfoCard
 import com.ravenzip.workshop.components.SimpleButton
+import com.ravenzip.workshop.components.SnackBar
 import com.ravenzip.workshop.components.Spinner
 import com.ravenzip.workshop.components.TopAppBar
 import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.data.SnackBarType
+import com.ravenzip.workshop.data.SnackBarVisualsCustom
 import com.ravenzip.workshop.data.TextParameters
 import kotlin.random.Random
 import kotlinx.coroutines.delay
@@ -43,6 +48,8 @@ fun CustomCardsScreen(navController: NavController) {
     var progress by remember { mutableFloatStateOf(0.00f) }
     val scope = rememberCoroutineScope()
     val openAlertDialog = remember { mutableStateOf(false) }
+    val snackBarHostState = remember { SnackbarHostState() }
+    var snackBarType  by remember { mutableStateOf(SnackBarType.Info) }
 
     Scaffold(
         topBar = { TopAppBar("Карточки", backArrow = true) { navController.popBackStack() } },
@@ -115,6 +122,24 @@ fun CustomCardsScreen(navController: NavController) {
             ) {
                 openAlertDialog.value = true
             }
+
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+
+            SimpleButton(
+                text = TextParameters(value = "Показать уведомление", size = 18),
+                textAlign = TextAlign.Center
+            ) {
+                snackBarType = when (snackBarType) {
+                    SnackBarType.Info -> SnackBarType.Warning
+                    SnackBarType.Warning -> SnackBarType.Error
+                    SnackBarType.Error -> SnackBarType.Info
+                }
+                scope.launch {
+                    snackBarHostState.showSnackbar(
+                        SnackBarVisualsCustom(message = "Уведомление -_-", type = snackBarType)
+                    )
+                }
+            }
         }
         if (isLoading)
             Spinner(
@@ -154,4 +179,5 @@ fun CustomCardsScreen(navController: NavController) {
                 onConfirmation = { openAlertDialog.value = false }
             )
     }
+    SnackBar(snackBarHostState = snackBarHostState)
 }
