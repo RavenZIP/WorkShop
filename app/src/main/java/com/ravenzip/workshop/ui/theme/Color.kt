@@ -18,6 +18,7 @@ val defaultLightErrorContainer = Color(0xFFFFDAD6)
 val defaultLightOnErrorContainer = Color(0xFF410002)
 val defaultLightSurface = Color(0xFFF8FAF0)
 val defaultLightOnSurface = Color(0xFF1A1C18)
+val defaultLightSurfaceVariant = Color(0xFFE7E9DE)
 val defaultLightOnSurfaceVariant = Color(0xFF43493E)
 val defaultLightSurfaceContainer = Color(0xFFEDEFE4)
 

@@ -23,9 +23,10 @@ import androidx.navigation.NavController
 import com.ravenzip.workshop.components.BottomAppBar
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.TopAppBar
+import com.ravenzip.workshop.data.AppBarItem
 import com.ravenzip.workshop.data.BottomNavigationItem
+import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
-import com.ravenzip.workshop.data.TopNavigationItem
 
 val bottomBarButtons =
     listOf(
@@ -61,9 +62,9 @@ val bottomBarButtons =
 fun Menu(navController: NavController) {
     val topBarButtons =
         listOf(
-            TopNavigationItem(icon = Icons.Outlined.Add, description = "", enabled = true) {},
-            TopNavigationItem(icon = Icons.Outlined.Edit, description = "", enabled = true) {},
-            TopNavigationItem(icon = Icons.Outlined.Delete, description = "", enabled = true) {}
+            AppBarItem(icon = IconParameters(Icons.Outlined.Add), onClick = {}),
+            AppBarItem(icon = IconParameters(Icons.Outlined.Edit), onClick = {}),
+            AppBarItem(icon = IconParameters(Icons.Outlined.Delete), onClick = {})
         )
     Scaffold(
         topBar = { TopAppBar(text = "Меню", items = topBarButtons) },

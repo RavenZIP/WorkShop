@@ -9,7 +9,6 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,35 +22,29 @@ import com.ravenzip.workshop.components.CustomButton
 import com.ravenzip.workshop.components.RowIconButton
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.TopAppBar
+import com.ravenzip.workshop.data.AppBarMenuItem
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
-import com.ravenzip.workshop.data.TopNavigationItem
 
 @Composable
 fun CustomButtonsScreen(navController: NavController) {
     val menuItems =
         listOf(
-            TopNavigationItem(
-                icon = Icons.Outlined.Add,
-                description = "",
+            AppBarMenuItem(
+                icon = IconParameters(Icons.Outlined.Add),
                 text = "Добавить",
-                colors = MenuDefaults.itemColors(),
-                enabled = true
-            ) {},
-            TopNavigationItem(
-                icon = Icons.Outlined.Edit,
-                description = "",
+                onClick = {}
+            ),
+            AppBarMenuItem(
+                icon = IconParameters(Icons.Outlined.Edit),
                 text = "Редактировать",
-                colors = MenuDefaults.itemColors(),
-                enabled = true
-            ) {},
-            TopNavigationItem(
-                icon = Icons.Outlined.Delete,
-                description = "",
+                onClick = {}
+            ),
+            AppBarMenuItem(
+                icon = IconParameters(Icons.Outlined.Delete),
                 text = "Удалить",
-                colors = MenuDefaults.itemColors(),
-                enabled = true
-            ) {}
+                onClick = {}
+            ),
         )
     Scaffold(
         topBar = {

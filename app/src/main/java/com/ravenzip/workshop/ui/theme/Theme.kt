@@ -43,6 +43,7 @@ private val lightColorScheme =
         errorContainer = defaultLightErrorContainer,
         onErrorContainer = defaultLightOnErrorContainer,
         surface = defaultLightSurface,
+        surfaceVariant = defaultLightSurfaceVariant,
         onSurfaceVariant = defaultLightOnSurfaceVariant,
         surfaceContainer = defaultLightSurfaceContainer,
         onSurface = defaultLightOnSurface,

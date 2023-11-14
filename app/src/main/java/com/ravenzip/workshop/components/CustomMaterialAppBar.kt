@@ -32,15 +32,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.ravenzip.workshop.data.AppBarButton
+import com.ravenzip.workshop.data.AppBarMenuItem
 import com.ravenzip.workshop.data.BottomNavigationItem
-import com.ravenzip.workshop.data.TopNavigationItem
+import com.ravenzip.workshop.data.IconParameters
 
 private enum class BottomItemsTextState {
     SHOW_ALL,
@@ -64,7 +64,7 @@ private enum class BottomItemsTextState {
 fun TopAppBar(
     text: String,
     backArrow: Boolean = false,
-    items: List<TopNavigationItem> = listOf(),
+    items: List<AppBarButton> = listOf(),
     isMenu: Boolean = false,
     backArrowClick: () -> Unit = {}
 ) {
@@ -79,8 +79,8 @@ fun TopAppBar(
         ) {
             if (backArrow) {
                 AppBarIconButton(
-                    icon = Icons.AutoMirrored.Outlined.ArrowBack,
-                    description = "Назад",
+                    icon =
+                        IconParameters(Icons.AutoMirrored.Outlined.ArrowBack, description = "Назад")
                 ) {
                     backArrowClick()
                 }
@@ -96,9 +96,7 @@ fun TopAppBar(
             if (items.isNotEmpty()) {
                 if (items.count() <= 3 && !isMenu) {
                     items.forEachIndexed { index, button ->
-                        AppBarIconButton(icon = button.icon, description = button.description) {
-                            button.onClick()
-                        }
+                        AppBarIconButton(icon = button.icon as IconParameters) { button.onClick() }
                         if (index != 2) Spacer(modifier = Modifier.padding(start = 5.dp))
                     }
                 } else {
@@ -113,15 +111,16 @@ fun TopAppBar(
 }
 
 @Composable
-private fun AppBarIconButton(icon: ImageVector, description: String, onClick: () -> Unit) {
+private fun AppBarIconButton(icon: IconParameters, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = icon,
-            contentDescription = description,
-            modifier = Modifier.size(25.dp),
+            imageVector = icon.value,
+            contentDescription = icon.description,
+            modifier = Modifier.size(icon.size.dp),
+            tint = icon.color ?: MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -129,7 +128,7 @@ private fun AppBarIconButton(icon: ImageVector, description: String, onClick: ()
 @Composable
 private fun AppBarMenuIconButton(
     expanded: MutableState<Boolean>,
-    menuItems: List<TopNavigationItem>,
+    menuItems: List<AppBarButton>,
     onClick: () -> Unit
 ) {
     val lastItem = menuItems.count() - 1
@@ -148,6 +147,7 @@ private fun AppBarMenuIconButton(
             Modifier.padding(start = 10.dp, top = 2.5.dp, end = 10.dp, bottom = 2.5.dp)
         ) {
             menuItems.forEachIndexed { index, it ->
+                it as AppBarMenuItem
                 if (it.text !== "") {
                     DropdownMenuItem(
                         text = { Text(it.text) },
@@ -156,7 +156,16 @@ private fun AppBarMenuIconButton(
                             // expanded.value = false
                         },
                         modifier = Modifier.clip(RoundedCornerShape(10.dp)),
-                        leadingIcon = { Icon(imageVector = it.icon, contentDescription = it.text) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = it.icon.value,
+                                contentDescription = it.icon.description,
+                                modifier = Modifier.size(it.icon.size.dp),
+                                tint =
+                                    (it.icon as IconParameters).color
+                                        ?: MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        },
                         enabled = it.enabled,
                         colors = if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
                         contentPadding = PaddingValues(15.dp)
@@ -215,11 +224,12 @@ private fun NavigationBarItem(
     labelState: BottomItemsTextState
 ) {
     val selected = navController.currentDestination?.route == item.route
-    // Цвета экспериментальные, потребуется доработка
     val background =
         if (selected) MaterialTheme.colorScheme.secondaryContainer
         else MaterialTheme.colorScheme.surfaceContainer
-    val tint = if (selected) MaterialTheme.colorScheme.secondary else Color.Black
+    val tint =
+        if (selected) MaterialTheme.colorScheme.onSecondaryContainer
+        else MaterialTheme.colorScheme.onSurface
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         BadgedBox(
             badge = {
