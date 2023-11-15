@@ -1,6 +1,7 @@
 package com.ravenzip.workshop.components
 
 import android.annotation.SuppressLint
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -51,7 +52,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SimpleTextField(
     text: MutableState<String>,
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textSize: Int,
     placeholder: String,
     interactionSource: InteractionSource = MutableInteractionSource(),
@@ -112,7 +113,7 @@ fun SimpleTextField(
 fun SinglenessTextField(
     text: MutableState<String>,
     maxLength: Int = 0,
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     pattern: Regex? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -186,7 +187,7 @@ fun SinglenessTextField(
 fun MultilineTextField(
     text: MutableState<String>,
     maxLength: Int = 0,
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "",

@@ -1,5 +1,6 @@
 package com.ravenzip.workshop.components
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +34,7 @@ import com.ravenzip.workshop.data.TextParameters
  */
 @Composable
 fun InfoCard(
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     icon: IconParameters,
     title: TextParameters,
     text: TextParameters,

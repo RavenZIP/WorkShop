@@ -1,5 +1,6 @@
 package com.ravenzip.workshop.components
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -40,7 +41,7 @@ import com.ravenzip.workshop.data.TextParameters
  */
 @Composable
 fun SimpleButton(
-    width: Float? = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
     text: TextParameters,
     textAlign: TextAlign,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -57,7 +58,7 @@ fun SimpleButton(
     ) {
         Text(
             text = text.value,
-            modifier = getModifier(width),
+            modifier = Modifier.getWidthWithPadding(width),
             fontSize = text.size.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
@@ -81,7 +82,7 @@ fun SimpleButton(
  */
 @Composable
 fun CustomButton(
-    width: Float? = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
     title: TextParameters,
     text: TextParameters,
     icon: IconParameters,
@@ -141,7 +142,7 @@ fun CustomButton(
  */
 @Composable
 fun RowIconButton(
-    width: Float? = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
     text: TextParameters,
     icon: IconParameters,
     iconPositionIsLeft: Boolean = true,
@@ -155,7 +156,10 @@ fun RowIconButton(
         colors = colors,
         shape = shape
     ) {
-        Row(modifier = getModifier(width = width), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.getWidthWithPadding(width),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             if (iconPositionIsLeft) {
                 Icon(
                     imageVector = icon.value,
@@ -193,7 +197,9 @@ fun RowIconButton(
  * 2) icon - иконка (обязательный)
  * 3) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
  * 4) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 5) onClick - действие при нажатии (обязательный)
+ * 5) contentPadding - внутренние отступы (по умолчанию ButtonDefaults.ContentPadding, не
+ *    обязательный)
+ * 6) onClick - действие при нажатии (обязательный)
  */
 @Composable
 fun ColIconButton(
@@ -201,9 +207,15 @@ fun ColIconButton(
     icon: IconParameters,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
+    contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
     onClick: () -> Unit
 ) {
-    TextButton(onClick = { onClick() }, shape = shape, colors = colors) {
+    TextButton(
+        onClick = { onClick() },
+        shape = shape,
+        colors = colors,
+        contentPadding = contentPadding
+    ) {
         Column(
             modifier = Modifier.padding(5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -227,9 +239,11 @@ fun ColIconButton(
     }
 }
 
-// TODO: предстоит переделать, первая реализация
-private fun getModifier(width: Float?): Modifier {
-    var modifier: Modifier = Modifier
-    if (width != null) modifier = modifier.fillMaxWidth()
-    return modifier.padding(top = 10.dp, bottom = 10.dp)
-}
+private fun Modifier.getWidthWithPadding(width: Float?) =
+    this.then(
+        if (width != null) {
+            Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp)
+        } else {
+            Modifier.padding(top = 10.dp, bottom = 10.dp)
+        }
+    )

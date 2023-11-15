@@ -1,5 +1,6 @@
 package com.ravenzip.workshop.components
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,7 +45,7 @@ import com.ravenzip.workshop.data.TextParameters
  */
 @Composable
 fun Switch(
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     isChecked: MutableState<Boolean>,
     title: TextParameters,
     text: TextParameters,
@@ -85,7 +86,7 @@ fun Switch(
  */
 @Composable
 fun RadioGroup(
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
     enabled: Boolean = true,
@@ -127,7 +128,7 @@ fun RadioGroup(
  */
 @Composable
 fun CheckBoxes(
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
     enabled: Boolean = true,
@@ -155,7 +156,7 @@ fun CheckBoxes(
  */
 @Composable
 fun CheckBoxesTree(
-    width: Float = 0.9f,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     root: RootParameters,
     textSize: Int = 18,
     list: SnapshotStateList<SelectionParameters>,
