@@ -164,10 +164,12 @@ fun RowIconButton(
                 Icon(
                     imageVector = icon.value,
                     contentDescription = icon.description,
-                    modifier = Modifier.size(icon.size.dp)
+                    modifier = Modifier.size(icon.size.dp),
+                    tint = icon.color ?: colors.contentColor
                 )
                 Text(
                     text = text.value,
+                    color = text.color ?: colors.contentColor,
                     modifier = Modifier.padding(start = 10.dp),
                     fontSize = text.size.sp,
                     fontWeight = FontWeight.Medium
@@ -175,6 +177,7 @@ fun RowIconButton(
             } else {
                 Text(
                     text = text.value,
+                    color = text.color ?: colors.contentColor,
                     modifier = Modifier.fillMaxWidth(0.9f).padding(end = 10.dp),
                     fontSize = text.size.sp,
                     fontWeight = FontWeight.Medium
@@ -182,6 +185,7 @@ fun RowIconButton(
                 Icon(
                     imageVector = icon.value,
                     contentDescription = icon.description,
+                    modifier = Modifier.size(icon.size.dp),
                     tint = icon.color ?: colors.contentColor
                 )
             }
@@ -197,7 +201,7 @@ fun RowIconButton(
  * 2) icon - иконка (обязательный)
  * 3) colors - цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
  * 4) shape - радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * 5) contentPadding - внутренние отступы (по умолчанию ButtonDefaults.ContentPadding, не
+ * 5) contentPadding - внутренние отступы (по умолчанию ButtonDefaults.TextButtonContentPadding, не
  *    обязательный)
  * 6) onClick - действие при нажатии (обязательный)
  */

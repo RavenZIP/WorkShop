@@ -62,7 +62,7 @@ fun SimpleTextField(
     BasicTextField(
         value = text.value,
         onValueChange = { text.value = it },
-        textStyle = TextStyle(fontSize = textSize.sp),
+        textStyle = TextStyle(color = colors.unfocusedTextColor, fontSize = textSize.sp),
         modifier = Modifier.fillMaxWidth(width),
     ) {
         TextFieldDefaults.DecorationBox(
@@ -253,7 +253,7 @@ private fun ErrorMessageAndSymbolsCounter(
         }
         if (showTextLengthCounter) {
             Text(
-                text = if (maxLength > 0) "${text.length}/${maxLength}" else "${text.length}",
+                text = if (maxLength > 0) "${text.length} / $maxLength" else "${text.length}",
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
                 color =
                     if (isError) colors.errorLabelColor

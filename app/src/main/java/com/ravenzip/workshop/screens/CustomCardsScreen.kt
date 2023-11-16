@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +47,7 @@ fun CustomCardsScreen(navController: NavController) {
     val scope = rememberCoroutineScope()
     val openAlertDialog = remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
-    var snackBarType  by remember { mutableStateOf(SnackBarType.Info) }
+    var snackBarType by remember { mutableStateOf(SnackBarType.Info) }
 
     Scaffold(
         topBar = { TopAppBar("Карточки", backArrow = true) { navController.popBackStack() } },
@@ -73,10 +71,6 @@ fun CustomCardsScreen(navController: NavController) {
                         value =
                             "Это карточка, которая содержит в себе иконку, заголовок и описание. Предназначена для предоставления пользователям важной информации",
                         size = 14
-                    ),
-                colors =
-                    CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     )
             )
 
@@ -129,11 +123,12 @@ fun CustomCardsScreen(navController: NavController) {
                 text = TextParameters(value = "Показать уведомление", size = 18),
                 textAlign = TextAlign.Center
             ) {
-                snackBarType = when (snackBarType) {
-                    SnackBarType.Info -> SnackBarType.Warning
-                    SnackBarType.Warning -> SnackBarType.Error
-                    SnackBarType.Error -> SnackBarType.Info
-                }
+                snackBarType =
+                    when (snackBarType) {
+                        SnackBarType.Info -> SnackBarType.Warning
+                        SnackBarType.Warning -> SnackBarType.Error
+                        SnackBarType.Error -> SnackBarType.Info
+                    }
                 scope.launch {
                     snackBarHostState.showSnackbar(
                         SnackBarVisualsCustom(message = "Уведомление -_-", type = snackBarType)
@@ -144,20 +139,12 @@ fun CustomCardsScreen(navController: NavController) {
         if (isLoading)
             Spinner(
                 text = TextParameters("Загрузка", size = 14),
-                containerColors =
-                    CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    )
             )
         if (isLoadingDeterminate)
             DeterminateSpinner(
                 progressValue = progress,
                 text = TextParameters("Загрузка", size = 14),
-                showProgressPercentages = true,
-                containerColors =
-                    CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    )
+                showProgressPercentages = true
             )
         if (openAlertDialog.value)
             AlertDialog(
@@ -171,10 +158,6 @@ fun CustomCardsScreen(navController: NavController) {
                     ),
                 onDismissText = TextParameters(value = "Отменить", size = 14),
                 onConfirmationText = TextParameters(value = "Подтвердить", size = 14),
-                containerColors =
-                    CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
                 onDismiss = { openAlertDialog.value = false },
                 onConfirmation = { openAlertDialog.value = false }
             )

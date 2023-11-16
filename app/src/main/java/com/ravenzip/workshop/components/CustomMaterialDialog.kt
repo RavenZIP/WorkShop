@@ -80,7 +80,7 @@ fun AlertDialog(
                         textAlign = TextAlign.Center,
                         colors =
                             ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                                containerColor = containerColors.containerColor,
                                 contentColor = MaterialTheme.colorScheme.primary
                             ),
                         contentPadding = PaddingValues(0.dp)
