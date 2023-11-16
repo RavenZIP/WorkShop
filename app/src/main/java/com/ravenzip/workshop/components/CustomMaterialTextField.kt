@@ -22,7 +22,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
@@ -108,7 +111,6 @@ fun SimpleTextField(
  * 18) showTextLengthCounter - отображение счетчика введенных сообщений (по умолчанию false, не
  *     обязательный)
  */
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun SinglenessTextField(
     text: MutableState<String>,
@@ -130,13 +132,13 @@ fun SinglenessTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = false,
 ) {
-    val isFocused = mutableStateOf(false)
+    var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = text.value,
         onValueChange = {
             getText(input = it, output = text, pattern = pattern, maxLength = maxLength)
         },
-        modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused.value = it.isFocused },
+        modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused },
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
@@ -182,7 +184,6 @@ fun SinglenessTextField(
  * 14) showTextLengthCounter - отображение счетчика введенных сообщений (по умолчанию false, не
  *     обязательный)
  */
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun MultilineTextField(
     text: MutableState<String>,
@@ -200,11 +201,11 @@ fun MultilineTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = false
 ) {
-    val isFocused = mutableStateOf(false)
+    var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = text.value,
         onValueChange = { text.value = it },
-        modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused.value = it.isFocused },
+        modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused },
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
@@ -238,7 +239,7 @@ private fun ErrorMessageAndSymbolsCounter(
     isError: Boolean,
     textError: String,
     maxLength: Int,
-    isFocused: MutableState<Boolean>,
+    isFocused: Boolean,
     colors: TextFieldColors,
     showTextLengthCounter: Boolean,
 ) {
@@ -257,8 +258,7 @@ private fun ErrorMessageAndSymbolsCounter(
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
                 color =
                     if (isError) colors.errorLabelColor
-                    else if (isFocused.value) colors.focusedLabelColor
-                    else colors.unfocusedLabelColor,
+                    else if (isFocused) colors.focusedLabelColor else colors.unfocusedLabelColor,
                 fontSize = 12.sp,
                 textAlign = TextAlign.End
             )
