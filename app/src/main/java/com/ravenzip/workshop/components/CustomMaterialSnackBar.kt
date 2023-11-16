@@ -73,7 +73,7 @@ fun SnackBar(
         val animateProgress by
             animateFloatAsState(
                 targetValue = progress,
-                animationSpec = tween(durationMillis = duration.toInt() * 2, easing = LinearEasing),
+                animationSpec = tween(durationMillis = duration.toInt(), easing = LinearEasing),
                 label = "progress"
             )
         val icon: IconParameters =

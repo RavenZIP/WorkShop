@@ -1,6 +1,5 @@
 package com.ravenzip.workshop.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +10,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,13 +21,12 @@ import com.ravenzip.workshop.components.SimpleTextField
 import com.ravenzip.workshop.components.SinglenessTextField
 import com.ravenzip.workshop.components.TopAppBar
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun CustomTextFieldsScreen(navController: NavController) {
-    val text = mutableStateOf("")
-    val text2 = mutableStateOf("")
-    val text3 = mutableStateOf("")
-    val numbers = mutableStateOf("")
+    val text = remember { mutableStateOf("") }
+    val text2 = remember { mutableStateOf("") }
+    val text3 = remember { mutableStateOf("") }
+    val numbers = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = { TopAppBar("Текстовые поля", backArrow = true) },
