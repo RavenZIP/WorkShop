@@ -27,6 +27,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,7 +37,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ravenzip.workshop.data.AppBarButton
 import com.ravenzip.workshop.data.AppBarMenuItem
 import com.ravenzip.workshop.data.BottomNavigationItem
@@ -199,6 +202,9 @@ fun BottomAppBar(
         else if (buttonsList.count() <= 3) BottomItemsTextState.SHOW_ALL
         else BottomItemsTextState.HIDDEN
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
         Row(
             modifier =
@@ -211,7 +217,12 @@ fun BottomAppBar(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             buttonsList.forEach {
-                NavigationBarItem(navController = navController, item = it, labelState = labelState)
+                NavigationBarItem(
+                    navController = navController,
+                    currentDestination = currentDestination,
+                    item = it,
+                    labelState = labelState
+                )
             }
         }
     }
@@ -220,10 +231,11 @@ fun BottomAppBar(
 @Composable
 private fun NavigationBarItem(
     navController: NavController,
+    currentDestination: NavDestination?,
     item: BottomNavigationItem,
     labelState: BottomItemsTextState
 ) {
-    val selected = navController.currentDestination?.route == item.route
+    val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
     val background =
         if (selected) MaterialTheme.colorScheme.secondaryContainer
         else MaterialTheme.colorScheme.surfaceContainer
@@ -247,14 +259,11 @@ private fun NavigationBarItem(
                         .background(background)
                         .clickable {
                             navController.navigate(item.route) {
-                                // Разобраться надо ли это делать :D
-                                // Просто перетянул из старого проекта
-                                popUpTo(navController.graph.findStartDestination().navigatorName) {
-                                    saveState = true
+                                navController.graph.startDestinationRoute?.let { route ->
+                                    popUpTo(route) { saveState = true }
                                 }
                                 // Отключаем возможность роутинга в одно и тоже место при
-                                // неоднократном
-                                // нажатии
+                                // неоднократном нажатии
                                 launchSingleTop = true
                                 restoreState = true
                             }
