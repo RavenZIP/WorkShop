@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.SnackBarType
 import com.ravenzip.workshop.data.SnackBarVisualsCustom
-import com.ravenzip.workshop.ui.theme.defaultDarkPrimary
+import com.ravenzip.workshop.ui.theme.warning
 import kotlinx.coroutines.launch
 
 /**
@@ -82,7 +82,7 @@ fun SnackBar(
                     IconParameters(value = Icons.Outlined.Notifications)
                 }
                 SnackBarType.Warning -> {
-                    IconParameters(value = Icons.Outlined.WarningAmber, color = defaultDarkPrimary)
+                    IconParameters(value = Icons.Outlined.WarningAmber, color = warning)
                 }
                 SnackBarType.Error -> {
                     IconParameters(
