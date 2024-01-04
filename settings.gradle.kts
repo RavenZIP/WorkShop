@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "WorkShop"
-include(":app")
+include(":workshop")
