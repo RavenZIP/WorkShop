@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -31,6 +32,20 @@ android {
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.2" }
     packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.ravenzip.workshop"
+            artifactId = "workshop"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
 
 dependencies {
