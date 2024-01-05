@@ -49,7 +49,7 @@ dependencyResolutionManagement {
 Затем, в файл **build.gradle.kts (:app)** добавьте
 ```
 dependencies {
-      implementation("com.github.RavenZIP:WorkShop:1.0.0")
+      implementation("com.github.RavenZIP:WorkShop:1.0.1")
 }
 ```
 Синхронизируйте Gradle с проектом и запустите сборку.
