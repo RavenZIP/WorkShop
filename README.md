@@ -58,7 +58,7 @@ dependencies {
 - **-** **`Отсутствуют`**
 
 # 👾 Разработчик
-Черных Александр
+**Черных Александр**
 - [Github](https://github.com/RavenZIP)
 - [Telegram](https://t.me/bexwdgst)
 - [Telegram канал с проектами](https://t.me/RavenZIProjects)
