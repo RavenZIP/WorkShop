@@ -22,7 +22,7 @@ import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextParameters
 
 /**
- * Бесконечный спиннер
+ * Спиннер
  *
  * Параметры:
  * 1) text - текст (обязательный)
@@ -48,7 +48,7 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
 }
 
 /**
- * Пошаговый спиннер (круговой прогресс бар)
+ * Круговой прогресс бар
  *
  * Параметры:
  * 1) progressValue - прогресс (обязательный)
@@ -57,7 +57,7 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
  * 4) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
  */
 @Composable
-fun DeterminateSpinner(
+fun CircularProgressIndicator(
     progressValue: Float,
     text: TextParameters,
     showProgressPercentages: Boolean = false,

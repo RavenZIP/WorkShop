@@ -52,23 +52,17 @@ fun SnackBar(
     snackBarHostState: SnackbarHostState,
     containerColors: CardColors = CardDefaults.cardColors(),
 ) {
-    val scope = rememberCoroutineScope()
     SnackbarHost(
         hostState = snackBarHostState,
     ) {
+        val scope = rememberCoroutineScope()
         var progress by remember { mutableFloatStateOf(1f) }
         val visuals = it.visuals as SnackBarVisualsCustom
         val duration =
             when (it.visuals.duration) {
-                SnackbarDuration.Short -> {
-                    4000L
-                }
-                SnackbarDuration.Long -> {
-                    10000L
-                }
-                SnackbarDuration.Indefinite -> {
-                    Long.MAX_VALUE
-                }
+                SnackbarDuration.Short -> 4000L
+                SnackbarDuration.Long -> 10000L
+                SnackbarDuration.Indefinite -> Long.MAX_VALUE
             }
         val animateProgress by
             animateFloatAsState(
