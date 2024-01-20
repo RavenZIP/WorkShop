@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun HorizontalPagerIndicator(
+fun HorizontalPagerIndicator(
     pagerState: PagerState,
     indicatorColor: Color,
     selectedIndicatorColor: Color,
@@ -67,7 +67,7 @@ private fun HorizontalPagerIndicator(
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun VerticalPagerIndicator(
+fun VerticalPagerIndicator(
     pagerState: PagerState,
     indicatorColor: Color,
     selectedIndicatorColor: Color,
