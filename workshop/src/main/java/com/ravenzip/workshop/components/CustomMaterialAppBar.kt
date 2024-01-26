@@ -271,9 +271,9 @@ private fun NavigationBarItem(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = item.icon,
+                    imageVector = item.icon.value,
                     contentDescription = item.label,
-                    modifier = Modifier.size(25.dp),
+                    modifier = Modifier.size(item.icon.size.dp),
                     tint = tint
                 )
             }

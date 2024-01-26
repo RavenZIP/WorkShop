@@ -39,7 +39,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.ravenzip.workshop"
             artifactId = "workshop"
-            version = "1.0.0"
+            version = "1.1.2"
 
             afterEvaluate {
                 from(components["release"])
@@ -58,13 +58,13 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.ui:ui-text-android:1.5.4")
+    implementation("androidx.compose.ui:ui-text-android:1.6.0")
     // Material 3
-    implementation("androidx.compose.material3:material3:1.2.0-beta02")
+    implementation("androidx.compose.material3:material3:1.2.0-rc01")
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
     // Icons
-    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
     // Other
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

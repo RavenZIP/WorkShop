@@ -1,7 +1,6 @@
 package com.ravenzip.workshop.data
 
 import androidx.compose.material3.MenuItemColors
-import androidx.compose.ui.graphics.vector.ImageVector
 
 interface AppBarButton {
     val icon: Icon
@@ -26,7 +25,7 @@ class AppBarMenuItem(
 data class BottomNavigationItem(
     val label: String,
     val route: String,
-    val icon: ImageVector,
+    val icon: Icon,
     val hasNews: Boolean,
     val badgeCount: Int? = null
 )
