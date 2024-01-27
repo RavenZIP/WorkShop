@@ -63,8 +63,6 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.0-rc01")
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
-    // Icons
-    implementation("androidx.compose.material:material-icons-extended:1.6.0")
     // Other
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
