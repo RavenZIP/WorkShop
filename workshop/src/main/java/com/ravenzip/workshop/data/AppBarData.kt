@@ -29,3 +29,9 @@ data class BottomNavigationItem(
     val hasNews: Boolean,
     val badgeCount: Int? = null
 )
+
+internal enum class BottomItemsTextState {
+    SHOW_ALL,
+    ONLY_SELECTED,
+    HIDDEN
+}

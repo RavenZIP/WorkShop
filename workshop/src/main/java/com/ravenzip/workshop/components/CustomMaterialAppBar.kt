@@ -33,7 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -42,14 +44,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ravenzip.workshop.data.AppBarButton
 import com.ravenzip.workshop.data.AppBarMenuItem
+import com.ravenzip.workshop.data.BottomItemsTextState
 import com.ravenzip.workshop.data.BottomNavigationItem
 import com.ravenzip.workshop.data.IconParameters
-
-private enum class BottomItemsTextState {
-    SHOW_ALL,
-    ONLY_SELECTED,
-    HIDDEN
-}
 
 /**
  * TopAppBar
@@ -183,25 +180,20 @@ private fun AppBarMenuIconButton(
 }
 
 /**
- * BottomAppBar
+ * [BottomNavigationBar] - Нижняя навигационная панель
  *
- * Параметры:
- * 1) navController - навигационный контроллер (обязательный)
- * 2) buttonsList - список кнопок (обязательный)
- * 3) showLabelOnlyOnSelected - отображать название только на активном экране (по умолчанию false,
- *    не обязательный)
+ * @param navController навигационный контроллер (обязательный)
+ * @param buttonsList список кнопок (обязательный)
+ * @param showLabelOnlyOnSelected отображать название только на активном экране (по умолчанию false,
+ * не обязательный)
  */
 @Composable
-fun BottomAppBar(
+fun BottomNavigationBar(
     navController: NavController,
     buttonsList: List<BottomNavigationItem>,
     showLabelOnlyOnSelected: Boolean = false
 ) {
-    val labelState =
-        if (showLabelOnlyOnSelected) BottomItemsTextState.ONLY_SELECTED
-        else if (buttonsList.count() <= 3) BottomItemsTextState.SHOW_ALL
-        else BottomItemsTextState.HIDDEN
-
+    val labelState = getLabelState(showLabelOnlyOnSelected, buttonsList.count())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -211,7 +203,7 @@ fun BottomAppBar(
                 Modifier.padding(
                         start = 20.dp,
                         end = 20.dp,
-                        top = if (labelState !== BottomItemsTextState.HIDDEN) 20.dp else 0.dp
+                        top = getBottomBarTopPadding(labelState)
                     )
                     .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -236,38 +228,16 @@ private fun NavigationBarItem(
     labelState: BottomItemsTextState
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
-    val background =
-        if (selected) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainer
-    val tint =
-        if (selected) MaterialTheme.colorScheme.onSecondaryContainer
-        else MaterialTheme.colorScheme.onSurface
+    val background = getBoxColor(selected)
+    val tint = getIconColor(selected)
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        BadgedBox(
-            badge = {
-                if (item.badgeCount != null) {
-                    Badge { Text(text = item.badgeCount.toString()) }
-                } else if (item.hasNews) {
-                    Badge()
-                }
-            }
-        ) {
+        BadgedBox(badge = { item.GetBadge() }) {
             Box(
                 modifier =
                     Modifier.size(50.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(background)
-                        .clickable {
-                            navController.navigate(item.route) {
-                                navController.graph.startDestinationRoute?.let { route ->
-                                    popUpTo(route) { saveState = true }
-                                }
-                                // Отключаем возможность роутинга в одно и тоже место при
-                                // неоднократном нажатии
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        .clickable { item.click(navController = navController) },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -278,11 +248,7 @@ private fun NavigationBarItem(
                 )
             }
         }
-        if (
-            labelState === BottomItemsTextState.SHOW_ALL ||
-                labelState === BottomItemsTextState.ONLY_SELECTED &&
-                    navController.currentDestination?.route == item.route
-        ) {
+        if (item.showLabel(navController = navController, labelState = labelState)) {
             Text(
                 text = item.label,
                 fontSize = 12.sp,
@@ -292,4 +258,58 @@ private fun NavigationBarItem(
             )
         }
     }
+}
+
+@Composable
+private fun getBoxColor(selected: Boolean): Color {
+    return if (selected) MaterialTheme.colorScheme.secondaryContainer
+    else MaterialTheme.colorScheme.surfaceContainer
+}
+
+@Composable
+private fun getIconColor(selected: Boolean): Color {
+    return if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+}
+
+@Composable
+private fun BottomNavigationItem.GetBadge() {
+    if (this.badgeCount != null) {
+        val badgeCount = this.badgeCount
+        return Badge { Text(text = badgeCount.toString()) }
+    } else if (this.hasNews) {
+        return Badge()
+    }
+}
+
+private fun BottomNavigationItem.click(navController: NavController) {
+    navController.navigate(this.route) {
+        navController.graph.startDestinationRoute?.let { route ->
+            popUpTo(route) { saveState = true }
+        }
+        // Отключаем возможность роутинга в одно и тоже место при
+        // неоднократном нажатии
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
+private fun getLabelState(
+    showLabelOnlyOnSelected: Boolean,
+    buttonsCount: Int
+): BottomItemsTextState {
+    return if (showLabelOnlyOnSelected) BottomItemsTextState.ONLY_SELECTED
+    else if (buttonsCount <= 3) BottomItemsTextState.SHOW_ALL else BottomItemsTextState.HIDDEN
+}
+
+private fun BottomNavigationItem.showLabel(
+    navController: NavController,
+    labelState: BottomItemsTextState
+): Boolean {
+    return labelState === BottomItemsTextState.SHOW_ALL ||
+        labelState === BottomItemsTextState.ONLY_SELECTED &&
+            navController.currentDestination?.route == this.route
+}
+
+private fun getBottomBarTopPadding(labelState: BottomItemsTextState): Dp {
+    return if (labelState !== BottomItemsTextState.HIDDEN) 20.dp else 0.dp
 }

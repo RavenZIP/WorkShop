@@ -32,7 +32,7 @@ import com.ravenzip.workshop.data.SnackBarVisualsExtended
 import kotlinx.coroutines.launch
 
 /**
- * Уведомления
+ * [SnackBar] - Уведомления
  *
  * @param snackBarHostState состояние (обязательный)
  * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
