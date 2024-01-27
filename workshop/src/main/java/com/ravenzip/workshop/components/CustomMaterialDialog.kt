@@ -27,18 +27,18 @@ import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
 
 /**
- * Диалоговое окно
+ * [AlertDialog] - Диалоговое окно
  *
- * Параметры:
- * 1) icon - иконка (по умолчанию null, не обязательный)
- * 2) title - заголовок (обязательный)
- * 3) text - описание (обязательный)
- * 4) onDismissText - текст кнопки отмены (обязательный)
- * 5) onConfirmationText - текст кнопки подтверждения (обязательный)
- * 6) title - заголовок (обязательный)
- * 7) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
- * 8) onDismiss - действие при отмене (обязательный)
- * 9) onConfirmation - действие при подтверждении (обязательный)
+ * @param icon иконка (по умолчанию null, не обязательный)
+ * @param title заголовок (обязательный)
+ * @param text описание (обязательный)
+ * @param onDismissText текст кнопки отмены (обязательный)
+ * @param onConfirmationText текст кнопки подтверждения (обязательный)
+ * @param title заголовок (обязательный)
+ * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
+ *   обязательный)
+ * @param onDismiss действие при отмене (обязательный)
+ * @param onConfirmation действие при подтверждении (обязательный)
  */
 @Composable
 fun AlertDialog(

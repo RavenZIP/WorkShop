@@ -22,11 +22,11 @@ import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextParameters
 
 /**
- * Спиннер
+ * [Spinner] - Спиннер
  *
- * Параметры:
- * 1) text - текст (обязательный)
- * 2) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
+ * @param text текст (обязательный)
+ * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
+ *   обязательный)
  */
 @Composable
 fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.cardColors()) {
@@ -48,13 +48,14 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
 }
 
 /**
- * Круговой прогресс бар
+ * [CircularProgressIndicator] - Круговой прогресс бар
  *
- * Параметры:
- * 1) progressValue - прогресс (обязательный)
- * 2) text - текст (обязательный)
- * 3) showProgressPercentages - отображать проценты прогресса (по умолчанию false, не обязательный)
- * 4) containerColors - цвета контейнера (по умолчанию берутся из темы приложения, не обязательный)
+ * @param progressValue прогресс (обязательный)
+ * @param text текст (обязательный)
+ * @param showProgressPercentages отображать проценты прогресса (по умолчанию false, не
+ *   обязательный)
+ * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
+ *   обязательный)
  */
 @Composable
 fun CircularProgressIndicator(

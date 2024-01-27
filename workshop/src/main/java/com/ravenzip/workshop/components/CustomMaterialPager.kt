@@ -12,21 +12,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /**
- * Горизонтальный индикатор составного элемента
+ * [HorizontalPagerIndicator] - Горизонтальный индикатор составного элемента
  *
- * Параметры:
- * 1) pagerState - состояние составного элемента
- * 2) indicatorColor - цвет неактивного индикатора
- * 3) selectedIndicatorColor - цвет активного элемента
- * 4) height - высота (не обязательный, по умолчанию 10)
- * 5) width - ширина (не обязательный, по умолчанию 10)
+ * @param pagerState состояние составного элемента
+ * @param indicatorColor цвет неактивного индикатора
+ * @param selectedIndicatorColor цвет активного элемента
+ * @param height высота (не обязательный, по умолчанию 10)
+ * @param width ширина (не обязательный, по умолчанию 10)
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -56,14 +54,13 @@ fun HorizontalPagerIndicator(
 }
 
 /**
- * Вертикальный индикатор составного элемента
+ * [VerticalPagerIndicator] - Вертикальный индикатор составного элемента
  *
- * Параметры:
- * 1) pagerState - состояние составного элемента
- * 2) indicatorColor - цвет неактивного индикатора
- * 3) selectedIndicatorColor - цвет активного элемента
- * 4) height - высота (не обязательный, по умолчанию 10)
- * 5) width - ширина (не обязательный, по умолчанию 10)
+ * @param pagerState состояние составного элемента
+ * @param indicatorColor цвет неактивного индикатора
+ * @param selectedIndicatorColor цвет активного элемента
+ * @param height высота (не обязательный, по умолчанию 10)
+ * @param width ширина (не обязательный, по умолчанию 10)
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -83,10 +80,10 @@ fun VerticalPagerIndicator(
                 if (pagerState.currentPage == iteration) selectedIndicatorColor else indicatorColor
             Box(
                 modifier =
-                Modifier.padding(2.dp)
-                    .clip(CircleShape)
-                    .background(color)
-                    .size(width.dp, height.dp)
+                    Modifier.padding(2.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(width.dp, height.dp)
             )
         }
     }
