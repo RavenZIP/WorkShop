@@ -17,3 +17,5 @@ class IconParameters(
     override val size: Int = 25,
     val color: Color? = null
 ) : Icon
+
+class Error(val value: Boolean = false, val text: String = "")

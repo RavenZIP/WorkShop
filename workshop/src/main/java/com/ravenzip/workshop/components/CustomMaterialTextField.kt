@@ -1,6 +1,5 @@
 package com.ravenzip.workshop.components
 
-import android.annotation.SuppressLint
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,14 +27,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ravenzip.workshop.data.Error
+import com.ravenzip.workshop.data.IconParameters
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -49,7 +50,6 @@ import androidx.compose.ui.unit.sp
  * @param colors цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
  * @param showLine отображать линию снизу текста (по умолчанию true, не обязательный)
  */
-@SuppressLint("UnrememberedMutableInteractionSource")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTextField(
@@ -92,16 +92,12 @@ fun SimpleTextField(
  * @param text вводимый текст (обязательный)
  * @param maxLength максимальная длина символов (по умолчанию 0, не обязательный)
  * @param width ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param pattern паттерн вводимого текста (по умолчанию не задан, не обязательный)
  * @param enabled вкл\выкл текстового поля (по умолчанию true, не обязательный)
  * @param readOnly только для чтения (по умолчанию false, не обязательный)
  * @param label название текстового поля (по умолчанию не задан, не обязательный)
  * @param leadingIcon иконка слева (по умолчанию не задан, не обязательный)
- * @param leadingIconDescription описание для иконки (по умолчанию не задан, не обязательный)
  * @param trailingIcon иконка справа (по умолчанию не задан, не обязательный)
- * @param trailingIconDescription описание для иконки (по умолчанию не задан, не обязательный)
- * @param isError статус "Ошибка" (по умолчанию false, не обязательный)
- * @param textError текстовое сообщение об ошикбе (по умолчанию не задан, не обязательный)
+ * @param error отображение ошибки (не обязательный)
  * @param isPassword замена вводимых символов на точки (по умолчанию false, не обязательный)
  * @param keyboardOptions опции для клавиатуры (по умолчанию стандартная клавиатура, не
  *   обязательный)
@@ -115,16 +111,12 @@ fun SinglenessTextField(
     text: MutableState<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    pattern: Regex? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "",
-    leadingIcon: ImageVector? = null,
-    leadingIconDescription: String = "",
-    trailingIcon: ImageVector? = null,
-    trailingIconDescription: String = "",
-    isError: Boolean = false,
-    textError: String = "",
+    leadingIcon: IconParameters? = null,
+    trailingIcon: IconParameters? = null,
+    error: Error = Error(),
     isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
@@ -134,16 +126,14 @@ fun SinglenessTextField(
     var isFocused by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = text.value,
-        onValueChange = {
-            getText(input = it, output = text, pattern = pattern, maxLength = maxLength)
-        },
+        onValueChange = { if (checkLength(it.length, maxLength)) text.value = it },
         modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused },
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        leadingIcon = getIcon(icon = leadingIcon, description = leadingIconDescription),
-        trailingIcon = getIcon(icon = trailingIcon, description = trailingIconDescription),
-        isError = isError,
+        leadingIcon = getIcon(icon = leadingIcon),
+        trailingIcon = getIcon(icon = trailingIcon),
+        isError = error.value,
         visualTransformation =
             if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = keyboardOptions,
@@ -154,8 +144,7 @@ fun SinglenessTextField(
     ErrorMessageAndSymbolsCounter(
         text.value,
         width,
-        isError,
-        textError,
+        error,
         maxLength,
         isFocused,
         colors,
@@ -164,7 +153,7 @@ fun SinglenessTextField(
 }
 
 /**
- * [SinglenessTextField] - Многострочное текстовое поле
+ * [MultilineTextField] - Многострочное текстовое поле
  *
  * @param text вводимый текст (обязательный)
  * @param maxLength максимальная длина символов (по умолчанию 0, не обязательный)
@@ -172,8 +161,7 @@ fun SinglenessTextField(
  * @param enabled вкл\выкл текстового поля (по умолчанию true, не обязательный)
  * @param readOnly только для чтения (по умолчанию false, не обязательный)
  * @param label название текстового поля (по умолчанию не задан, не обязательный)
- * @param isError статус "Ошибка" (по умолчанию false, не обязательный)
- * @param textError текстовое сообщение об ошикбе (по умолчанию не задан, не обязательный)
+ * @param error отображение ошибки (не обязательный)
  * @param keyboardOptions опции для клавиатуры (по умолчанию стандартная клавиатура, не
  *   обязательный)
  * @param maxLines минимальное число строк (по умолчанию 1, не обязательный)
@@ -191,8 +179,7 @@ fun MultilineTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "",
-    isError: Boolean = false,
-    textError: String = "",
+    error: Error = Error(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
@@ -208,7 +195,7 @@ fun MultilineTextField(
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        isError = isError,
+        isError = error.value,
         keyboardOptions = keyboardOptions,
         maxLines = maxLines,
         minLines = minLines,
@@ -218,8 +205,7 @@ fun MultilineTextField(
     ErrorMessageAndSymbolsCounter(
         text.value,
         width,
-        isError,
-        textError,
+        error,
         maxLength,
         isFocused,
         colors,
@@ -235,17 +221,16 @@ fun MultilineTextField(
 private fun ErrorMessageAndSymbolsCounter(
     text: String,
     width: Float,
-    isError: Boolean,
-    textError: String,
+    error: Error,
     maxLength: Int,
     isFocused: Boolean,
     colors: TextFieldColors,
     showTextLengthCounter: Boolean,
 ) {
     Row(modifier = Modifier.fillMaxWidth(width)) {
-        if (isError && textError != "") {
+        if (error.value && error.text != "") {
             Text(
-                text = textError,
+                text = error.text,
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
                 color = colors.errorLabelColor,
                 fontSize = 12.sp
@@ -255,9 +240,7 @@ private fun ErrorMessageAndSymbolsCounter(
             Text(
                 text = if (maxLength > 0) "${text.length} / $maxLength" else "${text.length}",
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
-                color =
-                    if (isError) colors.errorLabelColor
-                    else if (isFocused) colors.focusedLabelColor else colors.unfocusedLabelColor,
+                color = getColor(colors, error.value, isFocused),
                 fontSize = 12.sp,
                 textAlign = TextAlign.End
             )
@@ -279,11 +262,6 @@ private fun Line(interactionSource: InteractionSource, colors: TextFieldColors) 
     )
 }
 
-/** Проверка на наличие паттерна и соответствие введенной строки патеррну */
-private fun checkPattern(text: String, pattern: Regex?): Boolean {
-    return pattern != null && text.matches(pattern)
-}
-
 /**
  * Проверка на то, что максимальная длина не задана или если задана, то проверка на соответствие
  * длины введенных символов заданному ограничению
@@ -292,17 +270,13 @@ private fun checkLength(textLength: Int, maxLength: Int): Boolean {
     return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
 }
 
-private fun getText(input: String, output: MutableState<String>, pattern: Regex?, maxLength: Int) {
-    if (
-        checkPattern(input, pattern) && checkLength(input.length, maxLength) ||
-            pattern == null && checkLength(input.length, maxLength)
-    )
-        output.value = input
-    else {}
+private fun getIcon(icon: IconParameters?): @Composable (() -> Unit)? {
+    return if (icon != null) {
+        { Icon(imageVector = icon.value, contentDescription = icon.description) }
+    } else null
 }
 
-private fun getIcon(icon: ImageVector?, description: String): @Composable (() -> Unit)? {
-    return if (icon != null) {
-        { Icon(imageVector = icon, contentDescription = description) }
-    } else null
+private fun getColor(colors: TextFieldColors, isError: Boolean, isFocused: Boolean): Color {
+    return if (isError) colors.errorLabelColor
+    else if (isFocused) colors.focusedLabelColor else colors.unfocusedLabelColor
 }
