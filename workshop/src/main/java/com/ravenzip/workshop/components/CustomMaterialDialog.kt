@@ -66,12 +66,12 @@ fun AlertDialog(
                         modifier = Modifier.size(icon.size.dp),
                         tint = icon.color ?: containerColors.contentColor
                     )
-                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
                 Text(text = title.value, fontSize = title.size.sp, fontWeight = FontWeight.Medium)
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Text(text = text.value, fontSize = text.size.sp)
-                Spacer(modifier = Modifier.padding(top = 30.dp))
+                Spacer(modifier = Modifier.padding(top = 20.dp))
                 Row {
                     SimpleButton(
                         width = 0.5f,
