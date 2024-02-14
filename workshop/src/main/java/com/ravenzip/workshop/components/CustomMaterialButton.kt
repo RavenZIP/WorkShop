@@ -102,7 +102,7 @@ fun CustomButton(
             Icon(
                 imageVector = icon.value,
                 contentDescription = icon.description,
-                modifier = Modifier.padding(end = 10.dp).size(icon.size.dp),
+                modifier = Modifier.padding(end = 15.dp).size(icon.size.dp),
                 tint = icon.color ?: colors.contentColor
             )
             Column(
@@ -115,6 +115,7 @@ fun CustomButton(
                     fontSize = title.size.sp,
                     fontWeight = FontWeight.Medium
                 )
+                Spacer(modifier = Modifier.padding(top = 2.5.dp))
                 Text(
                     text = text.value,
                     color = text.color ?: colors.contentColor,
