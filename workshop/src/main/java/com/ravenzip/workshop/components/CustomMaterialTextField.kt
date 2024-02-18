@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -272,7 +273,13 @@ private fun checkLength(textLength: Int, maxLength: Int): Boolean {
 
 private fun getIcon(icon: IconParameters?): @Composable (() -> Unit)? {
     return if (icon != null) {
-        { Icon(imageVector = icon.value, contentDescription = icon.description) }
+        {
+            Icon(
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.size(icon.size.dp)
+            )
+        }
     } else null
 }
 
