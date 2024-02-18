@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -33,14 +35,19 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
     Dialog(onDismissRequest = {}) {
         Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
             Column(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier.padding(20.dp).widthIn(0.dp, 250.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp))
                 if (text.value !== "" && text.size > 0) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
-                    Text(text = text.value, fontSize = text.size.sp, fontWeight = FontWeight.Medium)
+                    Text(
+                        text = text.value,
+                        fontSize = text.size.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }
@@ -67,7 +74,7 @@ fun CircularProgressIndicator(
     Dialog(onDismissRequest = {}) {
         Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
             Column(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier.padding(20.dp).widthIn(0.dp, 250.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -78,7 +85,13 @@ fun CircularProgressIndicator(
                 )
                 if (text.value !== "" && text.size > 0) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
-                    Text(text = text.value, fontSize = text.size.sp, fontWeight = FontWeight.Medium)
+                    Text(
+                        text = text.value,
+                        fontSize = text.size.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    )
+
                     if (showProgressPercentages)
                         Text(
                             text = "${String.format("%.2f", progressValue * 100)}%",
