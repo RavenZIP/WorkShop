@@ -42,14 +42,14 @@ import com.ravenzip.workshop.data.IconParameters
 /**
  * [SimpleTextField] - Простое текстовое поле
  *
- * @param text вводимый текст (обязательный)
- * @param width ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param textSize размер вводимого текста и текста плейсхолдера (обязательный)
- * @param placeholder временный текст (обязательный)
- * @param interactionSource поток взаимодействий для поля ввода ( по умолчанию
+ * @param text Вводимый текст (обязательный)
+ * @param width Ширина текстового поля (по умолчанию 0.9f, не обязательный)
+ * @param textSize Размер вводимого текста и текста плейсхолдера (обязательный)
+ * @param placeholder Временный текст (обязательный)
+ * @param interactionSource Поток взаимодействий для поля ввода ( по умолчанию
  *   MutableInteractionSource(), не обязательный)
- * @param colors цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
- * @param showLine отображать линию снизу текста (по умолчанию true, не обязательный)
+ * @param colors Цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
+ * @param showLine Отображать линию снизу текста (по умолчанию true, не обязательный)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,21 +90,21 @@ fun SimpleTextField(
 /**
  * [SinglenessTextField] - Однострочное текстовое поле
  *
- * @param text вводимый текст (обязательный)
- * @param maxLength максимальная длина символов (по умолчанию 0, не обязательный)
- * @param width ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param enabled вкл\выкл текстового поля (по умолчанию true, не обязательный)
- * @param readOnly только для чтения (по умолчанию false, не обязательный)
- * @param label название текстового поля (по умолчанию не задан, не обязательный)
- * @param leadingIcon иконка слева (по умолчанию не задан, не обязательный)
- * @param trailingIcon иконка справа (по умолчанию не задан, не обязательный)
- * @param error отображение ошибки (не обязательный)
- * @param isPassword замена вводимых символов на точки (по умолчанию false, не обязательный)
- * @param keyboardOptions опции для клавиатуры (по умолчанию стандартная клавиатура, не
+ * @param text Вводимый текст (обязательный)
+ * @param maxLength Максимальная длина символов (по умолчанию 0, не обязательный)
+ * @param width Ширина текстового поля (по умолчанию 0.9f, не обязательный)
+ * @param enabled Вкл\выкл текстового поля (по умолчанию true, не обязательный)
+ * @param readOnly Только для чтения (по умолчанию false, не обязательный)
+ * @param label Название текстового поля (по умолчанию не задан, не обязательный)
+ * @param leadingIcon Иконка слева (по умолчанию не задан, не обязательный)
+ * @param trailingIcon Иконка справа (по умолчанию не задан, не обязательный)
+ * @param error Отображение ошибки (не обязательный)
+ * @param isHiddenText Замена вводимых символов на точки (по умолчанию false, не обязательный)
+ * @param keyboardOptions Опции для клавиатуры (по умолчанию стандартная клавиатура, не
  *   обязательный)
- * @param shape радиус скругления (по умолчанию 10.dp, не обязательный)
- * @param colors цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
- * @param showTextLengthCounter отображение счетчика введенных сообщений (по умолчанию false, не
+ * @param shape Радиус скругления (по умолчанию 10.dp, не обязательный)
+ * @param colors Цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений (по умолчанию false, не
  *   обязательный)
  */
 @Composable
@@ -118,7 +118,7 @@ fun SinglenessTextField(
     leadingIcon: IconParameters? = null,
     trailingIcon: IconParameters? = null,
     error: Error = Error(),
-    isPassword: Boolean = false,
+    isHiddenText: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
@@ -132,11 +132,25 @@ fun SinglenessTextField(
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        leadingIcon = getIcon(icon = leadingIcon),
-        trailingIcon = getIcon(icon = trailingIcon),
+        leadingIcon = {
+            GetIcon(
+                icon = leadingIcon,
+                colors = colors,
+                isError = error.value,
+                isFocused = isFocused
+            )
+        },
+        trailingIcon = {
+            GetIcon(
+                icon = trailingIcon,
+                colors = colors,
+                isError = error.value,
+                isFocused = isFocused
+            )
+        },
         isError = error.value,
         visualTransformation =
-            if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+            if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = keyboardOptions,
         singleLine = true,
         shape = shape,
@@ -156,20 +170,20 @@ fun SinglenessTextField(
 /**
  * [MultilineTextField] - Многострочное текстовое поле
  *
- * @param text вводимый текст (обязательный)
- * @param maxLength максимальная длина символов (по умолчанию 0, не обязательный)
- * @param width ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param enabled вкл\выкл текстового поля (по умолчанию true, не обязательный)
- * @param readOnly только для чтения (по умолчанию false, не обязательный)
- * @param label название текстового поля (по умолчанию не задан, не обязательный)
- * @param error отображение ошибки (не обязательный)
- * @param keyboardOptions опции для клавиатуры (по умолчанию стандартная клавиатура, не
+ * @param text Вводимый текст (обязательный)
+ * @param maxLength Максимальная длина символов (по умолчанию 0, не обязательный)
+ * @param width Ширина текстового поля (по умолчанию 0.9f, не обязательный)
+ * @param enabled Вкл\выкл текстового поля (по умолчанию true, не обязательный)
+ * @param readOnly Только для чтения (по умолчанию false, не обязательный)
+ * @param label Название текстового поля (по умолчанию не задан, не обязательный)
+ * @param error Отображение ошибки (не обязательный)
+ * @param keyboardOptions Опции для клавиатуры (по умолчанию стандартная клавиатура, не
  *   обязательный)
- * @param maxLines минимальное число строк (по умолчанию 1, не обязательный)
- * @param minLines максимальное число строк (по умолчанию Int.MAX_VALUE, не обязательный)
- * @param shape радиус скругления (по умолчанию 10.dp, не обязательный)
- * @param colors цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
- * @param showTextLengthCounter отображение счетчика введенных сообщений (по умолчанию false, не
+ * @param maxLines Минимальное число строк (по умолчанию 1, не обязательный)
+ * @param minLines Максимальное число строк (по умолчанию Int.MAX_VALUE, не обязательный)
+ * @param shape Радиус скругления (по умолчанию 10.dp, не обязательный)
+ * @param colors Цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений (по умолчанию false, не
  *   обязательный)
  */
 @Composable
@@ -271,16 +285,21 @@ private fun checkLength(textLength: Int, maxLength: Int): Boolean {
     return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
 }
 
-private fun getIcon(icon: IconParameters?): @Composable (() -> Unit)? {
-    return if (icon != null) {
-        {
-            Icon(
-                imageVector = icon.value,
-                contentDescription = icon.description,
-                modifier = Modifier.size(icon.size.dp)
-            )
-        }
-    } else null
+@Composable
+private fun GetIcon(
+    icon: IconParameters?,
+    colors: TextFieldColors,
+    isError: Boolean,
+    isFocused: Boolean
+) {
+    if (icon != null) {
+        Icon(
+            imageVector = icon.value,
+            contentDescription = icon.description,
+            modifier = Modifier.size(icon.size.dp),
+            tint = getColor(colors = colors, isError = isError, isFocused = isFocused)
+        )
+    }
 }
 
 private fun getColor(colors: TextFieldColors, isError: Boolean, isFocused: Boolean): Color {
