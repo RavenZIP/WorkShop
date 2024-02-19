@@ -132,22 +132,20 @@ fun SinglenessTextField(
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
-        leadingIcon = {
-            GetIcon(
+        leadingIcon =
+            getIcon(
                 icon = leadingIcon,
                 colors = colors,
                 isError = error.value,
                 isFocused = isFocused
-            )
-        },
-        trailingIcon = {
-            GetIcon(
+            ),
+        trailingIcon =
+            getIcon(
                 icon = trailingIcon,
                 colors = colors,
                 isError = error.value,
                 isFocused = isFocused
-            )
-        },
+            ),
         isError = error.value,
         visualTransformation =
             if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
@@ -285,21 +283,22 @@ private fun checkLength(textLength: Int, maxLength: Int): Boolean {
     return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
 }
 
-@Composable
-private fun GetIcon(
+private fun getIcon(
     icon: IconParameters?,
     colors: TextFieldColors,
     isError: Boolean,
     isFocused: Boolean
-) {
-    if (icon != null) {
-        Icon(
-            imageVector = icon.value,
-            contentDescription = icon.description,
-            modifier = Modifier.size(icon.size.dp),
-            tint = getColor(colors = colors, isError = isError, isFocused = isFocused)
-        )
-    }
+): @Composable (() -> Unit)? {
+    return if (icon != null) {
+        {
+            Icon(
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.size(icon.size.dp),
+                tint = getColor(colors = colors, isError = isError, isFocused = isFocused)
+            )
+        }
+    } else null
 }
 
 private fun getColor(colors: TextFieldColors, isError: Boolean, isFocused: Boolean): Color {
