@@ -21,33 +21,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.enums.IconEnum
+import com.ravenzip.workshop.enums.TextEnum
 import com.ravenzip.workshop.getWidthWithPadding
 
 /**
  * [SimpleButton] - Простая кнопка с текстом
  *
- * @param width ширина кнопки (по умолчанию 0.9f, не обязательный)
- * @param text текст на кнопке (обязательный)
- * @param textAlign расположение текста (обязательный)
- * @param colors цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * @param shape радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * @param contentPadding внутренние отступы (по умолчанию ButtonDefaults.ContentPadding, не
- *   обязательный)
- * @param onClick действие при нажатии (обязательный)
+ * @param width ширина кнопки
+ * @param text текст на кнопке
+ * @param textAlign расположение текста
+ * @param colors цвета кнопки
+ * @param shape радиус скругления кнопки
+ * @param contentPadding внутренние отступы
+ * @param onClick действие при нажатии
  */
+@Preview
 @Composable
 fun SimpleButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    text: TextParameters,
-    textAlign: TextAlign,
+    text: TextParameters = TextEnum.TITLE.value,
+    textAlign: TextAlign = TextAlign.Center,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = { onClick() },
@@ -69,26 +72,26 @@ fun SimpleButton(
 /**
  * [CustomButton] - Кнопка с заголовком и описанием
  *
- * @param width ширина кнопки (по умолчанию 0.9f, не обязательный)
- * @param title заголовок (обязательный)
- * @param text описание (обязательный)
- * @param icon иконка (обязательный)
- * @param textContainerAlign выравнивание заголовка и описания (по умолчанию Alignment.Start, не
- *   обязательный)
- * @param colors цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * @param shape радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * @param onClick действие при нажатии (обязательный)
+ * @param width ширина кнопки
+ * @param title заголовок
+ * @param text описание
+ * @param icon иконка
+ * @param textContainerAlign выравнивание заголовка и описания
+ * @param colors цвета кнопки
+ * @param shape радиус скругления кнопки
+ * @param onClick действие при нажатии
  */
+@Preview
 @Composable
 fun CustomButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    title: TextParameters,
-    text: TextParameters,
-    icon: IconParameters,
+    title: TextParameters = TextEnum.TITLE.value,
+    text: TextParameters = TextEnum.TEXT.value,
+    icon: IconParameters = IconEnum.SETTINGS.value,
     textContainerAlign: Alignment.Horizontal = Alignment.Start,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = { onClick() },
@@ -131,23 +134,24 @@ fun CustomButton(
 /**
  * [RowIconButton] - Кнопка с иконкой и текстом, расположенными по горизонтали
  *
- * @param width ширина кнопки (по умолчанию 0.9f, не обязательный)
- * @param text текст (обязательный)
- * @param icon иконка (обязательный)
- * @param iconPositionIsLeft расположить иконку слева (по умолчанию true, не обязательный)
- * @param colors цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * @param shape радиус скругления кнопки (по умолчанию 10.dp, не обязательный)
- * @param onClick действие при нажатии (обязательный)
+ * @param width ширина кнопки
+ * @param text текст
+ * @param icon иконка
+ * @param iconPositionIsLeft расположить иконку слева
+ * @param colors цвета кнопки
+ * @param shape радиус скругления кнопки
+ * @param onClick действие при нажатии
  */
+@Preview
 @Composable
 fun RowIconButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    text: TextParameters,
-    icon: IconParameters,
+    text: TextParameters = TextEnum.TITLE.value,
+    icon: IconParameters = IconEnum.EMAIL.value,
     iconPositionIsLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = { onClick() },
@@ -195,22 +199,22 @@ fun RowIconButton(
 /**
  * [ColIconButton] - Кнопка с иконкой и текстом, расположенными по вертикали
  *
- * @param text текст (обязательный)
- * @param icon иконка (обязательный)
- * @param colors цвета кнопки (по умолчанию берутся из темы приложения, не обязательный)
- * @param shape радиус скругления кнопки (по умолчанию 10.dp, не обязательный) contentPadding
- * @param contentPadding внутренние отступы (по умолчанию ButtonDefaults.TextButtonContentPadding,
- *   не обязательный
- * @param onClick действие при нажатии (обязательный)
+ * @param text текст
+ * @param icon иконка
+ * @param colors цвета кнопки
+ * @param shape радиус скругления кнопки
+ * @param contentPadding внутренние отступы
+ * @param onClick действие при нажатии
  */
+@Preview
 @Composable
 fun ColIconButton(
-    text: TextParameters,
-    icon: IconParameters,
+    text: TextParameters = TextEnum.LITTLE_TEXT.value,
+    icon: IconParameters = IconEnum.EMAIL.value,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     TextButton(
         onClick = { onClick() },
