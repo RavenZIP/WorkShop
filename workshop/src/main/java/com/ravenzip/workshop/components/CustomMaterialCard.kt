@@ -18,11 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.paddingEnd
+import com.ravenzip.workshop.paddingTop
 
 /**
  * [InfoCard] - Информационная карточка
@@ -98,9 +99,5 @@ private fun GetIconAndTitle(
         fontWeight = FontWeight.Medium
     )
 }
-
-private fun Modifier.paddingTop(value: Dp) = this then (this.padding(top = value))
-
-private fun Modifier.paddingEnd(value: Dp) = this then (this.padding(end = value))
 
 // TODO ExpandableInfoCard

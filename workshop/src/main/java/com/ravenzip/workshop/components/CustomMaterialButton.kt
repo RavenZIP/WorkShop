@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.getWidthWithPadding
 
 /**
  * [SimpleButton] - Простая кнопка с текстом
@@ -239,12 +240,3 @@ fun ColIconButton(
         }
     }
 }
-
-private fun Modifier.getWidthWithPadding(width: Float?) =
-    this.then(
-        if (width != null) {
-            Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp)
-        } else {
-            Modifier.padding(top = 10.dp, bottom = 10.dp)
-        }
-    )
