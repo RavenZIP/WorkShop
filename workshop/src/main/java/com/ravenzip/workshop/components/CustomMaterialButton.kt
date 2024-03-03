@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
-import com.ravenzip.workshop.getWidthWithPadding
+import com.ravenzip.workshop.getFillMaxWidth
+import com.ravenzip.workshop.paddingTopBottom
 
 /**
  * [SimpleButton] - Простая кнопка с текстом
@@ -50,14 +51,14 @@ fun SimpleButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
+        modifier = Modifier.getFillMaxWidth(width),
         colors = colors,
         shape = shape,
         contentPadding = contentPadding
     ) {
         Text(
             text = text.value,
-            modifier = Modifier.getWidthWithPadding(width),
+            modifier = Modifier.getFillMaxWidth(width).paddingTopBottom(10.dp),
             fontSize = text.size.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
@@ -90,7 +91,7 @@ fun CustomButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
+        modifier = Modifier.getFillMaxWidth(width),
         colors = colors,
         shape = shape
     ) {
@@ -105,7 +106,7 @@ fun CustomButton(
                 tint = icon.color ?: colors.contentColor
             )
             Column(
-                modifier = (if (width != null) Modifier.fillMaxWidth() else Modifier),
+                modifier = Modifier.getFillMaxWidth(width),
                 horizontalAlignment = textContainerAlign
             ) {
                 Text(
@@ -149,12 +150,12 @@ fun RowIconButton(
 ) {
     Button(
         onClick = { onClick() },
-        modifier = if (width != null) Modifier.fillMaxWidth(width) else Modifier,
+        modifier = Modifier.getFillMaxWidth(width),
         colors = colors,
         shape = shape
     ) {
         Row(
-            modifier = Modifier.getWidthWithPadding(width),
+            modifier = Modifier.getFillMaxWidth(width),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (iconPositionIsLeft) {
