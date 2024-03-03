@@ -34,13 +34,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.IconParameters
-import com.ravenzip.workshop.enums.IconParametersEnum
-import com.ravenzip.workshop.enums.TextStateEnum
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -53,11 +50,10 @@ import com.ravenzip.workshop.enums.TextStateEnum
  * @param colors Цвета текстового поля
  * @param showLine Отображать линию снизу текста
  */
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTextField(
-    text: MutableState<String> = TextStateEnum.TEXT.value,
+    text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textSize: Int = 16,
     placeholder: String = "",
@@ -108,16 +104,15 @@ fun SimpleTextField(
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
-@Preview
 @Composable
 fun SinglenessTextField(
-    text: MutableState<String> = TextStateEnum.TEXT.value,
+    text: MutableState<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "Простое текстовое поле",
-    leadingIcon: IconParameters? = IconParametersEnum.EMAIL.value,
+    leadingIcon: IconParameters? = null,
     trailingIcon: IconParameters? = null,
     error: Error = Error(),
     isHiddenText: Boolean = false,
@@ -184,10 +179,9 @@ fun SinglenessTextField(
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
-@Preview
 @Composable
 fun MultilineTextField(
-    text: MutableState<String> = TextStateEnum.LONG_TEXT.value,
+    text: MutableState<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     enabled: Boolean = true,
