@@ -18,13 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /**
- * [HorizontalPagerIndicator] - Горизонтальный индикатор составного элемента
+ * [HorizontalPagerIndicator] - Горизонтальный индикатор пейджера
  *
  * @param pagerState состояние составного элемента
  * @param indicatorColor цвет неактивного индикатора
  * @param selectedIndicatorColor цвет активного элемента
- * @param height высота (не обязательный, по умолчанию 10)
- * @param width ширина (не обязательный, по умолчанию 10)
+ * @param height высота
+ * @param width ширина
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,13 +54,13 @@ fun HorizontalPagerIndicator(
 }
 
 /**
- * [VerticalPagerIndicator] - Вертикальный индикатор составного элемента
+ * [VerticalPagerIndicator] - Вертикальный индикатор пейджера
  *
  * @param pagerState состояние составного элемента
  * @param indicatorColor цвет неактивного индикатора
  * @param selectedIndicatorColor цвет активного элемента
- * @param height высота (не обязательный, по умолчанию 10)
- * @param width ширина (не обязательный, по умолчанию 10)
+ * @param height высота
+ * @param width ширина
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

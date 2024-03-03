@@ -29,16 +29,15 @@ import com.ravenzip.workshop.data.TextParameters
 /**
  * [AlertDialog] - Диалоговое окно
  *
- * @param icon иконка (по умолчанию null, не обязательный)
- * @param title заголовок (обязательный)
- * @param text описание (обязательный)
- * @param onDismissText текст кнопки отмены (обязательный)
- * @param onConfirmationText текст кнопки подтверждения (обязательный)
- * @param title заголовок (обязательный)
- * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
- *   обязательный)
- * @param onDismiss действие при отмене (обязательный)
- * @param onConfirmation действие при подтверждении (обязательный)
+ * @param icon иконка
+ * @param title заголовок
+ * @param text описание
+ * @param onDismissText текст кнопки отмены
+ * @param onConfirmationText текст кнопки подтверждения
+ * @param title заголовок
+ * @param containerColors цвета контейнера
+ * @param onDismiss действие при отмене
+ * @param onConfirmation действие при подтверждении
  */
 @Composable
 fun AlertDialog(
@@ -68,9 +67,12 @@ fun AlertDialog(
                     )
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
+
                 Text(text = title.value, fontSize = title.size.sp, fontWeight = FontWeight.Medium)
+
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Text(text = text.value, fontSize = text.size.sp)
+
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Row {
                     SimpleButton(
@@ -87,7 +89,9 @@ fun AlertDialog(
                     ) {
                         onDismiss()
                     }
+
                     Spacer(modifier = Modifier.weight(1f))
+
                     SimpleButton(
                         text =
                             TextParameters(

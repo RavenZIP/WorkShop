@@ -26,9 +26,8 @@ import com.ravenzip.workshop.data.TextParameters
 /**
  * [Spinner] - Спиннер
  *
- * @param text текст (обязательный)
- * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
- *   обязательный)
+ * @param text текст
+ * @param containerColors цвета контейнера
  */
 @Composable
 fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.cardColors()) {
@@ -57,12 +56,10 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
 /**
  * [CircularProgressIndicator] - Круговой прогресс бар
  *
- * @param progressValue прогресс (обязательный)
- * @param text текст (обязательный)
- * @param showProgressPercentages отображать проценты прогресса (по умолчанию false, не
- *   обязательный)
- * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
- *   обязательный)
+ * @param progressValue прогресс
+ * @param text текст
+ * @param showProgressPercentages отображать проценты прогресса
+ * @param containerColors цвета контейнера
  */
 @Composable
 fun CircularProgressIndicator(

@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
-import com.ravenzip.workshop.enums.IconEnum
-import com.ravenzip.workshop.enums.TextEnum
+import com.ravenzip.workshop.enums.IconParametersEnum
+import com.ravenzip.workshop.enums.TextParametersEnum
 import com.ravenzip.workshop.getWidthWithPadding
 
 /**
@@ -45,7 +45,7 @@ import com.ravenzip.workshop.getWidthWithPadding
 @Composable
 fun SimpleButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    text: TextParameters = TextEnum.TITLE.value,
+    text: TextParameters = TextParametersEnum.TEXT.value,
     textAlign: TextAlign = TextAlign.Center,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -85,9 +85,9 @@ fun SimpleButton(
 @Composable
 fun CustomButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    title: TextParameters = TextEnum.TITLE.value,
-    text: TextParameters = TextEnum.TEXT.value,
-    icon: IconParameters = IconEnum.SETTINGS.value,
+    title: TextParameters = TextParametersEnum.TITLE.value,
+    text: TextParameters = TextParametersEnum.LONG_TEXT.value,
+    icon: IconParameters = IconParametersEnum.SETTINGS.value,
     textContainerAlign: Alignment.Horizontal = Alignment.Start,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -146,8 +146,8 @@ fun CustomButton(
 @Composable
 fun RowIconButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    text: TextParameters = TextEnum.TITLE.value,
-    icon: IconParameters = IconEnum.EMAIL.value,
+    text: TextParameters = TextParametersEnum.TEXT.value,
+    icon: IconParameters = IconParametersEnum.EMAIL.value,
     iconPositionIsLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -209,8 +209,8 @@ fun RowIconButton(
 @Preview
 @Composable
 fun ColIconButton(
-    text: TextParameters = TextEnum.LITTLE_TEXT.value,
-    icon: IconParameters = IconEnum.EMAIL.value,
+    text: TextParameters = TextParametersEnum.CLICK_TO_ME.value,
+    icon: IconParameters = IconParametersEnum.EMAIL.value,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,

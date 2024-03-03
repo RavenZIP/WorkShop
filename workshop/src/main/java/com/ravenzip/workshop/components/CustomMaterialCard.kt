@@ -28,13 +28,13 @@ import com.ravenzip.workshop.paddingTop
 /**
  * [InfoCard] - Информационная карточка
  *
- * @param width ширина карточки (по умолчанию 0.9f, не обязательный)
- * @param icon иконка (обязательный)
- * @param title заголовок (обязательный)
- * @param text текст (обязательный)
- * @param isTitleUnderIcon расположить заголовок снизу иконки (по умолчанию true, не обязательный)
- * @param shape радиус скругления (по умолчанию 10.dp, не обязательный)
- * @param colors цвета карточки (по умолчанию берутся из темы приложения, не обязательный)
+ * @param width ширина карточки
+ * @param icon иконка
+ * @param title заголовок
+ * @param text текст
+ * @param isTitleUnderIcon расположить заголовок снизу иконки
+ * @param shape радиус скругления
+ * @param colors цвета карточки
  */
 @Composable
 fun InfoCard(

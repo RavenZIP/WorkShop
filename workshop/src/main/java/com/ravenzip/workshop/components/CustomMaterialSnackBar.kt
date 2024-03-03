@@ -30,9 +30,8 @@ import com.ravenzip.workshop.data.SnackBarVisualsExtended
 /**
  * [SnackBar] - Уведомления
  *
- * @param snackBarHostState состояние (обязательный)
- * @param containerColors цвета контейнера (по умолчанию берутся из темы приложения, не
- *   обязательный)
+ * @param snackBarHostState состояние
+ * @param containerColors цвета контейнера
  */
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable

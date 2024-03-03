@@ -35,12 +35,12 @@ import com.ravenzip.workshop.data.TextParameters
 /**
  * [Switch] - Переключатель
  *
- * @param width ширина (по умолчанию 0.9f, не обязательный)
- * @param isChecked состояние свича (обязательный)
- * @param title заголовок (обязательный)
- * @param text описание (обязательный)
- * @param enabled вкл\выкл свича (по умолчанию false, не обязательный)
- * @param colors цвета свича (по умолчанию берутся из темы приложения, не обязательный)
+ * @param width ширина
+ * @param isChecked состояние свича
+ * @param title заголовок
+ * @param text описание
+ * @param enabled вкл\выкл свича
+ * @param colors цвета свича
  */
 @Composable
 fun Switch(
@@ -76,11 +76,11 @@ fun Switch(
 /**
  * [RadioGroup] - Радиокнопки
  *
- * @param width ширина (по умолчанию 0.9f, не обязательный)
- * @param list список радиокнопок (обязательный)
- * @param textSize размер текста (по умолчанию 18, не обязательный)
- * @param enabled вкл\выкл радиокнопок (по умолчанию false, не обязательный)
- * @param colors цвета радиокнопок (по умолчанию берутся из темы приложения, не обязательный)
+ * @param width ширина
+ * @param list список радиокнопок
+ * @param textSize размер текста
+ * @param enabled вкл\выкл радиокнопок
+ * @param colors цвета радиокнопок
  */
 @Composable
 fun RadioGroup(
@@ -115,16 +115,16 @@ fun RadioGroup(
 }
 
 /**
- * [CheckBoxes] - Чекбоксы
+ * [Checkboxes] - Чекбоксы
  *
- * @param width ширина (по умолчанию 0.9f, не обязательный)
- * @param list список чекбоксов (обязательный)
- * @param textSize размер текста (по умолчанию 18, не обязательный)
- * @param enabled вкл\выкл чекбоксов (по умолчанию false, не обязательный)
- * @param colors цвета чекбоксов (по умолчанию берутся из темы приложения, не обязательный)
+ * @param width ширина
+ * @param list список чекбоксов
+ * @param textSize размер текста
+ * @param enabled вкл\выкл чекбоксов
+ * @param colors цвета чекбоксов
  */
 @Composable
-fun CheckBoxes(
+fun Checkboxes(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
@@ -133,7 +133,7 @@ fun CheckBoxes(
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         list.forEachIndexed { index, item ->
-            GetCheckBox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
+            GetCheckbox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
                 list[index] = item.copy(isSelected = !item.isSelected)
             }
         }
@@ -141,17 +141,17 @@ fun CheckBoxes(
 }
 
 /**
- * [CheckBoxesTree] - Дерево чекбоксов
+ * [CheckboxesTree] - Дерево чекбоксов
  *
- * @param width ширина (по умолчанию 0.9f, не обязательный)
- * @param root главный чекбокс (обязательный)
- * @param textSize размер текста (по умолчанию 18, не обязательный)
- * @param list список чекбоксов (обязательный)
- * @param enabled вкл\выкл чекбоксов (по умолчанию false, не обязательный)
- * @param colors цвета чекбоксов (по умолчанию берутся из темы приложения, не обязательный)
+ * @param width ширина
+ * @param root главный чекбокс
+ * @param textSize размер текста
+ * @param list список чекбоксов
+ * @param enabled вкл\выкл чекбоксов
+ * @param colors цвета чекбоксов
  */
 @Composable
-fun CheckBoxesTree(
+fun CheckboxesTree(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     root: RootParameters,
     textSize: Int = 18,
@@ -165,19 +165,19 @@ fun CheckBoxesTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { rootClick(list, root.state) }
+                    .clickable { changeState(list, root.state) }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
                 state = root.state.value,
-                onClick = { rootClick(list, root.state) },
+                onClick = { changeState(list, root.state) },
                 enabled = enabled,
                 colors = root.colors
             )
             Text(text = root.text, fontSize = textSize.sp)
         }
         list.forEachIndexed { index, item ->
-            GetCheckBox(
+            GetCheckbox(
                 item = item,
                 textSize = textSize,
                 colors = colors,
@@ -192,7 +192,7 @@ fun CheckBoxesTree(
 }
 
 @Composable
-private fun GetCheckBox(
+private fun GetCheckbox(
     item: SelectionParameters,
     textSize: Int,
     enabled: Boolean,
@@ -232,7 +232,7 @@ private fun getTriState(
         }
 }
 
-private fun rootClick(
+private fun changeState(
     list: SnapshotStateList<SelectionParameters>,
     rootState: MutableState<ToggleableState>
 ) {

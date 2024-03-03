@@ -52,14 +52,13 @@ import com.ravenzip.workshop.data.IconParameters
  * TopAppBar
  *
  * Параметры:
- * 1) text - текст (обязательный)
- * 2) backArrow - кнопка назад (по умолчанию false, не обязательный)
- * 3) items - кнопки (по умолчанию пустой список, не обязательный)
- * 4) isMenu - выбор расположения кнопок: в меню или ряд на панели (по умолчанию false, не
- *    обязательный)
- * 5) backArrowClick - действие при нажатии на кнопку назад (не обязательный, по умолчанию действие
- *    не назначено)
+ * 1) text - текст
+ * 2) backArrow - отобразить кнопку назад
+ * 3) items - кнопки
+ * 4) isMenu - выбор расположения кнопок: в меню или ряд на панели
+ * 5) backArrowClick - действие при нажатии на кнопку назад
  */
+// TODO: переписать (v1.4.0)
 @Composable
 fun TopAppBar(
     text: String,
@@ -110,6 +109,7 @@ fun TopAppBar(
     }
 }
 
+// TODO: переписать (v1.4.0)
 @Composable
 private fun AppBarIconButton(icon: IconParameters, onClick: () -> Unit) {
     Box(
@@ -125,6 +125,7 @@ private fun AppBarIconButton(icon: IconParameters, onClick: () -> Unit) {
     }
 }
 
+// TODO: переписать (v1.4.0)
 @Composable
 private fun AppBarMenuIconButton(
     expanded: MutableState<Boolean>,
@@ -182,10 +183,9 @@ private fun AppBarMenuIconButton(
 /**
  * [BottomNavigationBar] - Нижняя навигационная панель
  *
- * @param navController навигационный контроллер (обязательный)
- * @param buttonsList список кнопок (обязательный)
- * @param showLabelOnlyOnSelected отображать название только на активном экране (по умолчанию false,
- * не обязательный)
+ * @param navController навигационный контроллер
+ * @param buttonsList список кнопок
+ * @param showLabelOnlyOnSelected отображать название только на активном экране
  */
 @Composable
 fun BottomNavigationBar(

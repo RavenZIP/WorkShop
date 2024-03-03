@@ -2,24 +2,25 @@ package com.ravenzip.workshop.enums
 
 import com.ravenzip.workshop.data.TextParameters
 
-internal enum class TextEnum(val value: TextParameters) {
+internal enum class TextParametersEnum(val value: TextParameters) {
     TITLE(TextParameters(value = "Заголовок", size = 18)),
-    TEXT(
+    TEXT(TextParameters(value = "Текст", size = 18)),
+    CLICK_TO_ME(
         TextParameters(
-            value = "Длинный текст для того, чтобы понять как выглядит элемент",
-            size = 16
-        )
-    ),
-    LITTLE_TEXT(
-        TextParameters(
-            value = "Длинный текст для того, чтобы понять как выглядит элемент",
+            value = "Нажми меня",
             size = 14
         )
     ),
     LONG_TEXT(
         TextParameters(
+            value = "Длинный текст для того, чтобы понять как выглядит элемент",
+            size = 16
+        )
+    ),
+    WIDE_TEXT(
+        TextParameters(
             value =
-                "Еще более длинный текс для того, чтобы понять как выглядит элемент. " +
+                "Еще более длинный текст для того, чтобы понять как выглядит элемент. " +
                     "Подходит для проверки визуального оформления карточек, " +
                     "но может быть использован и для других элементов",
             size = 16

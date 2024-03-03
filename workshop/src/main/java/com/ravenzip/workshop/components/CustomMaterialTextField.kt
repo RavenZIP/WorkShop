@@ -34,30 +34,33 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.enums.IconParametersEnum
+import com.ravenzip.workshop.enums.TextStateEnum
 
 /**
  * [SimpleTextField] - Простое текстовое поле
  *
- * @param text Вводимый текст (обязательный)
- * @param width Ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param textSize Размер вводимого текста и текста плейсхолдера (обязательный)
- * @param placeholder Временный текст (обязательный)
- * @param interactionSource Поток взаимодействий для поля ввода ( по умолчанию
- *   MutableInteractionSource(), не обязательный)
- * @param colors Цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
- * @param showLine Отображать линию снизу текста (по умолчанию true, не обязательный)
+ * @param text Вводимый текст
+ * @param width Ширина текстового поля
+ * @param textSize Размер вводимого текста и текста плейсхолдера
+ * @param placeholder Временный текст
+ * @param interactionSource Поток взаимодействий для поля ввода
+ * @param colors Цвета текстового поля
+ * @param showLine Отображать линию снизу текста
  */
+@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTextField(
-    text: MutableState<String>,
+    text: MutableState<String> = TextStateEnum.TEXT.value,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    textSize: Int,
-    placeholder: String,
+    textSize: Int = 16,
+    placeholder: String = "",
     interactionSource: InteractionSource = MutableInteractionSource(),
     colors: TextFieldColors = TextFieldDefaults.colors(),
     showLine: Boolean = true
@@ -90,32 +93,31 @@ fun SimpleTextField(
 /**
  * [SinglenessTextField] - Однострочное текстовое поле
  *
- * @param text Вводимый текст (обязательный)
- * @param maxLength Максимальная длина символов (по умолчанию 0, не обязательный)
- * @param width Ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param enabled Вкл\выкл текстового поля (по умолчанию true, не обязательный)
- * @param readOnly Только для чтения (по умолчанию false, не обязательный)
- * @param label Название текстового поля (по умолчанию не задан, не обязательный)
- * @param leadingIcon Иконка слева (по умолчанию не задан, не обязательный)
- * @param trailingIcon Иконка справа (по умолчанию не задан, не обязательный)
- * @param error Отображение ошибки (не обязательный)
- * @param isHiddenText Замена вводимых символов на точки (по умолчанию false, не обязательный)
- * @param keyboardOptions Опции для клавиатуры (по умолчанию стандартная клавиатура, не
- *   обязательный)
- * @param shape Радиус скругления (по умолчанию 10.dp, не обязательный)
- * @param colors Цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
- * @param showTextLengthCounter Отображение счетчика введенных сообщений (по умолчанию false, не
- *   обязательный)
+ * @param text Вводимый текст
+ * @param maxLength Максимальная длина символов
+ * @param width Ширина текстового поля
+ * @param enabled Вкл\выкл текстового поля
+ * @param readOnly Только для чтения
+ * @param label Название текстового поля
+ * @param leadingIcon Иконка слева
+ * @param trailingIcon Иконка справа
+ * @param error Отображение ошибки
+ * @param isHiddenText Замена вводимых символов на точки
+ * @param keyboardOptions Опции для клавиатуры
+ * @param shape Радиус скругления
+ * @param colors Цвета текстового поля
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
+@Preview
 @Composable
 fun SinglenessTextField(
-    text: MutableState<String>,
+    text: MutableState<String> = TextStateEnum.TEXT.value,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    label: String = "",
-    leadingIcon: IconParameters? = null,
+    label: String = "Простое текстовое поле",
+    leadingIcon: IconParameters? = IconParametersEnum.EMAIL.value,
     trailingIcon: IconParameters? = null,
     error: Error = Error(),
     isHiddenText: Boolean = false,
@@ -168,30 +170,29 @@ fun SinglenessTextField(
 /**
  * [MultilineTextField] - Многострочное текстовое поле
  *
- * @param text Вводимый текст (обязательный)
- * @param maxLength Максимальная длина символов (по умолчанию 0, не обязательный)
- * @param width Ширина текстового поля (по умолчанию 0.9f, не обязательный)
- * @param enabled Вкл\выкл текстового поля (по умолчанию true, не обязательный)
- * @param readOnly Только для чтения (по умолчанию false, не обязательный)
- * @param label Название текстового поля (по умолчанию не задан, не обязательный)
- * @param error Отображение ошибки (не обязательный)
- * @param keyboardOptions Опции для клавиатуры (по умолчанию стандартная клавиатура, не
- *   обязательный)
- * @param maxLines Минимальное число строк (по умолчанию 1, не обязательный)
- * @param minLines Максимальное число строк (по умолчанию Int.MAX_VALUE, не обязательный)
- * @param shape Радиус скругления (по умолчанию 10.dp, не обязательный)
- * @param colors Цвета текстового поля (по умолчанию берутся из темы приложения, не обязательный)
- * @param showTextLengthCounter Отображение счетчика введенных сообщений (по умолчанию false, не
- *   обязательный)
+ * @param text Вводимый текст
+ * @param maxLength Максимальная длина символов
+ * @param width Ширина текстового поля
+ * @param enabled Вкл\выкл текстового поля
+ * @param readOnly Только для чтения
+ * @param label Название текстового поля
+ * @param error Отображение ошибки
+ * @param keyboardOptions Опции для клавиатуры
+ * @param maxLines Минимальное число строк
+ * @param minLines Максимальное число строк
+ * @param shape Радиус скругления
+ * @param colors Цвета текстового поля
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
+@Preview
 @Composable
 fun MultilineTextField(
-    text: MutableState<String>,
+    text: MutableState<String> = TextStateEnum.LONG_TEXT.value,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    label: String = "",
+    label: String = "Многострочное текстовое поле",
     error: Error = Error(),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
