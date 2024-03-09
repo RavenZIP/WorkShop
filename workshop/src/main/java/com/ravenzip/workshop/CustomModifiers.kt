@@ -11,10 +11,10 @@ internal fun Modifier.paddingTop(value: Dp) = this then (this.padding(top = valu
 /** Задать только нижний отступ */
 internal fun Modifier.paddingEnd(value: Dp) = this then (this.padding(end = value))
 
-/** Задать отступ сверху и снизу */
-internal fun Modifier.paddingTopBottom(value: Dp) =
-    this then (this.padding(top = value, bottom = value))
+/** Получить модификатор максимальной ширины с указанным значением */
+internal fun Modifier.fillMaxWidthWithValue(value: Float?) =
+    this.then(if (value == null) this else this.fillMaxWidth(value))
 
 /** Получить модификатор максимальной ширины */
-internal fun Modifier.getFillMaxWidth(value: Float? = 1f) =
-    this.then(if (value == null) this else this.fillMaxWidth(value))
+internal fun Modifier.fillMaxWidthWithoutValue(value: Float?) =
+    this.then(if (value == null) this else this.fillMaxWidth())

@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconParameters
 import com.ravenzip.workshop.data.TextParameters
-import com.ravenzip.workshop.getFillMaxWidth
-import com.ravenzip.workshop.paddingTopBottom
+import com.ravenzip.workshop.fillMaxWidthWithValue
+import com.ravenzip.workshop.fillMaxWidthWithoutValue
 
 /**
  * [SimpleButton] - Простая кнопка с текстом
@@ -46,19 +46,19 @@ fun SimpleButton(
     textAlign: TextAlign = TextAlign.Center,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
-    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    contentPadding: PaddingValues = PaddingValues(18.dp),
     onClick: () -> Unit = {}
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.getFillMaxWidth(width),
+        modifier = Modifier.fillMaxWidthWithValue(width),
         colors = colors,
         shape = shape,
         contentPadding = contentPadding
     ) {
         Text(
             text = text.value,
-            modifier = Modifier.getFillMaxWidth(width).paddingTopBottom(10.dp),
+            modifier = Modifier.fillMaxWidthWithoutValue(width),
             fontSize = text.size.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
@@ -87,13 +87,15 @@ fun CustomButton(
     textContainerAlign: Alignment.Horizontal = Alignment.Start,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
+    contentPadding: PaddingValues = PaddingValues(18.dp),
     onClick: () -> Unit = {}
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.getFillMaxWidth(width),
+        modifier = Modifier.fillMaxWidthWithValue(width),
         colors = colors,
-        shape = shape
+        shape = shape,
+        contentPadding = contentPadding
     ) {
         Row(
             modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
@@ -106,7 +108,7 @@ fun CustomButton(
                 tint = icon.color ?: colors.contentColor
             )
             Column(
-                modifier = Modifier.getFillMaxWidth(width),
+                modifier = Modifier.fillMaxWidthWithoutValue(width),
                 horizontalAlignment = textContainerAlign
             ) {
                 Text(
@@ -146,16 +148,18 @@ fun RowIconButton(
     iconPositionIsLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
+    contentPadding: PaddingValues = PaddingValues(18.dp),
     onClick: () -> Unit = {}
 ) {
     Button(
         onClick = { onClick() },
-        modifier = Modifier.getFillMaxWidth(width),
+        modifier = Modifier.fillMaxWidthWithValue(width),
         colors = colors,
-        shape = shape
+        shape = shape,
+        contentPadding = contentPadding
     ) {
         Row(
-            modifier = Modifier.getFillMaxWidth(width),
+            modifier = Modifier.fillMaxWidthWithoutValue(width),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (iconPositionIsLeft) {
