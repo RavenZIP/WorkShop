@@ -97,10 +97,7 @@ fun CustomButton(
         shape = shape,
         contentPadding = contentPadding
     ) {
-        Row(
-            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = icon.value,
                 contentDescription = icon.description,
