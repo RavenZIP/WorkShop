@@ -58,7 +58,8 @@ fun SimpleButton(
     ) {
         Text(
             text = text.value,
-            modifier = Modifier.getFillMaxWidth(width).paddingTopBottom(10.dp),
+            modifier =
+                Modifier.getFillMaxWidth(value = width, withValue = false).paddingTopBottom(10.dp),
             fontSize = text.size.sp,
             fontWeight = FontWeight.Medium,
             textAlign = textAlign
@@ -106,7 +107,7 @@ fun CustomButton(
                 tint = icon.color ?: colors.contentColor
             )
             Column(
-                modifier = Modifier.getFillMaxWidth(width),
+                modifier = Modifier.getFillMaxWidth(value = width, withValue = false),
                 horizontalAlignment = textContainerAlign
             ) {
                 Text(
@@ -155,7 +156,7 @@ fun RowIconButton(
         shape = shape
     ) {
         Row(
-            modifier = Modifier.getFillMaxWidth(width),
+            modifier = Modifier.getFillMaxWidth(value = width, withValue = false),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (iconPositionIsLeft) {
