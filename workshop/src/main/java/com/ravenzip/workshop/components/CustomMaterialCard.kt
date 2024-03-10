@@ -42,7 +42,7 @@ fun InfoCard(
     icon: IconParameters,
     title: TextParameters,
     text: TextParameters,
-    isTitleUnderIcon: Boolean = false,
+    isTitleUnderIcon: Boolean = true,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors()
 ) {
