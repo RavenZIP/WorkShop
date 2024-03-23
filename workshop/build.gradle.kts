@@ -25,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions { jvmTarget = "19" }
+    kotlinOptions { jvmTarget = "17" }
 
     buildFeatures { compose = true }
 
@@ -43,7 +43,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.ravenzip.workshop"
             artifactId = "workshop"
-            version = "1.3.1"
+            version = "1.3.5beta2"
 
             afterEvaluate {
                 from(components["release"])
