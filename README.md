@@ -1,7 +1,7 @@
 # WorkShop
 
 <p align="center">
-      <img alt="Logo" src="img/logo.png" width="100%">
+      <img alt="Logo" src="https://github.com/RavenZIP/WorkShop/assets/131264945/08bd7c22-ff64-437c-a222-4aac5f3c5fa5" width="100%">
 </p>
 
 <p align="center">
