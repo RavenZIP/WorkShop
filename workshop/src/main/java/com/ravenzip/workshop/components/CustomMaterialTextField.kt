@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
@@ -84,6 +85,48 @@ fun SimpleTextField(
             }
         )
     }
+}
+
+/**
+ * [SinglenessTextField] - Однострочное текстовое поле
+ *
+ * @param text вводимый текст
+ * @param width ширина текстового поля
+ * @param placeholder подсказка текстового поля
+ * @param leadingIcon иконка слева
+ * @param trailingIcon иконка справа
+ * @param keyboardOptions опции для клавиатуры
+ * @param shape радиус скругления
+ * @param colors цвета текстового поля
+ */
+@Composable
+fun SinglenessTextField(
+    text: MutableState<String>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    placeholder: String? = null,
+    leadingIcon: IconParameters? = null,
+    trailingIcon: IconParameters? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors =
+        TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
+) {
+    TextField(
+        value = text.value,
+        onValueChange = { text.value = it },
+        modifier = Modifier.fillMaxWidth(width),
+        placeholder = getText(placeholder),
+        leadingIcon = getIcon(leadingIcon, colors),
+        trailingIcon = getIcon(trailingIcon, colors),
+        keyboardOptions = keyboardOptions,
+        singleLine = true,
+        shape = shape,
+        colors = colors
+    )
 }
 
 /**
@@ -278,6 +321,12 @@ private fun checkLength(textLength: Int, maxLength: Int): Boolean {
     return maxLength == 0 || (maxLength > 0 && textLength <= maxLength)
 }
 
+private fun getText(text: String?): @Composable (() -> Unit)? {
+    return if (text != null) {
+        { Text(text = text) }
+    } else null
+}
+
 private fun getIcon(
     icon: IconParameters?,
     colors: TextFieldColors,
@@ -291,6 +340,19 @@ private fun getIcon(
                 contentDescription = icon.description,
                 modifier = Modifier.size(icon.size.dp),
                 tint = getColor(colors = colors, isError = isError, isFocused = isFocused)
+            )
+        }
+    } else null
+}
+
+private fun getIcon(icon: IconParameters?, colors: TextFieldColors): @Composable (() -> Unit)? {
+    return if (icon != null) {
+        {
+            Icon(
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.size(icon.size.dp),
+                tint = icon.color ?: colors.cursorColor
             )
         }
     } else null
