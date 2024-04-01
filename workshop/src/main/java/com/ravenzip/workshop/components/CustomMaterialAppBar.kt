@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -42,31 +41,27 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ravenzip.workshop.data.AppBarButton
+import com.ravenzip.workshop.data.AppBarItem
 import com.ravenzip.workshop.data.AppBarMenuItem
+import com.ravenzip.workshop.data.BackArrow
 import com.ravenzip.workshop.data.BottomItemsTextState
 import com.ravenzip.workshop.data.BottomNavigationItem
 import com.ravenzip.workshop.data.IconParameters
 
 /**
- * TopAppBar
+ * [TopAppBar] - Верхняя панель
  *
- * Параметры:
- * 1) text - текст
- * 2) backArrow - отобразить кнопку назад
- * 3) items - кнопки
- * 4) isMenu - выбор расположения кнопок: в меню или ряд на панели
- * 5) backArrowClick - действие при нажатии на кнопку назад
+ * @param text текст
+ * @param backArrow кнопка назад
+ * @param items кнопки
  */
-// TODO: переписать (v1.4.0)
 @Composable
 fun TopAppBar(
-    text: String,
-    backArrow: Boolean = false,
-    items: List<AppBarButton> = listOf(),
-    isMenu: Boolean = false,
-    backArrowClick: () -> Unit = {}
+    title: String,
+    backArrow: BackArrow? = null,
+    items: List<AppBarItem> = listOf(),
 ) {
+    val lastItem = items.count() - 1
     Box(
         Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
         Alignment.Center
@@ -76,42 +71,73 @@ fun TopAppBar(
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (backArrow) {
-                AppBarIconButton(
-                    icon =
-                        IconParameters(Icons.AutoMirrored.Outlined.ArrowBack, description = "Назад")
-                ) {
-                    backArrowClick()
+            if (backArrow !== null) {
+                AppBarButton(icon = IconParameters(backArrow.icon, description = "Назад")) {
+                    backArrow.click()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
             }
             Text(
-                text = text,
+                text = title,
                 fontSize = 23.sp,
                 fontWeight = FontWeight.Medium,
                 letterSpacing = 1.5.sp
             )
-            Spacer(modifier = Modifier.weight(if (backArrow) 0.9f else 1f))
-            if (items.isNotEmpty()) {
-                if (items.count() <= 3 && !isMenu) {
-                    items.forEachIndexed { index, button ->
-                        AppBarIconButton(icon = button.icon as IconParameters) { button.onClick() }
-                        if (index != 2) Spacer(modifier = Modifier.padding(start = 5.dp))
-                    }
-                } else {
-                    val expanded = remember { mutableStateOf(false) }
-                    AppBarMenuIconButton(expanded = expanded, menuItems = items) {
-                        expanded.value = true
-                    }
-                }
+            Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
+            items.forEachIndexed { index, button ->
+                AppBarButton(icon = button.icon) { button.onClick() }
+                if (index != lastItem) Spacer(modifier = Modifier.padding(start = 5.dp))
             }
         }
     }
 }
 
-// TODO: переписать (v1.4.0)
+/**
+ * [TopAppBarWithMenu] - Верхняя панель, в которой кнопки спрятаны в меню
+ *
+ * @param text текст
+ * @param backArrow кнопка назад
+ * @param items кнопки
+ */
 @Composable
-private fun AppBarIconButton(icon: IconParameters, onClick: () -> Unit) {
+private fun TopAppBarWithMenu(
+    title: String,
+    backArrow: BackArrow? = null,
+    items: List<AppBarMenuItem> = listOf(),
+) {
+    val expanded = remember { mutableStateOf(false) }
+    Box(
+        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
+        Alignment.Center
+    ) {
+        Row(
+            modifier =
+                Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (backArrow !== null) {
+                AppBarButton(icon = IconParameters(backArrow.icon, description = "Назад")) {
+                    backArrow.click()
+                }
+                Spacer(modifier = Modifier.weight(0.1f))
+            }
+            Text(
+                text = title,
+                fontSize = 23.sp,
+                fontWeight = FontWeight.Medium,
+                letterSpacing = 1.5.sp
+            )
+            Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
+            AppBarMenu(expanded = expanded, menuItems = items) { expanded.value = true }
+        }
+    }
+}
+
+// TODO Верхняя панель в виде поисковой строки
+@Composable fun SearchableTopAppBar() {}
+
+@Composable
+private fun AppBarButton(icon: IconParameters, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -125,11 +151,10 @@ private fun AppBarIconButton(icon: IconParameters, onClick: () -> Unit) {
     }
 }
 
-// TODO: переписать (v1.4.0)
 @Composable
-private fun AppBarMenuIconButton(
+private fun AppBarMenu(
     expanded: MutableState<Boolean>,
-    menuItems: List<AppBarButton>,
+    menuItems: List<AppBarMenuItem>,
     onClick: () -> Unit
 ) {
     val lastItem = menuItems.count() - 1
@@ -148,33 +173,26 @@ private fun AppBarMenuIconButton(
             Modifier.padding(start = 10.dp, top = 2.5.dp, end = 10.dp, bottom = 2.5.dp)
         ) {
             menuItems.forEachIndexed { index, it ->
-                it as AppBarMenuItem
-                if (it.text !== "") {
-                    DropdownMenuItem(
-                        text = { Text(it.text) },
-                        onClick = {
-                            it.onClick()
-                            // expanded.value = false
-                        },
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp)),
-                        leadingIcon = {
-                            Icon(
-                                imageVector = it.icon.value,
-                                contentDescription = it.icon.description,
-                                modifier = Modifier.size(it.icon.size.dp),
-                                tint =
-                                    (it.icon as IconParameters).color
-                                        ?: MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        },
-                        enabled = it.enabled,
-                        colors = if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
-                        contentPadding = PaddingValues(15.dp)
-                    )
-                    if (index != lastItem) {
-                        Spacer(modifier = Modifier.padding(bottom = 5.dp))
-                    }
-                }
+                DropdownMenuItem(
+                    text = { Text(it.text) },
+                    onClick = {
+                        it.onClick()
+                        expanded.value = false
+                    },
+                    modifier = Modifier.clip(RoundedCornerShape(10.dp)),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = it.icon.value,
+                            contentDescription = it.icon.description,
+                            modifier = Modifier.size(it.icon.size.dp),
+                            tint = it.icon.color ?: MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    enabled = it.enabled,
+                    colors = if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
+                    contentPadding = PaddingValues(15.dp)
+                )
+                if (index != lastItem) Spacer(modifier = Modifier.padding(bottom = 5.dp))
             }
         }
     }

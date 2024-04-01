@@ -1,6 +1,7 @@
 package com.ravenzip.workshop.data
 
 import androidx.compose.material3.MenuItemColors
+import androidx.compose.ui.graphics.vector.ImageVector
 
 interface AppBarButton {
     val icon: Icon
@@ -9,17 +10,17 @@ interface AppBarButton {
 }
 
 class AppBarItem(
-    override val icon: Icon,
+    override val icon: IconParameters,
     override val enabled: Boolean = true,
     override val onClick: () -> Unit,
 ) : AppBarButton
 
 class AppBarMenuItem(
-    override val icon: Icon,
+    override val icon: IconParameters,
     override val enabled: Boolean = true,
     override val onClick: () -> Unit,
     val colors: MenuItemColors? = null,
-    val text: String = ""
+    val text: String = "",
 ) : AppBarButton
 
 data class BottomNavigationItem(
@@ -29,6 +30,8 @@ data class BottomNavigationItem(
     val hasNews: Boolean,
     val badgeCount: Int? = null
 )
+
+class BackArrow(val icon: ImageVector, val click: () -> Unit)
 
 internal enum class BottomItemsTextState {
     SHOW_ALL,
