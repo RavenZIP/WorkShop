@@ -1,6 +1,7 @@
 package com.ravenzip.workshop.components
 
 import androidx.annotation.FloatRange
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActionScope
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,15 +31,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.IconParameters
 
@@ -264,6 +272,34 @@ fun MultilineTextField(
     )
 }
 
+/** [SearchBarTextField] - Поисковое текстовое поле */
+@Composable
+internal fun SearchBarTextField(
+    text: MutableState<String>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    placeholder: String? = null,
+    onSearch: (KeyboardActionScope.() -> Unit)?,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors
+) {
+    TextField(
+        value = text.value,
+        onValueChange = { text.value = it },
+        modifier = Modifier.fillMaxWidth(width),
+        placeholder = getText(placeholder),
+        leadingIcon =
+            getIcon(
+                IconParameters(value = ImageVector.vectorResource(R.drawable.i_search), size = 22)
+            ),
+        trailingIcon = getClearButton(text, colors.cursorColor),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = onSearch),
+        singleLine = true,
+        shape = shape,
+        colors = colors
+    )
+}
+
 // TODO RichTextField
 @Composable fun RichTexField() {}
 
@@ -353,6 +389,33 @@ private fun getIcon(icon: IconParameters?, colors: TextFieldColors): @Composable
                 contentDescription = icon.description,
                 modifier = Modifier.size(icon.size.dp),
                 tint = icon.color ?: colors.cursorColor
+            )
+        }
+    } else null
+}
+
+private fun getIcon(icon: IconParameters): @Composable (() -> Unit) {
+    return {
+        Icon(
+            imageVector = icon.value,
+            contentDescription = "",
+            modifier = Modifier.size(icon.size.dp)
+        )
+    }
+}
+
+private fun getClearButton(text: MutableState<String>, color: Color): @Composable (() -> Unit)? {
+    return if (text.value.isNotEmpty()) {
+        {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.i_close),
+                contentDescription = "Close",
+                modifier =
+                Modifier.clip(RoundedCornerShape(10.dp))
+                    .clickable { text.value = "" }
+                    .padding(8.dp)
+                    .size(22.dp),
+                tint = color
             )
         }
     } else null

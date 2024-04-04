@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Badge
@@ -24,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -133,8 +136,33 @@ private fun TopAppBarWithMenu(
     }
 }
 
-// TODO Верхняя панель в виде поисковой строки
-@Composable fun SearchableTopAppBar() {}
+@Composable
+fun SearchBar(
+    text: MutableState<String>,
+    placeholder: String?,
+    onSearch: (KeyboardActionScope.() -> Unit)?,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    textFieldColors: TextFieldColors =
+        TextFieldDefaults.colors(
+            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
+) {
+    Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
+        Column {
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+            SearchBarTextField(
+                text = text,
+                placeholder = placeholder,
+                onSearch = onSearch,
+                colors = textFieldColors
+            )
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+        }
+    }
+}
 
 @Composable
 private fun AppBarButton(icon: IconParameters, onClick: () -> Unit) {
