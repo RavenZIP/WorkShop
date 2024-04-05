@@ -106,7 +106,7 @@ fun TopAppBar(
  * @param items кнопки
  */
 @Composable
-private fun TopAppBarWithMenu(
+fun TopAppBarWithMenu(
     title: String,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
