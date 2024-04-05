@@ -54,19 +54,21 @@ import com.ravenzip.workshop.data.IconParameters
 /**
  * [TopAppBar] - Верхняя панель
  *
- * @param text текст
+ * @param title текст
+ * @param backgroundColor фоновый цвет верхней панели
  * @param backArrow кнопка назад
  * @param items кнопки
  */
 @Composable
 fun TopAppBar(
     title: String,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarItem> = listOf(),
 ) {
     val lastItem = items.count() - 1
     Box(
-        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
+        Modifier.fillMaxWidth().background(backgroundColor),
         Alignment.Center
     ) {
         Row(
@@ -98,19 +100,21 @@ fun TopAppBar(
 /**
  * [TopAppBarWithMenu] - Верхняя панель, в которой кнопки спрятаны в меню
  *
- * @param text текст
+ * @param title текст
+ * @param backgroundColor фоновый цвет верхней панели
  * @param backArrow кнопка назад
  * @param items кнопки
  */
 @Composable
 private fun TopAppBarWithMenu(
     title: String,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarMenuItem> = listOf(),
 ) {
     val expanded = remember { mutableStateOf(false) }
     Box(
-        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer),
+        Modifier.fillMaxWidth().background(backgroundColor),
         Alignment.Center
     ) {
         Row(
@@ -136,9 +140,18 @@ private fun TopAppBarWithMenu(
     }
 }
 
+/**
+ * [SearchBar] - Верхняя панель с поиском
+ *
+ * @param query запрос
+ * @param placeholder временный текст
+ * @param onSearch действие при нажатии на кнопку поиска
+ * @param backgroundColor фоновый цвет верхней панели,
+ * @param textFieldColors цвета текстового поля
+ */
 @Composable
 fun SearchBar(
-    text: MutableState<String>,
+    query: MutableState<String>,
     placeholder: String?,
     onSearch: (KeyboardActionScope.() -> Unit)?,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
@@ -154,7 +167,7 @@ fun SearchBar(
         Column {
             Spacer(modifier = Modifier.padding(top = 10.dp))
             SearchBarTextField(
-                text = text,
+                text = query,
                 placeholder = placeholder,
                 onSearch = onSearch,
                 colors = textFieldColors
