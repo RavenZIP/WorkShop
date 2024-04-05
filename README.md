@@ -9,7 +9,7 @@
 <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-1.9.10-A831F5">
 <img alt="Jetpack Compose" src="https://img.shields.io/badge/Jetpack%20Compose-4181ED">
 <img alt="Static Badge" src="https://img.shields.io/badge/Material%203-1.2.1-%232310699C">
-<img alt="Static Badge" src="https://img.shields.io/badge/v1.4.0-red">
+<img alt="Static Badge" src="https://img.shields.io/badge/v1.4.1-red">
 </p>
 
 # 📄 О проекте
@@ -29,6 +29,7 @@
 - **-** **`Spinner`**
 - **-** **`SnackBar`**
 - **-** **`PagerIndicator`**
+- **-** **`SearchBar`**
 
 ## Список элементов в разработке
 - **-** **`Отсутствуют`**
@@ -50,7 +51,7 @@ dependencyResolutionManagement {
 Затем, в файл **build.gradle.kts (:app)** добавьте
 ```
 dependencies {
-      implementation("com.github.RavenZIP:WorkShop:1.4.0")
+      implementation("com.github.RavenZIP:WorkShop:1.4.1")
 }
 ```
 Обратите внимание, что minSdk должен быть указан >= 27
