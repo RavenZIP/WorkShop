@@ -75,7 +75,7 @@ fun TopAppBar(
         ) {
             if (backArrow !== null) {
                 AppBarButton(icon = IconParameters(backArrow.icon, description = "Назад")) {
-                    backArrow.click()
+                    backArrow.onClick()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
             }
@@ -118,7 +118,7 @@ fun TopAppBarWithMenu(
         ) {
             if (backArrow !== null) {
                 AppBarButton(icon = IconParameters(backArrow.icon, description = "Назад")) {
-                    backArrow.click()
+                    backArrow.onClick()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
             }
