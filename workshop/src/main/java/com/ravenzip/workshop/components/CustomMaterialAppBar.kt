@@ -67,10 +67,7 @@ fun TopAppBar(
     items: List<AppBarItem> = listOf(),
 ) {
     val lastItem = items.count() - 1
-    Box(
-        Modifier.fillMaxWidth().background(backgroundColor),
-        Alignment.Center
-    ) {
+    Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
         Row(
             modifier =
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
@@ -113,10 +110,7 @@ fun TopAppBarWithMenu(
     items: List<AppBarMenuItem> = listOf(),
 ) {
     val expanded = remember { mutableStateOf(false) }
-    Box(
-        Modifier.fillMaxWidth().background(backgroundColor),
-        Alignment.Center
-    ) {
+    Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
         Row(
             modifier =
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),

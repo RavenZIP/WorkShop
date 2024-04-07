@@ -3,25 +3,23 @@ package com.ravenzip.workshop.data
 import androidx.compose.material3.MenuItemColors
 import androidx.compose.ui.graphics.vector.ImageVector
 
-interface AppBarButton {
-    val icon: Icon
-    val enabled: Boolean
+interface IAppBarItem {
+    val icon: IconParameters
     val onClick: () -> Unit
 }
 
 class AppBarItem(
     override val icon: IconParameters,
-    override val enabled: Boolean = true,
-    override val onClick: () -> Unit,
-) : AppBarButton
+    override val onClick: () -> Unit = {},
+) : IAppBarItem
 
 class AppBarMenuItem(
     override val icon: IconParameters,
-    override val enabled: Boolean = true,
-    override val onClick: () -> Unit,
+    override val onClick: () -> Unit = {},
+    val enabled: Boolean = true,
     val colors: MenuItemColors? = null,
     val text: String = "",
-) : AppBarButton
+) : IAppBarItem
 
 data class BottomNavigationItem(
     val label: String,
