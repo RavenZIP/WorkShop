@@ -52,7 +52,7 @@ fun <T> VerticalGrid(
                 }
             }
 
-            if (indexOfElementRow != rowsCount) Spacer(modifier = Modifier.height(spacing))
+            if (indexOfElementRow != rowsCount - 1) Spacer(modifier = Modifier.height(spacing))
         }
     }
 }
