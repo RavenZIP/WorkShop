@@ -74,7 +74,7 @@ fun TopAppBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (backArrow !== null) {
-                AppBarButton(icon = IconParameters(backArrow.icon, description = "Назад")) {
+                AppBarButton(icon = backArrow.icon) {
                     backArrow.onClick()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))
@@ -117,7 +117,7 @@ fun TopAppBarWithMenu(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (backArrow !== null) {
-                AppBarButton(icon = IconParameters(backArrow.icon, description = "Назад")) {
+                AppBarButton(icon = backArrow.icon) {
                     backArrow.onClick()
                 }
                 Spacer(modifier = Modifier.weight(0.1f))

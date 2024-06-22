@@ -29,7 +29,7 @@ data class BottomNavigationItem(
     val badgeCount: Int? = null
 )
 
-class BackArrow(val icon: ImageVector, val onClick: () -> Unit)
+class BackArrow(val icon: IconParameters, val onClick: () -> Unit)
 
 internal enum class BottomItemsTextState {
     SHOW_ALL,
