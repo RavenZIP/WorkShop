@@ -3,7 +3,7 @@ package com.ravenzip.workshop.data
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
-class TextParameters(val value: String, val size: Int = 16, val color: Color? = null)
+data class TextParameters(val value: String, val size: Int = 16, val color: Color? = null)
 
 interface Icon {
     val value: ImageVector
@@ -20,4 +20,13 @@ class IconParameters(
 
 class Error(val value: Boolean = false, val text: String = "")
 
-class SpinnerState(val isLoading: Boolean = false, val text: TextParameters = TextParameters(value = ""))
+data class SpinnerState(
+    val isLoading: Boolean = false,
+    val text: TextParameters = TextParameters(value = "")
+){
+    companion object{
+        fun SpinnerState.changeText(text: String) = this.copy(text = this.text.copy(value = text))
+
+        fun SpinnerState.changeState(isLoading: Boolean) = this.copy(isLoading = isLoading)
+    }
+}
