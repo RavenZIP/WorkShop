@@ -168,7 +168,7 @@ fun RowIconButton(
                         Text(
                             text = text.value,
                             color = text.color ?: colors.contentColor,
-                            modifier = Modifier.fillMaxWidth(0.9f).padding(end = 15.dp),
+                            modifier = Modifier.weight(1f).padding(end = 15.dp),
                             fontSize = text.size.sp,
                             fontWeight = FontWeight.Medium)
                         Icon(
