@@ -27,6 +27,11 @@ data class SpinnerState(
     companion object {
         fun SpinnerState.changeText(text: String) = this.copy(text = this.text.copy(value = text))
 
-        fun SpinnerState.changeState(isLoading: Boolean) = this.copy(isLoading = isLoading)
+        fun SpinnerState.isLoading() = this.copy(isLoading = true)
+
+        fun SpinnerState.isCompleted() = this.copy(isLoading = false)
+
+        fun defaultState() =
+            SpinnerState(isLoading = false, text = TextParameters(value = "Загрузка..."))
     }
 }
