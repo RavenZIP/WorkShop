@@ -50,32 +50,27 @@ fun InfoCard(
         modifier = Modifier.fillMaxWidth(width),
         colors = colors,
         shape = shape,
-        elevation = CardDefaults.cardElevation(0.dp)
-    ) {
-        Column(modifier = Modifier.padding(15.dp)) {
-            if (isTitleUnderIcon) {
-                GetIconAndTitle(icon = icon, title = title, isPaddingTop = true, colors = colors)
-            } else {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+        elevation = CardDefaults.cardElevation(0.dp)) {
+            Column(modifier = Modifier.padding(15.dp)) {
+                if (isTitleUnderIcon) {
                     GetIconAndTitle(
-                        icon = icon,
-                        title = title,
-                        isPaddingTop = false,
-                        colors = colors
-                    )
+                        icon = icon, title = title, isPaddingTop = true, colors = colors)
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        GetIconAndTitle(
+                            icon = icon, title = title, isPaddingTop = false, colors = colors)
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(0.9f),
-                text = text.value,
-                color = text.color ?: colors.contentColor,
-                fontSize = text.size.sp,
-                fontWeight = FontWeight.W400
-            )
+                Spacer(modifier = Modifier.padding(top = 10.dp))
+                Text(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    fontSize = text.size.sp,
+                    fontWeight = FontWeight.W400)
+            }
         }
-    }
 }
 
 @Composable
@@ -89,15 +84,13 @@ private fun GetIconAndTitle(
         imageVector = icon.value,
         contentDescription = icon.description,
         tint = icon.color ?: colors.contentColor,
-        modifier = Modifier.size(icon.size.dp)
-    )
+        modifier = Modifier.size(icon.size.dp))
     Spacer(modifier = if (isPaddingTop) Modifier.paddingTop(10.dp) else Modifier.paddingEnd(10.dp))
     Text(
         text = title.value,
         color = title.color ?: colors.contentColor,
         fontSize = title.size.sp,
-        fontWeight = FontWeight.Medium
-    )
+        fontWeight = FontWeight.Medium)
 }
 
 // TODO ExpandableInfoCard

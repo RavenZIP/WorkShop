@@ -1,5 +1,6 @@
 package com.ravenzip.workshop.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -36,19 +37,18 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
             Column(
                 modifier = Modifier.padding(20.dp).widthIn(0.dp, 250.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircularProgressIndicator(modifier = Modifier.size(50.dp))
-                if (text.value !== "" && text.size > 0) {
-                    Spacer(modifier = Modifier.padding(top = 10.dp))
-                    Text(
-                        text = text.value,
-                        fontSize = text.size.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center
-                    )
+                verticalArrangement = Arrangement.Center) {
+                    CircularProgressIndicator(modifier = Modifier.size(50.dp))
+
+                    if (text.value !== "" && text.size > 0) {
+                        Spacer(modifier = Modifier.padding(top = 10.dp))
+                        Text(
+                            text = text.value,
+                            fontSize = text.size.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center)
+                    }
                 }
-            }
         }
     }
 }
@@ -61,6 +61,7 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
  * @param showProgressPercentages отображать проценты прогресса
  * @param containerColors цвета контейнера
  */
+@SuppressLint("DefaultLocale")
 @Composable
 fun CircularProgressIndicator(
     progressValue: Float,
@@ -73,30 +74,27 @@ fun CircularProgressIndicator(
             Column(
                 modifier = Modifier.padding(20.dp).widthIn(0.dp, 250.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(55.dp),
-                    progress = { progressValue },
-                    trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f)
-                )
-                if (text.value !== "" && text.size > 0) {
-                    Spacer(modifier = Modifier.padding(top = 10.dp))
-                    Text(
-                        text = text.value,
-                        fontSize = text.size.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center
-                    )
+                verticalArrangement = Arrangement.Center) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(55.dp),
+                        progress = { progressValue },
+                        trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f))
 
-                    if (showProgressPercentages)
+                    if (text.value !== "" && text.size > 0) {
+                        Spacer(modifier = Modifier.padding(top = 10.dp))
                         Text(
-                            text = "${String.format("%.2f", progressValue * 100)}%",
+                            text = text.value,
                             fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium
-                        )
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Center)
+
+                        if (showProgressPercentages)
+                            Text(
+                                text = "${String.format("%.2f", progressValue * 100)}%",
+                                fontSize = text.size.sp,
+                                fontWeight = FontWeight.Medium)
+                    }
                 }
-            }
         }
     }
 }

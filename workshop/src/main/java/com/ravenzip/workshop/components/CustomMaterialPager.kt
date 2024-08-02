@@ -37,20 +37,20 @@ fun HorizontalPagerIndicator(
 ) {
     Row(
         Modifier.fillMaxWidth().padding(bottom = 20.dp),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        repeat(pagerState.pageCount) { iteration ->
-            val color =
-                if (pagerState.currentPage == iteration) selectedIndicatorColor else indicatorColor
-            Box(
-                modifier =
-                    Modifier.padding(2.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .size(width.dp, height.dp)
-            )
+        horizontalArrangement = Arrangement.Center) {
+            repeat(pagerState.pageCount) { iteration ->
+                val color =
+                    if (pagerState.currentPage == iteration) selectedIndicatorColor
+                    else indicatorColor
+
+                Box(
+                    modifier =
+                        Modifier.padding(2.dp)
+                            .clip(CircleShape)
+                            .background(color)
+                            .size(width.dp, height.dp))
+            }
         }
-    }
 }
 
 /**
@@ -72,19 +72,18 @@ fun VerticalPagerIndicator(
     width: Int = 10
 ) {
     Column(
-        Modifier.fillMaxWidth().padding(start = 20.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        repeat(pagerState.pageCount) { iteration ->
-            val color =
-                if (pagerState.currentPage == iteration) selectedIndicatorColor else indicatorColor
-            Box(
-                modifier =
-                    Modifier.padding(2.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .size(width.dp, height.dp)
-            )
+        Modifier.fillMaxWidth().padding(start = 20.dp), verticalArrangement = Arrangement.Center) {
+            repeat(pagerState.pageCount) { iteration ->
+                val color =
+                    if (pagerState.currentPage == iteration) selectedIndicatorColor
+                    else indicatorColor
+
+                Box(
+                    modifier =
+                        Modifier.padding(2.dp)
+                            .clip(CircleShape)
+                            .background(color)
+                            .size(width.dp, height.dp))
+            }
         }
-    }
 }

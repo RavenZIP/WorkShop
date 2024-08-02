@@ -1,7 +1,6 @@
 package com.ravenzip.workshop.data
 
 import androidx.compose.material3.MenuItemColors
-import androidx.compose.ui.graphics.vector.ImageVector
 
 interface IAppBarItem {
     val icon: IconParameters

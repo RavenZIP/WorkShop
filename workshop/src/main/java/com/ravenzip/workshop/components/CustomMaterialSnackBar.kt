@@ -44,6 +44,7 @@ fun SnackBar(
     ) {
         val visuals = it.visuals as SnackBarVisualsExtended
         val progress = remember { Animatable(1f) }
+
         LaunchedEffect(
             key1 = Unit,
             block = {
@@ -52,35 +53,31 @@ fun SnackBar(
                     animationSpec =
                         tween(
                             durationMillis = it.visuals.duration.getMs().toInt(),
-                            easing = FastOutLinearInEasing
-                        )
-                )
-            }
-        )
+                            easing = FastOutLinearInEasing))
+            })
+
         Card(
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
-            colors = containerColors
-        ) {
-            Row(
-                modifier = Modifier.padding(15.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                Icon(
-                    imageVector = visuals.icon.value,
-                    contentDescription = visuals.icon.description,
-                    modifier = Modifier.size(visuals.icon.size.dp),
-                    tint = visuals.icon.color ?: containerColors.contentColor
+            colors = containerColors) {
+                Row(
+                    modifier = Modifier.padding(15.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Icon(
+                            imageVector = visuals.icon.value,
+                            contentDescription = visuals.icon.description,
+                            modifier = Modifier.size(visuals.icon.size.dp),
+                            tint = visuals.icon.color ?: containerColors.contentColor)
+                        Text(text = visuals.message, modifier = Modifier.padding(start = 10.dp))
+                    }
+
+                LinearProgressIndicator(
+                    progress = { progress.value },
+                    color = visuals.icon.color ?: containerColors.contentColor,
+                    modifier = Modifier.fillMaxWidth(),
                 )
-                Text(text = visuals.message, modifier = Modifier.padding(start = 10.dp))
             }
-            LinearProgressIndicator(
-                progress = { progress.value },
-                color = visuals.icon.color ?: containerColors.contentColor,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
     }
 }
 

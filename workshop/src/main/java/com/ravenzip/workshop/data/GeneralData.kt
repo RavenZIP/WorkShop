@@ -23,8 +23,8 @@ class Error(val value: Boolean = false, val text: String = "")
 data class SpinnerState(
     val isLoading: Boolean = false,
     val text: TextParameters = TextParameters(value = "")
-){
-    companion object{
+) {
+    companion object {
         fun SpinnerState.changeText(text: String) = this.copy(text = this.text.copy(value = text))
 
         fun SpinnerState.changeState(isLoading: Boolean) = this.copy(isLoading = isLoading)

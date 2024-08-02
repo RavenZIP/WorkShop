@@ -90,8 +90,7 @@ fun SimpleTextField(
                 if (showLine) {
                     Line(interactionSource = interactionSource, colors = colors)
                 }
-            }
-        )
+            })
     }
 }
 
@@ -120,8 +119,7 @@ fun SinglenessTextField(
         TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        ),
+            disabledIndicatorColor = Color.Transparent),
 ) {
     TextField(
         value = text.value,
@@ -133,8 +131,7 @@ fun SinglenessTextField(
         keyboardOptions = keyboardOptions,
         singleLine = true,
         shape = shape,
-        colors = colors
-    )
+        colors = colors)
 }
 
 /**
@@ -182,35 +179,19 @@ fun SinglenessTextField(
         label = { Text(text = label) },
         leadingIcon =
             getIcon(
-                icon = leadingIcon,
-                colors = colors,
-                isError = error.value,
-                isFocused = isFocused
-            ),
+                icon = leadingIcon, colors = colors, isError = error.value, isFocused = isFocused),
         trailingIcon =
             getIcon(
-                icon = trailingIcon,
-                colors = colors,
-                isError = error.value,
-                isFocused = isFocused
-            ),
+                icon = trailingIcon, colors = colors, isError = error.value, isFocused = isFocused),
         isError = error.value,
         visualTransformation =
             if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = keyboardOptions,
         singleLine = true,
         shape = shape,
-        colors = colors
-    )
+        colors = colors)
     ErrorMessageAndSymbolsCounter(
-        text.value,
-        width,
-        error,
-        maxLength,
-        isFocused,
-        colors,
-        showTextLengthCounter
-    )
+        text.value, width, error, maxLength, isFocused, colors, showTextLengthCounter)
 }
 
 /**
@@ -259,17 +240,9 @@ fun MultilineTextField(
         maxLines = maxLines,
         minLines = minLines,
         shape = shape,
-        colors = colors
-    )
+        colors = colors)
     ErrorMessageAndSymbolsCounter(
-        text.value,
-        width,
-        error,
-        maxLength,
-        isFocused,
-        colors,
-        showTextLengthCounter
-    )
+        text.value, width, error, maxLength, isFocused, colors, showTextLengthCounter)
 }
 
 /** [SearchBarTextField] - Поисковое текстовое поле */
@@ -289,15 +262,13 @@ internal fun SearchBarTextField(
         placeholder = getText(placeholder),
         leadingIcon =
             getIcon(
-                IconParameters(value = ImageVector.vectorResource(R.drawable.i_search), size = 22)
-            ),
+                IconParameters(value = ImageVector.vectorResource(R.drawable.i_search), size = 22)),
         trailingIcon = getClearButton(text, colors.cursorColor),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = onSearch),
         singleLine = true,
         shape = shape,
-        colors = colors
-    )
+        colors = colors)
 }
 
 /** Элемент вывода сообщения об ошибке при вводе и счетчик введенных символов */
@@ -317,8 +288,7 @@ private fun ErrorMessageAndSymbolsCounter(
                 text = error.text,
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
                 color = colors.errorLabelColor,
-                fontSize = 12.sp
-            )
+                fontSize = 12.sp)
         }
         if (showTextLengthCounter) {
             Text(
@@ -326,8 +296,7 @@ private fun ErrorMessageAndSymbolsCounter(
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
                 color = getColor(colors, error.value, isFocused),
                 fontSize = 12.sp,
-                textAlign = TextAlign.End
-            )
+                textAlign = TextAlign.End)
         }
     }
 }
@@ -341,9 +310,7 @@ private fun Line(interactionSource: InteractionSource, colors: TextFieldColors) 
             enabled = true,
             isError = false,
             interactionSource = interactionSource,
-            colors = colors
-        )
-    )
+            colors = colors))
 }
 
 /**
@@ -372,8 +339,7 @@ private fun getIcon(
                 imageVector = icon.value,
                 contentDescription = icon.description,
                 modifier = Modifier.size(icon.size.dp),
-                tint = getColor(colors = colors, isError = isError, isFocused = isFocused)
-            )
+                tint = getColor(colors = colors, isError = isError, isFocused = isFocused))
         }
     } else null
 }
@@ -385,8 +351,7 @@ private fun getIcon(icon: IconParameters?, colors: TextFieldColors): @Composable
                 imageVector = icon.value,
                 contentDescription = icon.description,
                 modifier = Modifier.size(icon.size.dp),
-                tint = icon.color ?: colors.cursorColor
-            )
+                tint = icon.color ?: colors.cursorColor)
         }
     } else null
 }
@@ -396,8 +361,7 @@ private fun getIcon(icon: IconParameters): @Composable (() -> Unit) {
         Icon(
             imageVector = icon.value,
             contentDescription = "",
-            modifier = Modifier.size(icon.size.dp)
-        )
+            modifier = Modifier.size(icon.size.dp))
     }
 }
 
@@ -408,12 +372,11 @@ private fun getClearButton(text: MutableState<String>, color: Color): @Composabl
                 imageVector = ImageVector.vectorResource(R.drawable.i_close),
                 contentDescription = "Close",
                 modifier =
-                Modifier.clip(RoundedCornerShape(10.dp))
-                    .clickable { text.value = "" }
-                    .padding(8.dp)
-                    .size(22.dp),
-                tint = color
-            )
+                    Modifier.clip(RoundedCornerShape(10.dp))
+                        .clickable { text.value = "" }
+                        .padding(8.dp)
+                        .size(22.dp),
+                tint = color)
         }
     } else null
 }

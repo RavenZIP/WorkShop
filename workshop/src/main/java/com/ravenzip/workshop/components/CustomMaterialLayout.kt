@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.dp
  * @param items список элементов
  * @param columnsCount количество колонок
  * @param spacing отступы между элементами
- * @param oneSizeForEveryone одинаковый размер для всех элементов, вне зависимости от количества элементов в списке
+ * @param oneSizeForEveryone одинаковый размер для всех элементов, вне зависимости от количества
+ *   элементов в списке
  * @param content внутренее содержимое сетки
  */
 @Composable
@@ -43,10 +44,8 @@ fun <T> VerticalGrid(
                     if (!isOutOfRange) content(Modifier.weight(1f), items[elementNum - 1])
                     else if (oneSizeForEveryone) Box(modifier = Modifier.weight(1f))
 
-                    if (
-                        indexOfElementColumn != columnsCount - 1 &&
-                        (elementNum != items.size && !isOutOfRange || oneSizeForEveryone)
-                    ) {
+                    if (indexOfElementColumn != columnsCount - 1 &&
+                        (elementNum != items.size && !isOutOfRange || oneSizeForEveryone)) {
                         Spacer(modifier = Modifier.width(spacing))
                     }
                 }
