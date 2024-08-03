@@ -13,8 +13,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -31,13 +33,15 @@ import com.ravenzip.workshop.data.SnackBarVisualsExtended
  * [SnackBar] - Уведомления
  *
  * @param snackBarHostState состояние
- * @param containerColors цвета контейнера
+ * @param colors цвета контейнера и контента
+ * @param elevation тень контейнера
  */
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun SnackBar(
     snackBarHostState: SnackbarHostState,
-    containerColors: CardColors = CardDefaults.cardColors(),
+    colors: CardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+    elevation: CardElevation = CardDefaults.cardElevation(5.dp)
 ) {
     SnackbarHost(
         hostState = snackBarHostState,
@@ -59,7 +63,8 @@ fun SnackBar(
         Card(
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
-            colors = containerColors) {
+            colors = colors,
+            elevation = elevation) {
                 Row(
                     modifier = Modifier.padding(15.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -68,13 +73,13 @@ fun SnackBar(
                             imageVector = visuals.icon.value,
                             contentDescription = visuals.icon.description,
                             modifier = Modifier.size(visuals.icon.size.dp),
-                            tint = visuals.icon.color ?: containerColors.contentColor)
+                            tint = visuals.icon.color ?: colors.contentColor)
                         Text(text = visuals.message, modifier = Modifier.padding(start = 10.dp))
                     }
 
                 LinearProgressIndicator(
                     progress = { progress.value },
-                    color = visuals.icon.color ?: containerColors.contentColor,
+                    color = visuals.icon.color ?: colors.contentColor,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
