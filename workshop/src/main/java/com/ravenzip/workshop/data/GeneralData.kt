@@ -19,19 +19,3 @@ class IconParameters(
 ) : Icon
 
 class Error(val value: Boolean = false, val text: String = "")
-
-data class SpinnerState(
-    val isLoading: Boolean = false,
-    val text: TextParameters = TextParameters(value = "")
-) {
-    companion object {
-        fun SpinnerState.changeText(text: String) = this.copy(text = this.text.copy(value = text))
-
-        fun SpinnerState.isLoading() = this.copy(isLoading = true)
-
-        fun SpinnerState.isCompleted() = this.copy(isLoading = false)
-
-        fun defaultState() =
-            SpinnerState(isLoading = false, text = TextParameters(value = "Загрузка..."))
-    }
-}
