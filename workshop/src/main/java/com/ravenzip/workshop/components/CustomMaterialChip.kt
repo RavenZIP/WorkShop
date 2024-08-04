@@ -11,15 +11,15 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,8 +27,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ravenzip.workshop.data.ButtonContainerConfig
+import com.ravenzip.workshop.data.ButtonContentConfig
 import com.ravenzip.workshop.data.IconParameters
-import com.ravenzip.workshop.data.TextParameters
 
 /**
  * [Chip] - Чип с текстом
@@ -83,43 +84,55 @@ fun BoxedChip(
  * Кнопка предназначена для реализации отображения дополнительной информации о чипах
  *
  * @param items список иконок для чипов
- * @param buttonText текст для кнопки
- * @param buttonIcon иконка для кнопки
- * @param buttonColors цвета для кнопки
+ * @param buttonContentConfig конфигурация контента для кнопки (текст, иконка, действие при нажатии)
+ * @param buttonContainerConfig конфигурация контейнера для кнопки (ширина, цвета, радиус
+ *   скругления, внутренние отступы)
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BoxedChipGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     items: List<IconParameters>,
-    buttonText: TextParameters? = null,
-    buttonIcon: IconParameters? = null,
-    buttonColors: ButtonColors =
-        ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary.copy(0.08f),
-            contentColor = MaterialTheme.colorScheme.primary)
+    buttonContentConfig: ButtonContentConfig? = null,
+    buttonContainerConfig: ButtonContainerConfig? = null,
 ) {
-    if (buttonText != null && buttonIcon !== null){
-        Column(Modifier.fillMaxWidth(width)) {
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                items.forEach { item -> BoxedChip(icon = item) }
+    if (buttonContentConfig !== null) {
+        val lightStyle = ButtonContainerConfig.lightStyle()
+        val containerConfig =
+            remember(buttonContainerConfig) {
+                buttonContainerConfig
+                    ?: ButtonContainerConfig(
+                        width = 1f,
+                        colors = lightStyle,
+                        shape = RoundedCornerShape(10.dp),
+                        contentPadding = PaddingValues(10.dp))
             }
 
-            Spacer(modifier = Modifier.padding(top = 10.dp))
+        Column(Modifier.fillMaxWidth(width)) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                    items.forEach { item -> BoxedChip(icon = item) }
+                }
+
+            Spacer(modifier = Modifier.height(10.dp))
 
             RowIconButton(
-                width = 1f,
-                text = buttonText,
-                icon = buttonIcon,
+                width = containerConfig.width,
+                text = buttonContentConfig.text,
+                icon = buttonContentConfig.icon,
                 iconPositionIsLeft = false,
-                colors = buttonColors,
-                contentPadding = PaddingValues(10.dp)) {}
+                colors = containerConfig.colors,
+                shape = containerConfig.shape,
+                contentPadding = containerConfig.contentPadding) {
+                    buttonContentConfig.onClick()
+                }
         }
     } else {
         FlowRow(
-            modifier = Modifier.fillMaxWidth(width), horizontalArrangement = Arrangement.SpaceBetween) {
-            items.forEach { item -> BoxedChip(icon = item) }
-        }
+            modifier = Modifier.fillMaxWidth(width),
+            horizontalArrangement = Arrangement.SpaceBetween) {
+                items.forEach { item -> BoxedChip(icon = item) }
+            }
     }
 }
