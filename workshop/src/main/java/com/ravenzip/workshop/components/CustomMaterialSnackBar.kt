@@ -40,7 +40,8 @@ import com.ravenzip.workshop.data.SnackBarVisualsExtended
 @Composable
 fun SnackBar(
     snackBarHostState: SnackbarHostState,
-    colors: CardColors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+    colors: CardColors =
+        CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
     elevation: CardElevation = CardDefaults.cardElevation(5.dp)
 ) {
     SnackbarHost(

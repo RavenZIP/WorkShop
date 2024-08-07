@@ -23,8 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.ravenzip.workshop.data.IconParameters
-import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.data.IconConfig
+import com.ravenzip.workshop.data.TextConfig
 
 /**
  * [AlertDialog] - Диалоговое окно
@@ -41,11 +41,11 @@ import com.ravenzip.workshop.data.TextParameters
  */
 @Composable
 fun AlertDialog(
-    icon: IconParameters? = null,
-    title: TextParameters,
-    text: TextParameters,
-    onDismissText: TextParameters,
-    onConfirmationText: TextParameters,
+    icon: IconConfig? = null,
+    title: TextConfig,
+    text: TextConfig,
+    onDismissText: TextConfig,
+    onConfirmationText: TextConfig,
     containerColors: CardColors = CardDefaults.cardColors(),
     onDismiss: () -> Unit,
     onConfirmation: () -> Unit
@@ -79,8 +79,7 @@ fun AlertDialog(
                         SimpleButton(
                             width = 0.5f,
                             text =
-                                TextParameters(
-                                    value = onDismissText.value, size = onDismissText.size),
+                                TextConfig(value = onDismissText.value, size = onDismissText.size),
                             textAlign = TextAlign.Center,
                             colors =
                                 ButtonDefaults.buttonColors(
@@ -94,7 +93,7 @@ fun AlertDialog(
 
                         SimpleButton(
                             text =
-                                TextParameters(
+                                TextConfig(
                                     value = onConfirmationText.value,
                                     size = onConfirmationText.size),
                             textAlign = TextAlign.Center,

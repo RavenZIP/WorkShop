@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.RootParameters
 import com.ravenzip.workshop.data.SelectionParameters
-import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.data.TextConfig
 
 /**
  * [Switch] - Переключатель
@@ -46,8 +46,8 @@ import com.ravenzip.workshop.data.TextParameters
 fun Switch(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     isChecked: MutableState<Boolean>,
-    title: TextParameters,
-    text: TextParameters,
+    title: TextConfig,
+    text: TextConfig,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors()
 ) {

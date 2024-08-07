@@ -3,17 +3,17 @@ package com.ravenzip.workshop.data
 import androidx.compose.material3.MenuItemColors
 
 interface IAppBarItem {
-    val icon: IconParameters
+    val icon: IconConfig
     val onClick: () -> Unit
 }
 
 class AppBarItem(
-    override val icon: IconParameters,
+    override val icon: IconConfig,
     override val onClick: () -> Unit = {},
 ) : IAppBarItem
 
 class AppBarMenuItem(
-    override val icon: IconParameters,
+    override val icon: IconConfig,
     override val onClick: () -> Unit = {},
     val enabled: Boolean = true,
     val colors: MenuItemColors? = null,
@@ -28,7 +28,7 @@ data class BottomNavigationItem(
     val badgeCount: Int? = null
 )
 
-class BackArrow(val icon: IconParameters, val onClick: () -> Unit)
+class BackArrow(val icon: IconConfig, val onClick: () -> Unit)
 
 internal enum class BottomItemsTextState {
     SHOW_ALL,

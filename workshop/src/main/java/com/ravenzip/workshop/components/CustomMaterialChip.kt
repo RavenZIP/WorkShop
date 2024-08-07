@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.ButtonContainerConfig
 import com.ravenzip.workshop.data.ButtonContentConfig
-import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.data.IconConfig
 
 /**
  * [Chip] - Чип с текстом
@@ -65,7 +65,7 @@ fun Chip(
  */
 @Composable
 fun BoxedChip(
-    icon: IconParameters,
+    icon: IconConfig,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp)
 ) {
@@ -92,7 +92,7 @@ fun BoxedChip(
 @Composable
 fun BoxedChipGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    items: List<IconParameters>,
+    items: List<IconConfig>,
     buttonContentConfig: ButtonContentConfig? = null,
     buttonContainerConfig: ButtonContainerConfig? = null,
 ) {

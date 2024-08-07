@@ -3,7 +3,7 @@ package com.ravenzip.workshop.data
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
-class TextParameters(val value: String, val size: Int = 16, val color: Color? = null)
+class TextConfig(val value: String, val size: Int = 16, val color: Color? = null)
 
 interface Icon {
     val value: ImageVector
@@ -11,7 +11,7 @@ interface Icon {
     val size: Int
 }
 
-class IconParameters(
+class IconConfig(
     override val value: ImageVector,
     override val description: String = "",
     override val size: Int = 25,

@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
-import com.ravenzip.workshop.data.IconParameters
+import com.ravenzip.workshop.data.IconConfig
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -111,8 +111,8 @@ fun SinglenessTextField(
     text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     placeholder: String? = null,
-    leadingIcon: IconParameters? = null,
-    trailingIcon: IconParameters? = null,
+    leadingIcon: IconConfig? = null,
+    trailingIcon: IconConfig? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors =
@@ -160,8 +160,8 @@ fun SinglenessTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "Простое текстовое поле",
-    leadingIcon: IconParameters? = null,
-    trailingIcon: IconParameters? = null,
+    leadingIcon: IconConfig? = null,
+    trailingIcon: IconConfig? = null,
     error: Error = Error(),
     isHiddenText: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -261,8 +261,7 @@ internal fun SearchBarTextField(
         modifier = Modifier.fillMaxWidth(width),
         placeholder = getText(placeholder),
         leadingIcon =
-            getIcon(
-                IconParameters(value = ImageVector.vectorResource(R.drawable.i_search), size = 22)),
+            getIcon(IconConfig(value = ImageVector.vectorResource(R.drawable.i_search), size = 22)),
         trailingIcon = getClearButton(text, colors.cursorColor),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = onSearch),
@@ -328,7 +327,7 @@ private fun getText(text: String?): @Composable (() -> Unit)? {
 }
 
 private fun getIcon(
-    icon: IconParameters?,
+    icon: IconConfig?,
     colors: TextFieldColors,
     isError: Boolean,
     isFocused: Boolean
@@ -344,7 +343,7 @@ private fun getIcon(
     } else null
 }
 
-private fun getIcon(icon: IconParameters?, colors: TextFieldColors): @Composable (() -> Unit)? {
+private fun getIcon(icon: IconConfig?, colors: TextFieldColors): @Composable (() -> Unit)? {
     return if (icon != null) {
         {
             Icon(
@@ -356,7 +355,7 @@ private fun getIcon(icon: IconParameters?, colors: TextFieldColors): @Composable
     } else null
 }
 
-private fun getIcon(icon: IconParameters): @Composable (() -> Unit) {
+private fun getIcon(icon: IconConfig): @Composable (() -> Unit) {
     return {
         Icon(
             imageVector = icon.value,

@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.data.TextConfig
 
 /**
  * [Spinner] - Спиннер
@@ -31,7 +31,7 @@ import com.ravenzip.workshop.data.TextParameters
  * @param containerColors цвета контейнера
  */
 @Composable
-fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.cardColors()) {
+fun Spinner(text: TextConfig, containerColors: CardColors = CardDefaults.cardColors()) {
     Dialog(onDismissRequest = {}) {
         Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
             Column(
@@ -65,7 +65,7 @@ fun Spinner(text: TextParameters, containerColors: CardColors = CardDefaults.car
 @Composable
 fun CircularProgressIndicator(
     progressValue: Float,
-    text: TextParameters,
+    text: TextConfig,
     showProgressPercentages: Boolean = false,
     containerColors: CardColors = CardDefaults.cardColors(),
 ) {

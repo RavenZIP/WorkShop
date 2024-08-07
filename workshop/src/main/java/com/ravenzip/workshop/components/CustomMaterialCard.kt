@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ravenzip.workshop.data.IconParameters
-import com.ravenzip.workshop.data.TextParameters
+import com.ravenzip.workshop.data.IconConfig
+import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.paddingEnd
 import com.ravenzip.workshop.paddingTop
 
@@ -39,9 +39,9 @@ import com.ravenzip.workshop.paddingTop
 @Composable
 fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    icon: IconParameters,
-    title: TextParameters,
-    text: TextParameters,
+    icon: IconConfig,
+    title: TextConfig,
+    text: TextConfig,
     isTitleUnderIcon: Boolean = true,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors()
@@ -75,8 +75,8 @@ fun InfoCard(
 
 @Composable
 private fun GetIconAndTitle(
-    icon: IconParameters,
-    title: TextParameters,
+    icon: IconConfig,
+    title: TextConfig,
     isPaddingTop: Boolean,
     colors: CardColors
 ) {
