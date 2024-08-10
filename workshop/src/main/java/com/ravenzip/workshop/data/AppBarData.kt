@@ -2,7 +2,7 @@ package com.ravenzip.workshop.data
 
 import androidx.compose.material3.MenuItemColors
 
-interface IAppBarItem {
+internal interface IAppBarItem {
     val icon: IconConfig
     val onClick: () -> Unit
 }
