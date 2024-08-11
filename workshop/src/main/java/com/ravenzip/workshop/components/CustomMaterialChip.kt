@@ -44,7 +44,7 @@ fun Chip(
     text: String,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     Box(modifier = Modifier.clip(shape).background(backgroundColor).clickable { onClick() }) {
         Text(
