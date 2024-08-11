@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -100,12 +99,7 @@ fun BoxedChipGroup(
         val lightStyle = ButtonContainerConfig.lightStyle()
         val containerConfig =
             remember(buttonContainerConfig) {
-                buttonContainerConfig
-                    ?: ButtonContainerConfig(
-                        width = 1f,
-                        colors = lightStyle,
-                        shape = RoundedCornerShape(10.dp),
-                        contentPadding = PaddingValues(10.dp))
+                buttonContainerConfig ?: ButtonContainerConfig.smallButtonConfig(lightStyle)
             }
 
         Column(Modifier.fillMaxWidth(width)) {
