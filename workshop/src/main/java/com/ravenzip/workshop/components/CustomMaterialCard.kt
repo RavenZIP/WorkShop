@@ -34,7 +34,7 @@ import com.ravenzip.workshop.paddingTop
  * @param icon иконка
  * @param title заголовок
  * @param text текст
- * @param isTitleUnderIcon расположить заголовок снизу иконки
+ * @param titleUnderIcon расположить заголовок снизу иконки
  * @param shape радиус скругления
  * @param colors цвета карточки
  */
@@ -44,7 +44,7 @@ fun InfoCard(
     icon: IconConfig,
     title: TextConfig,
     text: TextConfig,
-    isTitleUnderIcon: Boolean = true,
+    titleUnderIcon: Boolean = true,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors()
 ) {
@@ -54,7 +54,7 @@ fun InfoCard(
         shape = shape,
         elevation = CardDefaults.cardElevation(0.dp)) {
             Column(modifier = Modifier.padding(15.dp)) {
-                if (isTitleUnderIcon) {
+                if (titleUnderIcon) {
                     TitleWithIcon(
                         icon = icon, title = title, isPaddingTop = true, colors = colors)
                 } else {
