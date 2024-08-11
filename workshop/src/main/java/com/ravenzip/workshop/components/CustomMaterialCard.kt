@@ -55,11 +55,11 @@ fun InfoCard(
         elevation = CardDefaults.cardElevation(0.dp)) {
             Column(modifier = Modifier.padding(15.dp)) {
                 if (isTitleUnderIcon) {
-                    GetIconAndTitle(
+                    TitleWithIcon(
                         icon = icon, title = title, isPaddingTop = true, colors = colors)
                 } else {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        GetIconAndTitle(
+                        TitleWithIcon(
                             icon = icon, title = title, isPaddingTop = false, colors = colors)
                     }
                 }
@@ -106,7 +106,7 @@ fun InfoCard(
 }
 
 @Composable
-private fun GetIconAndTitle(
+private fun TitleWithIcon(
     icon: IconConfig,
     title: TextConfig,
     isPaddingTop: Boolean,
