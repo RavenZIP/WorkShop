@@ -2,9 +2,11 @@ package com.ravenzip.workshop.components
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +28,7 @@ import com.ravenzip.workshop.paddingEnd
 import com.ravenzip.workshop.paddingTop
 
 /**
- * [InfoCard] - Информационная карточка
+ * [InfoCard] - Информационная карточка (с иконкой и заголовком)
  *
  * @param width ширина карточки
  * @param icon иконка
@@ -71,6 +73,36 @@ fun InfoCard(
                     fontWeight = FontWeight.W400)
             }
         }
+}
+
+/**
+ * [InfoCard] - Информационная карточка (с чипом)
+ *
+ * @param width ширина карточки
+ * @param chipText текст в чипе
+ * @param cardText текст в карточке
+ * @param fontSize размер шрифта для текста в карточке
+ * @param contentPadding отступы для контента внутри карточки (для чипа и текста)
+ * @param shape радиус скругления
+ * @param colors цвета карточки
+ */
+@Composable
+fun InfoCard(
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    chipText: String,
+    cardText: String,
+    fontSize: Int = 14,
+    contentPadding: PaddingValues = PaddingValues(10.dp),
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: CardColors = CardDefaults.cardColors()
+) {
+    Card(modifier = Modifier.fillMaxWidth(width), shape = shape, colors = colors) {
+        Column(modifier = Modifier.fillMaxWidth().padding(contentPadding)) {
+            Chip(text = chipText)
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = cardText, fontSize = fontSize.sp)
+        }
+    }
 }
 
 @Composable
