@@ -9,5 +9,5 @@ class SnackBarVisualsExtended(
     override val withDismissAction: Boolean = false,
     override val duration: SnackbarDuration =
         if (actionLabel == null) SnackbarDuration.Short else SnackbarDuration.Indefinite,
-    val icon: IconConfig
+    val icon: IconConfig,
 ) : SnackbarVisuals

@@ -46,21 +46,23 @@ fun SimpleButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = PaddingValues(18.dp),
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = { onClick() },
         modifier = Modifier.fillMaxWidthWithValue(width),
         colors = colors,
         shape = shape,
-        contentPadding = contentPadding) {
-            Text(
-                text = text.value,
-                modifier = Modifier.fillMaxWidthWithoutValue(width),
-                fontSize = text.size.sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = textAlign)
-        }
+        contentPadding = contentPadding,
+    ) {
+        Text(
+            text = text.value,
+            modifier = Modifier.fillMaxWidthWithoutValue(width),
+            fontSize = text.size.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = textAlign,
+        )
+    }
 }
 
 /**
@@ -85,39 +87,44 @@ fun CustomButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = PaddingValues(18.dp),
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = { onClick() },
         modifier = Modifier.fillMaxWidthWithValue(width),
         colors = colors,
         shape = shape,
-        contentPadding = contentPadding) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = icon.value,
-                    contentDescription = icon.description,
-                    modifier = Modifier.padding(end = 15.dp).size(icon.size.dp),
-                    tint = icon.color ?: colors.contentColor)
+        contentPadding = contentPadding,
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.padding(end = 15.dp).size(icon.size.dp),
+                tint = icon.color ?: colors.contentColor,
+            )
 
-                Column(
-                    modifier = Modifier.fillMaxWidthWithoutValue(width),
-                    horizontalAlignment = textContainerAlign) {
-                        Text(
-                            text = title.value,
-                            color = title.color ?: colors.contentColor,
-                            fontSize = title.size.sp,
-                            fontWeight = FontWeight.Medium)
-                        Spacer(modifier = Modifier.padding(top = 2.5.dp))
+            Column(
+                modifier = Modifier.fillMaxWidthWithoutValue(width),
+                horizontalAlignment = textContainerAlign,
+            ) {
+                Text(
+                    text = title.value,
+                    color = title.color ?: colors.contentColor,
+                    fontSize = title.size.sp,
+                    fontWeight = FontWeight.Medium,
+                )
+                Spacer(modifier = Modifier.padding(top = 2.5.dp))
 
-                        Text(
-                            text = text.value,
-                            color = text.color ?: colors.contentColor,
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.W400)
-                    }
+                Text(
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    fontSize = text.size.sp,
+                    fontWeight = FontWeight.W400,
+                )
             }
         }
+    }
 }
 
 /**
@@ -140,44 +147,50 @@ fun RowIconButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = PaddingValues(18.dp),
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = { onClick() },
         modifier = Modifier.fillMaxWidthWithValue(width),
         colors = colors,
         shape = shape,
-        contentPadding = contentPadding) {
-            Row(
-                modifier = Modifier.fillMaxWidthWithoutValue(width),
-                verticalAlignment = Alignment.CenterVertically) {
-                    if (iconPositionIsLeft) {
-                        Icon(
-                            imageVector = icon.value,
-                            contentDescription = icon.description,
-                            modifier = Modifier.size(icon.size.dp),
-                            tint = icon.color ?: colors.contentColor)
-                        Text(
-                            text = text.value,
-                            color = text.color ?: colors.contentColor,
-                            modifier = Modifier.padding(start = 15.dp),
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium)
-                    } else {
-                        Text(
-                            text = text.value,
-                            color = text.color ?: colors.contentColor,
-                            modifier = Modifier.weight(1f).padding(end = 15.dp),
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium)
-                        Icon(
-                            imageVector = icon.value,
-                            contentDescription = icon.description,
-                            modifier = Modifier.size(icon.size.dp),
-                            tint = icon.color ?: colors.contentColor)
-                    }
-                }
+        contentPadding = contentPadding,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidthWithoutValue(width),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (iconPositionIsLeft) {
+                Icon(
+                    imageVector = icon.value,
+                    contentDescription = icon.description,
+                    modifier = Modifier.size(icon.size.dp),
+                    tint = icon.color ?: colors.contentColor,
+                )
+                Text(
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    modifier = Modifier.padding(start = 15.dp),
+                    fontSize = text.size.sp,
+                    fontWeight = FontWeight.Medium,
+                )
+            } else {
+                Text(
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    modifier = Modifier.weight(1f).padding(end = 15.dp),
+                    fontSize = text.size.sp,
+                    fontWeight = FontWeight.Medium,
+                )
+                Icon(
+                    imageVector = icon.value,
+                    contentDescription = icon.description,
+                    modifier = Modifier.size(icon.size.dp),
+                    tint = icon.color ?: colors.contentColor,
+                )
+            }
         }
+    }
 }
 
 /**
@@ -197,27 +210,33 @@ fun ColIconButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     TextButton(
-        onClick = { onClick() }, shape = shape, colors = colors, contentPadding = contentPadding) {
-            Column(
-                modifier = Modifier.padding(5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        imageVector = icon.value,
-                        contentDescription = icon.description,
-                        modifier = Modifier.size(icon.size.dp),
-                        tint = icon.color ?: colors.contentColor)
-                    if (text.value !== "" && text.size > 0) {
-                        Spacer(modifier = Modifier.padding(bottom = 5.dp))
-                        Text(
-                            text = text.value,
-                            color = text.color ?: colors.contentColor,
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium,
-                        )
-                    }
-                }
+        onClick = { onClick() },
+        shape = shape,
+        colors = colors,
+        contentPadding = contentPadding,
+    ) {
+        Column(
+            modifier = Modifier.padding(5.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Icon(
+                imageVector = icon.value,
+                contentDescription = icon.description,
+                modifier = Modifier.size(icon.size.dp),
+                tint = icon.color ?: colors.contentColor,
+            )
+            if (text.value !== "" && text.size > 0) {
+                Spacer(modifier = Modifier.padding(bottom = 5.dp))
+                Text(
+                    text = text.value,
+                    color = text.color ?: colors.contentColor,
+                    fontSize = text.size.sp,
+                    fontWeight = FontWeight.Medium,
+                )
+            }
         }
+    }
 }

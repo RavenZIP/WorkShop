@@ -72,24 +72,26 @@ fun TopAppBar(
         Row(
             modifier =
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
-            verticalAlignment = Alignment.CenterVertically) {
-                if (backArrow !== null) {
-                    AppBarButton(icon = backArrow.icon) { backArrow.onClick() }
-                    Spacer(modifier = Modifier.weight(0.1f))
-                }
-
-                Text(
-                    text = title,
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.5.sp)
-                Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
-
-                items.forEachIndexed { index, button ->
-                    AppBarButton(icon = button.icon) { button.onClick() }
-                    if (index != lastItem) Spacer(modifier = Modifier.padding(start = 5.dp))
-                }
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (backArrow !== null) {
+                AppBarButton(icon = backArrow.icon) { backArrow.onClick() }
+                Spacer(modifier = Modifier.weight(0.1f))
             }
+
+            Text(
+                text = title,
+                fontSize = 23.sp,
+                fontWeight = FontWeight.Medium,
+                letterSpacing = 1.5.sp,
+            )
+            Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
+
+            items.forEachIndexed { index, button ->
+                AppBarButton(icon = button.icon) { button.onClick() }
+                if (index != lastItem) Spacer(modifier = Modifier.padding(start = 5.dp))
+            }
+        }
     }
 }
 
@@ -114,21 +116,23 @@ fun TopAppBarWithMenu(
         Row(
             modifier =
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
-            verticalAlignment = Alignment.CenterVertically) {
-                if (backArrow !== null) {
-                    AppBarButton(icon = backArrow.icon) { backArrow.onClick() }
-                    Spacer(modifier = Modifier.weight(0.1f))
-                }
-
-                Text(
-                    text = title,
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = 1.5.sp)
-                Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
-
-                AppBarMenu(expanded = expanded, menuItems = items) { expanded.value = true }
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (backArrow !== null) {
+                AppBarButton(icon = backArrow.icon) { backArrow.onClick() }
+                Spacer(modifier = Modifier.weight(0.1f))
             }
+
+            Text(
+                text = title,
+                fontSize = 23.sp,
+                fontWeight = FontWeight.Medium,
+                letterSpacing = 1.5.sp,
+            )
+            Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
+
+            AppBarMenu(expanded = expanded, menuItems = items) { expanded.value = true }
+        }
     }
 }
 
@@ -152,7 +156,8 @@ fun SearchBar(
             focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent),
+            disabledIndicatorColor = Color.Transparent,
+        ),
 ) {
     Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
         Column {
@@ -161,7 +166,8 @@ fun SearchBar(
                 text = query,
                 placeholder = placeholder,
                 onSearch = onSearch,
-                colors = textFieldColors)
+                colors = textFieldColors,
+            )
             Spacer(modifier = Modifier.padding(top = 10.dp))
         }
     }
@@ -171,58 +177,62 @@ fun SearchBar(
 private fun AppBarButton(icon: IconConfig, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
-        contentAlignment = Alignment.Center) {
-            Icon(
-                imageVector = icon.value,
-                contentDescription = icon.description,
-                modifier = Modifier.size(icon.size.dp),
-                tint = icon.color ?: MaterialTheme.colorScheme.onSurface)
-        }
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = icon.value,
+            contentDescription = icon.description,
+            modifier = Modifier.size(icon.size.dp),
+            tint = icon.color ?: MaterialTheme.colorScheme.onSurface,
+        )
+    }
 }
 
 @Composable
 private fun AppBarMenu(
     expanded: MutableState<Boolean>,
     menuItems: List<AppBarMenuItem>,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val lastItem = menuItems.count() - 1
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
-        contentAlignment = Alignment.Center) {
-            Icon(
-                imageVector = Icons.Outlined.MoreVert,
-                contentDescription = "Меню",
-                modifier = Modifier.size(25.dp),
-            )
-            DropdownMenu(
-                expanded = expanded.value,
-                onDismissRequest = { expanded.value = false },
-                Modifier.padding(start = 10.dp, top = 2.5.dp, end = 10.dp, bottom = 2.5.dp)) {
-                    menuItems.forEachIndexed { index, it ->
-                        DropdownMenuItem(
-                            text = { Text(it.text) },
-                            onClick = {
-                                it.onClick()
-                                expanded.value = false
-                            },
-                            modifier = Modifier.clip(RoundedCornerShape(10.dp)),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = it.icon.value,
-                                    contentDescription = it.icon.description,
-                                    modifier = Modifier.size(it.icon.size.dp),
-                                    tint =
-                                        it.icon.color ?: MaterialTheme.colorScheme.onSurfaceVariant)
-                            },
-                            enabled = it.enabled,
-                            colors =
-                                if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
-                            contentPadding = PaddingValues(15.dp))
-                        if (index != lastItem) Spacer(modifier = Modifier.padding(bottom = 5.dp))
-                    }
-                }
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.MoreVert,
+            contentDescription = "Меню",
+            modifier = Modifier.size(25.dp),
+        )
+        DropdownMenu(
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false },
+            Modifier.padding(start = 10.dp, top = 2.5.dp, end = 10.dp, bottom = 2.5.dp),
+        ) {
+            menuItems.forEachIndexed { index, it ->
+                DropdownMenuItem(
+                    text = { Text(it.text) },
+                    onClick = {
+                        it.onClick()
+                        expanded.value = false
+                    },
+                    modifier = Modifier.clip(RoundedCornerShape(10.dp)),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = it.icon.value,
+                            contentDescription = it.icon.description,
+                            modifier = Modifier.size(it.icon.size.dp),
+                            tint = it.icon.color ?: MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    },
+                    enabled = it.enabled,
+                    colors = if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
+                    contentPadding = PaddingValues(15.dp),
+                )
+                if (index != lastItem) Spacer(modifier = Modifier.padding(bottom = 5.dp))
+            }
         }
+    }
 }
 
 /**
@@ -236,7 +246,7 @@ private fun AppBarMenu(
 fun BottomNavigationBar(
     navController: NavController,
     buttonsList: List<BottomNavigationItem>,
-    showLabelOnlyOnSelected: Boolean = false
+    showLabelOnlyOnSelected: Boolean = false,
 ) {
     val labelState = getLabelState(showLabelOnlyOnSelected, buttonsList.count())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -246,7 +256,10 @@ fun BottomNavigationBar(
         Row(
             modifier =
                 Modifier.padding(
-                        start = 20.dp, end = 20.dp, top = getBottomBarTopPadding(labelState))
+                        start = 20.dp,
+                        end = 20.dp,
+                        top = getBottomBarTopPadding(labelState),
+                    )
                     .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -255,7 +268,8 @@ fun BottomNavigationBar(
                     navController = navController,
                     currentDestination = currentDestination,
                     item = it,
-                    labelState = labelState)
+                    labelState = labelState,
+                )
             }
         }
     }
@@ -266,7 +280,7 @@ private fun NavigationBarItem(
     navController: NavController,
     currentDestination: NavDestination?,
     item: BottomNavigationItem,
-    labelState: BottomItemsTextState
+    labelState: BottomItemsTextState,
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
     val background = getBoxColor(selected)
@@ -279,13 +293,15 @@ private fun NavigationBarItem(
                         .clip(RoundedCornerShape(10.dp))
                         .background(background)
                         .clickable { item.click(navController = navController) },
-                contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = item.icon.value,
-                        contentDescription = item.label,
-                        modifier = Modifier.size(item.icon.size.dp),
-                        tint = tint)
-                }
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = item.icon.value,
+                    contentDescription = item.label,
+                    modifier = Modifier.size(item.icon.size.dp),
+                    tint = tint,
+                )
+            }
         }
         if (item.showLabel(navController = navController, labelState = labelState)) {
             Text(
@@ -293,7 +309,8 @@ private fun NavigationBarItem(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium,
                 letterSpacing = 0.sp,
-                color = tint)
+                color = tint,
+            )
         }
     }
 }
@@ -333,7 +350,7 @@ private fun BottomNavigationItem.click(navController: NavController) {
 
 private fun getLabelState(
     showLabelOnlyOnSelected: Boolean,
-    buttonsCount: Int
+    buttonsCount: Int,
 ): BottomItemsTextState {
     return if (showLabelOnlyOnSelected) BottomItemsTextState.ONLY_SELECTED
     else if (buttonsCount <= 3) BottomItemsTextState.SHOW_ALL else BottomItemsTextState.HIDDEN
@@ -341,7 +358,7 @@ private fun getLabelState(
 
 private fun BottomNavigationItem.showLabel(
     navController: NavController,
-    labelState: BottomItemsTextState
+    labelState: BottomItemsTextState,
 ): Boolean {
     return labelState === BottomItemsTextState.SHOW_ALL ||
         labelState === BottomItemsTextState.ONLY_SELECTED &&

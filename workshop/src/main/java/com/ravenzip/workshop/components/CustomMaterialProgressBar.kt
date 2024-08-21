@@ -37,18 +37,20 @@ fun Spinner(text: TextConfig, containerColors: CardColors = CardDefaults.cardCol
             Column(
                 modifier = Modifier.padding(20.dp).widthIn(0.dp, 250.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
-                    CircularProgressIndicator(modifier = Modifier.size(50.dp))
+                verticalArrangement = Arrangement.Center,
+            ) {
+                CircularProgressIndicator(modifier = Modifier.size(50.dp))
 
-                    if (text.value !== "" && text.size > 0) {
-                        Spacer(modifier = Modifier.padding(top = 10.dp))
-                        Text(
-                            text = text.value,
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Center)
-                    }
+                if (text.value !== "" && text.size > 0) {
+                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Text(
+                        text = text.value,
+                        fontSize = text.size.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                    )
                 }
+            }
         }
     }
 }
@@ -74,27 +76,31 @@ fun CircularProgressIndicator(
             Column(
                 modifier = Modifier.padding(20.dp).widthIn(0.dp, 250.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(55.dp),
-                        progress = { progressValue },
-                        trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f))
+                verticalArrangement = Arrangement.Center,
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(55.dp),
+                    progress = { progressValue },
+                    trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f),
+                )
 
-                    if (text.value !== "" && text.size > 0) {
-                        Spacer(modifier = Modifier.padding(top = 10.dp))
+                if (text.value !== "" && text.size > 0) {
+                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Text(
+                        text = text.value,
+                        fontSize = text.size.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                    )
+
+                    if (showProgressPercentages)
                         Text(
-                            text = text.value,
+                            text = "${String.format("%.2f", progressValue * 100)}%",
                             fontSize = text.size.sp,
                             fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Center)
-
-                        if (showProgressPercentages)
-                            Text(
-                                text = "${String.format("%.2f", progressValue * 100)}%",
-                                fontSize = text.size.sp,
-                                fontWeight = FontWeight.Medium)
-                    }
+                        )
                 }
+            }
         }
     }
 }

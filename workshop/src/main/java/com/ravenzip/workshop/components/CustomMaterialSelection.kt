@@ -49,7 +49,7 @@ fun Switch(
     title: TextConfig,
     text: TextConfig,
     enabled: Boolean = true,
-    colors: SwitchColors = SwitchDefaults.colors()
+    colors: SwitchColors = SwitchDefaults.colors(),
 ) {
     Row(
         modifier =
@@ -57,18 +57,20 @@ fun Switch(
                 .clip(RoundedCornerShape(10.dp))
                 .clickable { isChecked.value = !isChecked.value }
                 .padding(15.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-            Column {
-                Text(text = title.value, fontSize = title.size.sp)
-                Text(text = text.value, fontSize = text.size.sp)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Switch(
-                checked = isChecked.value,
-                onCheckedChange = { isChecked.value = it },
-                enabled = enabled,
-                colors = colors)
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column {
+            Text(text = title.value, fontSize = title.size.sp)
+            Text(text = text.value, fontSize = text.size.sp)
         }
+        Spacer(modifier = Modifier.weight(1f))
+        Switch(
+            checked = isChecked.value,
+            onCheckedChange = { isChecked.value = it },
+            enabled = enabled,
+            colors = colors,
+        )
+    }
 }
 
 /**
@@ -86,7 +88,7 @@ fun RadioGroup(
     list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
     enabled: Boolean = true,
-    colors: RadioButtonColors = RadioButtonDefaults.colors()
+    colors: RadioButtonColors = RadioButtonDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         list.forEach { item ->
@@ -98,16 +100,16 @@ fun RadioGroup(
                             list.replaceAll { it.copy(isSelected = it.text == item.text) }
                         }
                         .padding(top = 5.dp, bottom = 5.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(
-                        selected = item.isSelected,
-                        onClick = {
-                            list.replaceAll { it.copy(isSelected = it.text == item.text) }
-                        },
-                        enabled = enabled,
-                        colors = colors)
-                    Text(text = item.text, fontSize = textSize.sp)
-                }
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = item.isSelected,
+                    onClick = { list.replaceAll { it.copy(isSelected = it.text == item.text) } },
+                    enabled = enabled,
+                    colors = colors,
+                )
+                Text(text = item.text, fontSize = textSize.sp)
+            }
         }
     }
 }
@@ -127,7 +129,7 @@ fun Checkboxes(
     list: SnapshotStateList<SelectionParameters>,
     textSize: Int = 18,
     enabled: Boolean = true,
-    colors: CheckboxColors = CheckboxDefaults.colors()
+    colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         list.forEachIndexed { index, item ->
@@ -155,7 +157,7 @@ fun CheckboxesTree(
     textSize: Int = 18,
     list: SnapshotStateList<SelectionParameters>,
     enabled: Boolean = true,
-    colors: CheckboxColors = CheckboxDefaults.colors()
+    colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         Row(
@@ -170,7 +172,8 @@ fun CheckboxesTree(
                 state = root.state.value,
                 onClick = { changeState(list, root.state) },
                 enabled = enabled,
-                colors = root.colors)
+                colors = root.colors,
+            )
             Text(text = root.text, fontSize = textSize.sp)
         }
         list.forEachIndexed { index, item ->
@@ -179,10 +182,11 @@ fun CheckboxesTree(
                 textSize = textSize,
                 colors = colors,
                 enabled = enabled,
-                isTree = true) {
-                    list[index] = item.copy(isSelected = !item.isSelected)
-                    getTriState(list, root.state)
-                }
+                isTree = true,
+            ) {
+                list[index] = item.copy(isSelected = !item.isSelected)
+                getTriState(list, root.state)
+            }
         }
     }
 }
@@ -194,7 +198,7 @@ private fun GetCheckbox(
     enabled: Boolean,
     colors: CheckboxColors,
     isTree: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier =
@@ -202,19 +206,21 @@ private fun GetCheckbox(
                 .clip(RoundedCornerShape(10.dp))
                 .clickable { onClick() }
                 .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(
-                checked = item.isSelected,
-                onCheckedChange = { onClick() },
-                enabled = enabled,
-                colors = colors)
-            Text(text = item.text, fontSize = textSize.sp)
-        }
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(
+            checked = item.isSelected,
+            onCheckedChange = { onClick() },
+            enabled = enabled,
+            colors = colors,
+        )
+        Text(text = item.text, fontSize = textSize.sp)
+    }
 }
 
 private fun getTriState(
     list: SnapshotStateList<SelectionParameters>,
-    rootState: MutableState<ToggleableState>
+    rootState: MutableState<ToggleableState>,
 ) {
     var activeCheckboxes = 0
     list.forEach { if (it.isSelected) activeCheckboxes += 1 }
@@ -228,7 +234,7 @@ private fun getTriState(
 
 private fun changeState(
     list: SnapshotStateList<SelectionParameters>,
-    rootState: MutableState<ToggleableState>
+    rootState: MutableState<ToggleableState>,
 ) {
     rootState.value =
         when (rootState.value) {

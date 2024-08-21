@@ -9,10 +9,8 @@ internal interface IAppBarItem {
 }
 
 @Immutable
-class AppBarItem(
-    override val icon: IconConfig,
-    override val onClick: () -> Unit = {},
-) : IAppBarItem
+class AppBarItem(override val icon: IconConfig, override val onClick: () -> Unit = {}) :
+    IAppBarItem
 
 @Immutable
 class AppBarMenuItem(
@@ -28,14 +26,13 @@ data class BottomNavigationItem(
     val route: String,
     val icon: Icon,
     val hasNews: Boolean,
-    val badgeCount: Int? = null
+    val badgeCount: Int? = null,
 )
 
-@Immutable
-class BackArrow(val icon: IconConfig, val onClick: () -> Unit)
+@Immutable class BackArrow(val icon: IconConfig, val onClick: () -> Unit)
 
 internal enum class BottomItemsTextState {
     SHOW_ALL,
     ONLY_SELECTED,
-    HIDDEN
+    HIDDEN,
 }

@@ -9,5 +9,5 @@ data class SelectionParameters(val isSelected: Boolean, val text: String)
 data class RootParameters(
     val state: MutableState<ToggleableState>,
     val text: String,
-    val colors: CheckboxColors
+    val colors: CheckboxColors,
 )

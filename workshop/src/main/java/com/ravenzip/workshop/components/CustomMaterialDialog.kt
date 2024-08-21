@@ -48,7 +48,7 @@ fun AlertDialog(
     onConfirmationText: TextConfig,
     containerColors: CardColors = CardDefaults.cardColors(),
     onDismiss: () -> Unit,
-    onConfirmation: () -> Unit
+    onConfirmation: () -> Unit,
 ) {
     Dialog(onDismissRequest = { onDismiss() }) {
         Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
@@ -56,52 +56,54 @@ fun AlertDialog(
                 modifier =
                     Modifier.padding(start = 20.dp, end = 20.dp, top = 25.dp, bottom = 25.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center) {
-                    if (icon !== null && icon.size > 0) {
-                        Icon(
-                            imageVector = icon.value,
-                            contentDescription = icon.description,
-                            modifier = Modifier.size(icon.size.dp),
-                            tint = icon.color ?: containerColors.contentColor)
-                        Spacer(modifier = Modifier.padding(top = 20.dp))
+                verticalArrangement = Arrangement.Center,
+            ) {
+                if (icon !== null && icon.size > 0) {
+                    Icon(
+                        imageVector = icon.value,
+                        contentDescription = icon.description,
+                        modifier = Modifier.size(icon.size.dp),
+                        tint = icon.color ?: containerColors.contentColor,
+                    )
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                }
+
+                Text(text = title.value, fontSize = title.size.sp, fontWeight = FontWeight.Medium)
+
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+                Text(text = text.value, fontSize = text.size.sp)
+
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+                Row {
+                    SimpleButton(
+                        width = 0.5f,
+                        text = TextConfig(value = onDismissText.value, size = onDismissText.size),
+                        textAlign = TextAlign.Center,
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor = containerColors.containerColor,
+                                contentColor = MaterialTheme.colorScheme.primary,
+                            ),
+                        contentPadding = PaddingValues(0.dp),
+                    ) {
+                        onDismiss()
                     }
 
-                    Text(
-                        text = title.value,
-                        fontSize = title.size.sp,
-                        fontWeight = FontWeight.Medium)
+                    Spacer(modifier = Modifier.weight(1f))
 
-                    Spacer(modifier = Modifier.padding(top = 20.dp))
-                    Text(text = text.value, fontSize = text.size.sp)
-
-                    Spacer(modifier = Modifier.padding(top = 20.dp))
-                    Row {
-                        SimpleButton(
-                            width = 0.5f,
-                            text =
-                                TextConfig(value = onDismissText.value, size = onDismissText.size),
-                            textAlign = TextAlign.Center,
-                            colors =
-                                ButtonDefaults.buttonColors(
-                                    containerColor = containerColors.containerColor,
-                                    contentColor = MaterialTheme.colorScheme.primary),
-                            contentPadding = PaddingValues(0.dp)) {
-                                onDismiss()
-                            }
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        SimpleButton(
-                            text =
-                                TextConfig(
-                                    value = onConfirmationText.value,
-                                    size = onConfirmationText.size),
-                            textAlign = TextAlign.Center,
-                            contentPadding = PaddingValues(0.dp)) {
-                                onConfirmation()
-                            }
+                    SimpleButton(
+                        text =
+                            TextConfig(
+                                value = onConfirmationText.value,
+                                size = onConfirmationText.size,
+                            ),
+                        textAlign = TextAlign.Center,
+                        contentPadding = PaddingValues(0.dp),
+                    ) {
+                        onConfirmation()
                     }
                 }
+            }
         }
     }
 }

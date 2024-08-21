@@ -43,7 +43,7 @@ fun Chip(
     text: String,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Box(modifier = Modifier.clip(shape).background(backgroundColor).clickable { onClick() }) {
         Text(
@@ -51,7 +51,8 @@ fun Chip(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
             fontSize = 14.sp,
             fontWeight = FontWeight.W500,
-            letterSpacing = 0.sp)
+            letterSpacing = 0.sp,
+        )
     }
 }
 
@@ -66,14 +67,15 @@ fun Chip(
 fun BoxedChip(
     icon: IconConfig,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
-    shape: Shape = RoundedCornerShape(10.dp)
+    shape: Shape = RoundedCornerShape(10.dp),
 ) {
     Box(modifier = Modifier.clip(shape).background(backgroundColor)) {
         Icon(
             imageVector = icon.value,
             contentDescription = icon.description,
             modifier = Modifier.padding(10.dp).size(icon.size.dp),
-            tint = icon.color ?: MaterialTheme.colorScheme.primary)
+            tint = icon.color ?: MaterialTheme.colorScheme.primary,
+        )
     }
 }
 
@@ -105,9 +107,10 @@ fun BoxedChipGroup(
         Column(Modifier.fillMaxWidth(width)) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                    items.forEach { item -> BoxedChip(icon = item) }
-                }
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                items.forEach { item -> BoxedChip(icon = item) }
+            }
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -118,15 +121,17 @@ fun BoxedChipGroup(
                 iconPositionIsLeft = false,
                 colors = containerConfig.colors,
                 shape = containerConfig.shape,
-                contentPadding = containerConfig.contentPadding) {
-                    buttonContentConfig.onClick()
-                }
+                contentPadding = containerConfig.contentPadding,
+            ) {
+                buttonContentConfig.onClick()
+            }
         }
     } else {
         FlowRow(
             modifier = Modifier.fillMaxWidth(width),
-            horizontalArrangement = Arrangement.SpaceBetween) {
-                items.forEach { item -> BoxedChip(icon = item) }
-            }
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            items.forEach { item -> BoxedChip(icon = item) }
+        }
     }
 }

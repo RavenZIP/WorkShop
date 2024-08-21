@@ -31,7 +31,7 @@ fun <T> VerticalGrid(
     columnsCount: Int = 2,
     spacing: Dp = 10.dp,
     oneSizeForEveryone: Boolean = false,
-    content: @Composable (modifier: Modifier, item: T) -> Unit
+    content: @Composable (modifier: Modifier, item: T) -> Unit,
 ) {
     val rowsCount = items.size / columnsCount + (if (items.size % columnsCount > 0) 1 else 0)
     Column(modifier = Modifier.fillMaxWidth(width)) {
@@ -44,8 +44,10 @@ fun <T> VerticalGrid(
                     if (!isOutOfRange) content(Modifier.weight(1f), items[elementNum - 1])
                     else if (oneSizeForEveryone) Box(modifier = Modifier.weight(1f))
 
-                    if (indexOfElementColumn != columnsCount - 1 &&
-                        (elementNum != items.size && !isOutOfRange || oneSizeForEveryone)) {
+                    if (
+                        indexOfElementColumn != columnsCount - 1 &&
+                            (elementNum != items.size && !isOutOfRange || oneSizeForEveryone)
+                    ) {
                         Spacer(modifier = Modifier.width(spacing))
                     }
                 }
