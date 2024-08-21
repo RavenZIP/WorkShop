@@ -46,33 +46,33 @@ fun InfoCard(
     text: TextConfig,
     titleUnderIcon: Boolean = true,
     shape: Shape = RoundedCornerShape(10.dp),
-    colors: CardColors = CardDefaults.cardColors()
+    colors: CardColors = CardDefaults.cardColors(),
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(width),
         colors = colors,
         shape = shape,
-        elevation = CardDefaults.cardElevation(0.dp)) {
-            Column(modifier = Modifier.padding(15.dp)) {
-                if (titleUnderIcon) {
-                    TitleWithIcon(
-                        icon = icon, title = title, isPaddingTop = true, colors = colors)
-                } else {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        TitleWithIcon(
-                            icon = icon, title = title, isPaddingTop = false, colors = colors)
-                    }
+        elevation = CardDefaults.cardElevation(0.dp),
+    ) {
+        Column(modifier = Modifier.padding(15.dp)) {
+            if (titleUnderIcon) {
+                TitleWithIcon(icon = icon, title = title, isPaddingTop = true, colors = colors)
+            } else {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TitleWithIcon(icon = icon, title = title, isPaddingTop = false, colors = colors)
                 }
-
-                Spacer(modifier = Modifier.padding(top = 10.dp))
-                Text(
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    text = text.value,
-                    color = text.color ?: colors.contentColor,
-                    fontSize = text.size.sp,
-                    fontWeight = FontWeight.W400)
             }
+
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(0.9f),
+                text = text.value,
+                color = text.color ?: colors.contentColor,
+                fontSize = text.size.sp,
+                fontWeight = FontWeight.W400,
+            )
         }
+    }
 }
 
 /**
@@ -85,6 +85,7 @@ fun InfoCard(
  * @param contentPadding отступы для контента внутри карточки (для чипа и текста)
  * @param shape радиус скругления
  * @param colors цвета карточки
+ * @param content содержимое карточки (по дефолту текст)
  */
 @Composable
 fun InfoCard(
@@ -94,13 +95,14 @@ fun InfoCard(
     fontSize: Int = 14,
     contentPadding: PaddingValues = PaddingValues(10.dp),
     shape: Shape = RoundedCornerShape(10.dp),
-    colors: CardColors = CardDefaults.cardColors()
+    colors: CardColors = CardDefaults.cardColors(),
+    content: @Composable () -> Unit = { Text(cardText, fontSize = fontSize.sp) },
 ) {
     Card(modifier = Modifier.fillMaxWidth(width), shape = shape, colors = colors) {
         Column(modifier = Modifier.fillMaxWidth().padding(contentPadding)) {
             Chip(text = chipText)
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = cardText, fontSize = fontSize.sp)
+            content()
         }
     }
 }
@@ -110,19 +112,21 @@ private fun TitleWithIcon(
     icon: IconConfig,
     title: TextConfig,
     isPaddingTop: Boolean,
-    colors: CardColors
+    colors: CardColors,
 ) {
     Icon(
         imageVector = icon.value,
         contentDescription = icon.description,
         tint = icon.color ?: colors.contentColor,
-        modifier = Modifier.size(icon.size.dp))
+        modifier = Modifier.size(icon.size.dp),
+    )
     Spacer(modifier = if (isPaddingTop) Modifier.paddingTop(10.dp) else Modifier.paddingEnd(10.dp))
     Text(
         text = title.value,
         color = title.color ?: colors.contentColor,
         fontSize = title.size.sp,
-        fontWeight = FontWeight.Medium)
+        fontWeight = FontWeight.Medium,
+    )
 }
 
 // TODO ExpandableInfoCard
