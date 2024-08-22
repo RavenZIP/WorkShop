@@ -69,7 +69,7 @@ fun BoxedChip(
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp),
 ) {
-    Box(modifier = Modifier.clip(shape).background(backgroundColor)) {
+    RoundedBox(backgroundColor = backgroundColor, shape = shape) {
         Icon(
             imageVector = icon.value,
             contentDescription = icon.description,
