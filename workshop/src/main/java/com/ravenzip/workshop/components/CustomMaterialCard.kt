@@ -2,6 +2,7 @@ package com.ravenzip.workshop.components
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -91,12 +92,12 @@ fun InfoCard(
 fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     chipText: String,
-    cardText: String,
+    cardText: String = "",
     fontSize: Int = 14,
     contentPadding: PaddingValues = PaddingValues(10.dp),
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors(),
-    content: @Composable () -> Unit = { Text(cardText, fontSize = fontSize.sp) },
+    content: @Composable ColumnScope.() -> Unit = { Text(cardText, fontSize = fontSize.sp) },
 ) {
     Card(modifier = Modifier.fillMaxWidth(width), shape = shape, colors = colors) {
         Column(modifier = Modifier.fillMaxWidth().padding(contentPadding)) {
