@@ -20,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconConfig
@@ -33,8 +33,11 @@ import com.ravenzip.workshop.paddingTop
  *
  * @param width ширина карточки
  * @param icon иконка
+ * @param iconConfig параметры иконки
  * @param title заголовок
+ * @param titleConfig параметры заголовка
  * @param text текст
+ * @param textConfig параметры текста
  * @param titleUnderIcon расположить заголовок снизу иконки
  * @param shape радиус скругления
  * @param colors цвета карточки
@@ -42,9 +45,12 @@ import com.ravenzip.workshop.paddingTop
 @Composable
 fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    icon: IconConfig,
-    title: TextConfig,
-    text: TextConfig,
+    icon: ImageVector,
+    iconConfig: IconConfig,
+    title: String,
+    titleConfig: TextConfig = TextConfig.H2,
+    text: String,
+    textConfig: TextConfig,
     titleUnderIcon: Boolean = true,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors(),
@@ -57,20 +63,34 @@ fun InfoCard(
     ) {
         Column(modifier = Modifier.padding(15.dp)) {
             if (titleUnderIcon) {
-                TitleWithIcon(icon = icon, title = title, isPaddingTop = true, colors = colors)
+                TitleWithIcon(
+                    icon = icon,
+                    iconConfig = iconConfig,
+                    title = title,
+                    titleConfig = titleConfig,
+                    isPaddingTop = true,
+                    colors = colors,
+                )
             } else {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    TitleWithIcon(icon = icon, title = title, isPaddingTop = false, colors = colors)
+                    TitleWithIcon(
+                        icon = icon,
+                        iconConfig = iconConfig,
+                        title = title,
+                        titleConfig = titleConfig,
+                        isPaddingTop = false,
+                        colors = colors,
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.padding(top = 10.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(0.9f),
-                text = text.value,
-                color = text.color ?: colors.contentColor,
-                fontSize = text.size.sp,
-                fontWeight = FontWeight.W400,
+                text = text,
+                color = textConfig.color ?: colors.contentColor,
+                fontSize = textConfig.size.sp,
+                fontWeight = textConfig.weight,
             )
         }
     }
@@ -110,23 +130,25 @@ fun InfoCard(
 
 @Composable
 private fun TitleWithIcon(
-    icon: IconConfig,
-    title: TextConfig,
+    icon: ImageVector,
+    iconConfig: IconConfig,
+    title: String,
+    titleConfig: TextConfig,
     isPaddingTop: Boolean,
     colors: CardColors,
 ) {
     Icon(
-        imageVector = icon.value,
-        contentDescription = icon.description,
-        tint = icon.color ?: colors.contentColor,
-        modifier = Modifier.size(icon.size.dp),
+        imageVector = icon,
+        contentDescription = iconConfig.description,
+        tint = iconConfig.color ?: colors.contentColor,
+        modifier = Modifier.size(iconConfig.size.dp),
     )
     Spacer(modifier = if (isPaddingTop) Modifier.paddingTop(10.dp) else Modifier.paddingEnd(10.dp))
     Text(
-        text = title.value,
-        color = title.color ?: colors.contentColor,
-        fontSize = title.size.sp,
-        fontWeight = FontWeight.Medium,
+        text = title,
+        color = titleConfig.color ?: colors.contentColor,
+        fontSize = titleConfig.size.sp,
+        fontWeight = titleConfig.weight,
     )
 }
 

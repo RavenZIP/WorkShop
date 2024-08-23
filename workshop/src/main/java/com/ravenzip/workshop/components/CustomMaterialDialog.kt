@@ -18,8 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -30,22 +29,31 @@ import com.ravenzip.workshop.data.TextConfig
  * [AlertDialog] - Диалоговое окно
  *
  * @param icon иконка
+ * @param iconConfig параметры иконки
  * @param title заголовок
+ * @param titleConfig параметры заголовка
  * @param text описание
+ * @param textConfig параметры описания
  * @param onDismissText текст кнопки отмены
+ * @param onDismissTextConfig параметры кнопки отмены
  * @param onConfirmationText текст кнопки подтверждения
- * @param title заголовок
+ * @param onConfirmationTextConfig параметры кнопки подтверждения
  * @param containerColors цвета контейнера
  * @param onDismiss действие при отмене
  * @param onConfirmation действие при подтверждении
  */
 @Composable
 fun AlertDialog(
-    icon: IconConfig? = null,
-    title: TextConfig,
-    text: TextConfig,
-    onDismissText: TextConfig,
-    onConfirmationText: TextConfig,
+    icon: ImageVector? = null,
+    iconConfig: IconConfig? = null,
+    title: String,
+    titleConfig: TextConfig = TextConfig.H1,
+    text: String,
+    textConfig: TextConfig = TextConfig.Small,
+    onDismissText: String,
+    onDismissTextConfig: TextConfig = TextConfig.SmallMedium,
+    onConfirmationText: String,
+    onConfirmationTextConfig: TextConfig = TextConfig.SmallMedium,
     containerColors: CardColors = CardDefaults.cardColors(),
     onDismiss: () -> Unit,
     onConfirmation: () -> Unit,
@@ -58,27 +66,27 @@ fun AlertDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                if (icon !== null && icon.size > 0) {
+                if (icon !== null && iconConfig != null) {
                     Icon(
-                        imageVector = icon.value,
-                        contentDescription = icon.description,
-                        modifier = Modifier.size(icon.size.dp),
-                        tint = icon.color ?: containerColors.contentColor,
+                        imageVector = icon,
+                        contentDescription = iconConfig.description,
+                        modifier = Modifier.size(iconConfig.size.dp),
+                        tint = iconConfig.color ?: containerColors.contentColor,
                     )
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
 
-                Text(text = title.value, fontSize = title.size.sp, fontWeight = FontWeight.Medium)
+                Text(text = title, fontSize = titleConfig.size.sp, fontWeight = titleConfig.weight)
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
-                Text(text = text.value, fontSize = text.size.sp)
+                Text(text = text, fontSize = textConfig.size.sp)
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Row {
                     SimpleButton(
                         width = 0.5f,
-                        text = TextConfig(value = onDismissText.value, size = onDismissText.size),
-                        textAlign = TextAlign.Center,
+                        text = onDismissText,
+                        textConfig = onDismissTextConfig,
                         colors =
                             ButtonDefaults.buttonColors(
                                 containerColor = containerColors.containerColor,
@@ -92,12 +100,8 @@ fun AlertDialog(
                     Spacer(modifier = Modifier.weight(1f))
 
                     SimpleButton(
-                        text =
-                            TextConfig(
-                                value = onConfirmationText.value,
-                                size = onConfirmationText.size,
-                            ),
-                        textAlign = TextAlign.Center,
+                        text = onConfirmationText,
+                        textConfig = onConfirmationTextConfig,
                         contentPadding = PaddingValues(0.dp),
                     ) {
                         onConfirmation()

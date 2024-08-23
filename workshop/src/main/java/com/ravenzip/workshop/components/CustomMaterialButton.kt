@@ -18,8 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.IconConfig
@@ -32,7 +31,7 @@ import com.ravenzip.workshop.fillMaxWidthWithoutValue
  *
  * @param width ширина кнопки
  * @param text текст на кнопке
- * @param textAlign расположение текста
+ * @param textConfig параметры текста
  * @param colors цвета кнопки
  * @param shape радиус скругления кнопки
  * @param contentPadding внутренние отступы
@@ -41,8 +40,8 @@ import com.ravenzip.workshop.fillMaxWidthWithoutValue
 @Composable
 fun SimpleButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    text: TextConfig,
-    textAlign: TextAlign = TextAlign.Center,
+    text: String,
+    textConfig: TextConfig = TextConfig.CenteredMedium,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = PaddingValues(18.dp),
@@ -56,11 +55,11 @@ fun SimpleButton(
         contentPadding = contentPadding,
     ) {
         Text(
-            text = text.value,
+            text = text,
             modifier = Modifier.fillMaxWidthWithoutValue(width),
-            fontSize = text.size.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = textAlign,
+            fontSize = textConfig.size.sp,
+            fontWeight = textConfig.weight,
+            textAlign = textConfig.align,
         )
     }
 }
@@ -69,10 +68,13 @@ fun SimpleButton(
  * [CustomButton] - Кнопка с заголовком и описанием
  *
  * @param width ширина кнопки
- * @param title заголовок
- * @param text описание
+ * @param title текст заголовка
+ * @param titleConfig параметры заголовка
+ * @param text текст описания
+ * @param textConfig параметры описания
  * @param icon иконка
- * @param textContainerAlign выравнивание заголовка и описания
+ * @param iconConfig параметры иконки
+ * @param textAlign выравнивание заголовка и описания
  * @param colors цвета кнопки
  * @param shape радиус скругления кнопки
  * @param onClick действие при нажатии
@@ -80,10 +82,13 @@ fun SimpleButton(
 @Composable
 fun CustomButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    title: TextConfig,
-    text: TextConfig,
-    icon: IconConfig,
-    textContainerAlign: Alignment.Horizontal = Alignment.Start,
+    title: String,
+    titleConfig: TextConfig = TextConfig.H2,
+    text: String,
+    textConfig: TextConfig = TextConfig.Small,
+    icon: ImageVector,
+    iconConfig: IconConfig = IconConfig.Default,
+    textAlign: Alignment.Horizontal = Alignment.Start,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = PaddingValues(18.dp),
@@ -98,29 +103,29 @@ fun CustomButton(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = icon.value,
-                contentDescription = icon.description,
-                modifier = Modifier.padding(end = 15.dp).size(icon.size.dp),
-                tint = icon.color ?: colors.contentColor,
+                imageVector = icon,
+                contentDescription = iconConfig.description,
+                modifier = Modifier.padding(end = 15.dp).size(iconConfig.size.dp),
+                tint = iconConfig.color ?: colors.contentColor,
             )
 
             Column(
                 modifier = Modifier.fillMaxWidthWithoutValue(width),
-                horizontalAlignment = textContainerAlign,
+                horizontalAlignment = textAlign,
             ) {
                 Text(
-                    text = title.value,
-                    color = title.color ?: colors.contentColor,
-                    fontSize = title.size.sp,
-                    fontWeight = FontWeight.Medium,
+                    text = title,
+                    color = titleConfig.color ?: colors.contentColor,
+                    fontSize = titleConfig.size.sp,
+                    fontWeight = titleConfig.weight,
                 )
                 Spacer(modifier = Modifier.padding(top = 2.5.dp))
 
                 Text(
-                    text = text.value,
-                    color = text.color ?: colors.contentColor,
-                    fontSize = text.size.sp,
-                    fontWeight = FontWeight.W400,
+                    text = text,
+                    color = textConfig.color ?: colors.contentColor,
+                    fontSize = textConfig.size.sp,
+                    fontWeight = textConfig.weight,
                 )
             }
         }
@@ -132,7 +137,9 @@ fun CustomButton(
  *
  * @param width ширина кнопки
  * @param text текст
+ * @param textConfig параметры текста
  * @param icon иконка
+ * @param iconConfig параметры иконки
  * @param iconPositionIsLeft расположить иконку слева
  * @param colors цвета кнопки
  * @param shape радиус скругления кнопки
@@ -141,8 +148,10 @@ fun CustomButton(
 @Composable
 fun RowIconButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
-    text: TextConfig,
-    icon: IconConfig,
+    text: String,
+    textConfig: TextConfig = TextConfig.H2,
+    icon: ImageVector,
+    iconConfig: IconConfig = IconConfig.Default,
     iconPositionIsLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -162,31 +171,31 @@ fun RowIconButton(
         ) {
             if (iconPositionIsLeft) {
                 Icon(
-                    imageVector = icon.value,
-                    contentDescription = icon.description,
-                    modifier = Modifier.size(icon.size.dp),
-                    tint = icon.color ?: colors.contentColor,
+                    imageVector = icon,
+                    contentDescription = iconConfig.description,
+                    modifier = Modifier.size(iconConfig.size.dp),
+                    tint = iconConfig.color ?: colors.contentColor,
                 )
                 Text(
-                    text = text.value,
-                    color = text.color ?: colors.contentColor,
+                    text = text,
+                    color = textConfig.color ?: colors.contentColor,
                     modifier = Modifier.padding(start = 15.dp),
-                    fontSize = text.size.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontSize = textConfig.size.sp,
+                    fontWeight = textConfig.weight,
                 )
             } else {
                 Text(
-                    text = text.value,
-                    color = text.color ?: colors.contentColor,
+                    text = text,
+                    color = textConfig.color ?: colors.contentColor,
                     modifier = Modifier.weight(1f).padding(end = 15.dp),
-                    fontSize = text.size.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontSize = textConfig.size.sp,
+                    fontWeight = textConfig.weight,
                 )
                 Icon(
-                    imageVector = icon.value,
-                    contentDescription = icon.description,
-                    modifier = Modifier.size(icon.size.dp),
-                    tint = icon.color ?: colors.contentColor,
+                    imageVector = icon,
+                    contentDescription = iconConfig.description,
+                    modifier = Modifier.size(iconConfig.size.dp),
+                    tint = iconConfig.color ?: colors.contentColor,
                 )
             }
         }
@@ -197,7 +206,9 @@ fun RowIconButton(
  * [ColIconButton] - Кнопка с иконкой и текстом, расположенными по вертикали
  *
  * @param text текст
+ * @param textConfig параметры текста
  * @param icon иконка
+ * @param iconConfig параметры иконки
  * @param colors цвета кнопки
  * @param shape радиус скругления кнопки
  * @param contentPadding внутренние отступы
@@ -205,8 +216,10 @@ fun RowIconButton(
  */
 @Composable
 fun ColIconButton(
-    text: TextConfig,
-    icon: IconConfig,
+    text: String,
+    textConfig: TextConfig = TextConfig.H2,
+    icon: ImageVector,
+    iconConfig: IconConfig = IconConfig.Default,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
@@ -223,18 +236,18 @@ fun ColIconButton(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
-                imageVector = icon.value,
-                contentDescription = icon.description,
-                modifier = Modifier.size(icon.size.dp),
-                tint = icon.color ?: colors.contentColor,
+                imageVector = icon,
+                contentDescription = iconConfig.description,
+                modifier = Modifier.size(iconConfig.size.dp),
+                tint = iconConfig.color ?: colors.contentColor,
             )
-            if (text.value !== "" && text.size > 0) {
+            if (text !== "" && textConfig.size > 0) {
                 Spacer(modifier = Modifier.padding(bottom = 5.dp))
                 Text(
-                    text = text.value,
-                    color = text.color ?: colors.contentColor,
-                    fontSize = text.size.sp,
-                    fontWeight = FontWeight.Medium,
+                    text = text,
+                    color = textConfig.color ?: colors.contentColor,
+                    fontSize = textConfig.size.sp,
+                    fontWeight = textConfig.weight,
                 )
             }
         }

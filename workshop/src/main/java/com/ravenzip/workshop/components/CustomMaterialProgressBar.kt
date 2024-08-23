@@ -17,8 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -28,10 +26,15 @@ import com.ravenzip.workshop.data.TextConfig
  * [Spinner] - Спиннер
  *
  * @param text текст
+ * @param textConfig параметры текста
  * @param containerColors цвета контейнера
  */
 @Composable
-fun Spinner(text: TextConfig, containerColors: CardColors = CardDefaults.cardColors()) {
+fun Spinner(
+    text: String,
+    textConfig: TextConfig = TextConfig.CenteredMedium,
+    containerColors: CardColors = CardDefaults.cardColors(),
+) {
     Dialog(onDismissRequest = {}) {
         Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
             Column(
@@ -41,13 +44,13 @@ fun Spinner(text: TextConfig, containerColors: CardColors = CardDefaults.cardCol
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp))
 
-                if (text.value !== "" && text.size > 0) {
+                if (text !== "" && textConfig.size > 0) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
                     Text(
-                        text = text.value,
-                        fontSize = text.size.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center,
+                        text = text,
+                        fontSize = textConfig.size.sp,
+                        fontWeight = textConfig.weight,
+                        textAlign = textConfig.align,
                     )
                 }
             }
@@ -60,6 +63,7 @@ fun Spinner(text: TextConfig, containerColors: CardColors = CardDefaults.cardCol
  *
  * @param progressValue прогресс
  * @param text текст
+ * @param textConfig параметры текста
  * @param showProgressPercentages отображать проценты прогресса
  * @param containerColors цвета контейнера
  */
@@ -67,7 +71,8 @@ fun Spinner(text: TextConfig, containerColors: CardColors = CardDefaults.cardCol
 @Composable
 fun CircularProgressIndicator(
     progressValue: Float,
-    text: TextConfig,
+    text: String,
+    textConfig: TextConfig = TextConfig.CenteredMedium,
     showProgressPercentages: Boolean = false,
     containerColors: CardColors = CardDefaults.cardColors(),
 ) {
@@ -84,20 +89,20 @@ fun CircularProgressIndicator(
                     trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f),
                 )
 
-                if (text.value !== "" && text.size > 0) {
+                if (text !== "" && textConfig.size > 0) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
                     Text(
-                        text = text.value,
-                        fontSize = text.size.sp,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center,
+                        text = text,
+                        fontSize = textConfig.size.sp,
+                        fontWeight = textConfig.weight,
+                        textAlign = textConfig.align,
                     )
 
                     if (showProgressPercentages)
                         Text(
                             text = "${String.format("%.2f", progressValue * 100)}%",
-                            fontSize = text.size.sp,
-                            fontWeight = FontWeight.Medium,
+                            fontSize = textConfig.size.sp,
+                            fontWeight = textConfig.weight,
                         )
                 }
             }

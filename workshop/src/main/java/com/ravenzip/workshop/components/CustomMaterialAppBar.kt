@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -75,7 +76,7 @@ fun TopAppBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (backArrow !== null) {
-                AppBarButton(icon = backArrow.icon) { backArrow.onClick() }
+                AppBarButton(icon = backArrow.icon, backArrow.iconConfig) { backArrow.onClick() }
                 Spacer(modifier = Modifier.weight(0.1f))
             }
 
@@ -88,7 +89,9 @@ fun TopAppBar(
             Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
 
             items.forEachIndexed { index, button ->
-                AppBarButton(icon = button.icon) { button.onClick() }
+                AppBarButton(icon = button.icon, iconConfig = button.iconConfig) {
+                    button.onClick()
+                }
                 if (index != lastItem) Spacer(modifier = Modifier.padding(start = 5.dp))
             }
         }
@@ -119,7 +122,9 @@ fun TopAppBarWithMenu(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (backArrow !== null) {
-                AppBarButton(icon = backArrow.icon) { backArrow.onClick() }
+                AppBarButton(icon = backArrow.icon, iconConfig = backArrow.iconConfig) {
+                    backArrow.onClick()
+                }
                 Spacer(modifier = Modifier.weight(0.1f))
             }
 
@@ -174,16 +179,16 @@ fun SearchBar(
 }
 
 @Composable
-private fun AppBarButton(icon: IconConfig, onClick: () -> Unit) {
+private fun AppBarButton(icon: ImageVector, iconConfig: IconConfig, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = icon.value,
-            contentDescription = icon.description,
-            modifier = Modifier.size(icon.size.dp),
-            tint = icon.color ?: MaterialTheme.colorScheme.onSurface,
+            imageVector = icon,
+            contentDescription = iconConfig.description,
+            modifier = Modifier.size(iconConfig.size.dp),
+            tint = iconConfig.color ?: MaterialTheme.colorScheme.onSurface,
         )
     }
 }
@@ -209,24 +214,28 @@ private fun AppBarMenu(
             onDismissRequest = { expanded.value = false },
             Modifier.padding(start = 10.dp, top = 2.5.dp, end = 10.dp, bottom = 2.5.dp),
         ) {
-            menuItems.forEachIndexed { index, it ->
+            menuItems.forEachIndexed { index, menuItem ->
                 DropdownMenuItem(
-                    text = { Text(it.text) },
+                    text = { Text(menuItem.text) },
                     onClick = {
-                        it.onClick()
+                        menuItem.onClick()
                         expanded.value = false
                     },
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)),
                     leadingIcon = {
                         Icon(
-                            imageVector = it.icon.value,
-                            contentDescription = it.icon.description,
-                            modifier = Modifier.size(it.icon.size.dp),
-                            tint = it.icon.color ?: MaterialTheme.colorScheme.onSurfaceVariant,
+                            imageVector = menuItem.icon,
+                            contentDescription = menuItem.iconConfig.description,
+                            modifier = Modifier.size(menuItem.iconConfig.size.dp),
+                            tint =
+                                menuItem.iconConfig.color
+                                    ?: MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     },
-                    enabled = it.enabled,
-                    colors = if (it.colors !== null) it.colors else MenuDefaults.itemColors(),
+                    enabled = menuItem.enabled,
+                    colors =
+                        if (menuItem.colors !== null) menuItem.colors
+                        else MenuDefaults.itemColors(),
                     contentPadding = PaddingValues(15.dp),
                 )
                 if (index != lastItem) Spacer(modifier = Modifier.padding(bottom = 5.dp))
@@ -296,9 +305,9 @@ private fun NavigationBarItem(
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    imageVector = item.icon.value,
+                    imageVector = item.icon,
                     contentDescription = item.label,
-                    modifier = Modifier.size(item.icon.size.dp),
+                    modifier = Modifier.size(item.iconConfig.size.dp),
                     tint = tint,
                 )
             }

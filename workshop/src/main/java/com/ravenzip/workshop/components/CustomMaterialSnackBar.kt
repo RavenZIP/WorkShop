@@ -74,17 +74,17 @@ fun SnackBar(
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
             ) {
                 Icon(
-                    imageVector = visuals.icon.value,
-                    contentDescription = visuals.icon.description,
-                    modifier = Modifier.size(visuals.icon.size.dp),
-                    tint = visuals.icon.color ?: colors.contentColor,
+                    imageVector = visuals.icon,
+                    contentDescription = visuals.iconConfig.description,
+                    modifier = Modifier.size(visuals.iconConfig.size.dp),
+                    tint = visuals.iconConfig.color ?: colors.contentColor,
                 )
                 Text(text = visuals.message, modifier = Modifier.padding(start = 10.dp))
             }
 
             LinearProgressIndicator(
                 progress = { progress.value },
-                color = visuals.icon.color ?: colors.contentColor,
+                color = visuals.iconConfig.color ?: colors.contentColor,
                 modifier = Modifier.fillMaxWidth(),
             )
         }

@@ -112,8 +112,10 @@ fun SinglenessTextField(
     text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     placeholder: String? = null,
-    leadingIcon: IconConfig? = null,
-    trailingIcon: IconConfig? = null,
+    leadingIcon: ImageVector? = null,
+    leadingIconConfig: IconConfig = IconConfig.Small,
+    trailingIcon: ImageVector? = null,
+    trailingIconConfig: IconConfig = IconConfig.Small,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors =
@@ -128,8 +130,9 @@ fun SinglenessTextField(
         onValueChange = { text.value = it },
         modifier = Modifier.fillMaxWidth(width),
         placeholder = getText(placeholder),
-        leadingIcon = getIcon(leadingIcon, colors),
-        trailingIcon = getIcon(trailingIcon, colors),
+        leadingIcon = getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
+        trailingIcon =
+            getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
         keyboardOptions = keyboardOptions,
         singleLine = true,
         shape = shape,
@@ -147,7 +150,9 @@ fun SinglenessTextField(
  * @param readOnly Только для чтения
  * @param label Название текстового поля
  * @param leadingIcon Иконка слева
+ * @param leadingIconConfig параметры иконки слева
  * @param trailingIcon Иконка справа
+ * @param trailingIconConfig параметры иконки справа
  * @param error Отображение ошибки
  * @param isHiddenText Замена вводимых символов на точки
  * @param keyboardOptions Опции для клавиатуры
@@ -163,8 +168,10 @@ fun SinglenessTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "Простое текстовое поле",
-    leadingIcon: IconConfig? = null,
-    trailingIcon: IconConfig? = null,
+    leadingIcon: ImageVector? = null,
+    leadingIconConfig: IconConfig = IconConfig.Small,
+    trailingIcon: ImageVector? = null,
+    trailingIconConfig: IconConfig = IconConfig.Small,
     error: Error = Error(),
     isHiddenText: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -184,6 +191,7 @@ fun SinglenessTextField(
         leadingIcon =
             getIcon(
                 icon = leadingIcon,
+                iconConfig = leadingIconConfig,
                 colors = colors,
                 isError = error.value,
                 isFocused = isFocused,
@@ -191,6 +199,7 @@ fun SinglenessTextField(
         trailingIcon =
             getIcon(
                 icon = trailingIcon,
+                iconConfig = trailingIconConfig,
                 colors = colors,
                 isError = error.value,
                 isFocused = isFocused,
@@ -289,8 +298,7 @@ internal fun SearchBarTextField(
         onValueChange = { text.value = it },
         modifier = Modifier.fillMaxWidth(width),
         placeholder = getText(placeholder),
-        leadingIcon =
-            getIcon(IconConfig(value = ImageVector.vectorResource(R.drawable.i_search), size = 22)),
+        leadingIcon = getIcon(ImageVector.vectorResource(R.drawable.i_search)),
         trailingIcon = getClearButton(text, colors.cursorColor),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = onSearch),
@@ -361,7 +369,8 @@ private fun getText(text: String?): @Composable (() -> Unit)? {
 }
 
 private fun getIcon(
-    icon: IconConfig?,
+    icon: ImageVector?,
+    iconConfig: IconConfig,
     colors: TextFieldColors,
     isError: Boolean,
     isFocused: Boolean,
@@ -369,34 +378,41 @@ private fun getIcon(
     return if (icon != null) {
         {
             Icon(
-                imageVector = icon.value,
-                contentDescription = icon.description,
-                modifier = Modifier.size(icon.size.dp),
+                imageVector = icon,
+                contentDescription = iconConfig.description,
+                modifier = Modifier.size(iconConfig.size.dp),
                 tint = getColor(colors = colors, isError = isError, isFocused = isFocused),
             )
         }
     } else null
 }
 
-private fun getIcon(icon: IconConfig?, colors: TextFieldColors): @Composable (() -> Unit)? {
+private fun getIcon(
+    icon: ImageVector?,
+    iconConfig: IconConfig,
+    colors: TextFieldColors,
+): @Composable (() -> Unit)? {
     return if (icon != null) {
         {
             Icon(
-                imageVector = icon.value,
-                contentDescription = icon.description,
-                modifier = Modifier.size(icon.size.dp),
-                tint = icon.color ?: colors.cursorColor,
+                imageVector = icon,
+                contentDescription = iconConfig.description,
+                modifier = Modifier.size(iconConfig.size.dp),
+                tint = iconConfig.color ?: colors.cursorColor,
             )
         }
     } else null
 }
 
-private fun getIcon(icon: IconConfig): @Composable (() -> Unit) {
+private fun getIcon(
+    icon: ImageVector,
+    iconConfig: IconConfig = IconConfig.Big,
+): @Composable (() -> Unit) {
     return {
         Icon(
-            imageVector = icon.value,
+            imageVector = icon,
             contentDescription = "",
-            modifier = Modifier.size(icon.size.dp),
+            modifier = Modifier.size(iconConfig.size.dp),
         )
     }
 }

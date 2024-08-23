@@ -38,7 +38,9 @@ import com.ravenzip.workshop.data.TextConfig
  * @param width ширина
  * @param isChecked состояние свича
  * @param title заголовок
+ * @param titleConfig параметры заголовка
  * @param text описание
+ * @param textConfig параметры описания
  * @param enabled вкл\выкл свича
  * @param colors цвета свича
  */
@@ -46,8 +48,10 @@ import com.ravenzip.workshop.data.TextConfig
 fun Switch(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     isChecked: MutableState<Boolean>,
-    title: TextConfig,
-    text: TextConfig,
+    title: String,
+    titleConfig: TextConfig,
+    text: String,
+    textConfig: TextConfig,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors(),
 ) {
@@ -60,8 +64,8 @@ fun Switch(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column {
-            Text(text = title.value, fontSize = title.size.sp)
-            Text(text = text.value, fontSize = text.size.sp)
+            Text(text = title, fontSize = titleConfig.size.sp)
+            Text(text = text, fontSize = textConfig.size.sp)
         }
         Spacer(modifier = Modifier.weight(1f))
         Switch(

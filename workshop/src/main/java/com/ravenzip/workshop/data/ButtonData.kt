@@ -8,9 +8,16 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-class ButtonContentConfig(val text: TextConfig, val icon: IconConfig, val onClick: () -> Unit = {})
+class ButtonContentConfig(
+    val text: String,
+    val textConfig: TextConfig,
+    val icon: ImageVector,
+    val iconConfig: IconConfig,
+    val onClick: () -> Unit = {},
+)
 
 class ButtonContainerConfig(
     @FloatRange(from = 0.0, to = 1.0) val width: Float,
