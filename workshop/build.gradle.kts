@@ -21,7 +21,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -43,7 +43,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.ravenzip.workshop"
             artifactId = "workshop"
-            version = "1.8.0"
+            version = "1.8.1_beta3"
 
             afterEvaluate { from(components["release"]) }
         }
