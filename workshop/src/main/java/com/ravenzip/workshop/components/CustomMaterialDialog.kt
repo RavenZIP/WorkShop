@@ -45,15 +45,15 @@ import com.ravenzip.workshop.data.TextConfig
 @Composable
 fun AlertDialog(
     icon: ImageVector? = null,
-    iconConfig: IconConfig? = null,
+    iconConfig: IconConfig = IconConfig.Default,
     title: String,
     titleConfig: TextConfig = TextConfig.H1,
     text: String,
     textConfig: TextConfig = TextConfig.Small,
     onDismissText: String,
-    onDismissTextConfig: TextConfig = TextConfig.SmallMedium,
+    onDismissTextConfig: TextConfig = TextConfig.SmallCenteredMedium,
     onConfirmationText: String,
-    onConfirmationTextConfig: TextConfig = TextConfig.SmallMedium,
+    onConfirmationTextConfig: TextConfig = TextConfig.SmallCenteredMedium,
     containerColors: CardColors = CardDefaults.cardColors(),
     onDismiss: () -> Unit,
     onConfirmation: () -> Unit,
@@ -66,7 +66,7 @@ fun AlertDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                if (icon !== null && iconConfig != null) {
+                if (icon !== null && iconConfig.size > 0) {
                     Icon(
                         imageVector = icon,
                         contentDescription = iconConfig.description,
