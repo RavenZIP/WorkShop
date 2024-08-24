@@ -1,5 +1,7 @@
 package com.ravenzip.workshop.data
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +36,42 @@ class TextConfig(
          * weight - FontWeight.Medium
          */
         val H2 = TextConfig(size = 18, weight = FontWeight.Medium)
+
+        /**
+         * size - 18
+         *
+         * color - MaterialTheme.colorScheme.onSurface
+         *
+         * align - TextAlign.Unspecified
+         *
+         * weight - FontWeight.Medium
+         */
+        val onSurfaceH2: TextConfig
+            @Composable
+            get() =
+                TextConfig(
+                    color = MaterialTheme.colorScheme.primary,
+                    size = 22,
+                    weight = FontWeight.Medium,
+                )
+
+        /**
+         * size - 18
+         *
+         * color - MaterialTheme.colorScheme.onSurface с прозрачностью 85%
+         *
+         * align - TextAlign.Unspecified
+         *
+         * weight - FontWeight.Medium
+         */
+        val onSurface85H2: TextConfig
+            @Composable
+            get() =
+                TextConfig(
+                    color = MaterialTheme.colorScheme.primary,
+                    size = 22,
+                    weight = FontWeight.Medium,
+                )
 
         /**
          * size - 16
