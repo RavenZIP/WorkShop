@@ -27,7 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.data.SnackBarVisualsExtended
+import com.ravenzip.workshop.data.SnackBarVisualsConfig
 
 /**
  * [SnackBar] - Уведомления
@@ -45,7 +45,7 @@ fun SnackBar(
     elevation: CardElevation = CardDefaults.cardElevation(5.dp),
 ) {
     SnackbarHost(hostState = snackBarHostState) {
-        val visuals = it.visuals as SnackBarVisualsExtended
+        val visuals = it.visuals as SnackBarVisualsConfig
         val progress = remember { Animatable(1f) }
 
         LaunchedEffect(

@@ -28,9 +28,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ravenzip.workshop.data.RootParameters
-import com.ravenzip.workshop.data.SelectionParameters
 import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.data.selection.RootSelectionConfig
+import com.ravenzip.workshop.data.selection.SelectionConfig
 
 /**
  * [Switch] - Переключатель
@@ -89,7 +89,7 @@ fun Switch(
 @Composable
 fun RadioGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    list: SnapshotStateList<SelectionParameters>,
+    list: SnapshotStateList<SelectionConfig>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors(),
@@ -130,7 +130,7 @@ fun RadioGroup(
 @Composable
 fun Checkboxes(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    list: SnapshotStateList<SelectionParameters>,
+    list: SnapshotStateList<SelectionConfig>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
@@ -157,9 +157,9 @@ fun Checkboxes(
 @Composable
 fun CheckboxesTree(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    root: RootParameters,
+    root: RootSelectionConfig,
     textSize: Int = 18,
-    list: SnapshotStateList<SelectionParameters>,
+    list: SnapshotStateList<SelectionConfig>,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
@@ -197,7 +197,7 @@ fun CheckboxesTree(
 
 @Composable
 private fun GetCheckbox(
-    item: SelectionParameters,
+    item: SelectionConfig,
     textSize: Int,
     enabled: Boolean,
     colors: CheckboxColors,
@@ -223,7 +223,7 @@ private fun GetCheckbox(
 }
 
 private fun getTriState(
-    list: SnapshotStateList<SelectionParameters>,
+    list: SnapshotStateList<SelectionConfig>,
     rootState: MutableState<ToggleableState>,
 ) {
     var activeCheckboxes = 0
@@ -237,7 +237,7 @@ private fun getTriState(
 }
 
 private fun changeState(
-    list: SnapshotStateList<SelectionParameters>,
+    list: SnapshotStateList<SelectionConfig>,
     rootState: MutableState<ToggleableState>,
 ) {
     rootState.value =

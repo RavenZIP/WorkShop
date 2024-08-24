@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
-import com.ravenzip.workshop.data.IconConfig
+import com.ravenzip.workshop.data.icon.IconConfig
 
 /**
  * [SimpleTextField] - Простое текстовое поле

@@ -3,8 +3,9 @@ package com.ravenzip.workshop.data
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarVisuals
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.ravenzip.workshop.data.icon.IconConfig
 
-class SnackBarVisualsExtended(
+class SnackBarVisualsConfig(
     override val message: String,
     override val actionLabel: String? = null,
     override val withDismissAction: Boolean = false,

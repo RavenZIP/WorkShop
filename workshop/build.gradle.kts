@@ -43,7 +43,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.ravenzip.workshop"
             artifactId = "workshop"
-            version = "1.8.1_beta3"
+            version = "1.8.1_beta9"
 
             afterEvaluate { from(components["release"]) }
         }

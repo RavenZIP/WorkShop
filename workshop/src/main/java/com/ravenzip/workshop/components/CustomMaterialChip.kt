@@ -27,10 +27,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ravenzip.workshop.data.ButtonContainerConfig
-import com.ravenzip.workshop.data.ButtonContentConfig
-import com.ravenzip.workshop.data.IconConfig
-import com.ravenzip.workshop.data.IconWithConfig
+import com.ravenzip.workshop.data.button.ButtonContainerConfig
+import com.ravenzip.workshop.data.button.ButtonContentConfig
+import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconWithConfig
 
 /**
  * [Chip] - Чип с текстом
@@ -121,7 +121,9 @@ fun BoxedChipGroup(
             RowIconButton(
                 width = containerConfig.width,
                 text = buttonContentConfig.text,
+                textConfig = buttonContentConfig.textConfig,
                 icon = buttonContentConfig.icon,
+                iconConfig = buttonContentConfig.iconConfig,
                 iconPositionIsLeft = false,
                 colors = containerConfig.colors,
                 shape = containerConfig.shape,

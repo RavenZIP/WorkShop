@@ -1,10 +1,7 @@
 package com.ravenzip.workshop.data
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
@@ -95,59 +92,3 @@ class TextConfig(
             TextConfig(size = 14, align = TextAlign.Center, weight = FontWeight.Medium)
     }
 }
-
-@Immutable
-class IconConfig(val description: String = "", val size: Int = 25, val color: Color? = null) {
-    companion object {
-        /**
-         * description - ""
-         *
-         * size - 22
-         *
-         * color - null
-         */
-        val Big = IconConfig(size = 22)
-
-        /**
-         * description - ""
-         *
-         * size - 25
-         *
-         * color - null
-         */
-        val Default = IconConfig()
-
-        /**
-         * description - ""
-         *
-         * size - 22
-         *
-         * color - null
-         */
-        val Small = IconConfig(size = 20)
-
-        /**
-         * description - ""
-         *
-         * size - 25
-         *
-         * color - MaterialTheme.colorScheme.primary
-         */
-        val Primary: IconConfig
-            @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary)
-
-        /**
-         * description - ""
-         *
-         * size - 20
-         *
-         * color - MaterialTheme.colorScheme.primary
-         */
-        val PrimarySmall: IconConfig
-            @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary, size = 20)
-    }
-}
-
-@Immutable class IconWithConfig(val icon: ImageVector, val config: IconConfig)
-
-data class Error(val value: Boolean = false, val text: String = "")

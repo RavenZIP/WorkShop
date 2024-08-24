@@ -45,12 +45,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ravenzip.workshop.data.AppBarItem
-import com.ravenzip.workshop.data.AppBarMenuItem
-import com.ravenzip.workshop.data.BackArrow
-import com.ravenzip.workshop.data.BottomItemsTextState
-import com.ravenzip.workshop.data.BottomNavigationItem
-import com.ravenzip.workshop.data.IconConfig
+import com.ravenzip.workshop.data.appbar.AppBarItem
+import com.ravenzip.workshop.data.appbar.AppBarMenuItem
+import com.ravenzip.workshop.data.appbar.BackArrow
+import com.ravenzip.workshop.data.appbar.BottomItemsTextStateEnum
+import com.ravenzip.workshop.data.appbar.BottomNavigationItem
+import com.ravenzip.workshop.data.icon.IconConfig
 
 /**
  * [TopAppBar] - Верхняя панель
@@ -289,7 +289,7 @@ private fun NavigationBarItem(
     navController: NavController,
     currentDestination: NavDestination?,
     item: BottomNavigationItem,
-    labelState: BottomItemsTextState,
+    labelState: BottomItemsTextStateEnum,
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
     val background = getBoxColor(selected)
@@ -360,20 +360,21 @@ private fun BottomNavigationItem.click(navController: NavController) {
 private fun getLabelState(
     showLabelOnlyOnSelected: Boolean,
     buttonsCount: Int,
-): BottomItemsTextState {
-    return if (showLabelOnlyOnSelected) BottomItemsTextState.ONLY_SELECTED
-    else if (buttonsCount <= 3) BottomItemsTextState.SHOW_ALL else BottomItemsTextState.HIDDEN
+): BottomItemsTextStateEnum {
+    return if (showLabelOnlyOnSelected) BottomItemsTextStateEnum.ONLY_SELECTED
+    else if (buttonsCount <= 3) BottomItemsTextStateEnum.SHOW_ALL
+    else BottomItemsTextStateEnum.HIDDEN
 }
 
 private fun BottomNavigationItem.showLabel(
     navController: NavController,
-    labelState: BottomItemsTextState,
+    labelState: BottomItemsTextStateEnum,
 ): Boolean {
-    return labelState === BottomItemsTextState.SHOW_ALL ||
-        labelState === BottomItemsTextState.ONLY_SELECTED &&
+    return labelState === BottomItemsTextStateEnum.SHOW_ALL ||
+        labelState === BottomItemsTextStateEnum.ONLY_SELECTED &&
             navController.currentDestination?.route == this.route
 }
 
-private fun getBottomBarTopPadding(labelState: BottomItemsTextState): Dp {
-    return if (labelState !== BottomItemsTextState.HIDDEN) 20.dp else 0.dp
+private fun getBottomBarTopPadding(labelState: BottomItemsTextStateEnum): Dp {
+    return if (labelState !== BottomItemsTextStateEnum.HIDDEN) 20.dp else 0.dp
 }
