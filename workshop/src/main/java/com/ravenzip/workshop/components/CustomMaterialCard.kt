@@ -102,7 +102,7 @@ fun InfoCard(
  * @param width ширина карточки
  * @param chipText текст в чипе
  * @param cardText текст в карточке
- * @param fontSize размер шрифта для текста в карточке
+ * @param cardTextConfig параметры текста в карточке
  * @param contentPadding отступы для контента внутри карточки (для чипа и текста)
  * @param shape радиус скругления
  * @param colors цвета карточки
@@ -113,11 +113,18 @@ fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     chipText: String,
     cardText: String = "",
-    fontSize: Int = 14,
+    cardTextConfig: TextConfig = TextConfig.Small,
     contentPadding: PaddingValues = PaddingValues(10.dp),
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors(),
-    content: @Composable ColumnScope.() -> Unit = { Text(cardText, fontSize = fontSize.sp) },
+    content: @Composable ColumnScope.() -> Unit = {
+        Text(
+            text = cardText,
+            color = cardTextConfig.color ?: colors.contentColor,
+            fontSize = cardTextConfig.size.sp,
+            fontWeight = cardTextConfig.weight,
+        )
+    },
 ) {
     Card(modifier = Modifier.fillMaxWidth(width), shape = shape, colors = colors) {
         Column(modifier = Modifier.fillMaxWidth().padding(contentPadding)) {
