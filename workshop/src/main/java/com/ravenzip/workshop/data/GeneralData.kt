@@ -1,5 +1,7 @@
 package com.ravenzip.workshop.data
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -123,6 +125,26 @@ class IconConfig(val description: String = "", val size: Int = 25, val color: Co
          * color - null
          */
         val Small = IconConfig(size = 20)
+
+        /**
+         * description - ""
+         *
+         * size - 25
+         *
+         * color - MaterialTheme.colorScheme.primary
+         */
+        val Primary: IconConfig
+            @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary)
+
+        /**
+         * description - ""
+         *
+         * size - 20
+         *
+         * color - MaterialTheme.colorScheme.primary
+         */
+        val PrimarySmall: IconConfig
+            @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary, size = 20)
     }
 }
 
