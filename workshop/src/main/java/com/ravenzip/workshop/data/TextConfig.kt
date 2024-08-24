@@ -50,8 +50,8 @@ class TextConfig(
             @Composable
             get() =
                 TextConfig(
-                    color = MaterialTheme.colorScheme.primary,
-                    size = 22,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    size = 18,
                     weight = FontWeight.Medium,
                 )
 
@@ -68,8 +68,8 @@ class TextConfig(
             @Composable
             get() =
                 TextConfig(
-                    color = MaterialTheme.colorScheme.primary,
-                    size = 22,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    size = 18,
                     weight = FontWeight.Medium,
                 )
 
