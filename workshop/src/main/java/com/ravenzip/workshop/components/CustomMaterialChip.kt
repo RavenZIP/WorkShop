@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.ButtonContainerConfig
 import com.ravenzip.workshop.data.ButtonContentConfig
 import com.ravenzip.workshop.data.IconConfig
+import com.ravenzip.workshop.data.IconWithConfig
 
 /**
  * [Chip] - Чип с текстом
@@ -87,8 +88,7 @@ fun BoxedChip(
  *
  * Кнопка предназначена для реализации отображения дополнительной информации о чипах
  *
- * @param icons список иконок для чипов
- * @param iconConfig параметры иконок
+ * @param items список иконок с параметрами для чипов
  * @param buttonContentConfig конфигурация контента для кнопки (текст, иконка, действие при нажатии)
  * @param buttonContainerConfig конфигурация контейнера для кнопки (ширина, цвета, радиус
  *   скругления, внутренние отступы)
@@ -97,8 +97,7 @@ fun BoxedChip(
 @Composable
 fun BoxedChipGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    icons: List<ImageVector>,
-    iconConfig: IconConfig = IconConfig.Default,
+    items: List<IconWithConfig>,
     buttonContentConfig: ButtonContentConfig? = null,
     buttonContainerConfig: ButtonContainerConfig? = null,
 ) {
@@ -114,7 +113,7 @@ fun BoxedChipGroup(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                icons.forEach { icon -> BoxedChip(icon = icon, iconConfig = iconConfig) }
+                items.forEach { item -> BoxedChip(icon = item.icon, iconConfig = item.config) }
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -136,7 +135,7 @@ fun BoxedChipGroup(
             modifier = Modifier.fillMaxWidth(width),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            icons.forEach { icon -> BoxedChip(icon = icon, iconConfig = iconConfig) }
+            items.forEach { item -> BoxedChip(icon = item.icon, iconConfig = item.config) }
         }
     }
 }
