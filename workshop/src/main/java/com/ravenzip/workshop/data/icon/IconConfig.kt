@@ -20,6 +20,16 @@ class IconConfig(val description: String = "", val size: Int = 25, val color: Co
         /**
          * description - ""
          *
+         * size - 22
+         *
+         * color - MaterialTheme.colorScheme.primary
+         */
+        val PrimaryBig: IconConfig
+            @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary, size = 22)
+
+        /**
+         * description - ""
+         *
          * size - 25
          *
          * color - null
