@@ -56,24 +56,6 @@ class TextConfig(
                 )
 
         /**
-         * size - 18
-         *
-         * color - MaterialTheme.colorScheme.onSurface с прозрачностью 85%
-         *
-         * align - TextAlign.Unspecified
-         *
-         * weight - FontWeight.Medium
-         */
-        val onSurface85H2: TextConfig
-            @Composable
-            get() =
-                TextConfig(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    size = 18,
-                    weight = FontWeight.Medium,
-                )
-
-        /**
          * size - 16
          *
          * color - null
@@ -128,5 +110,17 @@ class TextConfig(
          */
         val SmallCenteredMedium =
             TextConfig(size = 14, align = TextAlign.Center, weight = FontWeight.Medium)
+
+        /**
+         * size - 14
+         *
+         * color - MaterialTheme.colorScheme.onSurface с прозрачностью 85%
+         *
+         * align - TextAlign.Unspecified
+         *
+         * weight - FontWeight.Normal
+         */
+        val onSurface85Small: TextConfig
+            @Composable get() = TextConfig(color = MaterialTheme.colorScheme.onSurface, size = 14)
     }
 }
