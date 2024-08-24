@@ -2,6 +2,7 @@ package com.ravenzip.workshop.data
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
@@ -37,5 +38,7 @@ class IconConfig(val description: String = "", val size: Int = 25, val color: Co
         val Small = IconConfig(size = 20)
     }
 }
+
+@Immutable class IconWithConfig(val icon: ImageVector, val config: IconConfig)
 
 data class Error(val value: Boolean = false, val text: String = "")
