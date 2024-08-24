@@ -97,10 +97,31 @@ class TextConfig(
 @Immutable
 class IconConfig(val description: String = "", val size: Int = 25, val color: Color? = null) {
     companion object {
+        /**
+         * description - ""
+         *
+         * size - 22
+         *
+         * color - null
+         */
         val Big = IconConfig(size = 22)
 
+        /**
+         * description - ""
+         *
+         * size - 25
+         *
+         * color - null
+         */
         val Default = IconConfig()
 
+        /**
+         * description - ""
+         *
+         * size - 22
+         *
+         * color - null
+         */
         val Small = IconConfig(size = 20)
     }
 }
