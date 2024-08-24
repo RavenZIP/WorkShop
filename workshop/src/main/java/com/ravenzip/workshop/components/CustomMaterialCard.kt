@@ -51,7 +51,7 @@ fun InfoCard(
     titleConfig: TextConfig = TextConfig.H2,
     text: String,
     textConfig: TextConfig = TextConfig.Small,
-    titleUnderIcon: Boolean = true,
+    titleUnderIcon: Boolean = false,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: CardColors = CardDefaults.cardColors(),
 ) {
