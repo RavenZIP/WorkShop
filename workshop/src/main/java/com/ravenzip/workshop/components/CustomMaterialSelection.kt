@@ -2,6 +2,7 @@ package com.ravenzip.workshop.components
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -127,14 +128,20 @@ fun RadioGroup(
  * [ChipRadioGroup] - Радиогруппа с чипами
  *
  * @param list список радиокнопок
- * @param contentPadding отступ между радиокнопками
+ * @param contentPadding отступ для контейнера
+ * @param spaceBetweenItems отступ между радиокнопками
  */
 @Composable
 fun ChipRadioGroup(
     list: SnapshotStateList<SelectableChipConfig>,
     contentPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+    spaceBetweenItems: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
 ) {
-    LazyRow(modifier = Modifier.fillMaxWidth(), contentPadding = contentPadding) {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = spaceBetweenItems,
+        contentPadding = contentPadding,
+    ) {
         items(list, key = { it.text }, contentType = { it }) { item ->
             Chip(text = item.text, icon = item.icon, iconConfig = item.iconConfig) {
                 list.replaceAll { it.copy(isSelected = it.text == item.text) }
