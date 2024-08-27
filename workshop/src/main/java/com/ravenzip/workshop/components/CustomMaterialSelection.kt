@@ -142,7 +142,12 @@ fun ChipRadioGroup(
         contentPadding = containerPadding,
     ) {
         items(list, key = { it.text }, contentType = { it }) { item ->
-            Chip(text = item.text, icon = item.icon, iconConfig = item.iconConfig) {
+            SelectableChip(
+                isSelected = item.isSelected,
+                text = item.text,
+                icon = item.icon,
+                iconConfig = item.iconConfig,
+            ) {
                 list.replaceAll { it.copy(isSelected = it.text == item.text) }
             }
         }

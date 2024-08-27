@@ -1,8 +1,14 @@
 package com.ravenzip.workshop.components
 
 import androidx.annotation.FloatRange
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +21,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,6 +94,64 @@ fun Chip(
             Modifier.clip(shape)
                 .background(backgroundColor)
                 .clickable { onClick() }
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = icon,
+                contentDescription = iconConfig.description,
+                modifier = Modifier.size(iconConfig.size.dp),
+                tint = iconConfig.color ?: MaterialTheme.colorScheme.primary,
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Text(text = text, fontSize = 14.sp, fontWeight = FontWeight.W500, letterSpacing = 0.sp)
+        }
+    }
+}
+
+/**
+ * [SelectableChip] - Выбираемый чип (аналог радиокнопки)
+ *
+ * @param isSelected флаг, отображающий текущий активный чип
+ * @param text текст внутри чипа
+ * @param icon иконка
+ * @param iconConfig параметры иконки
+ * @param backgroundColor цвет контейнера
+ * @param shape радиус скругления
+ * @param onClick действие при нажатии
+ */
+@Composable
+fun SelectableChip(
+    isSelected: Boolean,
+    text: String,
+    icon: ImageVector,
+    iconConfig: IconConfig = IconConfig.Small,
+    backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
+    shape: Shape = RoundedCornerShape(10.dp),
+    onClick: () -> Unit = {},
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val color =
+        animateColorAsState(
+            targetValue = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+            animationSpec = tween(100, 0, LinearEasing),
+            label = "",
+        )
+
+    Box(
+        modifier =
+            Modifier.clip(shape)
+                .background(backgroundColor)
+                .border(BorderStroke(2.dp, color.value), shape)
+                .selectable(
+                    selected = isSelected,
+                    onClick = onClick,
+                    role = Role.RadioButton,
+                    interactionSource = interactionSource,
+                    indication = rememberRipple(),
+                )
                 .padding(horizontal = 10.dp, vertical = 5.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
