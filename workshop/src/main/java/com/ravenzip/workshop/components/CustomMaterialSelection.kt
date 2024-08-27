@@ -3,10 +3,14 @@ package com.ravenzip.workshop.components
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
@@ -30,7 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
-import com.ravenzip.workshop.data.selection.SelectionConfig
+import com.ravenzip.workshop.data.selection.SelectableChipConfig
+import com.ravenzip.workshop.data.selection.SelectableItemConfig
 
 /**
  * [Switch] - Переключатель
@@ -89,7 +94,7 @@ fun Switch(
 @Composable
 fun RadioGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    list: SnapshotStateList<SelectionConfig>,
+    list: SnapshotStateList<SelectableItemConfig>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors(),
@@ -119,6 +124,26 @@ fun RadioGroup(
 }
 
 /**
+ * [ChipRadioGroup] - Радиогруппа с чипами
+ *
+ * @param list список радиокнопок
+ * @param contentPadding отступ между радиокнопками
+ */
+@Composable
+fun ChipRadioGroup(
+    list: SnapshotStateList<SelectableChipConfig>,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+) {
+    LazyRow(modifier = Modifier.fillMaxWidth(), contentPadding = contentPadding) {
+        items(list, key = { it.text }, contentType = { it }) { item ->
+            Chip(text = item.text, icon = item.icon, iconConfig = item.iconConfig) {
+                list.replaceAll { it.copy(isSelected = it.text == item.text) }
+            }
+        }
+    }
+}
+
+/**
  * [Checkboxes] - Чекбоксы
  *
  * @param width ширина
@@ -130,7 +155,7 @@ fun RadioGroup(
 @Composable
 fun Checkboxes(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    list: SnapshotStateList<SelectionConfig>,
+    list: SnapshotStateList<SelectableItemConfig>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
@@ -159,7 +184,7 @@ fun CheckboxesTree(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     root: RootSelectionConfig,
     textSize: Int = 18,
-    list: SnapshotStateList<SelectionConfig>,
+    list: SnapshotStateList<SelectableItemConfig>,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
@@ -197,7 +222,7 @@ fun CheckboxesTree(
 
 @Composable
 private fun GetCheckbox(
-    item: SelectionConfig,
+    item: SelectableItemConfig,
     textSize: Int,
     enabled: Boolean,
     colors: CheckboxColors,
@@ -223,7 +248,7 @@ private fun GetCheckbox(
 }
 
 private fun getTriState(
-    list: SnapshotStateList<SelectionConfig>,
+    list: SnapshotStateList<SelectableItemConfig>,
     rootState: MutableState<ToggleableState>,
 ) {
     var activeCheckboxes = 0
@@ -237,7 +262,7 @@ private fun getTriState(
 }
 
 private fun changeState(
-    list: SnapshotStateList<SelectionConfig>,
+    list: SnapshotStateList<SelectableItemConfig>,
     rootState: MutableState<ToggleableState>,
 ) {
     rootState.value =
