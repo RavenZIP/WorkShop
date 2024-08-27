@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -128,19 +127,19 @@ fun RadioGroup(
  * [ChipRadioGroup] - Радиогруппа с чипами
  *
  * @param list список радиокнопок
- * @param contentPadding отступ для контейнера
- * @param spaceBetweenItems отступ между радиокнопками
+ * @param containerPadding отступ для контейнера
+ * @param contentPadding отступ между радиокнопками
  */
 @Composable
 fun ChipRadioGroup(
     list: SnapshotStateList<SelectableChipConfig>,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
-    spaceBetweenItems: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
+    containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+    contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = spaceBetweenItems,
-        contentPadding = contentPadding,
+        horizontalArrangement = contentPadding,
+        contentPadding = containerPadding,
     ) {
         items(list, key = { it.text }, contentType = { it }) { item ->
             Chip(text = item.text, icon = item.icon, iconConfig = item.iconConfig) {
