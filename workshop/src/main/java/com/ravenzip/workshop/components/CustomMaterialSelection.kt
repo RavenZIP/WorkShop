@@ -126,18 +126,20 @@ fun RadioGroup(
 /**
  * [ChipRadioGroup] - Радиогруппа с чипами
  *
+ * @param width ширина
  * @param list список радиокнопок
  * @param containerPadding отступ для контейнера
  * @param contentPadding отступ между радиокнопками
  */
 @Composable
 fun ChipRadioGroup(
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
     list: SnapshotStateList<SelectableChipConfig>,
     containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
 ) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(width),
         horizontalArrangement = contentPadding,
         contentPadding = containerPadding,
     ) {
