@@ -46,7 +46,7 @@ import com.ravenzip.workshop.paddingTop
 fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     icon: ImageVector,
-    iconConfig: IconConfig,
+    iconConfig: IconConfig = IconConfig.PrimaryBig,
     title: String,
     titleConfig: TextConfig = TextConfig.H2,
     text: String,
