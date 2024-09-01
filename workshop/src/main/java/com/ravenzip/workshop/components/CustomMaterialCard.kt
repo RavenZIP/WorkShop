@@ -20,10 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.paddingEnd
 import com.ravenzip.workshop.paddingTop
@@ -45,7 +45,7 @@ import com.ravenzip.workshop.paddingTop
 @Composable
 fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    icon: ImageVector,
+    icon: Icon,
     iconConfig: IconConfig = IconConfig.PrimaryBig,
     title: String,
     titleConfig: TextConfig = TextConfig.H2,
@@ -137,19 +137,14 @@ fun InfoCard(
 
 @Composable
 private fun TitleWithIcon(
-    icon: ImageVector,
+    icon: Icon,
     iconConfig: IconConfig,
     title: String,
     titleConfig: TextConfig,
     isPaddingTop: Boolean,
     colors: CardColors,
 ) {
-    Icon(
-        imageVector = icon,
-        contentDescription = iconConfig.description,
-        tint = iconConfig.color ?: colors.contentColor,
-        modifier = Modifier.size(iconConfig.size.dp),
-    )
+    Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.contentColor)
     Spacer(modifier = if (isPaddingTop) Modifier.paddingTop(10.dp) else Modifier.paddingEnd(10.dp))
     Text(
         text = title,

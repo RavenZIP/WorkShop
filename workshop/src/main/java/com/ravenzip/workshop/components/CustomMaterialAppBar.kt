@@ -36,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -50,6 +49,7 @@ import com.ravenzip.workshop.data.appbar.AppBarMenuItem
 import com.ravenzip.workshop.data.appbar.BackArrow
 import com.ravenzip.workshop.data.appbar.BottomItemsTextStateEnum
 import com.ravenzip.workshop.data.appbar.BottomNavigationItem
+import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 
 /**
@@ -179,16 +179,15 @@ fun SearchBar(
 }
 
 @Composable
-private fun AppBarButton(icon: ImageVector, iconConfig: IconConfig, onClick: () -> Unit) {
+private fun AppBarButton(icon: Icon, iconConfig: IconConfig, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = icon,
-            contentDescription = iconConfig.description,
-            modifier = Modifier.size(iconConfig.size.dp),
-            tint = iconConfig.color ?: MaterialTheme.colorScheme.onSurface,
+            icon = icon,
+            iconConfig = iconConfig,
+            defaultColor = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
@@ -224,12 +223,9 @@ private fun AppBarMenu(
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)),
                     leadingIcon = {
                         Icon(
-                            imageVector = menuItem.icon,
-                            contentDescription = menuItem.iconConfig.description,
-                            modifier = Modifier.size(menuItem.iconConfig.size.dp),
-                            tint =
-                                menuItem.iconConfig.color
-                                    ?: MaterialTheme.colorScheme.onSurfaceVariant,
+                            icon = menuItem.icon,
+                            iconConfig = menuItem.iconConfig,
+                            defaultColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     },
                     enabled = menuItem.enabled,
@@ -304,12 +300,7 @@ private fun NavigationBarItem(
                         .clickable { item.click(navController = navController) },
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.label,
-                    modifier = Modifier.size(item.iconConfig.size.dp),
-                    tint = tint,
-                )
+                Icon(icon = item.icon, iconConfig = item.iconConfig, defaultColor = tint)
             }
         }
         if (item.showLabel(navController = navController, labelState = labelState)) {

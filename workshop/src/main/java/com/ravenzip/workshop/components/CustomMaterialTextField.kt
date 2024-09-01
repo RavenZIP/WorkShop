@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
+import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 
 /**
@@ -112,9 +113,9 @@ fun SinglenessTextField(
     text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     placeholder: String? = null,
-    leadingIcon: ImageVector? = null,
+    leadingIcon: Icon? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: ImageVector? = null,
+    trailingIcon: Icon? = null,
     trailingIconConfig: IconConfig = IconConfig.Small,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
@@ -168,9 +169,9 @@ fun SinglenessTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "Простое текстовое поле",
-    leadingIcon: ImageVector? = null,
+    leadingIcon: Icon? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: ImageVector? = null,
+    trailingIcon: Icon? = null,
     trailingIconConfig: IconConfig = IconConfig.Small,
     error: Error = Error(),
     isHiddenText: Boolean = false,
@@ -298,7 +299,12 @@ internal fun SearchBarTextField(
         onValueChange = { text.value = it },
         modifier = Modifier.fillMaxWidth(width),
         placeholder = getText(placeholder),
-        leadingIcon = getIcon(ImageVector.vectorResource(R.drawable.i_search)),
+        leadingIcon = {
+            Icon(
+                icon = Icon.ImageVectorIcon(ImageVector.vectorResource(R.drawable.i_search)),
+                iconConfig = IconConfig.Big,
+            )
+        },
         trailingIcon = getClearButton(text, colors.cursorColor),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = onSearch),
@@ -369,7 +375,7 @@ private fun getText(text: String?): @Composable (() -> Unit)? {
 }
 
 private fun getIcon(
-    icon: ImageVector?,
+    icon: Icon?,
     iconConfig: IconConfig,
     colors: TextFieldColors,
     isError: Boolean,
@@ -378,43 +384,22 @@ private fun getIcon(
     return if (icon != null) {
         {
             Icon(
-                imageVector = icon,
-                contentDescription = iconConfig.description,
-                modifier = Modifier.size(iconConfig.size.dp),
-                tint = getColor(colors = colors, isError = isError, isFocused = isFocused),
+                icon = icon,
+                iconConfig = iconConfig,
+                defaultColor = getColor(colors = colors, isError = isError, isFocused = isFocused),
             )
         }
     } else null
 }
 
 private fun getIcon(
-    icon: ImageVector?,
+    icon: Icon?,
     iconConfig: IconConfig,
     colors: TextFieldColors,
 ): @Composable (() -> Unit)? {
     return if (icon != null) {
-        {
-            Icon(
-                imageVector = icon,
-                contentDescription = iconConfig.description,
-                modifier = Modifier.size(iconConfig.size.dp),
-                tint = iconConfig.color ?: colors.cursorColor,
-            )
-        }
+        { Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.cursorColor) }
     } else null
-}
-
-private fun getIcon(
-    icon: ImageVector,
-    iconConfig: IconConfig = IconConfig.Big,
-): @Composable (() -> Unit) {
-    return {
-        Icon(
-            imageVector = icon,
-            contentDescription = "",
-            modifier = Modifier.size(iconConfig.size.dp),
-        )
-    }
 }
 
 private fun getClearButton(text: MutableState<String>, color: Color): @Composable (() -> Unit)? {

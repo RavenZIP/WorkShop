@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,13 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.button.ButtonContainerConfig
 import com.ravenzip.workshop.data.button.ButtonContentConfig
+import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconWithConfig
 
@@ -83,7 +82,7 @@ fun Chip(
 @Composable
 fun Chip(
     text: String,
-    icon: ImageVector,
+    icon: Icon,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -98,10 +97,9 @@ fun Chip(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = icon,
-                contentDescription = iconConfig.description,
-                modifier = Modifier.size(iconConfig.size.dp),
-                tint = iconConfig.color ?: MaterialTheme.colorScheme.primary,
+                icon = icon,
+                iconConfig = iconConfig,
+                defaultColor = MaterialTheme.colorScheme.primary,
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -126,7 +124,7 @@ fun Chip(
 fun SelectableChip(
     isSelected: Boolean,
     text: String,
-    icon: ImageVector,
+    icon: Icon,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -156,10 +154,9 @@ fun SelectableChip(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = icon,
-                contentDescription = iconConfig.description,
-                modifier = Modifier.size(iconConfig.size.dp),
-                tint = iconConfig.color ?: MaterialTheme.colorScheme.primary,
+                icon = icon,
+                iconConfig = iconConfig,
+                defaultColor = MaterialTheme.colorScheme.primary,
             )
 
             Spacer(modifier = Modifier.width(10.dp))
@@ -179,17 +176,17 @@ fun SelectableChip(
  */
 @Composable
 fun BoxedChip(
-    icon: ImageVector,
+    icon: Icon,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp),
 ) {
     RoundedBox(backgroundColor = backgroundColor, shape = shape) {
         Icon(
-            imageVector = icon,
-            contentDescription = iconConfig.description,
-            modifier = Modifier.padding(10.dp).size(iconConfig.size.dp),
-            tint = iconConfig.color ?: MaterialTheme.colorScheme.primary,
+            icon = icon,
+            iconConfig = iconConfig,
+            defaultColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(10.dp),
         )
     }
 }

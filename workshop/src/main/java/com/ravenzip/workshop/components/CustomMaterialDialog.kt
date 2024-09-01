@@ -18,11 +18,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 
 /**
@@ -44,7 +44,7 @@ import com.ravenzip.workshop.data.icon.IconConfig
  */
 @Composable
 fun AlertDialog(
-    icon: ImageVector? = null,
+    icon: Icon? = null,
     iconConfig: IconConfig = IconConfig.Default,
     title: String,
     titleConfig: TextConfig = TextConfig.H1,
@@ -68,10 +68,9 @@ fun AlertDialog(
             ) {
                 if (icon !== null && iconConfig.size > 0) {
                     Icon(
-                        imageVector = icon,
-                        contentDescription = iconConfig.description,
-                        modifier = Modifier.size(iconConfig.size.dp),
-                        tint = iconConfig.color ?: containerColors.contentColor,
+                        icon = icon,
+                        iconConfig = iconConfig,
+                        defaultColor = containerColors.contentColor,
                     )
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
