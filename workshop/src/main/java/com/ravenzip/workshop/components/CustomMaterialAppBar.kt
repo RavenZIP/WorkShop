@@ -44,6 +44,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.appbar.AppBarItem
 import com.ravenzip.workshop.data.appbar.AppBarMenuItem
 import com.ravenzip.workshop.data.appbar.BackArrow
@@ -56,6 +57,7 @@ import com.ravenzip.workshop.data.icon.IconConfig
  * [TopAppBar] - Верхняя панель
  *
  * @param title текст
+ * @param titleConfig параметры текста
  * @param backgroundColor фоновый цвет верхней панели
  * @param backArrow кнопка назад
  * @param items кнопки
@@ -63,6 +65,8 @@ import com.ravenzip.workshop.data.icon.IconConfig
 @Composable
 fun TopAppBar(
     title: String,
+    titleConfig: TextConfig =
+        TextConfig(size = 23, weight = FontWeight.Medium, letterString = 1.5.sp),
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarItem> = listOf(),
@@ -83,9 +87,9 @@ fun TopAppBar(
 
             Text(
                 text = title,
-                fontSize = 23.sp,
-                fontWeight = FontWeight.Medium,
-                letterSpacing = 1.5.sp,
+                fontSize = titleConfig.size.sp,
+                fontWeight = titleConfig.weight,
+                letterSpacing = titleConfig.letterString,
             )
 
             Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
@@ -105,6 +109,7 @@ fun TopAppBar(
  * [TopAppBarWithMenu] - Верхняя панель, в которой кнопки спрятаны в меню
  *
  * @param title текст
+ * @param titleConfig параметры текста
  * @param backgroundColor фоновый цвет верхней панели
  * @param backArrow кнопка назад
  * @param items кнопки
@@ -112,6 +117,8 @@ fun TopAppBar(
 @Composable
 fun TopAppBarWithMenu(
     title: String,
+    titleConfig: TextConfig =
+        TextConfig(size = 23, weight = FontWeight.Medium, letterString = 1.5.sp),
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarMenuItem> = listOf(),
@@ -134,10 +141,11 @@ fun TopAppBarWithMenu(
 
             Text(
                 text = title,
-                fontSize = 23.sp,
-                fontWeight = FontWeight.Medium,
-                letterSpacing = 1.5.sp,
+                fontSize = titleConfig.size.sp,
+                fontWeight = titleConfig.weight,
+                letterSpacing = titleConfig.letterString,
             )
+
             Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
 
             AppBarMenu(expanded = expanded, menuItems = items) { expanded.value = true }

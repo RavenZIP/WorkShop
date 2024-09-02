@@ -6,6 +6,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 
 @Immutable
 class TextConfig(
@@ -13,6 +14,7 @@ class TextConfig(
     val color: Color? = null,
     val align: TextAlign = TextAlign.Unspecified,
     val weight: FontWeight = FontWeight.Normal,
+    val letterString: TextUnit = TextUnit.Unspecified,
 ) {
     companion object {
         /**
