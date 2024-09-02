@@ -138,6 +138,9 @@ fun ChipRadioGroup(
     list: SnapshotStateList<SelectableChipConfig>,
     containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
+    onClick: (item: SelectableChipConfig) -> Unit = { item ->
+        list.replaceAll { it.copy(isSelected = it.text == item.text) }
+    },
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(width),
@@ -151,7 +154,7 @@ fun ChipRadioGroup(
                 icon = item.icon,
                 iconConfig = item.iconConfig,
             ) {
-                list.replaceAll { it.copy(isSelected = it.text == item.text) }
+                onClick(item)
             }
         }
     }
