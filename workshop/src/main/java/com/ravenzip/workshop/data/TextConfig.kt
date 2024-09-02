@@ -7,10 +7,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 
 @Immutable
 class TextConfig(
-    val size: Int = 16,
+    val size: TextUnit = TextUnit.Unspecified,
     val color: Color? = null,
     val align: TextAlign = TextAlign.Unspecified,
     val weight: FontWeight = FontWeight.Normal,
@@ -26,7 +27,7 @@ class TextConfig(
          *
          * weight - FontWeight.Medium
          */
-        val H1 = TextConfig(size = 22, weight = FontWeight.Medium)
+        val H1 = TextConfig(size = 22.sp, weight = FontWeight.Medium)
 
         /**
          * size - 18
@@ -37,7 +38,7 @@ class TextConfig(
          *
          * weight - FontWeight.Medium
          */
-        val H2 = TextConfig(size = 18, weight = FontWeight.Medium)
+        val H2 = TextConfig(size = 18.sp, weight = FontWeight.Medium)
 
         /**
          * size - 18
@@ -52,8 +53,8 @@ class TextConfig(
             @Composable
             get() =
                 TextConfig(
+                    size = 18.sp,
                     color = MaterialTheme.colorScheme.onSurface,
-                    size = 18,
                     weight = FontWeight.Medium,
                 )
 
@@ -88,7 +89,7 @@ class TextConfig(
          *
          * weight - FontWeight.Normal
          */
-        val Small = TextConfig(size = 14)
+        val Small = TextConfig(size = 14.sp)
 
         /**
          * size - 14
@@ -99,7 +100,7 @@ class TextConfig(
          *
          * weight - FontWeight.Medium
          */
-        val SmallMedium = TextConfig(size = 14, weight = FontWeight.Medium)
+        val SmallMedium = TextConfig(size = 14.sp, weight = FontWeight.Medium)
 
         /**
          * size - 14
@@ -111,7 +112,7 @@ class TextConfig(
          * weight - FontWeight.Medium
          */
         val SmallCenteredMedium =
-            TextConfig(size = 14, align = TextAlign.Center, weight = FontWeight.Medium)
+            TextConfig(size = 14.sp, align = TextAlign.Center, weight = FontWeight.Medium)
 
         /**
          * size - 14
@@ -123,6 +124,7 @@ class TextConfig(
          * weight - FontWeight.Normal
          */
         val onSurface85Small: TextConfig
-            @Composable get() = TextConfig(color = MaterialTheme.colorScheme.onSurface, size = 14)
+            @Composable
+            get() = TextConfig(size = 14.sp, color = MaterialTheme.colorScheme.onSurface)
     }
 }

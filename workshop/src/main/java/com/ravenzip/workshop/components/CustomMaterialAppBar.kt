@@ -66,7 +66,7 @@ import com.ravenzip.workshop.data.icon.IconConfig
 fun TopAppBar(
     title: String,
     titleConfig: TextConfig =
-        TextConfig(size = 23, weight = FontWeight.Medium, letterString = 1.5.sp),
+        TextConfig(size = 23.sp, weight = FontWeight.Medium, letterString = 1.5.sp),
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarItem> = listOf(),
@@ -87,7 +87,7 @@ fun TopAppBar(
 
             Text(
                 text = title,
-                fontSize = titleConfig.size.sp,
+                fontSize = titleConfig.size,
                 fontWeight = titleConfig.weight,
                 letterSpacing = titleConfig.letterString,
             )
@@ -118,7 +118,7 @@ fun TopAppBar(
 fun TopAppBarWithMenu(
     title: String,
     titleConfig: TextConfig =
-        TextConfig(size = 23, weight = FontWeight.Medium, letterString = 1.5.sp),
+        TextConfig(size = 23.sp, weight = FontWeight.Medium, letterString = 1.5.sp),
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarMenuItem> = listOf(),
@@ -141,7 +141,7 @@ fun TopAppBarWithMenu(
 
             Text(
                 text = title,
-                fontSize = titleConfig.size.sp,
+                fontSize = titleConfig.size,
                 fontWeight = titleConfig.weight,
                 letterSpacing = titleConfig.letterString,
             )

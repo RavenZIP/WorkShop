@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
@@ -59,7 +58,7 @@ fun SimpleButton(
         Text(
             text = text,
             modifier = Modifier.fillMaxWidthWithoutValue(width),
-            fontSize = textConfig.size.sp,
+            fontSize = textConfig.size,
             fontWeight = textConfig.weight,
             textAlign = textConfig.align,
         )
@@ -115,7 +114,7 @@ fun CustomButton(
                 Text(
                     text = title,
                     color = titleConfig.color ?: colors.contentColor,
-                    fontSize = titleConfig.size.sp,
+                    fontSize = titleConfig.size,
                     fontWeight = titleConfig.weight,
                 )
 
@@ -124,7 +123,7 @@ fun CustomButton(
                 Text(
                     text = text,
                     color = textConfig.color ?: colors.contentColor,
-                    fontSize = textConfig.size.sp,
+                    fontSize = textConfig.size,
                     fontWeight = textConfig.weight,
                 )
             }
@@ -177,7 +176,7 @@ fun RowIconButton(
                 Text(
                     text = text,
                     color = textConfig.color ?: colors.contentColor,
-                    fontSize = textConfig.size.sp,
+                    fontSize = textConfig.size,
                     fontWeight = textConfig.weight,
                 )
             } else {
@@ -185,7 +184,7 @@ fun RowIconButton(
                     text = text,
                     color = textConfig.color ?: colors.contentColor,
                     modifier = Modifier.weight(1f),
-                    fontSize = textConfig.size.sp,
+                    fontSize = textConfig.size,
                     fontWeight = textConfig.weight,
                 )
 
@@ -232,13 +231,13 @@ fun ColIconButton(
         ) {
             Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.contentColor)
 
-            if (text !== "" && textConfig.size > 0) {
+            if (text !== "" && textConfig.size.value > 0) {
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
                     text = text,
                     color = textConfig.color ?: colors.contentColor,
-                    fontSize = textConfig.size.sp,
+                    fontSize = textConfig.size,
                     fontWeight = textConfig.weight,
                 )
             }

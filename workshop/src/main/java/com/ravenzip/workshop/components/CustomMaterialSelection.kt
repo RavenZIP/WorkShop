@@ -69,8 +69,8 @@ fun Switch(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column {
-            Text(text = title, fontSize = titleConfig.size.sp)
-            Text(text = text, fontSize = textConfig.size.sp)
+            Text(text = title, fontSize = titleConfig.size)
+            Text(text = text, fontSize = textConfig.size)
         }
         Spacer(modifier = Modifier.weight(1f))
         Switch(

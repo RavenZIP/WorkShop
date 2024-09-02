@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.Icon
@@ -75,10 +74,10 @@ fun AlertDialog(
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
 
-                Text(text = title, fontSize = titleConfig.size.sp, fontWeight = titleConfig.weight)
+                Text(text = title, fontSize = titleConfig.size, fontWeight = titleConfig.weight)
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
-                Text(text = text, fontSize = textConfig.size.sp)
+                Text(text = text, fontSize = textConfig.size)
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Row {

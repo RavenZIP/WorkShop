@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
@@ -89,7 +88,7 @@ fun InfoCard(
                 modifier = Modifier.fillMaxWidth(0.9f),
                 text = text,
                 color = textConfig.color ?: colors.contentColor,
-                fontSize = textConfig.size.sp,
+                fontSize = textConfig.size,
                 fontWeight = textConfig.weight,
             )
         }
@@ -121,7 +120,7 @@ fun InfoCard(
         Text(
             text = cardText,
             color = cardTextConfig.color ?: colors.contentColor,
-            fontSize = cardTextConfig.size.sp,
+            fontSize = cardTextConfig.size,
             fontWeight = cardTextConfig.weight,
         )
     },
@@ -149,7 +148,7 @@ private fun TitleWithIcon(
     Text(
         text = title,
         color = titleConfig.color ?: colors.contentColor,
-        fontSize = titleConfig.size.sp,
+        fontSize = titleConfig.size,
         fontWeight = titleConfig.weight,
     )
 }

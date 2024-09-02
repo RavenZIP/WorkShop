@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextConfig
 
@@ -44,11 +43,11 @@ fun Spinner(
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp))
 
-                if (text !== "" && textConfig.size > 0) {
+                if (text !== "" && textConfig.size.value > 0) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
                     Text(
                         text = text,
-                        fontSize = textConfig.size.sp,
+                        fontSize = textConfig.size,
                         fontWeight = textConfig.weight,
                         textAlign = textConfig.align,
                     )
@@ -89,11 +88,11 @@ fun CircularProgressIndicator(
                     trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f),
                 )
 
-                if (text !== "" && textConfig.size > 0) {
+                if (text !== "" && textConfig.size.value > 0) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
                     Text(
                         text = text,
-                        fontSize = textConfig.size.sp,
+                        fontSize = textConfig.size,
                         fontWeight = textConfig.weight,
                         textAlign = textConfig.align,
                     )
@@ -101,7 +100,7 @@ fun CircularProgressIndicator(
                     if (showProgressPercentages)
                         Text(
                             text = "${String.format("%.2f", progressValue * 100)}%",
-                            fontSize = textConfig.size.sp,
+                            fontSize = textConfig.size,
                             fontWeight = textConfig.weight,
                         )
                 }
