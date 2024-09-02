@@ -255,8 +255,18 @@ fun CheckboxTree(
     }
 }
 
+/**
+ * [Checkbox] - чекбокс
+ *
+ * @param item параметры чекбокса
+ * @param textSize размер текста
+ * @param enabled вкл\выкл чекбоксов
+ * @param colors цвета чекбоксов
+ * @param isTree является ли этот чекбокс частью дерева чекбоксов
+ * @param onClick действие при нажатии
+ */
 @Composable
-private fun Checkbox(
+fun Checkbox(
     item: SelectableItemConfig,
     textSize: Int,
     enabled: Boolean,
