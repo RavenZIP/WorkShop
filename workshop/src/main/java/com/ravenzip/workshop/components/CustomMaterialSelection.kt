@@ -48,6 +48,7 @@ import com.ravenzip.workshop.data.selection.SelectableItemConfig
  * @param textConfig параметры описания
  * @param enabled вкл\выкл свича
  * @param colors цвета свича
+ * @param onCheckedChanged действие при нажатии на [Switch]
  */
 @Composable
 fun Switch(
@@ -59,13 +60,15 @@ fun Switch(
     textConfig: TextConfig,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors(),
+    onCheckedChanged: () -> Unit = { isChecked.value = !isChecked.value },
 ) {
     Row(
         modifier =
-            Modifier.fillMaxWidth(width)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { isChecked.value = !isChecked.value }
-                .padding(15.dp),
+        Modifier
+            .fillMaxWidth(width)
+            .clip(RoundedCornerShape(10.dp))
+            .clickable { onCheckedChanged() }
+            .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column {
@@ -75,7 +78,7 @@ fun Switch(
         Spacer(modifier = Modifier.weight(1f))
         Switch(
             checked = isChecked.value,
-            onCheckedChange = { isChecked.value = it },
+            onCheckedChange = { onCheckedChanged() },
             enabled = enabled,
             colors = colors,
         )
@@ -90,6 +93,7 @@ fun Switch(
  * @param textSize размер текста
  * @param enabled вкл\выкл радиокнопок
  * @param colors цвета радиокнопок
+ * @param onClick действие при нажатии на радиокнопку
  */
 @Composable
 fun RadioGroup(
@@ -106,10 +110,11 @@ fun RadioGroup(
         list.forEach { item ->
             Row(
                 modifier =
-                    Modifier.fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable { onClick(item) }
-                        .padding(top = 5.dp, bottom = 5.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { onClick(item) }
+                    .padding(top = 5.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
@@ -131,6 +136,7 @@ fun RadioGroup(
  * @param list список радиокнопок
  * @param containerPadding отступ для контейнера
  * @param contentPadding отступ между радиокнопками
+ * @param onClick действие при нажатии на чип
  */
 @Composable
 fun ChipRadioGroup(
@@ -161,33 +167,37 @@ fun ChipRadioGroup(
 }
 
 /**
- * [Checkboxes] - Чекбоксы
+ * [CheckBoxGroup] - Чекбоксы
  *
  * @param width ширина
  * @param list список чекбоксов
  * @param textSize размер текста
  * @param enabled вкл\выкл чекбоксов
  * @param colors цвета чекбоксов
+ * @param onClick действие при нажатии
  */
 @Composable
-fun Checkboxes(
+fun CheckBoxGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     list: SnapshotStateList<SelectableItemConfig>,
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
+    onClick: (Int, SelectableItemConfig) -> Unit = { index, item ->
+        list[index] = item.copy(isSelected = !item.isSelected)
+    },
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         list.forEachIndexed { index, item ->
-            GetCheckbox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
-                list[index] = item.copy(isSelected = !item.isSelected)
+            Checkbox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
+                onClick(index, item)
             }
         }
     }
 }
 
 /**
- * [CheckboxesTree] - Дерево чекбоксов
+ * [CheckboxTree] - Дерево чекбоксов
  *
  * @param width ширина
  * @param root главный чекбокс
@@ -195,50 +205,58 @@ fun Checkboxes(
  * @param list список чекбоксов
  * @param enabled вкл\выкл чекбоксов
  * @param colors цвета чекбоксов
+ * @param onClickToRoot действие при нажатии на главный чекбокс
+ * @param onClickToChild действие при нажатии на дочерние чекбоксы
  */
 @Composable
-fun CheckboxesTree(
+fun CheckboxTree(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     root: RootSelectionConfig,
     textSize: Int = 18,
     list: SnapshotStateList<SelectableItemConfig>,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
+    onClickToRoot: () -> Unit = { changeRootState(list, root.state) },
+    onClickToChild: (Int, SelectableItemConfig) -> Unit = { index, item ->
+        list[index] = item.copy(isSelected = !item.isSelected)
+        recalculateTreeState(list, root.state)
+    },
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-                Modifier.fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
-                    .clickable { changeState(list, root.state) }
-                    .padding(top = 5.dp, bottom = 5.dp),
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .clickable { onClickToRoot() }
+                .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
                 state = root.state.value,
-                onClick = { changeState(list, root.state) },
+                onClick = { onClickToRoot() },
                 enabled = enabled,
                 colors = root.colors,
             )
             Text(text = root.text, fontSize = textSize.sp)
         }
+
         list.forEachIndexed { index, item ->
-            GetCheckbox(
+            Checkbox(
                 item = item,
                 textSize = textSize,
                 colors = colors,
                 enabled = enabled,
                 isTree = true,
             ) {
-                list[index] = item.copy(isSelected = !item.isSelected)
-                getTriState(list, root.state)
+                onClickToChild(index, item)
             }
         }
     }
 }
 
 @Composable
-private fun GetCheckbox(
+private fun Checkbox(
     item: SelectableItemConfig,
     textSize: Int,
     enabled: Boolean,
@@ -248,10 +266,11 @@ private fun GetCheckbox(
 ) {
     Row(
         modifier =
-            Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { onClick() }
-                .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .clickable { onClick() }
+            .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(
@@ -264,21 +283,22 @@ private fun GetCheckbox(
     }
 }
 
-private fun getTriState(
+private fun recalculateTreeState(
     list: SnapshotStateList<SelectableItemConfig>,
     rootState: MutableState<ToggleableState>,
 ) {
-    var activeCheckboxes = 0
-    list.forEach { if (it.isSelected) activeCheckboxes += 1 }
+    val activeCheckboxCount =
+        list.fold(initial = 0) { acc, item -> if (item.isSelected) acc + 1 else acc }
+
     rootState.value =
-        when (activeCheckboxes) {
+        when (activeCheckboxCount) {
             0 -> ToggleableState.Off
             list.count() -> ToggleableState.On
             else -> ToggleableState.Indeterminate
         }
 }
 
-private fun changeState(
+private fun changeRootState(
     list: SnapshotStateList<SelectableItemConfig>,
     rootState: MutableState<ToggleableState>,
 ) {
@@ -287,6 +307,7 @@ private fun changeState(
             ToggleableState.On -> ToggleableState.Off
             else -> ToggleableState.On
         }
+
     list.indices.forEach { index ->
         list[index] = list[index].copy(isSelected = rootState.value == ToggleableState.On)
     }
