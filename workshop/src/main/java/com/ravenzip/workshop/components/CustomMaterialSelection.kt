@@ -98,6 +98,9 @@ fun RadioGroup(
     textSize: Int = 18,
     enabled: Boolean = true,
     colors: RadioButtonColors = RadioButtonDefaults.colors(),
+    onClick: (item: SelectableItemConfig) -> Unit = { item ->
+        list.replaceAll { it.copy(isSelected = it.text == item.text) }
+    },
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         list.forEach { item ->
@@ -105,15 +108,13 @@ fun RadioGroup(
                 modifier =
                     Modifier.fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
-                        .clickable {
-                            list.replaceAll { it.copy(isSelected = it.text == item.text) }
-                        }
+                        .clickable { onClick(item) }
                         .padding(top = 5.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
                     selected = item.isSelected,
-                    onClick = { list.replaceAll { it.copy(isSelected = it.text == item.text) } },
+                    onClick = { onClick(item) },
                     enabled = enabled,
                     colors = colors,
                 )
