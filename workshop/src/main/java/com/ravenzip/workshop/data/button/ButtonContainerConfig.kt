@@ -7,9 +7,11 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
+@Immutable
 class ButtonContainerConfig(
     @FloatRange(from = 0.0, to = 1.0) val width: Float,
     val colors: ButtonColors,
