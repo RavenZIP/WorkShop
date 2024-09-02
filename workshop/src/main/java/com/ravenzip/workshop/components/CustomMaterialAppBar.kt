@@ -77,6 +77,7 @@ fun TopAppBar(
         ) {
             if (backArrow !== null) {
                 AppBarButton(icon = backArrow.icon, backArrow.iconConfig) { backArrow.onClick() }
+
                 Spacer(modifier = Modifier.weight(0.1f))
             }
 
@@ -86,12 +87,14 @@ fun TopAppBar(
                 fontWeight = FontWeight.Medium,
                 letterSpacing = 1.5.sp,
             )
+
             Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
 
             items.forEachIndexed { index, button ->
                 AppBarButton(icon = button.icon, iconConfig = button.iconConfig) {
                     button.onClick()
                 }
+
                 if (index != lastItem) Spacer(modifier = Modifier.padding(start = 5.dp))
             }
         }
@@ -125,6 +128,7 @@ fun TopAppBarWithMenu(
                 AppBarButton(icon = backArrow.icon, iconConfig = backArrow.iconConfig) {
                     backArrow.onClick()
                 }
+
                 Spacer(modifier = Modifier.weight(0.1f))
             }
 
@@ -164,15 +168,20 @@ fun SearchBar(
             disabledIndicatorColor = Color.Transparent,
         ),
 ) {
-    Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxWidth().background(backgroundColor),
+        contentAlignment = Alignment.Center,
+    ) {
         Column {
             Spacer(modifier = Modifier.padding(top = 10.dp))
+
             SearchBarTextField(
                 text = query,
                 placeholder = placeholder,
                 onSearch = onSearch,
                 colors = textFieldColors,
             )
+
             Spacer(modifier = Modifier.padding(top = 10.dp))
         }
     }
@@ -208,6 +217,7 @@ private fun AppBarMenu(
             contentDescription = "Меню",
             modifier = Modifier.size(25.dp),
         )
+
         DropdownMenu(
             expanded = expanded.value,
             onDismissRequest = { expanded.value = false },
@@ -290,6 +300,7 @@ private fun NavigationBarItem(
     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
     val background = getBoxColor(selected)
     val tint = getIconColor(selected)
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         BadgedBox(badge = { item.GetBadge() }) {
             Box(
@@ -303,6 +314,7 @@ private fun NavigationBarItem(
                 Icon(icon = item.icon, iconConfig = item.iconConfig, defaultColor = tint)
             }
         }
+
         if (item.showLabel(navController = navController, labelState = labelState)) {
             Text(
                 text = item.label,

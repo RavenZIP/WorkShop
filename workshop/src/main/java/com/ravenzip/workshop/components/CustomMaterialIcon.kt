@@ -12,6 +12,14 @@ import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 
+/**
+ * [Icon] - Иконка
+ *
+ * @param modifier модификаторы
+ * @param icon иконка
+ * @param iconConfig параметры иконки
+ * @param defaultColor дефолтный цвет в случае отсутствия цвета в [iconConfig]
+ */
 @Composable
 fun Icon(
     modifier: Modifier = Modifier,
