@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -74,10 +73,9 @@ fun SnackBar(
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
             ) {
                 Icon(
-                    imageVector = visuals.icon,
-                    contentDescription = visuals.iconConfig.description,
-                    modifier = Modifier.size(visuals.iconConfig.size.dp),
-                    tint = visuals.iconConfig.color ?: colors.contentColor,
+                    icon = visuals.icon,
+                    iconConfig = visuals.iconConfig,
+                    defaultColor = colors.contentColor,
                 )
                 Text(text = visuals.message, modifier = Modifier.padding(start = 10.dp))
             }

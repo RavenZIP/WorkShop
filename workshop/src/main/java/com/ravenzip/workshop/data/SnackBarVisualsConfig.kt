@@ -2,7 +2,7 @@ package com.ravenzip.workshop.data
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarVisuals
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 
 class SnackBarVisualsConfig(
@@ -11,6 +11,6 @@ class SnackBarVisualsConfig(
     override val withDismissAction: Boolean = false,
     override val duration: SnackbarDuration =
         if (actionLabel == null) SnackbarDuration.Short else SnackbarDuration.Indefinite,
-    val icon: ImageVector,
+    val icon: Icon,
     val iconConfig: IconConfig,
 ) : SnackbarVisuals
