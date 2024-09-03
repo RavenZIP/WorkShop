@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,7 +45,7 @@ fun InfoCard(
     icon: Icon,
     iconConfig: IconConfig = IconConfig.PrimaryBig,
     title: String,
-    titleConfig: TextConfig = TextConfig.H2,
+    titleConfig: TextConfig = TextConfig.H3,
     text: String,
     textConfig: TextConfig = TextConfig.Small,
     titleUnderIcon: Boolean = false,
@@ -90,6 +88,7 @@ fun InfoCard(
                 color = textConfig.color ?: colors.contentColor,
                 fontSize = textConfig.size,
                 fontWeight = textConfig.weight,
+                letterSpacing = textConfig.letterSpacing,
             )
         }
     }
@@ -122,13 +121,16 @@ fun InfoCard(
             color = cardTextConfig.color ?: colors.contentColor,
             fontSize = cardTextConfig.size,
             fontWeight = cardTextConfig.weight,
+            letterSpacing = cardTextConfig.letterSpacing,
         )
     },
 ) {
     Card(modifier = Modifier.fillMaxWidth(width), shape = shape, colors = colors) {
         Column(modifier = Modifier.fillMaxWidth().padding(contentPadding)) {
             Chip(text = chipText)
+
             Spacer(modifier = Modifier.height(10.dp))
+
             content()
         }
     }
@@ -144,12 +146,15 @@ private fun TitleWithIcon(
     colors: CardColors,
 ) {
     Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.contentColor)
+
     Spacer(modifier = if (isPaddingTop) Modifier.paddingTop(10.dp) else Modifier.paddingEnd(10.dp))
+
     Text(
         text = title,
         color = titleConfig.color ?: colors.contentColor,
         fontSize = titleConfig.size,
         fontWeight = titleConfig.weight,
+        letterSpacing = titleConfig.letterSpacing,
     )
 }
 

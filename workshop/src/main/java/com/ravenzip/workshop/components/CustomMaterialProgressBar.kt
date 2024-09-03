@@ -50,6 +50,7 @@ fun Spinner(
                         fontSize = textConfig.size,
                         fontWeight = textConfig.weight,
                         textAlign = textConfig.align,
+                        letterSpacing = textConfig.letterSpacing,
                     )
                 }
             }
@@ -95,6 +96,7 @@ fun CircularProgressIndicator(
                         fontSize = textConfig.size,
                         fontWeight = textConfig.weight,
                         textAlign = textConfig.align,
+                        letterSpacing = textConfig.letterSpacing,
                     )
 
                     if (showProgressPercentages)
@@ -102,6 +104,7 @@ fun CircularProgressIndicator(
                             text = "${String.format("%.2f", progressValue * 100)}%",
                             fontSize = textConfig.size,
                             fontWeight = textConfig.weight,
+                            letterSpacing = textConfig.letterSpacing,
                         )
                 }
             }

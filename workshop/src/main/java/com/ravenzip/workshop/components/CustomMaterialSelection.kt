@@ -25,10 +25,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,20 +64,37 @@ fun Switch(
     colors: SwitchColors = SwitchDefaults.colors(),
     onCheckedChanged: () -> Unit = { isChecked.value = !isChecked.value },
 ) {
+    val titleColor = remember { titleConfig.color ?: Color.Unspecified }
+    val textColor = remember { textConfig.color ?: Color.Unspecified }
+
     Row(
         modifier =
-        Modifier
-            .fillMaxWidth(width)
-            .clip(RoundedCornerShape(10.dp))
-            .clickable { onCheckedChanged() }
-            .padding(15.dp),
+            Modifier.fillMaxWidth(width)
+                .clip(RoundedCornerShape(10.dp))
+                .clickable { onCheckedChanged() }
+                .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column {
-            Text(text = title, fontSize = titleConfig.size)
-            Text(text = text, fontSize = textConfig.size)
+            Text(
+                text = title,
+                color = titleColor,
+                fontSize = titleConfig.size,
+                fontWeight = titleConfig.weight,
+                letterSpacing = titleConfig.letterSpacing,
+            )
+
+            Text(
+                text = text,
+                color = textColor,
+                fontSize = textConfig.size,
+                fontWeight = textConfig.weight,
+                letterSpacing = textConfig.letterSpacing,
+            )
         }
+
         Spacer(modifier = Modifier.weight(1f))
+
         Switch(
             checked = isChecked.value,
             onCheckedChange = { onCheckedChanged() },
@@ -110,11 +129,10 @@ fun RadioGroup(
         list.forEach { item ->
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
-                    .clickable { onClick(item) }
-                    .padding(top = 5.dp, bottom = 5.dp),
+                    Modifier.fillMaxWidth()
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable { onClick(item) }
+                        .padding(top = 5.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
@@ -123,6 +141,7 @@ fun RadioGroup(
                     enabled = enabled,
                     colors = colors,
                 )
+
                 Text(text = item.text, fontSize = textSize.sp)
             }
         }
@@ -157,6 +176,7 @@ fun ChipRadioGroup(
             SelectableChip(
                 isSelected = item.isSelected,
                 text = item.text,
+                textConfig = item.textConfig,
                 icon = item.icon,
                 iconConfig = item.iconConfig,
             ) {
@@ -226,11 +246,10 @@ fun CheckboxTree(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { onClickToRoot() }
-                .padding(top = 5.dp, bottom = 5.dp),
+                Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { onClickToRoot() }
+                    .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
                 state = root.state.value,
@@ -276,11 +295,10 @@ fun Checkbox(
 ) {
     Row(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
-            .clickable { onClick() }
-            .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
+            Modifier.fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .clickable { onClick() }
+                .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(

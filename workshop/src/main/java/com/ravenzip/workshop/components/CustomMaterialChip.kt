@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,9 +33,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.button.ButtonContainerConfig
 import com.ravenzip.workshop.data.button.ButtonContentConfig
 import com.ravenzip.workshop.data.icon.Icon
@@ -46,7 +44,8 @@ import com.ravenzip.workshop.data.icon.IconWithConfig
 /**
  * [Chip] - Чип с текстом
  *
- * @param text Текст внутри чипа
+ * @param text текст внутри чипа
+ * @param textConfig параметры текста
  * @param backgroundColor цвет контейнера
  * @param shape радиус скругления
  * @param onClick действие при нажатии
@@ -54,17 +53,21 @@ import com.ravenzip.workshop.data.icon.IconWithConfig
 @Composable
 fun Chip(
     text: String,
+    textConfig: TextConfig = TextConfig.Chip,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit = {},
 ) {
+    val color = remember { textConfig.color ?: Color.Unspecified }
+
     Box(modifier = Modifier.clip(shape).background(backgroundColor).clickable { onClick() }) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.W500,
-            letterSpacing = 0.sp,
+            color = color,
+            fontSize = textConfig.size,
+            fontWeight = textConfig.weight,
+            letterSpacing = textConfig.letterSpacing,
         )
     }
 }
@@ -72,7 +75,8 @@ fun Chip(
 /**
  * [Chip] - Чип с иконкой
  *
- * @param text Текст внутри чипа
+ * @param text текст внутри чипа
+ * @param textConfig параметры текста
  * @param icon иконка
  * @param iconConfig параметры иконки
  * @param backgroundColor цвет контейнера
@@ -82,12 +86,15 @@ fun Chip(
 @Composable
 fun Chip(
     text: String,
+    textConfig: TextConfig = TextConfig.Chip,
     icon: Icon,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit = {},
 ) {
+    val color = remember { textConfig.color ?: Color.Unspecified }
+
     Box(
         modifier =
             Modifier.clip(shape)
@@ -104,7 +111,13 @@ fun Chip(
 
             Spacer(modifier = Modifier.width(10.dp))
 
-            Text(text = text, fontSize = 14.sp, fontWeight = FontWeight.W500, letterSpacing = 0.sp)
+            Text(
+                text = text,
+                color = color,
+                fontSize = textConfig.size,
+                fontWeight = textConfig.weight,
+                letterSpacing = textConfig.letterSpacing,
+            )
         }
     }
 }
@@ -114,6 +127,7 @@ fun Chip(
  *
  * @param isSelected флаг, отображающий текущий активный чип
  * @param text текст внутри чипа
+ * @param textConfig параметры текста
  * @param icon иконка
  * @param iconConfig параметры иконки
  * @param backgroundColor цвет контейнера
@@ -124,6 +138,7 @@ fun Chip(
 fun SelectableChip(
     isSelected: Boolean,
     text: String,
+    textConfig: TextConfig = TextConfig.Chip,
     icon: Icon,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
@@ -131,7 +146,8 @@ fun SelectableChip(
     onClick: () -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val color =
+    val textColor = remember { textConfig.color ?: Color.Unspecified }
+    val borderColor =
         animateColorAsState(
             targetValue = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
             animationSpec = tween(100, 0, LinearEasing),
@@ -142,7 +158,7 @@ fun SelectableChip(
         modifier =
             Modifier.clip(shape)
                 .background(backgroundColor)
-                .border(BorderStroke(2.dp, color.value), shape)
+                .border(BorderStroke(2.dp, borderColor.value), shape)
                 .selectable(
                     selected = isSelected,
                     onClick = onClick,
@@ -161,7 +177,13 @@ fun SelectableChip(
 
             Spacer(modifier = Modifier.width(10.dp))
 
-            Text(text = text, fontSize = 14.sp, fontWeight = FontWeight.W500, letterSpacing = 0.sp)
+            Text(
+                text = text,
+                color = textColor,
+                fontSize = textConfig.size,
+                fontWeight = textConfig.weight,
+                letterSpacing = textConfig.letterSpacing,
+            )
         }
     }
 }

@@ -6,18 +6,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextConfig
@@ -57,6 +57,9 @@ fun AlertDialog(
     onDismiss: () -> Unit,
     onConfirmation: () -> Unit,
 ) {
+    val titleColor = remember { titleConfig.color ?: Color.Unspecified }
+    val textColor = remember { textConfig.color ?: Color.Unspecified }
+
     Dialog(onDismissRequest = { onDismiss() }) {
         Card(shape = RoundedCornerShape(10.dp), colors = containerColors) {
             Column(
@@ -74,10 +77,22 @@ fun AlertDialog(
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
 
-                Text(text = title, fontSize = titleConfig.size, fontWeight = titleConfig.weight)
+                Text(
+                    text = title,
+                    color = titleColor,
+                    fontSize = titleConfig.size,
+                    fontWeight = titleConfig.weight,
+                    letterSpacing = titleConfig.letterSpacing,
+                )
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
-                Text(text = text, fontSize = textConfig.size)
+                Text(
+                    text = text,
+                    color = textColor,
+                    fontSize = textConfig.size,
+                    fontWeight = titleConfig.weight,
+                    letterSpacing = textConfig.letterSpacing,
+                )
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Row {

@@ -65,8 +65,7 @@ import com.ravenzip.workshop.data.icon.IconConfig
 @Composable
 fun TopAppBar(
     title: String,
-    titleConfig: TextConfig =
-        TextConfig(size = 23.sp, weight = FontWeight.Medium, letterString = 1.5.sp),
+    titleConfig: TextConfig = TextConfig.TopAppBar,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarItem> = listOf(),
@@ -89,7 +88,7 @@ fun TopAppBar(
                 text = title,
                 fontSize = titleConfig.size,
                 fontWeight = titleConfig.weight,
-                letterSpacing = titleConfig.letterString,
+                letterSpacing = titleConfig.letterSpacing,
             )
 
             Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
@@ -117,8 +116,7 @@ fun TopAppBar(
 @Composable
 fun TopAppBarWithMenu(
     title: String,
-    titleConfig: TextConfig =
-        TextConfig(size = 23.sp, weight = FontWeight.Medium, letterString = 1.5.sp),
+    titleConfig: TextConfig = TextConfig.TopAppBar,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     backArrow: BackArrow? = null,
     items: List<AppBarMenuItem> = listOf(),
@@ -143,7 +141,7 @@ fun TopAppBarWithMenu(
                 text = title,
                 fontSize = titleConfig.size,
                 fontWeight = titleConfig.weight,
-                letterSpacing = titleConfig.letterString,
+                letterSpacing = titleConfig.letterSpacing,
             )
 
             Spacer(modifier = Modifier.weight(if (backArrow !== null) 0.9f else 1f))
@@ -216,6 +214,7 @@ private fun AppBarMenu(
     onClick: () -> Unit,
 ) {
     val lastItem = menuItems.count() - 1
+
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center,
@@ -233,7 +232,14 @@ private fun AppBarMenu(
         ) {
             menuItems.forEachIndexed { index, menuItem ->
                 DropdownMenuItem(
-                    text = { Text(menuItem.text) },
+                    text = {
+                        Text(
+                            text = menuItem.text,
+                            fontSize = menuItem.textConfig.size,
+                            fontWeight = menuItem.textConfig.weight,
+                            letterSpacing = menuItem.textConfig.letterSpacing,
+                        )
+                    },
                     onClick = {
                         menuItem.onClick()
                         expanded.value = false
@@ -247,9 +253,7 @@ private fun AppBarMenu(
                         )
                     },
                     enabled = menuItem.enabled,
-                    colors =
-                        if (menuItem.colors !== null) menuItem.colors
-                        else MenuDefaults.itemColors(),
+                    colors = menuItem.colors ?: MenuDefaults.itemColors(),
                     contentPadding = PaddingValues(15.dp),
                 )
                 if (index != lastItem) Spacer(modifier = Modifier.padding(bottom = 5.dp))

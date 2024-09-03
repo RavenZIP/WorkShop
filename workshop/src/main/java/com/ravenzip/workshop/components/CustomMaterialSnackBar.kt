@@ -43,8 +43,8 @@ fun SnackBar(
         CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
     elevation: CardElevation = CardDefaults.cardElevation(5.dp),
 ) {
-    SnackbarHost(hostState = snackBarHostState) {
-        val visuals = it.visuals as SnackBarVisualsConfig
+    SnackbarHost(hostState = snackBarHostState) { snackBarData ->
+        val visuals = snackBarData.visuals as SnackBarVisualsConfig
         val progress = remember { Animatable(1f) }
 
         LaunchedEffect(
@@ -54,7 +54,7 @@ fun SnackBar(
                     targetValue = 0f,
                     animationSpec =
                         tween(
-                            durationMillis = it.visuals.duration.getMs().toInt(),
+                            durationMillis = snackBarData.visuals.duration.getMs().toInt(),
                             easing = FastOutLinearInEasing,
                         ),
                 )
