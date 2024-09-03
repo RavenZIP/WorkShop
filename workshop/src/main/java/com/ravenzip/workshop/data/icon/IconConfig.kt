@@ -3,66 +3,82 @@ package com.ravenzip.workshop.data.icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 
 @Immutable
 class IconConfig(val description: String = "", val size: Int = 25, val color: Color? = null) {
     companion object {
         /**
-         * description - ""
+         * [Big]
          *
-         * size - 22
+         * [description] - ""
          *
-         * color - null
+         * [size] - 22
+         *
+         * [color] - null
          */
-        val Big = IconConfig(size = 22)
+        @Stable val Big = IconConfig(size = 22)
 
         /**
-         * description - ""
+         * [PrimaryBig]
          *
-         * size - 22
+         * [description] - ""
          *
-         * color - MaterialTheme.colorScheme.primary
+         * [size] - 22
+         *
+         * [color] - MaterialTheme.colorScheme.primary
          */
-        val PrimaryBig: IconConfig
+        @Stable
+        val PrimaryBig
             @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary, size = 22)
 
         /**
-         * description - ""
+         * [Default]
          *
-         * size - 25
+         * [description] - ""
          *
-         * color - null
+         * [size] - 25
+         *
+         * [color] - null
          */
-        val Default = IconConfig()
+        @Stable val Default = IconConfig()
 
         /**
-         * description - ""
+         * [Small]
          *
-         * size - 22
+         * [description] - ""
          *
-         * color - null
+         * [size] - 22
+         *
+         * [color] - null
          */
-        val Small = IconConfig(size = 20)
+        @Stable val Small = IconConfig(size = 20)
 
         /**
-         * description - ""
+         * [Primary]
          *
-         * size - 25
+         * [description] - ""
          *
-         * color - MaterialTheme.colorScheme.primary
+         * [size] - 25
+         *
+         * [color] - MaterialTheme.colorScheme.primary
          */
-        val Primary: IconConfig
+        @Stable
+        val Primary
             @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary)
 
         /**
-         * description - ""
+         * [PrimarySmall]
          *
-         * size - 20
+         * [description] - ""
          *
-         * color - MaterialTheme.colorScheme.primary
+         * [size] - 20
+         *
+         * [color] - MaterialTheme.colorScheme.primary
          */
-        val PrimarySmall: IconConfig
+        @Stable
+        val PrimarySmall
             @Composable get() = IconConfig(color = MaterialTheme.colorScheme.primary, size = 20)
     }
 }
