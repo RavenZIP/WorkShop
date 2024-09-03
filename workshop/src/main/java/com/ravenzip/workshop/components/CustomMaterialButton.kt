@@ -234,7 +234,7 @@ fun ColIconButton(
         ) {
             Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.contentColor)
 
-            if (text !== "" && textConfig.size.value > 0) {
+            if (text.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Text(

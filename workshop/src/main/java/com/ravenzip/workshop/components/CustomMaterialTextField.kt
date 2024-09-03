@@ -326,7 +326,7 @@ private fun ErrorMessageAndSymbolsCounter(
     showTextLengthCounter: Boolean,
 ) {
     Row(modifier = Modifier.fillMaxWidth(width)) {
-        if (error.value && error.text != "") {
+        if (error.value && error.text.isNotEmpty()) {
             Text(
                 text = error.text,
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),

@@ -43,7 +43,7 @@ fun Spinner(
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp))
 
-                if (text !== "" && textConfig.size.value > 0) {
+                if (text.isNotEmpty()) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
                     Text(
                         text = text,
@@ -89,7 +89,7 @@ fun CircularProgressIndicator(
                     trackColor = ProgressIndicatorDefaults.circularColor.copy(0.3f),
                 )
 
-                if (text !== "" && textConfig.size.value > 0) {
+                if (text.isNotEmpty()) {
                     Spacer(modifier = Modifier.padding(top = 10.dp))
                     Text(
                         text = text,
