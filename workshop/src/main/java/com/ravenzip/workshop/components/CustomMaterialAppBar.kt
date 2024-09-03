@@ -72,7 +72,10 @@ fun TopAppBar(
 ) {
     val lastItem = items.count() - 1
 
-    Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxWidth().background(backgroundColor),
+        contentAlignment = Alignment.Center,
+    ) {
         Row(
             modifier =
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
@@ -123,7 +126,10 @@ fun TopAppBarWithMenu(
 ) {
     val expanded = remember { mutableStateOf(false) }
 
-    Box(Modifier.fillMaxWidth().background(backgroundColor), Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxWidth().background(backgroundColor),
+        contentAlignment = Alignment.Center,
+    ) {
         Row(
             modifier =
                 Modifier.fillMaxWidth(0.9f).padding(top = 10.dp, bottom = 10.dp).height(40.dp),
@@ -275,7 +281,7 @@ fun BottomNavigationBar(
     buttonsList: List<BottomNavigationItem>,
     showLabelOnlyOnSelected: Boolean = false,
 ) {
-    val labelState = getLabelState(showLabelOnlyOnSelected, buttonsList.count())
+    val labelState = calculateLabelState(showLabelOnlyOnSelected, buttonsList.count())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -285,7 +291,7 @@ fun BottomNavigationBar(
                 Modifier.padding(
                         start = 20.dp,
                         end = 20.dp,
-                        top = getBottomBarTopPadding(labelState),
+                        top = calculateBottomBarTopPadding(labelState),
                     )
                     .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -310,8 +316,8 @@ private fun NavigationBarItem(
     labelState: BottomItemsTextStateEnum,
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
-    val background = getBoxColor(selected)
-    val tint = getIconColor(selected)
+    val background = calculateBoxColor(selected)
+    val tint = calculateIconColor(selected)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         BadgedBox(badge = { item.GetBadge() }) {
@@ -320,7 +326,7 @@ private fun NavigationBarItem(
                     Modifier.size(50.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(background)
-                        .clickable { item.click(navController = navController) },
+                        .clickable { item.onClick(navController = navController) },
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(icon = item.icon, iconConfig = item.iconConfig, defaultColor = tint)
@@ -340,13 +346,13 @@ private fun NavigationBarItem(
 }
 
 @Composable
-private fun getBoxColor(selected: Boolean): Color {
+private fun calculateBoxColor(selected: Boolean): Color {
     return if (selected) MaterialTheme.colorScheme.secondaryContainer
     else MaterialTheme.colorScheme.surfaceContainer
 }
 
 @Composable
-private fun getIconColor(selected: Boolean): Color {
+private fun calculateIconColor(selected: Boolean): Color {
     return if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
 }
 
@@ -360,7 +366,7 @@ private fun BottomNavigationItem.GetBadge() {
     }
 }
 
-private fun BottomNavigationItem.click(navController: NavController) {
+private fun BottomNavigationItem.onClick(navController: NavController) {
     navController.navigate(this.route) {
         navController.graph.startDestinationRoute?.let { route ->
             popUpTo(route) { saveState = true }
@@ -372,7 +378,7 @@ private fun BottomNavigationItem.click(navController: NavController) {
     }
 }
 
-private fun getLabelState(
+private fun calculateLabelState(
     showLabelOnlyOnSelected: Boolean,
     buttonsCount: Int,
 ): BottomItemsTextStateEnum {
@@ -390,6 +396,6 @@ private fun BottomNavigationItem.showLabel(
             navController.currentDestination?.route == this.route
 }
 
-private fun getBottomBarTopPadding(labelState: BottomItemsTextStateEnum): Dp {
+private fun calculateBottomBarTopPadding(labelState: BottomItemsTextStateEnum): Dp {
     return if (labelState !== BottomItemsTextStateEnum.HIDDEN) 20.dp else 0.dp
 }
