@@ -90,7 +90,7 @@ fun AlertDialog(
                     text = text,
                     color = textColor,
                     fontSize = textConfig.size,
-                    fontWeight = titleConfig.weight,
+                    fontWeight = textConfig.weight,
                     letterSpacing = textConfig.letterSpacing,
                 )
 
