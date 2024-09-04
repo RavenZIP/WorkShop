@@ -167,7 +167,7 @@ class TextConfig(
         @Stable val H3 = TextConfig(size = 18.sp, weight = FontWeight.Medium)
 
         /**
-         * [size] - 18
+         * [size] - 18.sp
          *
          * [color] - MaterialTheme.colorScheme.onSurface
          *
@@ -188,20 +188,7 @@ class TextConfig(
                 )
 
         /**
-         * [size] - 16
-         *
-         * [color] - null
-         *
-         * [align] - TextAlign.Unspecified
-         *
-         * [weight] - FontWeight.Normal
-         *
-         * [letterSpacing] - TextUnit.Unspecified
-         */
-        @Stable val Default = TextConfig()
-
-        /**
-         * [size] - 16
+         * [size] - 16.sp
          *
          * [color] - null
          *
@@ -212,10 +199,11 @@ class TextConfig(
          * [letterSpacing] - TextUnit.Unspecified
          */
         @Stable
-        val CenteredMedium = TextConfig(align = TextAlign.Center, weight = FontWeight.Medium)
+        val CenteredMedium =
+            TextConfig(size = 16.sp, align = TextAlign.Center, weight = FontWeight.Medium)
 
         /**
-         * [size] - 14
+         * [size] - 14.sp
          *
          * [color] - null
          *
@@ -228,7 +216,7 @@ class TextConfig(
         @Stable val SmallMedium = TextConfig(size = 14.sp, weight = FontWeight.Medium)
 
         /**
-         * [size] - 14
+         * [size] - 14.sp
          *
          * [color] - null
          *
