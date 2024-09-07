@@ -263,7 +263,7 @@ class TextConfig(
         internal val Chip = TextConfig(size = 14.sp, weight = FontWeight.W500, letterSpacing = 0.sp)
 
         /**
-         * [size] - 23.sp
+         * [size] - 24.sp
          *
          * [color] - null
          *
@@ -271,10 +271,10 @@ class TextConfig(
          *
          * [weight] - FontWeight.Medium
          *
-         * [letterSpacing] - 1.5.sp
+         * [letterSpacing] - 0.5.sp
          */
         @Stable
         internal val TopAppBar =
-            TextConfig(size = 23.sp, weight = FontWeight.Medium, letterSpacing = 1.5.sp)
+            TextConfig(size = 24.sp, weight = FontWeight.Medium, letterSpacing = 0.5.sp)
     }
 }
