@@ -21,4 +21,4 @@ internal fun Modifier.fillMaxWidthWithoutValue(value: Float?) =
     this.then(if (value == null) this else this.fillMaxWidth())
 
 internal fun Modifier.clickable(value: (() -> Unit)?) =
-    this then (if (value == null) this else this.clickable { value() })
+    this then (if (value == null) Modifier else this.clickable { value() })
