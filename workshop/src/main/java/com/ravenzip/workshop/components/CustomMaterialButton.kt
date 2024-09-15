@@ -185,13 +185,12 @@ fun RowIconButton(
                 Text(
                     text = text,
                     color = textConfig.color ?: colors.contentColor,
-                    modifier = Modifier.weight(1f),
                     fontSize = textConfig.size,
                     fontWeight = textConfig.weight,
                     letterSpacing = textConfig.letterSpacing,
                 )
 
-                Spacer(modifier = Modifier.width(15.dp))
+                Spacer(modifier = Modifier.weight(weight = 1f, fill = false).width(15.dp))
 
                 Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.contentColor)
             }
