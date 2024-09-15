@@ -22,9 +22,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -164,7 +164,7 @@ fun SelectableChip(
                     onClick = onClick,
                     role = Role.RadioButton,
                     interactionSource = interactionSource,
-                    indication = rememberRipple(),
+                    indication = ripple(),
                 )
                 .padding(horizontal = 10.dp, vertical = 5.dp)
     ) {
