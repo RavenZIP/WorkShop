@@ -1,5 +1,6 @@
 package com.ravenzip.workshop
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
@@ -18,3 +19,6 @@ internal fun Modifier.fillMaxWidthWithValue(value: Float?) =
 /** Получить модификатор максимальной ширины */
 internal fun Modifier.fillMaxWidthWithoutValue(value: Float?) =
     this.then(if (value == null) this else this.fillMaxWidth())
+
+internal fun Modifier.clickable(value: (() -> Unit)?) =
+    this then (if (value == null) this else this.clickable { value() })

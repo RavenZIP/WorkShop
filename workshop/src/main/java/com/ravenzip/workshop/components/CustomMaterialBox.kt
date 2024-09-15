@@ -11,18 +11,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.ravenzip.workshop.clickable
 
 /**
  * [RoundedBox] - Скругленный Box-контейнер
  *
+ * @param onClick действие при нажатии
  * @param shape радиус скругления
  * @param backgroundColor цвет контейнера
+ * @param content содержимое контейнера
  */
 @Composable
 fun RoundedBox(
+    onClick: (() -> Unit)? = null,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp),
     content: @Composable BoxScope.() -> Unit,
 ) {
-    Box(modifier = Modifier.clip(shape).background(backgroundColor)) { content() }
+    Box(modifier = Modifier.clip(shape).background(backgroundColor).clickable(onClick)) {
+        content()
+    }
 }

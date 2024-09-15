@@ -12,11 +12,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.TextConfig
@@ -129,6 +132,33 @@ fun CustomButton(
                 )
             }
         }
+    }
+}
+
+/**
+ * [IconButton] - Кнопка с иконкой
+ *
+ * @param icon иконка
+ * @param iconConfig параметры иконки
+ * @param backgroundColor цвет контейнера
+ * @param shape радиус скругления контейнера
+ * @param onClick действие при нажатии
+ */
+@Composable
+fun IconButton(
+    icon: Icon,
+    iconConfig: IconConfig = IconConfig.Small,
+    backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
+    shape: Shape = RoundedCornerShape(10.dp),
+    onClick: () -> Unit,
+) {
+    RoundedBox(onClick = onClick, backgroundColor = backgroundColor, shape = shape) {
+        Icon(
+            modifier = Modifier.padding(10.dp),
+            icon = icon,
+            iconConfig = iconConfig,
+            defaultColor = LocalContentColor.current,
+        )
     }
 }
 
