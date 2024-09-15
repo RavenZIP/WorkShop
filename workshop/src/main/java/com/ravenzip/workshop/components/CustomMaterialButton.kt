@@ -148,7 +148,7 @@ fun CustomButton(
 fun IconButton(
     icon: Icon,
     iconConfig: IconConfig = IconConfig.Small,
-    backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
+    backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit,
 ) {
