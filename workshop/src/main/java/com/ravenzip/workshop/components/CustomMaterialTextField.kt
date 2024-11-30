@@ -15,8 +15,13 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowDropDown
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -101,6 +106,7 @@ fun SimpleTextField(
  *
  * @param text вводимый текст
  * @param width ширина текстового поля
+ * @param readOnly только для чтения
  * @param placeholder подсказка текстового поля
  * @param leadingIcon иконка слева
  * @param trailingIcon иконка справа
@@ -112,6 +118,7 @@ fun SimpleTextField(
 fun SinglenessTextField(
     text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    readOnly: Boolean = false,
     placeholder: String? = null,
     leadingIcon: Icon? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
@@ -130,6 +137,7 @@ fun SinglenessTextField(
         value = text.value,
         onValueChange = { text.value = it },
         modifier = Modifier.fillMaxWidth(width),
+        readOnly = readOnly,
         placeholder = getText(placeholder),
         leadingIcon = getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
         trailingIcon =
@@ -142,12 +150,13 @@ fun SinglenessTextField(
 }
 
 /**
- * [SinglenessTextField] - Однострочное текстовое поле
+ * [SinglenessOutlinedTextField] - Однострочное текстовое поле
  *
  * @param text Вводимый текст
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param enabled Вкл\выкл текстового поля
+ * @param modifier - Кастомные модификаторы
  * @param readOnly Только для чтения
  * @param label Название текстового поля
  * @param leadingIcon Иконка слева
@@ -162,10 +171,11 @@ fun SinglenessTextField(
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
 @Composable
-fun SinglenessTextField(
+fun SinglenessOutlinedTextField(
     text: MutableState<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "Простое текстовое поле",
@@ -185,7 +195,8 @@ fun SinglenessTextField(
     OutlinedTextField(
         value = text.value,
         onValueChange = { if (checkLength(it.length, maxLength)) text.value = it },
-        modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused },
+        modifier =
+            Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused }.then(modifier),
         enabled = enabled,
         readOnly = readOnly,
         label = { Text(text = label) },
@@ -282,6 +293,60 @@ fun MultilineTextField(
         colors,
         showTextLengthCounter,
     )
+}
+
+/**
+ * [DropDownTextField] - Текстовое поле с выпадающим списком
+ *
+ * @param state Выбранное значение
+ * @param menuItems Список элементов выпадающего меню
+ * @param view Текст для элемента выпадающего меню
+ * @param dropDownIcon Иконка выпадающего меню
+ */
+// TODO сделать фильтрацию при вводе и очистку значения, если результатов нет и поле теряет фокус
+// TODO сделать кнопку очистки значения
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> DropDownTextField(
+    state: MutableState<T?>,
+    menuItems: List<T>,
+    view: (data: T) -> String,
+    label: String = "Поле с выпадающим списком",
+    dropDownIcon: Icon = Icon.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
+    dropDownIconConfig: IconConfig = IconConfig.Small,
+) {
+    val expanded = remember { mutableStateOf(false) }
+    val text = remember { mutableStateOf("") }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded.value,
+        onExpandedChange = { expanded.value = !expanded.value },
+    ) {
+        SinglenessOutlinedTextField(
+            text = text,
+            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            readOnly = true,
+            label = label,
+            trailingIcon = dropDownIcon,
+            trailingIconConfig = dropDownIconConfig,
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false },
+        ) {
+            menuItems.forEach { item ->
+                DropdownMenuItem(
+                    text = { Text(text = view(item)) },
+                    onClick = {
+                        text.value = view(item)
+                        state.value = item
+                        expanded.value = false
+                    },
+                )
+            }
+        }
+    }
 }
 
 /** [SearchBarTextField] - Поисковое текстовое поле */
