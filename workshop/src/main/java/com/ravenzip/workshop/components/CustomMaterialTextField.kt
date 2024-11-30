@@ -309,10 +309,10 @@ fun MultilineTextField(
 // TODO сделать кнопку очистки значения
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> DropDownTextField(
-    state: MutableState<T?>,
-    menuItems: List<T>,
-    view: (data: T) -> String,
+fun <TData : TState, TState> DropDownTextField(
+    state: MutableState<TState>,
+    menuItems: List<TData>,
+    view: (data: TData) -> String,
     label: String = "Поле с выпадающим списком",
     dropDownIcon: Icon = Icon.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
     dropDownIconConfig: IconConfig = IconConfig.Small,
