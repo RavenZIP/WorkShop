@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "WorkShop"
 include(":workshop")
+include(":app")
