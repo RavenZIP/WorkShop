@@ -16,11 +16,13 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 @Experimental
 class FormState<T>(
     private val initialValue: T,
+    private val resetValue: T = initialValue,
     private val validators: List<(T) -> String?> = emptyList(),
     private val disable: Boolean = false,
     private val readonly: Boolean = false,
 ) {
     private val _state: MutableState<T> = mutableStateOf(initialValue)
+    private val _isFocused: MutableState<Boolean> = mutableStateOf(false)
     private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
     private val _isReadonly: MutableState<Boolean> = mutableStateOf(readonly)
     private val _errors: SnapshotStateList<String> = mutableStateListOf()
@@ -30,6 +32,9 @@ class FormState<T>(
 
     val value: T
         get() = _state.value
+
+    val isFocused: Boolean
+        get() = _isFocused.value
 
     val isValid: Boolean
         get() = _errors.isEmpty()
@@ -64,6 +69,10 @@ class FormState<T>(
         _errors.addAll(errors)
     }
 
+    fun changeFocusState(value: Boolean) {
+        _isFocused.value = value
+    }
+
     fun disable() {
         _isDisabled.value = true
     }
@@ -81,8 +90,8 @@ class FormState<T>(
     }
 
     fun reset() {
-        _state.value = initialValue
-        _valueChanges.update { initialValue }
+        _state.value = resetValue
+        _valueChanges.update { resetValue }
         _isDisabled.value = disable
         _isReadonly.value = readonly
         _errors.clear()
@@ -90,8 +99,16 @@ class FormState<T>(
 
     companion object {
         @Composable
-        fun <T> create(initialValue: T): FormState<T> where T : Any {
-            return rememberSaveable { FormState(initialValue) }
+        fun <T> create(
+            initialValue: T,
+            resetValue: T = initialValue,
+            validators: List<(T) -> String?> = emptyList(),
+            disable: Boolean = false,
+            readonly: Boolean = false,
+        ): FormState<T> where T : Any {
+            return rememberSaveable {
+                FormState(initialValue, resetValue, validators, disable, readonly)
+            }
         }
     }
 }
