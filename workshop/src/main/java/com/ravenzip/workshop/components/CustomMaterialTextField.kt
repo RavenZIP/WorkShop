@@ -21,6 +21,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -50,9 +51,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
+import com.ravenzip.workshop.clickable
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.forms.DropDownFieldState
 import com.ravenzip.workshop.forms.FormState
 
 /**
@@ -274,13 +277,13 @@ fun SinglenessOutlinedTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = false,
 ) {
-    var isFocused by remember { mutableStateOf(false) }
-
     OutlinedTextField(
         value = state.value,
         onValueChange = { if (checkLength(it.length, maxLength)) state.setValue(it) },
         modifier =
-            Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused }.then(modifier),
+            Modifier.fillMaxWidth(width)
+                .onFocusChanged { state.changeFocusState(it.isFocused) }
+                .then(modifier),
         enabled = state.isEnabled,
         readOnly = state.isReadonly,
         label = { Text(text = label) },
@@ -290,7 +293,7 @@ fun SinglenessOutlinedTextField(
                 iconConfig = leadingIconConfig,
                 colors = colors,
                 isError = state.isInvalid,
-                isFocused = isFocused,
+                isFocused = state.isFocused,
             ),
         trailingIcon =
             getIcon(
@@ -298,7 +301,7 @@ fun SinglenessOutlinedTextField(
                 iconConfig = trailingIconConfig,
                 colors = colors,
                 isError = state.isInvalid,
-                isFocused = isFocused,
+                isFocused = state.isFocused,
             ),
         isError = state.isInvalid,
         visualTransformation =
@@ -308,7 +311,14 @@ fun SinglenessOutlinedTextField(
         shape = shape,
         colors = colors,
     )
-    ErrorMessageAndSymbolsCounter(state, width, maxLength, isFocused, colors, showTextLengthCounter)
+    ErrorMessageAndSymbolsCounter(
+        state,
+        width,
+        maxLength,
+        state.isFocused,
+        colors,
+        showTextLengthCounter,
+    )
 }
 
 /**
@@ -421,6 +431,69 @@ fun <TData : TState, TState> DropDownTextField(
                         state.value = item
                         expanded.value = false
                     },
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> DropDownTextField(
+    state: DropDownFieldState<T>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    modifier: Modifier = Modifier,
+    label: String = "Поле с выпадающим списком",
+    dropDownIcon: Icon = Icon.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
+    dropDownIconConfig: IconConfig = IconConfig.Small,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+) {
+    ExposedDropdownMenuBox(
+        expanded = state.expanded,
+        onExpandedChange = { state.setExpanded(!state.expanded) },
+    ) {
+        OutlinedTextField(
+            value = state.fieldValue,
+            onValueChange = { state.setFieldValue(it) },
+            modifier =
+                Modifier.fillMaxWidth(width)
+                    .onFocusChanged { state.changeFocusState(it.isFocused) }
+                    .menuAnchor(MenuAnchorType.PrimaryEditable)
+                    .then(modifier),
+            enabled = state.isEnabled,
+            readOnly = state.isReadonly,
+            label = { Text(text = label) },
+            trailingIcon = {
+                Icon(
+                    icon = dropDownIcon,
+                    iconConfig = dropDownIconConfig,
+                    defaultColor = colors.cursorColor,
+                )
+            },
+            isError = state.isInvalid,
+            singleLine = true,
+            shape = shape,
+            colors = colors,
+        )
+
+        ExposedDropdownMenu(
+            expanded = state.expanded,
+            onDismissRequest = { state.setExpanded(false) },
+            containerColor = MaterialTheme.colorScheme.surface,
+        ) {
+            if (state.results.isNotEmpty()) {
+                state.results.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = state.view(item)) },
+                        onClick = { state.setValue(item) },
+                    )
+                }
+            } else {
+                DropdownMenuItem(
+                    text = { Text(text = "Нет результатов") },
+                    onClick = {},
+                    enabled = false,
                 )
             }
         }

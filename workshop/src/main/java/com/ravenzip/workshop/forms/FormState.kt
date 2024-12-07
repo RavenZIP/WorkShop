@@ -14,7 +14,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 // TODO реализовать запрет null значений -> надо ли?
 // TODO запоминать когда контрол потрогали -> надо ли?
 @Experimental
-class FormState<T>(
+open class FormState<T>(
     private val initialValue: T,
     private val resetValue: T = initialValue,
     private val validators: List<(T) -> String?> = emptyList(),
@@ -57,7 +57,7 @@ class FormState<T>(
     val isEditable: Boolean
         get() = !_isReadonly.value
 
-    fun setValue(value: T) {
+    open fun setValue(value: T) {
         _state.value = value
         _valueChanges.update { value }
         updateValidity()
@@ -89,7 +89,7 @@ class FormState<T>(
         _isReadonly.value = false
     }
 
-    fun reset() {
+    open fun reset() {
         _state.value = resetValue
         _valueChanges.update { resetValue }
         _isDisabled.value = disable
