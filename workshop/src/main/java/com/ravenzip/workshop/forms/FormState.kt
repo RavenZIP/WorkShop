@@ -24,7 +24,6 @@ class FormState<T>(
     private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
     private val _isReadonly: MutableState<Boolean> = mutableStateOf(readonly)
     private val _errors: SnapshotStateList<String> = mutableStateListOf()
-    private val _errorMessage: MutableState<String> = mutableStateOf("")
 
     private val _valueChanges: MutableStateFlow<T> = MutableStateFlow(initialValue)
     val valueChanges = _valueChanges.asSharedFlow()
@@ -39,7 +38,7 @@ class FormState<T>(
         get() = _errors.isNotEmpty()
 
     val errorMessage: String
-        get() = _errorMessage.value
+        get() = _errors.firstOrNull() ?: ""
 
     val isEnabled: Boolean
         get() = !_isDisabled.value
@@ -63,8 +62,6 @@ class FormState<T>(
         _errors.clear()
         val errors = validators.mapNotNull { validator -> validator(value) }
         _errors.addAll(errors)
-        val testError = errors.firstOrNull() ?: ""
-        _errorMessage.value = testError
     }
 
     fun disable() {
