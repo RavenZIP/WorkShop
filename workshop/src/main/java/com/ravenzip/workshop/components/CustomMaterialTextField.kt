@@ -51,7 +51,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
-import com.ravenzip.workshop.clickable
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
@@ -257,7 +256,7 @@ fun SinglenessOutlinedTextField(
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
- * @sample com.ravenzip.workshop.samples.SinglenessOutlinedTextFieldWithFormStateSample
+ * @sample com.ravenzip.workshop.samples.view.SinglenessOutlinedTextFieldWithFormStateSample
  */
 @ExperimentalMaterial3Api
 @Composable
@@ -394,6 +393,7 @@ fun MultilineTextField(
 // TODO сделать фильтрацию при вводе и очистку значения, если результатов нет и поле теряет фокус
 // TODO сделать кнопку очистки значения
 @OptIn(ExperimentalMaterial3Api::class)
+@Deprecated("Переходить на DropDownTextField с FormState")
 @Composable
 fun <TData : TState, TState> DropDownTextField(
     state: MutableState<TState>,
@@ -437,6 +437,17 @@ fun <TData : TState, TState> DropDownTextField(
     }
 }
 
+/**
+ * [DropDownTextField] - Текстовое поле с выпадающим списком
+ *
+ * @param state Выбранное значение
+ * @param menuItems Список элементов выпадающего меню
+ * @param view Текст для элемента выпадающего меню
+ * @param label Название текстового поля
+ * @param dropDownIcon Иконка выпадающего меню
+ * @param dropDownIconConfig параметры иконки выпадающего списка
+ * @sample com.ravenzip.workshop.samples.view.DropDownTextFieldWithFormStateSample
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropDownTextField(
