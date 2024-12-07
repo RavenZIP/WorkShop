@@ -53,6 +53,7 @@ import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.forms.FormState
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -171,6 +172,7 @@ fun SinglenessTextField(
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
 @Composable
+@Deprecated("Переходить на SinglenessOutlinedTextField с FormState")
 fun SinglenessOutlinedTextField(
     text: MutableState<String>,
     maxLength: Int = 0,
@@ -233,6 +235,80 @@ fun SinglenessOutlinedTextField(
         colors,
         showTextLengthCounter,
     )
+}
+
+/**
+ * [SinglenessOutlinedTextField] - Однострочное текстовое поле
+ *
+ * @param state Состояние текстового поля
+ * @param maxLength Максимальная длина символов
+ * @param width Ширина текстового поля
+ * @param modifier - Кастомные модификаторы
+ * @param label Название текстового поля
+ * @param leadingIcon Иконка слева
+ * @param leadingIconConfig параметры иконки слева
+ * @param trailingIcon Иконка справа
+ * @param trailingIconConfig параметры иконки справа
+ * @param isHiddenText Замена вводимых символов на точки
+ * @param keyboardOptions Опции для клавиатуры
+ * @param shape Радиус скругления
+ * @param colors Цвета текстового поля
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений
+ * @sample com.ravenzip.workshop.samples.SinglenessOutlinedTextFieldWithFormStateSample
+ */
+@ExperimentalMaterial3Api
+@Composable
+fun SinglenessOutlinedTextField(
+    state: FormState<String>,
+    maxLength: Int = 0,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    modifier: Modifier = Modifier,
+    label: String = "Простое текстовое поле",
+    leadingIcon: Icon? = null,
+    leadingIconConfig: IconConfig = IconConfig.Small,
+    trailingIcon: Icon? = null,
+    trailingIconConfig: IconConfig = IconConfig.Small,
+    isHiddenText: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    showTextLengthCounter: Boolean = false,
+) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = state.value,
+        onValueChange = { if (checkLength(it.length, maxLength)) state.setValue(it) },
+        modifier =
+            Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused }.then(modifier),
+        enabled = state.isEnabled,
+        readOnly = state.isReadonly,
+        label = { Text(text = label) },
+        leadingIcon =
+            getIcon(
+                icon = leadingIcon,
+                iconConfig = leadingIconConfig,
+                colors = colors,
+                isError = state.isInvalid,
+                isFocused = isFocused,
+            ),
+        trailingIcon =
+            getIcon(
+                icon = trailingIcon,
+                iconConfig = trailingIconConfig,
+                colors = colors,
+                isError = state.isInvalid,
+                isFocused = isFocused,
+            ),
+        isError = state.isInvalid,
+        visualTransformation =
+            if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
+        keyboardOptions = keyboardOptions,
+        singleLine = true,
+        shape = shape,
+        colors = colors,
+    )
+    ErrorMessageAndSymbolsCounter(state, width, maxLength, isFocused, colors, showTextLengthCounter)
 }
 
 /**
@@ -406,6 +482,39 @@ private fun ErrorMessageAndSymbolsCounter(
                 text = if (maxLength > 0) "${text.length} / $maxLength" else "${text.length}",
                 modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
                 color = getColor(colors, error.value, isFocused),
+                fontSize = 12.sp,
+                textAlign = TextAlign.End,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ErrorMessageAndSymbolsCounter(
+    state: FormState<String>,
+    width: Float,
+    maxLength: Int,
+    isFocused: Boolean,
+    colors: TextFieldColors,
+    showTextLengthCounter: Boolean,
+) {
+    Row(modifier = Modifier.fillMaxWidth(width)) {
+        if (state.isInvalid && state.errorMessage.isNotEmpty()) {
+            Text(
+                text = state.errorMessage,
+                modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
+                color = colors.errorLabelColor,
+                fontSize = 12.sp,
+            )
+        }
+
+        if (showTextLengthCounter) {
+            Text(
+                text =
+                    if (maxLength > 0) "${state.value.length} / $maxLength"
+                    else "${state.value.length}",
+                modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
+                color = getColor(colors, state.isInvalid, isFocused),
                 fontSize = 12.sp,
                 textAlign = TextAlign.End,
             )
