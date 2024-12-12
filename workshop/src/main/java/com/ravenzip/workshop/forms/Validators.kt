@@ -3,7 +3,7 @@ package com.ravenzip.workshop.forms
 import android.util.Patterns.EMAIL_ADDRESS
 
 /** Возможные валидаторы для компонентов */
-class Validator {
+class Validators {
     companion object {
         val required = { value: String ->
             if (value.isEmpty()) "Поле обязательно для заполнения" else null
