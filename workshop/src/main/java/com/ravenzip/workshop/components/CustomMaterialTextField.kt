@@ -54,8 +54,8 @@ import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.forms.DropDownFieldState
 import com.ravenzip.workshop.forms.FormState
+import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -451,7 +451,7 @@ fun <TData : TState, TState> DropDownTextField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropDownTextField(
-    state: DropDownFieldState<T>,
+    state: DropDownTextFieldState<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     label: String = "Поле с выпадающим списком",
@@ -465,7 +465,7 @@ fun <T> DropDownTextField(
         onExpandedChange = { state.setExpanded(!state.expanded) },
     ) {
         OutlinedTextField(
-            value = state.fieldValue,
+            value = state.text,
             onValueChange = { state.setFieldValue(it) },
             modifier =
                 Modifier.fillMaxWidth(width)

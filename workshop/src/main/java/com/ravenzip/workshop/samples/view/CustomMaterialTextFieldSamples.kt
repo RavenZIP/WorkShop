@@ -6,8 +6,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.forms.DropDownFieldState
 import com.ravenzip.workshop.forms.FormState
+import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.samples.model.Item
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +31,7 @@ fun DropDownTextFieldWithFormStateSample() {
     }
 
     val formState =
-        DropDownFieldState.create(
+        DropDownTextFieldState.create(
             initialValue = items.first(),
             resetValue = Item("", "", 0),
             items = items,

@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ravenzip.app.ui.theme.WorkShopTheme
 import com.ravenzip.workshop.components.DropDownTextField
-import com.ravenzip.workshop.forms.DropDownFieldState
+import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.samples.model.Item
 
 class MainActivity : ComponentActivity() {
@@ -44,7 +44,7 @@ fun TextFields() {
     val items = remember { Item.createItems() }
 
     val dropDownFieldFormState = remember {
-        DropDownFieldState(
+        DropDownTextFieldState(
             initialValue = items.first(),
             resetValue = Item.createEmptyModel(),
             items = items,

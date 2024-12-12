@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.forms
+package com.ravenzip.workshop.forms.state
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 
 // TODO реализовать валидацию
 @Experimental
-class DropDownFieldState<T>(
+class DropDownTextFieldState<T>(
     private val initialValue: T,
     private val resetValue: T = initialValue,
     private val items: List<T>,
@@ -19,18 +19,18 @@ class DropDownFieldState<T>(
     validators: List<(T) -> String?> = emptyList(),
     disable: Boolean = false,
     readonly: Boolean = false,
-) : FormState<T>(initialValue, resetValue, validators, disable, readonly) {
-    private val _fieldState: MutableState<String> = mutableStateOf("")
+) : TextFieldState<T>(initialValue, resetValue, validators, disable, readonly) {
+    private val _text: MutableState<String> = mutableStateOf("")
     private val _expanded: MutableState<Boolean> = mutableStateOf(false)
     private val _results: SnapshotStateList<T> = mutableStateListOf()
 
     init {
-        _fieldState.value = itemsView(initialValue)
+        _text.value = itemsView(initialValue)
         _results.addAll(items)
     }
 
-    val fieldValue: String
-        get() = _fieldState.value
+    val text: String
+        get() = _text.value
 
     val expanded: Boolean
         get() = _expanded.value
@@ -42,14 +42,14 @@ class DropDownFieldState<T>(
 
     override fun setValue(value: T) {
         super.setValue(value)
-        _fieldState.value = itemsView(value)
+        _text.value = itemsView(value)
         _expanded.value = false
     }
 
     fun setFieldValue(value: String) {
         super.setValue(resetValue)
         search(value)
-        _fieldState.value = value
+        _text.value = value
         _expanded.value = true
     }
 
@@ -63,12 +63,12 @@ class DropDownFieldState<T>(
 
     fun setExpanded(expanded: Boolean) {
         _expanded.value = expanded
-        if (expanded) search(fieldValue) else reset()
+        if (expanded) search(text) else reset()
     }
 
     override fun reset() {
         super.reset()
-        _fieldState.value = itemsView(resetValue)
+        _text.value = itemsView(resetValue)
     }
 
     companion object {
@@ -81,9 +81,9 @@ class DropDownFieldState<T>(
             validators: List<(T) -> String?> = emptyList(),
             disable: Boolean = false,
             readonly: Boolean = false,
-        ): DropDownFieldState<T> where T : Any {
+        ): DropDownTextFieldState<T> where T : Any {
             return rememberSaveable {
-                DropDownFieldState(
+                DropDownTextFieldState(
                     initialValue,
                     resetValue,
                     items,

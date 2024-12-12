@@ -22,7 +22,6 @@ open class FormState<T>(
     private val readonly: Boolean = false,
 ) {
     private val _state: MutableState<T> = mutableStateOf(initialValue)
-    private val _isFocused: MutableState<Boolean> = mutableStateOf(false)
     private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
     private val _isReadonly: MutableState<Boolean> = mutableStateOf(readonly)
     private val _errors: SnapshotStateList<String> = mutableStateListOf()
@@ -32,9 +31,6 @@ open class FormState<T>(
 
     val value: T
         get() = _state.value
-
-    val isFocused: Boolean
-        get() = _isFocused.value
 
     val isValid: Boolean
         get() = _errors.isEmpty()
@@ -67,10 +63,6 @@ open class FormState<T>(
         _errors.clear()
         val errors = validators.mapNotNull { validator -> validator(value) }
         _errors.addAll(errors)
-    }
-
-    fun changeFocusState(value: Boolean) {
-        _isFocused.value = value
     }
 
     fun disable() {
