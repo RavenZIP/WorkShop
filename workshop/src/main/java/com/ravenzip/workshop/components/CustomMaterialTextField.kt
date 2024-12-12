@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,7 +55,6 @@ import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.forms.FormState
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.TextFieldState
 
@@ -277,48 +277,52 @@ fun SinglenessOutlinedTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = false,
 ) {
-    OutlinedTextField(
-        value = state.value,
-        onValueChange = { if (checkLength(it.length, maxLength)) state.setValue(it) },
-        modifier =
-            Modifier.fillMaxWidth(width)
-                .onFocusChanged { state.changeFocusState(it.isFocused) }
-                .then(modifier),
-        enabled = state.isEnabled,
-        readOnly = state.isReadonly,
-        label = { Text(text = label) },
-        leadingIcon =
-            getIcon(
-                icon = leadingIcon,
-                iconConfig = leadingIconConfig,
-                colors = colors,
-                isError = state.isInvalid,
-                isFocused = state.isFocused,
-            ),
-        trailingIcon =
-            getIcon(
-                icon = trailingIcon,
-                iconConfig = trailingIconConfig,
-                colors = colors,
-                isError = state.isInvalid,
-                isFocused = state.isFocused,
-            ),
-        isError = state.isInvalid,
-        visualTransformation =
-            if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = keyboardOptions,
-        singleLine = true,
-        shape = shape,
-        colors = colors,
-    )
-    ErrorMessageAndSymbolsCounter(
-        state,
-        width,
-        maxLength,
-        state.isFocused,
-        colors,
-        showTextLengthCounter,
-    )
+    Column(modifier = Modifier.fillMaxWidth(width)) {
+        OutlinedTextField(
+            value = state.value,
+            onValueChange = { if (checkLength(it.length, maxLength)) state.setValue(it) },
+            modifier =
+                Modifier.fillMaxWidth()
+                    .onFocusChanged { state.changeFocusState(it.isFocused) }
+                    .then(modifier),
+            enabled = state.isEnabled,
+            readOnly = state.isReadonly,
+            label = { Text(text = label) },
+            leadingIcon =
+                getIcon(
+                    icon = leadingIcon,
+                    iconConfig = leadingIconConfig,
+                    colors = colors,
+                    isError = state.isInvalid,
+                    isFocused = state.isFocused,
+                ),
+            trailingIcon =
+                getIcon(
+                    icon = trailingIcon,
+                    iconConfig = trailingIconConfig,
+                    colors = colors,
+                    isError = state.isInvalid,
+                    isFocused = state.isFocused,
+                ),
+            isError = state.isInvalid,
+            visualTransformation =
+                if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = keyboardOptions,
+            singleLine = true,
+            shape = shape,
+            colors = colors,
+        )
+
+        ErrorMessageWithSymbolsCounter(
+            isInvalid = state.isInvalid,
+            errorMessage = state.errorMessage,
+            isFocused = state.isFocused,
+            showTextLengthCounter = showTextLengthCounter,
+            maxLength = maxLength,
+            currentLength = state.value.length,
+            colors = colors,
+        )
+    }
 }
 
 /**
@@ -442,11 +446,13 @@ fun <TData : TState, TState> DropDownTextField(
  * [DropDownTextField] - Текстовое поле с выпадающим списком
  *
  * @param state Выбранное значение
- * @param menuItems Список элементов выпадающего меню
- * @param view Текст для элемента выпадающего меню
+ * @param width Ширина текстового поля
+ * @param modifier - Кастомные модификаторы
  * @param label Название текстового поля
  * @param dropDownIcon Иконка выпадающего меню
  * @param dropDownIconConfig параметры иконки выпадающего списка
+ * @param shape Радиус скругления
+ * @param colors Цвета текстового поля
  * @sample com.ravenzip.workshop.samples.view.DropDownTextFieldWithFormStateSample
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -461,54 +467,65 @@ fun <T> DropDownTextField(
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
 ) {
-    ExposedDropdownMenuBox(
-        expanded = state.expanded,
-        onExpandedChange = { state.setExpanded(!state.expanded) },
-    ) {
-        OutlinedTextField(
-            value = state.text,
-            onValueChange = { state.setText(it) },
-            modifier =
-                Modifier.fillMaxWidth(width)
-                    .onFocusChanged { state.changeFocusState(it.isFocused) }
-                    .menuAnchor(MenuAnchorType.PrimaryEditable)
-                    .then(modifier),
-            enabled = state.isEnabled,
-            readOnly = state.isReadonly,
-            label = { Text(text = label) },
-            trailingIcon = {
-                Icon(
-                    icon = dropDownIcon,
-                    iconConfig = dropDownIconConfig,
-                    defaultColor = colors.cursorColor,
-                )
-            },
-            isError = state.isInvalid,
-            singleLine = true,
-            shape = shape,
-            colors = colors,
-        )
-
-        ExposedDropdownMenu(
+    Column(modifier = Modifier.fillMaxWidth(width)) {
+        ExposedDropdownMenuBox(
             expanded = state.expanded,
-            onDismissRequest = { state.setExpanded(false) },
-            containerColor = MaterialTheme.colorScheme.surface,
+            onExpandedChange = { state.setExpanded(!state.expanded) },
         ) {
-            if (state.results.isNotEmpty()) {
-                state.results.forEach { item ->
+            OutlinedTextField(
+                value = state.text,
+                onValueChange = { state.setText(it) },
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .onFocusChanged { state.changeFocusState(it.isFocused) }
+                        .menuAnchor(
+                            if (state.isReadonly) MenuAnchorType.PrimaryNotEditable
+                            else MenuAnchorType.PrimaryEditable
+                        )
+                        .then(modifier),
+                enabled = state.isEnabled,
+                readOnly = state.isReadonly,
+                label = { Text(text = label) },
+                trailingIcon = {
+                    Icon(
+                        icon = dropDownIcon,
+                        iconConfig = dropDownIconConfig,
+                        defaultColor = colors.cursorColor,
+                    )
+                },
+                isError = state.isInvalid,
+                singleLine = true,
+                shape = shape,
+                colors = colors,
+            )
+
+            ExposedDropdownMenu(
+                expanded = state.expanded,
+                onDismissRequest = { state.setExpanded(false) },
+                containerColor = MaterialTheme.colorScheme.surface,
+            ) {
+                if (state.results.isNotEmpty()) {
+                    state.results.forEach { item ->
+                        DropdownMenuItem(
+                            text = { Text(text = state.view(item)) },
+                            onClick = { state.setValue(item) },
+                        )
+                    }
+                } else {
                     DropdownMenuItem(
-                        text = { Text(text = state.view(item)) },
-                        onClick = { state.setValue(item) },
+                        text = { Text(text = "Нет результатов") },
+                        onClick = {},
+                        enabled = false,
                     )
                 }
-            } else {
-                DropdownMenuItem(
-                    text = { Text(text = "Нет результатов") },
-                    onClick = {},
-                    enabled = false,
-                )
             }
         }
+
+        ErrorMessage(
+            isInvalid = state.isInvalid,
+            errorMessage = state.errorMessage,
+            colors = colors,
+        )
     }
 }
 
@@ -544,6 +561,7 @@ internal fun SearchBarTextField(
 
 /** Элемент вывода сообщения об ошибке при вводе и счетчик введенных символов */
 @Composable
+@Deprecated("Не использовать")
 private fun ErrorMessageAndSymbolsCounter(
     text: String,
     width: Float,
@@ -574,36 +592,70 @@ private fun ErrorMessageAndSymbolsCounter(
     }
 }
 
+/** Сообщение с описанием ошибки + счетчик введенных символов */
 @Composable
-private fun ErrorMessageAndSymbolsCounter(
-    state: FormState<String>,
-    width: Float,
-    maxLength: Int,
+private fun ErrorMessageWithSymbolsCounter(
+    isInvalid: Boolean,
+    errorMessage: String,
     isFocused: Boolean,
-    colors: TextFieldColors,
     showTextLengthCounter: Boolean,
+    maxLength: Int,
+    currentLength: Int,
+    colors: TextFieldColors,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(width)) {
-        if (state.isInvalid && state.errorMessage.isNotEmpty()) {
-            Text(
-                text = state.errorMessage,
-                modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
-                color = colors.errorLabelColor,
-                fontSize = 12.sp,
-            )
-        }
+    Row(modifier = Modifier.fillMaxWidth()) {
+        ErrorMessage(
+            modifier = Modifier.weight(1f),
+            isInvalid = isInvalid,
+            errorMessage = errorMessage,
+            colors = colors,
+        )
 
-        if (showTextLengthCounter) {
-            Text(
-                text =
-                    if (maxLength > 0) "${state.value.length} / $maxLength"
-                    else "${state.value.length}",
-                modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
-                color = getColor(colors, state.isInvalid, isFocused),
-                fontSize = 12.sp,
-                textAlign = TextAlign.End,
-            )
-        }
+        SymbolsCounter(
+            modifier = Modifier.weight(1f),
+            showTextLengthCounter = showTextLengthCounter,
+            maxLength = maxLength,
+            currentLength = currentLength,
+            color = getColor(colors, isInvalid, isFocused),
+        )
+    }
+}
+
+/** Сообщение с описанием ошибки */
+@Composable
+private fun ErrorMessage(
+    modifier: Modifier = Modifier,
+    isInvalid: Boolean,
+    errorMessage: String,
+    colors: TextFieldColors,
+) {
+    if (isInvalid) {
+        Text(
+            text = errorMessage,
+            modifier = Modifier.fillMaxWidth().then(modifier).padding(start = 10.dp),
+            color = colors.errorLabelColor,
+            fontSize = 12.sp,
+        )
+    }
+}
+
+/** Счетчик введенных символов */
+@Composable
+fun SymbolsCounter(
+    modifier: Modifier = Modifier,
+    showTextLengthCounter: Boolean,
+    maxLength: Int,
+    currentLength: Int,
+    color: Color,
+) {
+    if (showTextLengthCounter) {
+        Text(
+            text = if (maxLength > 0) "$currentLength / $maxLength" else "$currentLength",
+            modifier = Modifier.fillMaxWidth().then(modifier).padding(end = 10.dp),
+            color = color,
+            fontSize = 12.sp,
+            textAlign = TextAlign.End,
+        )
     }
 }
 
