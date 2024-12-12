@@ -1,7 +1,9 @@
 package com.ravenzip.workshop.forms.state
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.ravenzip.workshop.forms.FormState
 import org.jetbrains.annotations.ApiStatus.Experimental
 
@@ -20,5 +22,20 @@ open class TextFieldState<T>(
 
     fun changeFocusState(value: Boolean) {
         _isFocused.value = value
+    }
+
+    companion object {
+        @Composable
+        fun <T> create(
+            initialValue: T,
+            resetValue: T = initialValue,
+            validators: List<(T) -> String?> = emptyList(),
+            disable: Boolean = false,
+            readonly: Boolean = false,
+        ): TextFieldState<T> where T : Any {
+            return rememberSaveable {
+                TextFieldState(initialValue, resetValue, validators, disable, readonly)
+            }
+        }
     }
 }
