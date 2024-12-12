@@ -46,7 +46,7 @@ class DropDownTextFieldState<T>(
         _expanded.value = false
     }
 
-    fun setFieldValue(value: String) {
+    fun setText(value: String) {
         super.setValue(resetValue)
         search(value)
         _text.value = value
@@ -63,7 +63,12 @@ class DropDownTextFieldState<T>(
 
     fun setExpanded(expanded: Boolean) {
         _expanded.value = expanded
-        if (expanded) search(text) else reset()
+
+        if (expanded) {
+            search(text)
+        } else {
+            _text.value = itemsView(resetValue)
+        }
     }
 
     override fun reset() {

@@ -56,6 +56,7 @@ import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.forms.FormState
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
+import com.ravenzip.workshop.forms.state.TextFieldState
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -261,7 +262,7 @@ fun SinglenessOutlinedTextField(
 @ExperimentalMaterial3Api
 @Composable
 fun SinglenessOutlinedTextField(
-    state: FormState<String>,
+    state: TextFieldState<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -466,7 +467,7 @@ fun <T> DropDownTextField(
     ) {
         OutlinedTextField(
             value = state.text,
-            onValueChange = { state.setFieldValue(it) },
+            onValueChange = { state.setText(it) },
             modifier =
                 Modifier.fillMaxWidth(width)
                     .onFocusChanged { state.changeFocusState(it.isFocused) }
