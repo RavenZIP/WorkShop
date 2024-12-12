@@ -389,63 +389,6 @@ fun MultilineTextField(
  * [DropDownTextField] - Текстовое поле с выпадающим списком
  *
  * @param state Выбранное значение
- * @param menuItems Список элементов выпадающего меню
- * @param view Текст для элемента выпадающего меню
- * @param label Название текстового поля
- * @param dropDownIcon Иконка выпадающего меню
- * @param dropDownIconConfig параметры иконки выпадающего списка
- */
-// TODO сделать фильтрацию при вводе и очистку значения, если результатов нет и поле теряет фокус
-// TODO сделать кнопку очистки значения
-@OptIn(ExperimentalMaterial3Api::class)
-@Deprecated("Переходить на DropDownTextField с FormState")
-@Composable
-fun <TData : TState, TState> DropDownTextField(
-    state: MutableState<TState>,
-    menuItems: List<TData>,
-    view: (data: TData) -> String,
-    label: String = "Поле с выпадающим списком",
-    dropDownIcon: Icon = Icon.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
-    dropDownIconConfig: IconConfig = IconConfig.Small,
-) {
-    val expanded = remember { mutableStateOf(false) }
-    val text = remember { mutableStateOf("") }
-
-    ExposedDropdownMenuBox(
-        expanded = expanded.value,
-        onExpandedChange = { expanded.value = !expanded.value },
-    ) {
-        SinglenessOutlinedTextField(
-            text = text,
-            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
-            readOnly = true,
-            label = label,
-            trailingIcon = dropDownIcon,
-            trailingIconConfig = dropDownIconConfig,
-        )
-
-        ExposedDropdownMenu(
-            expanded = expanded.value,
-            onDismissRequest = { expanded.value = false },
-        ) {
-            menuItems.forEach { item ->
-                DropdownMenuItem(
-                    text = { Text(text = view(item)) },
-                    onClick = {
-                        text.value = view(item)
-                        state.value = item
-                        expanded.value = false
-                    },
-                )
-            }
-        }
-    }
-}
-
-/**
- * [DropDownTextField] - Текстовое поле с выпадающим списком
- *
- * @param state Выбранное значение
  * @param width Ширина текстового поля
  * @param modifier - Кастомные модификаторы
  * @param label Название текстового поля
