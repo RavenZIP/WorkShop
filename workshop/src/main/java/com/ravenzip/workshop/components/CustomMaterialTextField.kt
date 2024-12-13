@@ -160,7 +160,7 @@ fun SinglenessTextField(
  * @param state Состояние текстового поля
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
- * @param modifier - Кастомные модификаторы
+ * @param modifier Кастомные модификаторы
  * @param placeholder Подсказка текстового поля
  * @param leadingIcon Иконка слева
  * @param leadingIconConfig Параметры иконки слева
@@ -239,7 +239,7 @@ fun SinglenessTextField(
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param enabled Вкл\выкл текстового поля
- * @param modifier - Кастомные модификаторы
+ * @param modifier Кастомные модификаторы
  * @param readOnly Только для чтения
  * @param label Название текстового поля
  * @param leadingIcon Иконка слева
@@ -325,7 +325,7 @@ fun SinglenessOutlinedTextField(
  * @param state Состояние текстового поля
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
- * @param modifier - Кастомные модификаторы
+ * @param modifier Кастомные модификаторы
  * @param label Название текстового поля
  * @param leadingIcon Иконка слева
  * @param leadingIconConfig параметры иконки слева
@@ -422,6 +422,7 @@ fun SinglenessOutlinedTextField(
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
 @Composable
+@Deprecated("Переходить на MultilineTextField с FormState")
 fun MultilineTextField(
     text: MutableState<String>,
     maxLength: Int = 0,
@@ -462,6 +463,67 @@ fun MultilineTextField(
         colors,
         showTextLengthCounter,
     )
+}
+
+/**
+ * [MultilineTextField] - Многострочное текстовое поле
+ *
+ * @param state Состояние текстового поля
+ * @param maxLength Максимальная длина символов
+ * @param width Ширина текстового поля
+ * @param modifier Кастомные модификаторы
+ * @param label Название текстового поля
+ * @param keyboardOptions Опции для клавиатуры
+ * @param maxLines Минимальное число строк
+ * @param minLines Максимальное число строк
+ * @param shape Радиус скругления
+ * @param colors Цвета текстового поля
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений
+ */
+@ExperimentalMaterial3Api
+@Composable
+fun MultilineTextField(
+    state: TextFieldState<String>,
+    maxLength: Int = 0,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    modifier: Modifier = Modifier,
+    label: String = "Многострочное текстовое поле",
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    showTextLengthCounter: Boolean = false,
+) {
+    Column(modifier = Modifier.fillMaxWidth(width)) {
+        OutlinedTextField(
+            value = state.value,
+            onValueChange = { value -> state.setValue(value) },
+            modifier =
+                Modifier.fillMaxWidth()
+                    .onFocusChanged { focusState -> state.changeFocusState(focusState.isFocused) }
+                    .then(modifier),
+            enabled = state.isEnabled,
+            readOnly = state.isReadonly,
+            label = { Text(text = label) },
+            isError = state.isInvalid,
+            keyboardOptions = keyboardOptions,
+            maxLines = maxLines,
+            minLines = minLines,
+            shape = shape,
+            colors = colors,
+        )
+
+        ErrorMessageWithSymbolsCounter(
+            isInvalid = state.isInvalid,
+            errorMessage = state.errorMessage,
+            isFocused = state.isFocused,
+            showTextLengthCounter = showTextLengthCounter,
+            maxLength = maxLength,
+            currentLength = state.value.length,
+            colors = colors,
+        )
+    }
 }
 
 /**
