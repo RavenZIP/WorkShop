@@ -119,6 +119,7 @@ fun SimpleTextField(
  * @param colors цвета текстового поля
  */
 @Composable
+@Deprecated("Переходить на SinglenessTextField с FormState")
 fun SinglenessTextField(
     text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
@@ -151,6 +152,84 @@ fun SinglenessTextField(
         shape = shape,
         colors = colors,
     )
+}
+
+/**
+ * [SinglenessTextField] - Однострочное текстовое поле
+ *
+ * @param state Состояние текстового поля
+ * @param maxLength Максимальная длина символов
+ * @param width Ширина текстового поля
+ * @param modifier - Кастомные модификаторы
+ * @param placeholder Подсказка текстового поля
+ * @param leadingIcon Иконка слева
+ * @param leadingIconConfig Параметры иконки слева
+ * @param trailingIcon Иконка справа
+ * @param trailingIconConfig параметры иконки справа
+ * @param isHiddenText Замена вводимых символов на точки
+ * @param keyboardOptions Опции для клавиатуры
+ * @param shape Радиус скругления
+ * @param colors Цвета текстового поля
+ * @param showTextLengthCounter Отображение счетчика введенных сообщений
+ */
+@ExperimentalMaterial3Api
+@Composable
+fun SinglenessTextField(
+    state: TextFieldState<String>,
+    maxLength: Int = 0,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    modifier: Modifier = Modifier,
+    placeholder: String? = null,
+    leadingIcon: Icon? = null,
+    leadingIconConfig: IconConfig = IconConfig.Small,
+    trailingIcon: Icon? = null,
+    trailingIconConfig: IconConfig = IconConfig.Small,
+    isHiddenText: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    shape: Shape = RoundedCornerShape(10.dp),
+    colors: TextFieldColors =
+        TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+        ),
+    showTextLengthCounter: Boolean = false,
+) {
+    Column(modifier = Modifier.fillMaxWidth(width)) {
+        TextField(
+            value = state.value,
+            onValueChange = { value ->
+                if (checkLength(value.length, maxLength)) state.setValue(value)
+            },
+            modifier =
+                Modifier.fillMaxWidth()
+                    .onFocusChanged { focusState -> state.changeFocusState(focusState.isFocused) }
+                    .then(modifier),
+            readOnly = state.isReadonly,
+            placeholder = getText(placeholder),
+            leadingIcon =
+                getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
+            trailingIcon =
+                getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
+            isError = state.isInvalid,
+            visualTransformation =
+                if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = keyboardOptions,
+            singleLine = true,
+            shape = shape,
+            colors = colors,
+        )
+
+        ErrorMessageWithSymbolsCounter(
+            isInvalid = state.isInvalid,
+            errorMessage = state.errorMessage,
+            isFocused = state.isFocused,
+            showTextLengthCounter = showTextLengthCounter,
+            maxLength = maxLength,
+            currentLength = state.value.length,
+            colors = colors,
+        )
+    }
 }
 
 /**
@@ -283,7 +362,7 @@ fun SinglenessOutlinedTextField(
             onValueChange = { if (checkLength(it.length, maxLength)) state.setValue(it) },
             modifier =
                 Modifier.fillMaxWidth()
-                    .onFocusChanged { state.changeFocusState(it.isFocused) }
+                    .onFocusChanged { focusState -> state.changeFocusState(focusState.isFocused) }
                     .then(modifier),
             enabled = state.isEnabled,
             readOnly = state.isReadonly,
