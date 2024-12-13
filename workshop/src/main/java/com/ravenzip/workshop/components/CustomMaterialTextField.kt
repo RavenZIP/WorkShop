@@ -71,6 +71,7 @@ import com.ravenzip.workshop.forms.state.TextFieldState
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Deprecated("Переходить на SimpleTextField с FormState")
 fun SimpleTextField(
     text: MutableState<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
@@ -90,6 +91,56 @@ fun SimpleTextField(
             value = text.value,
             innerTextField = it,
             enabled = true,
+            singleLine = true,
+            visualTransformation = VisualTransformation.None,
+            interactionSource = interactionSource,
+            placeholder = { Text(text = placeholder, fontSize = textSize.sp) },
+            colors = colors,
+            contentPadding = PaddingValues(3.dp),
+            container = {
+                if (showLine) {
+                    Line(interactionSource = interactionSource, colors = colors)
+                }
+            },
+        )
+    }
+}
+
+/**
+ * [SimpleTextField] - Простое текстовое поле
+ *
+ * @param state Состояние текстового поля
+ * @param width Ширина текстового поля
+ * @param modifier Кастомные модификаторы
+ * @param textSize Размер вводимого текста и текста плейсхолдера
+ * @param placeholder Временный текст
+ * @param interactionSource Поток взаимодействий для поля ввода
+ * @param colors Цвета текстового поля
+ * @param showLine Отображать линию снизу текста
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterial3Api
+@Composable
+fun SimpleTextField(
+    state: TextFieldState<String>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    modifier: Modifier = Modifier,
+    textSize: Int = 16,
+    placeholder: String = "",
+    interactionSource: InteractionSource = MutableInteractionSource(),
+    colors: TextFieldColors = TextFieldDefaults.colors(),
+    showLine: Boolean = true,
+) {
+    BasicTextField(
+        value = state.value,
+        onValueChange = { value -> state.setValue(value) },
+        textStyle = TextStyle(color = colors.unfocusedTextColor, fontSize = textSize.sp),
+        modifier = Modifier.fillMaxWidth(width).then(modifier),
+    ) {
+        TextFieldDefaults.DecorationBox(
+            value = state.value,
+            innerTextField = it,
+            enabled = state.isEnabled,
             singleLine = true,
             visualTransformation = VisualTransformation.None,
             interactionSource = interactionSource,
