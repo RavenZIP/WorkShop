@@ -9,7 +9,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import java.util.Locale
 import org.jetbrains.annotations.ApiStatus.Experimental
 
-// TODO реализовать валидацию
 @Experimental
 class DropDownTextFieldState<T>(
     private val initialValue: T,
