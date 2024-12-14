@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.RadioButtonDefaults
@@ -38,6 +39,8 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
+import com.ravenzip.workshop.forms.FormState
+import com.ravenzip.workshop.forms.state.RadioButtonState
 
 /**
  * [Switch] - Переключатель
@@ -53,6 +56,7 @@ import com.ravenzip.workshop.data.selection.SelectableItemConfig
  * @param onCheckedChanged действие при нажатии на [Switch]
  */
 @Composable
+@Deprecated("Не использовать, переходить на Switch с FormState")
 fun Switch(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     isChecked: MutableState<Boolean>,
@@ -105,6 +109,68 @@ fun Switch(
 }
 
 /**
+ * [Switch] - Переключатель
+ *
+ * @param state состояние свича
+ * @param width ширина
+ * @param title заголовок
+ * @param titleConfig параметры заголовка
+ * @param text описание
+ * @param textConfig параметры описания
+ * @param colors цвета свича
+ */
+@Composable
+@ExperimentalMaterial3Api
+fun Switch(
+    state: FormState<Boolean>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    title: String,
+    titleConfig: TextConfig,
+    text: String,
+    textConfig: TextConfig,
+    colors: SwitchColors = SwitchDefaults.colors(),
+) {
+    val titleColor = remember { titleConfig.color ?: Color.Unspecified }
+    val textColor = remember { textConfig.color ?: Color.Unspecified }
+
+    Row(
+        modifier =
+            Modifier.fillMaxWidth(width)
+                .clip(RoundedCornerShape(10.dp))
+                .clickable { state.setValue(!state.value) }
+                .padding(15.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column {
+            Text(
+                text = title,
+                color = titleColor,
+                fontSize = titleConfig.size,
+                fontWeight = titleConfig.weight,
+                letterSpacing = titleConfig.letterSpacing,
+            )
+
+            Text(
+                text = text,
+                color = textColor,
+                fontSize = textConfig.size,
+                fontWeight = textConfig.weight,
+                letterSpacing = textConfig.letterSpacing,
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Switch(
+            checked = state.value,
+            onCheckedChange = { state.setValue(!state.value) },
+            enabled = state.isEnabled,
+            colors = colors,
+        )
+    }
+}
+
+/**
  * [RadioGroup] - Радиокнопки
  *
  * @param width ширина
@@ -115,6 +181,7 @@ fun Switch(
  * @param onClick действие при нажатии на радиокнопку
  */
 @Composable
+@Deprecated("Не использовать, переходить на RadioGroup с FormState")
 fun RadioGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     list: SnapshotStateList<SelectableItemConfig>,
@@ -143,6 +210,47 @@ fun RadioGroup(
                 )
 
                 Text(text = item.text, fontSize = textSize.sp)
+            }
+        }
+    }
+}
+
+/**
+ * [RadioGroup] - Радиокнопки
+ *
+ * @param state состояние радиокнопки
+ * @param width ширина
+ * @param textSize размер текста
+ * @param contentPadding вертикальный отступ между радиокнопками
+ * @param colors цвета радиокнопок
+ */
+@Composable
+@ExperimentalMaterial3Api
+fun <T> RadioGroup(
+    state: RadioButtonState<T>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    textSize: Int = 18,
+    contentPadding: Arrangement.Vertical = Arrangement.spacedBy(10.dp),
+    colors: RadioButtonColors = RadioButtonDefaults.colors(),
+) {
+    Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
+        state.items.forEach { item ->
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable { state.setValue(item) }
+                        .padding(top = 5.dp, bottom = 5.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = state.isSelected(item),
+                    onClick = { state.setValue(item) },
+                    enabled = state.isEnabled,
+                    colors = colors,
+                )
+
+                Text(text = state.view(item), fontSize = textSize.sp)
             }
         }
     }
