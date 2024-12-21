@@ -40,6 +40,8 @@ import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.FormState
+import com.ravenzip.workshop.forms.state.CheckBoxTreeFormState
+import com.ravenzip.workshop.forms.state.MultiSelectFormState
 import com.ravenzip.workshop.forms.state.RadioButtonState
 
 /**
@@ -295,6 +297,49 @@ fun ChipRadioGroup(
 }
 
 /**
+ * [Checkbox] - чекбокс
+ *
+ * @param isSelected флаг выбора чекбокса
+ * @param text текст чекбокса
+ * @param textConfig параметры текста
+ * @param enabled вкл\выкл чекбоксов
+ * @param colors цвета чекбоксов
+ * @param onClick действие при нажатии
+ */
+@Composable
+@ExperimentalMaterial3Api
+fun Checkbox(
+    isSelected: Boolean,
+    text: String,
+    textConfig: TextConfig,
+    enabled: Boolean,
+    colors: CheckboxColors,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier =
+            Modifier.fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .clickable { onClick() }
+                .padding(top = 5.dp, bottom = 5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(
+            checked = isSelected,
+            onCheckedChange = { onClick() },
+            enabled = enabled,
+            colors = colors,
+        )
+        Text(
+            text = text,
+            fontSize = textConfig.size,
+            fontWeight = textConfig.weight,
+            letterSpacing = textConfig.letterSpacing,
+        )
+    }
+}
+
+/**
  * [CheckBoxGroup] - Чекбоксы
  *
  * @param width ширина
@@ -305,6 +350,7 @@ fun ChipRadioGroup(
  * @param onClick действие при нажатии
  */
 @Composable
+@Deprecated("Не использовать, переходить на CheckBoxGroup с FormState")
 fun CheckBoxGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     list: SnapshotStateList<SelectableItemConfig>,
@@ -325,6 +371,39 @@ fun CheckBoxGroup(
 }
 
 /**
+ * [CheckBoxGroup] - Чекбоксы
+ *
+ * @param state состояние группы чекбоксов
+ * @param width ширина
+ * @param textConfig параметры текста
+ * @param contentPadding отступ между чекбоксами
+ * @param colors цвета чекбоксов
+ */
+@Composable
+@ExperimentalMaterial3Api
+fun <T> CheckBoxGroup(
+    state: MultiSelectFormState<T>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    textConfig: TextConfig = TextConfig.S18,
+    contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
+    colors: CheckboxColors = CheckboxDefaults.colors(),
+) {
+    Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
+        state.items.forEach { item ->
+            Checkbox(
+                isSelected = state.isSelected(item),
+                text = state.view(item),
+                textConfig = textConfig,
+                enabled = state.isEnabled,
+                colors = colors,
+            ) {
+                state.setValue(item)
+            }
+        }
+    }
+}
+
+/**
  * [CheckboxTree] - Дерево чекбоксов
  *
  * @param width ширина
@@ -337,6 +416,7 @@ fun CheckBoxGroup(
  * @param onClickToChild действие при нажатии на дочерние чекбоксы
  */
 @Composable
+@Deprecated("Не использовать, переходить на CheckBoxTree с FormState")
 fun CheckboxTree(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     root: RootSelectionConfig,
@@ -383,6 +463,70 @@ fun CheckboxTree(
 }
 
 /**
+ * [CheckboxTree] - Дерево чекбоксов
+ *
+ * @param state состояние дерева
+ * @param width ширина
+ * @param parentText текст для главного чебокса
+ * @param parentTextConfig параметры текста для главного чекбокса
+ * @param parentPadding отступ между главным чекбоксом и группой дочерних
+ * @param childPadding отступ между дочерними чекбоксами
+ * @param parentColors цвета для главного чекбокса
+ * @param childColors цвета для дочерних чекбоксов
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun <T> CheckboxTree(
+    state: CheckBoxTreeFormState<T>,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    parentText: String,
+    parentTextConfig: TextConfig = TextConfig.S18,
+    childTextConfig: TextConfig = TextConfig.S18,
+    parentPadding: Arrangement.Vertical = Arrangement.spacedBy(5.dp),
+    childPadding: Arrangement.Vertical = Arrangement.spacedBy(5.dp),
+    parentColors: CheckboxColors = CheckboxDefaults.colors(),
+    childColors: CheckboxColors = CheckboxDefaults.colors(),
+) {
+    Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = parentPadding) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier =
+                Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { state.changeParentState() }
+                    .padding(top = 5.dp, bottom = 5.dp),
+        ) {
+            TriStateCheckbox(
+                state = state.parent,
+                onClick = { state.changeParentState() },
+                enabled = state.isEnabled,
+                colors = parentColors,
+            )
+            Text(
+                text = parentText,
+                fontSize = parentTextConfig.size,
+                fontWeight = parentTextConfig.weight,
+                letterSpacing = parentTextConfig.letterSpacing,
+            )
+        }
+
+        Column(modifier = Modifier.padding(start = 15.dp), verticalArrangement = childPadding) {
+            state.items.forEach { item ->
+                Checkbox(
+                    isSelected = state.isSelected(item),
+                    text = state.view(item),
+                    textConfig = childTextConfig,
+                    enabled = state.isEnabled,
+                    colors = childColors,
+                ) {
+                    state.setValue(item)
+                }
+            }
+        }
+    }
+}
+
+/**
  * [Checkbox] - чекбокс
  *
  * @param item параметры чекбокса
@@ -393,6 +537,9 @@ fun CheckboxTree(
  * @param onClick действие при нажатии
  */
 @Composable
+@Deprecated(
+    "Не использовать, переходить на Checkbox, который используется для компонентов с FormState"
+)
 fun Checkbox(
     item: SelectableItemConfig,
     textSize: Int,
