@@ -13,15 +13,35 @@ open class TextFieldState<T>(
     resetValue: T = initialValue,
     validators: List<(T) -> String?> = emptyList(),
     disable: Boolean = false,
-    readonly: Boolean = false,
-) : FormState<T>(initialValue, resetValue, validators, disable, readonly) {
+    private val readonly: Boolean = false,
+) : FormState<T>(initialValue, resetValue, validators, disable) {
+    private val _isReadonly: MutableState<Boolean> = mutableStateOf(readonly)
     private val _isFocused: MutableState<Boolean> = mutableStateOf(false)
 
     val isFocused: Boolean
         get() = _isFocused.value
 
+    val isReadonly: Boolean
+        get() = _isReadonly.value
+
+    val isEditable: Boolean
+        get() = !_isReadonly.value
+
     fun changeFocusState(value: Boolean) {
         _isFocused.value = value
+    }
+
+    fun readonly() {
+        _isReadonly.value = true
+    }
+
+    fun editable() {
+        _isReadonly.value = false
+    }
+
+    override fun reset() {
+        super.reset()
+        _isReadonly.value = readonly
     }
 
     companion object {

@@ -19,11 +19,9 @@ open class FormState<T>(
     private val resetValue: T = initialValue,
     private val validators: List<(T) -> String?> = emptyList(),
     private val disable: Boolean = false,
-    private val readonly: Boolean = false,
 ) {
     private val _state: MutableState<T> = mutableStateOf(initialValue)
     private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
-    private val _isReadonly: MutableState<Boolean> = mutableStateOf(readonly)
     private val _errors: SnapshotStateList<String> = mutableStateListOf()
 
     private val _valueChanges: MutableStateFlow<T> = MutableStateFlow(initialValue)
@@ -47,12 +45,6 @@ open class FormState<T>(
     val isDisabled: Boolean
         get() = _isDisabled.value
 
-    val isReadonly: Boolean
-        get() = _isReadonly.value
-
-    val isEditable: Boolean
-        get() = !_isReadonly.value
-
     open fun setValue(value: T) {
         _state.value = value
         _valueChanges.update { value }
@@ -73,19 +65,10 @@ open class FormState<T>(
         _isDisabled.value = false
     }
 
-    fun readonly() {
-        _isReadonly.value = true
-    }
-
-    fun editable() {
-        _isReadonly.value = false
-    }
-
     open fun reset() {
         _state.value = resetValue
         _valueChanges.update { resetValue }
         _isDisabled.value = disable
-        _isReadonly.value = readonly
         _errors.clear()
     }
 
@@ -96,11 +79,8 @@ open class FormState<T>(
             resetValue: T = initialValue,
             validators: List<(T) -> String?> = emptyList(),
             disable: Boolean = false,
-            readonly: Boolean = false,
         ): FormState<T> where T : Any {
-            return rememberSaveable {
-                FormState(initialValue, resetValue, validators, disable, readonly)
-            }
+            return rememberSaveable { FormState(initialValue, resetValue, validators, disable) }
         }
     }
 }
