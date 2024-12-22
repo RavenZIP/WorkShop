@@ -1,9 +1,8 @@
 package com.ravenzip.workshop.forms.state
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.ravenzip.workshop.forms.BaseFormState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
@@ -16,11 +15,9 @@ open class MultiSelectFormState<T>(
     private val comparableKey: (T) -> Any,
     private val sourceView: (T) -> String,
     private val validators: List<(List<T>) -> String?> = emptyList(),
-    private val disable: Boolean = false,
-) {
+    disable: Boolean = false,
+) : BaseFormState(disable) {
     private val _state: SnapshotStateList<T> = mutableStateListOf()
-    private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
-    private val _error: MutableState<String> = mutableStateOf("")
     private val _items = source.toList()
 
     private val _valueChanges: MutableStateFlow<List<T>> = MutableStateFlow(emptyList())
@@ -33,21 +30,6 @@ open class MultiSelectFormState<T>(
         get() = _items
 
     fun view(value: T): String = sourceView(value)
-
-    val isValid: Boolean
-        get() = _error.value.isEmpty()
-
-    val isInvalid: Boolean
-        get() = _error.value.isNotEmpty()
-
-    val errorMessage: String
-        get() = _error.value
-
-    val isEnabled: Boolean
-        get() = !_isDisabled.value
-
-    val isDisabled: Boolean
-        get() = _isDisabled.value
 
     open fun setValue(value: T) {
         if (isSelected(value)) {
@@ -70,26 +52,18 @@ open class MultiSelectFormState<T>(
     }
 
     private fun updateValidity() {
-        _error.value = validators.firstNotNullOfOrNull { validator -> validator(_state) } ?: ""
+        val error = validators.firstNotNullOfOrNull { validator -> validator(value) } ?: ""
+        super.setError(error)
     }
 
     fun isSelected(value: T): Boolean {
         return _state.any { selected -> comparableKey(selected) == comparableKey(value) }
     }
 
-    fun disable() {
-        _isDisabled.value = true
-    }
-
-    fun enable() {
-        _isDisabled.value = false
-    }
-
-    fun reset() {
+    override fun reset() {
         _state.clear()
         _valueChanges.update { listOf() }
-        _isDisabled.value = disable
-        _error.value = ""
+        super.reset()
     }
 
     init {

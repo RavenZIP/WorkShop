@@ -2,10 +2,8 @@ package com.ravenzip.workshop.forms
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
@@ -18,32 +16,15 @@ open class FormState<T>(
     private val initialValue: T,
     private val resetValue: T = initialValue,
     private val validators: List<(T) -> String?> = emptyList(),
-    private val disable: Boolean = false,
-) {
+    disable: Boolean = false,
+) : BaseFormState(disable) {
     private val _state: MutableState<T> = mutableStateOf(initialValue)
-    private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
-    private val _errors: SnapshotStateList<String> = mutableStateListOf()
 
     private val _valueChanges: MutableStateFlow<T> = MutableStateFlow(initialValue)
     val valueChanges = _valueChanges.asSharedFlow()
 
     val value: T
         get() = _state.value
-
-    val isValid: Boolean
-        get() = _errors.isEmpty()
-
-    val isInvalid: Boolean
-        get() = _errors.isNotEmpty()
-
-    val errorMessage: String
-        get() = _errors.firstOrNull() ?: ""
-
-    val isEnabled: Boolean
-        get() = !_isDisabled.value
-
-    val isDisabled: Boolean
-        get() = _isDisabled.value
 
     open fun setValue(value: T) {
         _state.value = value
@@ -52,24 +33,14 @@ open class FormState<T>(
     }
 
     private fun updateValidity() {
-        _errors.clear()
-        val errors = validators.mapNotNull { validator -> validator(value) }
-        _errors.addAll(errors)
+        val error = validators.firstNotNullOfOrNull { validator -> validator(value) } ?: ""
+        super.setError(error)
     }
 
-    fun disable() {
-        _isDisabled.value = true
-    }
-
-    fun enable() {
-        _isDisabled.value = false
-    }
-
-    open fun reset() {
+    override fun reset() {
         _state.value = resetValue
         _valueChanges.update { resetValue }
-        _isDisabled.value = disable
-        _errors.clear()
+        super.reset()
     }
 
     companion object {
