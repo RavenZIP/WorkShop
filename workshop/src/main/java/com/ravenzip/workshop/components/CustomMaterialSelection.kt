@@ -42,7 +42,7 @@ import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.FormState
 import com.ravenzip.workshop.forms.state.CheckBoxTreeFormState
 import com.ravenzip.workshop.forms.state.MultiSelectFormState
-import com.ravenzip.workshop.forms.state.RadioButtonState
+import com.ravenzip.workshop.forms.state.RadioGroupState
 
 /**
  * [Switch] - Переключатель
@@ -229,7 +229,7 @@ fun RadioGroup(
 @Composable
 @ExperimentalMaterial3Api
 fun <T> RadioGroup(
-    state: RadioButtonState<T>,
+    state: RadioGroupState<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textSize: Int = 18,
     contentPadding: Arrangement.Vertical = Arrangement.spacedBy(10.dp),

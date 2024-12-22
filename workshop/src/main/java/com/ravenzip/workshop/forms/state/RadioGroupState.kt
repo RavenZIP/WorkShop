@@ -4,16 +4,15 @@ import com.ravenzip.workshop.forms.FormState
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental
-open class RadioButtonState<T>(
+// TODO добавить валидацию
+open class RadioGroupState<T>(
     private val initialValue: T,
     source: List<T>,
     private val comparableKey: (T) -> Any,
     private val sourceView: (T) -> String,
     resetValue: T = initialValue,
-    validators: List<(T) -> String?> = emptyList(),
     disable: Boolean = false,
-    readonly: Boolean = false,
-) : FormState<T>(initialValue, resetValue, validators, disable, readonly) {
+) : FormState<T>(initialValue, resetValue, emptyList(), disable) {
     private val _items = source.toList()
 
     val items: List<T>
