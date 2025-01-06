@@ -65,7 +65,7 @@ class DropDownTextFieldState<T>(
 
         if (expanded) {
             search(text)
-        } else {
+        } else if (super.isInvalid) {
             _text.value = itemsView(resetValue)
         }
     }
