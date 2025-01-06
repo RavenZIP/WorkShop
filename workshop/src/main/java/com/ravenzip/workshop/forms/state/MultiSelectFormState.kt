@@ -49,6 +49,7 @@ open class MultiSelectFormState<T>(
 
     fun unselectAll() {
         _state.clear()
+        _valueChanges.update { emptyList() }
     }
 
     private fun updateValidity() {
@@ -62,7 +63,7 @@ open class MultiSelectFormState<T>(
 
     override fun reset() {
         _state.clear()
-        _valueChanges.update { listOf() }
+        _valueChanges.update { emptyList() }
         super.reset()
     }
 
