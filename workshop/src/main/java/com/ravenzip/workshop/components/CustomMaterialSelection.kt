@@ -44,7 +44,6 @@ import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.FormState
 import com.ravenzip.workshop.forms.state.CheckBoxTreeFormState
 import com.ravenzip.workshop.forms.state.MultiSelectFormState
-import com.ravenzip.workshop.forms.state.RadioGroupState
 
 /**
  * [Switch] - Переключатель
@@ -223,6 +222,9 @@ fun RadioGroup(
  * [RadioGroup] - Радиокнопки
  *
  * @param state состояние радиогруппы
+ * @param source источник данных
+ * @param view отображаемый текст для радиокнопок
+ * @param comparableKey ключ для сравнения
  * @param width ширина
  * @param textSize размер текста
  * @param contentPadding вертикальный отступ между радиокнопками
@@ -231,14 +233,17 @@ fun RadioGroup(
 @Composable
 @ExperimentalMaterial3Api
 fun <T> RadioGroup(
-    state: RadioGroupState<T>,
+    state: FormState<T>,
+    source: List<T>,
+    view: (T) -> String,
+    comparableKey: (T) -> Any,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textSize: Int = 18,
     contentPadding: Arrangement.Vertical = Arrangement.spacedBy(10.dp),
     colors: RadioButtonColors = RadioButtonDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
-        state.items.forEach { item ->
+        source.forEach { item ->
             Row(
                 modifier =
                     Modifier.fillMaxWidth()
@@ -248,13 +253,13 @@ fun <T> RadioGroup(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = state.isSelected(item),
+                    selected = comparableKey(state.value) == comparableKey(item),
                     onClick = { state.setValue(item) },
                     enabled = state.isEnabled,
                     colors = colors,
                 )
 
-                Text(text = state.view(item), fontSize = textSize.sp)
+                Text(text = view(item), fontSize = textSize.sp)
             }
         }
     }
@@ -303,6 +308,9 @@ fun ChipRadioGroup(
  * [ChipRadioGroup] - Радиогруппа с чипами
  *
  * @param state состояние радиогруппы
+ * @param source источник данных
+ * @param view отображаемый текст для радиокнопок
+ * @param comparableKey ключ для сравнения
  * @param width ширина
  * @param textConfig параметры текста
  * @param iconConfig параметры иконок
