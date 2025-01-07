@@ -5,7 +5,7 @@ class Item(val uid: String, val name: String, val count: Int) {
     companion object {
         fun createEmptyModel(): Item = Item("", "", 0)
 
-        fun createItem(uid: String, name: String, count: Int) = Item("1111111111", "Клен", 1)
+        fun createItem() = Item("1111111111", "Клен", 1)
 
         fun createItems(): List<Item> =
             listOf(
