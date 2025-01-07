@@ -55,8 +55,8 @@ import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.forms.state.DropDownTextFieldState
-import com.ravenzip.workshop.forms.state.TextFieldState
+import com.ravenzip.workshop.forms.state.special.DropDownTextFieldState
+import com.ravenzip.workshop.forms.state.special.TextFieldState
 
 /**
  * [SimpleTextField] - Простое текстовое поле

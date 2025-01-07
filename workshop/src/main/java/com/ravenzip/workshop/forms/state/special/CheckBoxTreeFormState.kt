@@ -1,7 +1,8 @@
-package com.ravenzip.workshop.forms.state
+package com.ravenzip.workshop.forms.state.special
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
+import com.ravenzip.workshop.forms.state.MultiSelectFormState
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental

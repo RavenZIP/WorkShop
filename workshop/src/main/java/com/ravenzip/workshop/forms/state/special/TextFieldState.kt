@@ -1,10 +1,10 @@
-package com.ravenzip.workshop.forms.state
+package com.ravenzip.workshop.forms.state.special
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.ravenzip.workshop.forms.FormState
+import com.ravenzip.workshop.forms.state.FormState
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental

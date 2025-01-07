@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.forms
+package com.ravenzip.workshop.forms.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

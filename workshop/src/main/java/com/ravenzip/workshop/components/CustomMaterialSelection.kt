@@ -41,9 +41,9 @@ import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
-import com.ravenzip.workshop.forms.FormState
-import com.ravenzip.workshop.forms.state.CheckBoxTreeFormState
+import com.ravenzip.workshop.forms.state.FormState
 import com.ravenzip.workshop.forms.state.MultiSelectFormState
+import com.ravenzip.workshop.forms.state.special.CheckBoxTreeFormState
 
 /**
  * [Switch] - Переключатель
