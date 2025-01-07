@@ -35,7 +35,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ravenzip.workshop.data.ChipGroupItem
 import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
@@ -220,7 +222,7 @@ fun RadioGroup(
 /**
  * [RadioGroup] - Радиокнопки
  *
- * @param state состояние радиокнопки
+ * @param state состояние радиогруппы
  * @param width ширина
  * @param textSize размер текста
  * @param contentPadding вертикальный отступ между радиокнопками
@@ -268,6 +270,7 @@ fun <T> RadioGroup(
  * @param onClick действие при нажатии на чип
  */
 @Composable
+@Deprecated("Не использовать, переходить на ChipRadioGroup с FormState")
 fun ChipRadioGroup(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
     list: SnapshotStateList<SelectableChipConfig>,
@@ -291,6 +294,48 @@ fun ChipRadioGroup(
                 iconConfig = item.iconConfig,
             ) {
                 onClick(item)
+            }
+        }
+    }
+}
+
+/**
+ * [ChipRadioGroup] - Радиогруппа с чипами
+ *
+ * @param state состояние радиогруппы
+ * @param width ширина
+ * @param textConfig параметры текста
+ * @param iconConfig параметры иконок
+ * @param containerPadding отступ для контейнера
+ * @param contentPadding отступ между радиокнопками
+ */
+@Composable
+@ExperimentalMaterial3Api
+fun <T> ChipRadioGroup(
+    state: FormState<T>,
+    source: List<ChipGroupItem<T>>,
+    view: (T) -> String,
+    comparableKey: (T) -> Any,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
+    textConfig: TextConfig = TextConfig.SmallMedium,
+    iconConfig: IconConfig = IconConfig.PrimarySmall,
+    containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
+    contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
+) {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(width),
+        horizontalArrangement = contentPadding,
+        contentPadding = containerPadding,
+    ) {
+        items(source, key = { item -> view(item.value) }, contentType = { it }) { item ->
+            SelectableChip(
+                isSelected = comparableKey(state.value) == comparableKey(item.value),
+                text = view(item.value),
+                textConfig = textConfig,
+                icon = item.icon,
+                iconConfig = iconConfig,
+            ) {
+                state.setValue(item.value)
             }
         }
     }
