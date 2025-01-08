@@ -1,5 +1,6 @@
 package com.ravenzip.workshop.components
 
+import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,9 +36,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ravenzip.workshop.data.ChipGroupItem
+import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
@@ -309,11 +309,9 @@ fun ChipRadioGroup(
  *
  * @param state состояние радиогруппы
  * @param source источник данных
- * @param view отображаемый текст для радиокнопок
+ * @param viewOptions параметры отображения чипов
  * @param comparableKey ключ для сравнения
  * @param width ширина
- * @param textConfig параметры текста
- * @param iconConfig параметры иконок
  * @param containerPadding отступ для контейнера
  * @param contentPadding отступ между радиокнопками
  */
@@ -321,12 +319,10 @@ fun ChipRadioGroup(
 @ExperimentalMaterial3Api
 fun <T> ChipRadioGroup(
     state: FormState<T>,
-    source: List<ChipGroupItem<T>>,
-    view: (T) -> String,
+    source: List<T>,
+    viewOptions: Map<Any, ChipViewOptions>,
     comparableKey: (T) -> Any,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
-    textConfig: TextConfig = TextConfig.SmallMedium,
-    iconConfig: IconConfig = IconConfig.PrimarySmall,
     containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
 ) {
@@ -335,15 +331,22 @@ fun <T> ChipRadioGroup(
         horizontalArrangement = contentPadding,
         contentPadding = containerPadding,
     ) {
-        items(source, key = { item -> view(item.value) }, contentType = { it }) { item ->
-            SelectableChip(
-                isSelected = comparableKey(state.value) == comparableKey(item.value),
-                text = view(item.value),
-                textConfig = textConfig,
-                icon = item.icon,
-                iconConfig = iconConfig,
-            ) {
-                state.setValue(item.value)
+        items(source, key = { item -> comparableKey(item) }, contentType = { it }) { item ->
+            val itemKey = comparableKey(item)
+            val chipOptions = viewOptions[itemKey]
+
+            if (chipOptions != null) {
+                SelectableChip(
+                    isSelected = comparableKey(state.value) == itemKey,
+                    text = chipOptions.text,
+                    textConfig = chipOptions.textConfig,
+                    icon = chipOptions.icon,
+                    iconConfig = chipOptions.iconConfig,
+                ) {
+                    state.setValue(item)
+                }
+            } else {
+                Log.e("ChipRadioGroup", "Не найдено настроек для чипа с ключом: $itemKey")
             }
         }
     }

@@ -32,7 +32,7 @@ import com.ravenzip.workshop.components.ChipRadioGroup
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.data.ChipGroupItem
+import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
@@ -185,15 +185,18 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
 
     ChipRadioGroup(
         state = state2,
-        source =
-            items.map { item ->
-                ChipGroupItem(
-                    value = item,
-                    icon = Icon.ResourceIcon(R.drawable.ic_launcher_foreground),
-                )
+        source = items,
+        viewOptions =
+            items.associate { item ->
+                item.name to
+                    ChipViewOptions(
+                        text = item.name,
+                        textConfig = TextConfig.SmallMedium,
+                        icon = Icon.ResourceIcon(R.drawable.ic_launcher_foreground),
+                        iconConfig = IconConfig.PrimarySmall,
+                    )
             },
         comparableKey = { it.name },
-        view = { it.name },
     )
 
     ChipRadioGroup(
