@@ -1,6 +1,7 @@
 package com.ravenzip.workshop.forms
 
 import android.util.Patterns.EMAIL_ADDRESS
+import android.util.Patterns.PHONE
 
 /** Возможные валидаторы для компонентов */
 class Validators {
@@ -19,6 +20,10 @@ class Validators {
 
         val email = { value: String ->
             if (!EMAIL_ADDRESS.matcher(value).matches()) "Введен некорректный email" else null
+        }
+
+        val phone = { value: String ->
+            if (!PHONE.matcher(value).matches()) "Введен некорректный номер телефона" else null
         }
     }
 }
