@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.paddingEnd
 import com.ravenzip.workshop.paddingTop
 
@@ -42,7 +42,7 @@ import com.ravenzip.workshop.paddingTop
 @Composable
 fun InfoCard(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.PrimaryBig,
     title: String,
     titleConfig: TextConfig = TextConfig.H3,
@@ -138,7 +138,7 @@ fun InfoCard(
 
 @Composable
 private fun TitleWithIcon(
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig,
     title: String,
     titleConfig: TextConfig,

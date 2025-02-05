@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.button.ButtonContainerConfig
 import com.ravenzip.workshop.data.button.ButtonContentConfig
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.data.icon.IconWithConfig
 
 /**
@@ -87,7 +87,7 @@ fun Chip(
 fun Chip(
     text: String,
     textConfig: TextConfig = TextConfig.Chip,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -139,7 +139,7 @@ fun SelectableChip(
     isSelected: Boolean,
     text: String,
     textConfig: TextConfig = TextConfig.Chip,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -198,7 +198,7 @@ fun SelectableChip(
  */
 @Composable
 fun BoxedChip(
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp),

@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 
 /**
  * [AlertDialog] - Диалоговое окно
@@ -43,7 +43,7 @@ import com.ravenzip.workshop.data.icon.IconConfig
  */
 @Composable
 fun AlertDialog(
-    icon: Icon? = null,
+    icon: IconData? = null,
     iconConfig: IconConfig = IconConfig.Default,
     title: String,
     titleConfig: TextConfig = TextConfig.H1,

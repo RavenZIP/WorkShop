@@ -34,8 +34,8 @@ import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
 import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.forms.Validators
 import com.ravenzip.workshop.forms.state.FormState
@@ -192,7 +192,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
                     ChipViewOptions(
                         text = item.name,
                         textConfig = TextConfig.SmallMedium,
-                        icon = Icon.ResourceIcon(R.drawable.ic_launcher_foreground),
+                        icon = IconData.ResourceIcon(R.drawable.ic_launcher_foreground),
                         iconConfig = IconConfig.PrimarySmall,
                     )
             },
@@ -207,7 +207,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
                         isSelected = key == 0,
                         text = item.name,
                         textConfig = TextConfig.SmallMedium,
-                        icon = Icon.ResourceIcon(R.drawable.ic_launcher_foreground),
+                        icon = IconData.ResourceIcon(R.drawable.ic_launcher_foreground),
                         iconConfig = IconConfig.PrimarySmall,
                     )
                 }

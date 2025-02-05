@@ -9,8 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 
 /**
  * [Icon] - Иконка
@@ -23,12 +23,12 @@ import com.ravenzip.workshop.data.icon.IconConfig
 @Composable
 fun Icon(
     modifier: Modifier = Modifier,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig,
     defaultColor: Color = MaterialTheme.colorScheme.primary,
 ) {
     when (icon) {
-        is Icon.ImageVectorIcon -> {
+        is IconData.ImageVectorIcon -> {
             Icon(
                 imageVector = icon.imageVector,
                 contentDescription = iconConfig.description,
@@ -37,7 +37,7 @@ fun Icon(
             )
         }
 
-        is Icon.ResourceIcon -> {
+        is IconData.ResourceIcon -> {
             Icon(
                 imageVector = ImageVector.vectorResource(id = icon.id),
                 contentDescription = iconConfig.description,

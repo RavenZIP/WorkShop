@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.fillMaxWidthWithValue
 import com.ravenzip.workshop.fillMaxWidthWithoutValue
 
@@ -89,7 +89,7 @@ fun CustomButton(
     titleConfig: TextConfig = TextConfig.H3,
     text: String,
     textConfig: TextConfig = TextConfig.Small,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Default,
     textAlign: Alignment.Horizontal = Alignment.Start,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -146,7 +146,7 @@ fun CustomButton(
  */
 @Composable
 fun IconButton(
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Small,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.05f),
     shape: Shape = RoundedCornerShape(10.dp),
@@ -180,7 +180,7 @@ fun RowIconButton(
     @FloatRange(from = 0.0, to = 1.0) width: Float? = 0.9f,
     text: String,
     textConfig: TextConfig = TextConfig.H3,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Default,
     iconPositionIsLeft: Boolean = true,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -244,7 +244,7 @@ fun RowIconButton(
 fun ColIconButton(
     text: String,
     textConfig: TextConfig = TextConfig.H3,
-    icon: Icon,
+    icon: IconData,
     iconConfig: IconConfig = IconConfig.Default,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
     shape: Shape = RoundedCornerShape(10.dp),

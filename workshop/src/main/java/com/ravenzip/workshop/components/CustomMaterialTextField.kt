@@ -53,8 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.forms.state.special.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.special.TextFieldState
 
@@ -176,9 +176,9 @@ fun SinglenessTextField(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     readOnly: Boolean = false,
     placeholder: String? = null,
-    leadingIcon: Icon? = null,
+    leadingIcon: IconData? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: Icon? = null,
+    trailingIcon: IconData? = null,
     trailingIconConfig: IconConfig = IconConfig.Small,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     shape: Shape = RoundedCornerShape(10.dp),
@@ -231,9 +231,9 @@ fun SinglenessTextField(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     placeholder: String? = null,
-    leadingIcon: Icon? = null,
+    leadingIcon: IconData? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: Icon? = null,
+    trailingIcon: IconData? = null,
     trailingIconConfig: IconConfig = IconConfig.Small,
     isHiddenText: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -314,9 +314,9 @@ fun SinglenessOutlinedTextField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     label: String = "Простое текстовое поле",
-    leadingIcon: Icon? = null,
+    leadingIcon: IconData? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: Icon? = null,
+    trailingIcon: IconData? = null,
     trailingIconConfig: IconConfig = IconConfig.Small,
     error: Error = Error(),
     isHiddenText: Boolean = false,
@@ -397,9 +397,9 @@ fun SinglenessOutlinedTextField(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     label: String = "Простое текстовое поле",
-    leadingIcon: Icon? = null,
+    leadingIcon: IconData? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: Icon? = null,
+    trailingIcon: IconData? = null,
     trailingIconConfig: IconConfig = IconConfig.Small,
     isHiddenText: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -597,7 +597,7 @@ fun <T> DropDownTextField(
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     label: String = "Поле с выпадающим списком",
-    dropDownIcon: Icon = Icon.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
+    dropDownIcon: IconData = IconData.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
     dropDownIconConfig: IconConfig = IconConfig.Small,
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
@@ -681,7 +681,7 @@ internal fun SearchBarTextField(
         placeholder = getText(placeholder),
         leadingIcon = {
             Icon(
-                icon = Icon.ImageVectorIcon(ImageVector.vectorResource(R.drawable.i_search)),
+                icon = IconData.ImageVectorIcon(ImageVector.vectorResource(R.drawable.i_search)),
                 iconConfig = IconConfig.Big,
             )
         },
@@ -823,7 +823,7 @@ private fun getText(text: String?): @Composable (() -> Unit)? {
 }
 
 private fun getIcon(
-    icon: Icon?,
+    icon: IconData?,
     iconConfig: IconConfig,
     colors: TextFieldColors,
     isError: Boolean,
@@ -841,7 +841,7 @@ private fun getIcon(
 }
 
 private fun getIcon(
-    icon: Icon?,
+    icon: IconData?,
     iconConfig: IconConfig,
     colors: TextFieldColors,
 ): @Composable (() -> Unit)? {

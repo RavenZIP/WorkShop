@@ -50,8 +50,8 @@ import com.ravenzip.workshop.data.appbar.AppBarMenuItem
 import com.ravenzip.workshop.data.appbar.BackArrow
 import com.ravenzip.workshop.data.appbar.BottomItemsTextStateEnum
 import com.ravenzip.workshop.data.appbar.BottomNavigationItem
-import com.ravenzip.workshop.data.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
 
 /**
  * [TopAppBar] - Верхняя панель
@@ -200,7 +200,7 @@ fun SearchBar(
 }
 
 @Composable
-private fun AppBarButton(icon: Icon, iconConfig: IconConfig, onClick: () -> Unit) {
+private fun AppBarButton(icon: IconData, iconConfig: IconConfig, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center,
