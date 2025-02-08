@@ -3,20 +3,32 @@ package com.ravenzip.workshop.samples.view
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.forms.state.special.DropDownTextFieldState
-import com.ravenzip.workshop.forms.state.special.TextFieldState
+import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
+import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldState
+import com.ravenzip.workshop.forms.textfield.TextFieldComponent
+import com.ravenzip.workshop.forms.textfield.TextFieldState
 import com.ravenzip.workshop.samples.model.Item
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun SinglenessOutlinedTextFieldWithFormStateSample() {
-    val formState = TextFieldState.create("")
+    val composableScope = rememberCoroutineScope()
 
-    SinglenessOutlinedTextField(formState)
+    val component = remember {
+        TextFieldComponent(
+            control = FormControl(""),
+            state = TextFieldState(),
+            scope = composableScope,
+        )
+    }
+
+    SinglenessOutlinedTextField(component)
 }
 
 @Preview
@@ -30,13 +42,15 @@ fun DropDownTextFieldWithFormStateSample() {
         )
     }
 
-    val formState =
-        DropDownTextFieldState.create(
-            initialValue = items.first(),
-            resetValue = Item("", "", 0),
-            items = items,
-            itemsView = { it.name },
-        )
+    val composableScope = rememberCoroutineScope()
 
-    DropDownTextField(formState)
+    val component = remember {
+        DropDownTextFieldComponent(
+            control = FormControl(Item.createItem()),
+            state = DropDownTextFieldState(source = items, sourceView = { it.name }),
+            scope = composableScope,
+        )
+    }
+
+    DropDownTextField(component)
 }

@@ -1,9 +1,11 @@
-package com.ravenzip.workshop.forms.state
+package com.ravenzip.workshop.forms.control
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
+import com.ravenzip.workshop.enums.ValueChangeType
+import com.ravenzip.workshop.forms.ValueChanges
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
@@ -12,15 +14,16 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 // TODO реализовать запрет null значений -> надо ли?
 // TODO запоминать когда контрол потрогали -> надо ли?
 @Experimental
-open class FormState<T>(
+open class FormControl<T>(
     private val initialValue: T,
-    private val resetValue: T = initialValue,
+    val resetValue: T = initialValue,
     private val validators: List<(T) -> String?> = emptyList(),
     disable: Boolean = false,
-) : BaseFormState(disable) {
+) : BaseControl(disable) {
     private val _state: MutableState<T> = mutableStateOf(initialValue)
 
-    private val _valueChanges: MutableStateFlow<T> = MutableStateFlow(initialValue)
+    private val _valueChanges: MutableStateFlow<ValueChanges<T>> =
+        MutableStateFlow(ValueChanges(initialValue, ValueChangeType.INITIALIZE))
     val valueChanges = _valueChanges.asSharedFlow()
 
     val value: T
@@ -28,7 +31,7 @@ open class FormState<T>(
 
     open fun setValue(value: T) {
         _state.value = value
-        _valueChanges.update { value }
+        _valueChanges.update { ValueChanges(value, ValueChangeType.SET) }
         updateValidity()
     }
 
@@ -39,7 +42,7 @@ open class FormState<T>(
 
     override fun reset() {
         _state.value = resetValue
-        _valueChanges.update { resetValue }
+        _valueChanges.update { ValueChanges(resetValue, ValueChangeType.RESET) }
         super.reset()
     }
 
@@ -50,8 +53,8 @@ open class FormState<T>(
             resetValue: T = initialValue,
             validators: List<(T) -> String?> = emptyList(),
             disable: Boolean = false,
-        ): FormState<T> where T : Any {
-            return rememberSaveable { FormState(initialValue, resetValue, validators, disable) }
+        ): FormControl<T> where T : Any {
+            return remember { FormControl(initialValue, resetValue, validators, disable) }
         }
     }
 }

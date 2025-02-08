@@ -1,8 +1,8 @@
-package com.ravenzip.workshop.forms.state.special
+package com.ravenzip.workshop.forms
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
-import com.ravenzip.workshop.forms.state.MultiSelectFormState
+import com.ravenzip.workshop.forms.control.FormControlMulti
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental
@@ -13,7 +13,7 @@ class CheckBoxTreeFormState<T>(
     sourceView: (T) -> String,
     validators: List<(List<T>) -> String?> = emptyList(),
     disable: Boolean = false,
-) : MultiSelectFormState<T>(initialValue, source, comparableKey, sourceView, validators, disable) {
+) : FormControlMulti<T>(initialValue, source, comparableKey, sourceView, validators, disable) {
     private val _parentState = mutableStateOf(ToggleableState.Off)
 
     val parent: ToggleableState

@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.forms.state
+package com.ravenzip.workshop.forms.control
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.update
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental
-open class MultiSelectFormState<T>(
+open class FormControlMulti<T>(
     initialValue: List<T>,
     source: List<T>,
     private val comparableKey: (T) -> Any,
     private val sourceView: (T) -> String,
     private val validators: List<(List<T>) -> String?> = emptyList(),
     disable: Boolean = false,
-) : BaseFormState(disable) {
+) : BaseControl(disable) {
     private val _state: SnapshotStateList<T> = mutableStateListOf()
     private val _items = source.toList()
 

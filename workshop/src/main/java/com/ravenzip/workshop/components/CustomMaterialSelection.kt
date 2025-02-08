@@ -41,9 +41,9 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
-import com.ravenzip.workshop.forms.state.FormState
-import com.ravenzip.workshop.forms.state.MultiSelectFormState
-import com.ravenzip.workshop.forms.state.special.CheckBoxTreeFormState
+import com.ravenzip.workshop.forms.CheckBoxTreeFormState
+import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.control.FormControlMulti
 
 /**
  * [Switch] - Переключатель
@@ -125,7 +125,7 @@ fun Switch(
 @Composable
 @ExperimentalMaterial3Api
 fun Switch(
-    state: FormState<Boolean>,
+    state: FormControl<Boolean>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     title: String,
     titleConfig: TextConfig,
@@ -233,7 +233,7 @@ fun RadioGroup(
 @Composable
 @ExperimentalMaterial3Api
 fun <T> RadioGroup(
-    state: FormState<T>,
+    state: FormControl<T>,
     source: List<T>,
     view: (T) -> String,
     comparableKey: (T) -> Any,
@@ -318,7 +318,7 @@ fun ChipRadioGroup(
 @Composable
 @ExperimentalMaterial3Api
 fun <T> ChipRadioGroup(
-    state: FormState<T>,
+    state: FormControl<T>,
     source: List<T>,
     viewOptions: Map<Any, ChipViewOptions>,
     comparableKey: (T) -> Any,
@@ -438,7 +438,7 @@ fun CheckBoxGroup(
 @Composable
 @ExperimentalMaterial3Api
 fun <T> CheckBoxGroup(
-    state: MultiSelectFormState<T>,
+    state: FormControlMulti<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textConfig: TextConfig = TextConfig.S18,
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),

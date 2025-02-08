@@ -55,8 +55,8 @@ import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
-import com.ravenzip.workshop.forms.state.special.DropDownTextFieldState
-import com.ravenzip.workshop.forms.state.special.TextFieldState
+import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
+import com.ravenzip.workshop.forms.textfield.TextFieldComponent
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -109,7 +109,7 @@ fun SimpleTextField(
 /**
  * [SimpleTextField] - Простое текстовое поле
  *
- * @param state Состояние текстового поля
+ * @param component Компонент (контрол + состояние)
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
  * @param textSize Размер вводимого текста и текста плейсхолдера
@@ -122,7 +122,7 @@ fun SimpleTextField(
 @ExperimentalMaterial3Api
 @Composable
 fun SimpleTextField(
-    state: TextFieldState<String>,
+    component: TextFieldComponent<String>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     textSize: Int = 16,
@@ -132,15 +132,15 @@ fun SimpleTextField(
     showLine: Boolean = true,
 ) {
     BasicTextField(
-        value = state.value,
-        onValueChange = { value -> state.setValue(value) },
+        value = component.control.value,
+        onValueChange = { value -> component.control.setValue(value) },
         textStyle = TextStyle(color = colors.unfocusedTextColor, fontSize = textSize.sp),
         modifier = Modifier.fillMaxWidth(width).then(modifier),
     ) {
         TextFieldDefaults.DecorationBox(
-            value = state.value,
+            value = component.control.value,
             innerTextField = it,
-            enabled = state.isEnabled,
+            enabled = component.control.isEnabled,
             singleLine = true,
             visualTransformation = VisualTransformation.None,
             interactionSource = interactionSource,
@@ -208,7 +208,7 @@ fun SinglenessTextField(
 /**
  * [SinglenessTextField] - Однострочное текстовое поле
  *
- * @param state Состояние текстового поля
+ * @param component Компонент (контрол + состояние)
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
@@ -226,7 +226,7 @@ fun SinglenessTextField(
 @ExperimentalMaterial3Api
 @Composable
 fun SinglenessTextField(
-    state: TextFieldState<String>,
+    component: TextFieldComponent<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -248,21 +248,23 @@ fun SinglenessTextField(
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         TextField(
-            value = state.value,
+            value = component.control.value,
             onValueChange = { value ->
-                if (checkLength(value.length, maxLength)) state.setValue(value)
+                if (checkLength(value.length, maxLength)) component.control.setValue(value)
             },
             modifier =
                 Modifier.fillMaxWidth()
-                    .onFocusChanged { focusState -> state.changeFocusState(focusState.isFocused) }
+                    .onFocusChanged { focusState ->
+                        component.state.changeFocusState(focusState.isFocused)
+                    }
                     .then(modifier),
-            readOnly = state.isReadonly,
+            readOnly = component.state.isReadonly,
             placeholder = getText(placeholder),
             leadingIcon =
                 getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
             trailingIcon =
                 getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
-            isError = state.isInvalid,
+            isError = component.control.isInvalid,
             visualTransformation =
                 if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
             keyboardOptions = keyboardOptions,
@@ -272,12 +274,12 @@ fun SinglenessTextField(
         )
 
         ErrorMessageWithSymbolsCounter(
-            isInvalid = state.isInvalid,
-            errorMessage = state.errorMessage,
-            isFocused = state.isFocused,
+            isInvalid = component.control.isInvalid,
+            errorMessage = component.control.errorMessage,
+            isFocused = component.state.isFocused,
             showTextLengthCounter = showTextLengthCounter,
             maxLength = maxLength,
-            currentLength = state.value.length,
+            currentLength = component.control.value.length,
             colors = colors,
         )
     }
@@ -373,7 +375,7 @@ fun SinglenessOutlinedTextField(
 /**
  * [SinglenessOutlinedTextField] - Однострочное текстовое поле
  *
- * @param state Состояние текстового поля
+ * @param component Компонент (контрол + состояние)
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
@@ -392,7 +394,7 @@ fun SinglenessOutlinedTextField(
 @ExperimentalMaterial3Api
 @Composable
 fun SinglenessOutlinedTextField(
-    state: TextFieldState<String>,
+    component: TextFieldComponent<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -409,32 +411,36 @@ fun SinglenessOutlinedTextField(
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         OutlinedTextField(
-            value = state.value,
-            onValueChange = { if (checkLength(it.length, maxLength)) state.setValue(it) },
+            value = component.control.value,
+            onValueChange = {
+                if (checkLength(it.length, maxLength)) component.control.setValue(it)
+            },
             modifier =
                 Modifier.fillMaxWidth()
-                    .onFocusChanged { focusState -> state.changeFocusState(focusState.isFocused) }
+                    .onFocusChanged { focusState ->
+                        component.state.changeFocusState(focusState.isFocused)
+                    }
                     .then(modifier),
-            enabled = state.isEnabled,
-            readOnly = state.isReadonly,
+            enabled = component.control.isEnabled,
+            readOnly = component.state.isReadonly,
             label = { Text(text = label) },
             leadingIcon =
                 getIcon(
                     icon = leadingIcon,
                     iconConfig = leadingIconConfig,
                     colors = colors,
-                    isError = state.isInvalid,
-                    isFocused = state.isFocused,
+                    isError = component.control.isInvalid,
+                    isFocused = component.state.isFocused,
                 ),
             trailingIcon =
                 getIcon(
                     icon = trailingIcon,
                     iconConfig = trailingIconConfig,
                     colors = colors,
-                    isError = state.isInvalid,
-                    isFocused = state.isFocused,
+                    isError = component.control.isInvalid,
+                    isFocused = component.state.isFocused,
                 ),
-            isError = state.isInvalid,
+            isError = component.control.isInvalid,
             visualTransformation =
                 if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
             keyboardOptions = keyboardOptions,
@@ -444,12 +450,12 @@ fun SinglenessOutlinedTextField(
         )
 
         ErrorMessageWithSymbolsCounter(
-            isInvalid = state.isInvalid,
-            errorMessage = state.errorMessage,
-            isFocused = state.isFocused,
+            isInvalid = component.control.isInvalid,
+            errorMessage = component.control.errorMessage,
+            isFocused = component.state.isFocused,
             showTextLengthCounter = showTextLengthCounter,
             maxLength = maxLength,
-            currentLength = state.value.length,
+            currentLength = component.control.value.length,
             colors = colors,
         )
     }
@@ -519,7 +525,7 @@ fun MultilineTextField(
 /**
  * [MultilineTextField] - Многострочное текстовое поле
  *
- * @param state Состояние текстового поля
+ * @param component Компонент (контрол + состояние)
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
@@ -534,7 +540,7 @@ fun MultilineTextField(
 @ExperimentalMaterial3Api
 @Composable
 fun MultilineTextField(
-    state: TextFieldState<String>,
+    component: TextFieldComponent<String>,
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -548,16 +554,18 @@ fun MultilineTextField(
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         OutlinedTextField(
-            value = state.value,
-            onValueChange = { value -> state.setValue(value) },
+            value = component.control.value,
+            onValueChange = { value -> component.control.setValue(value) },
             modifier =
                 Modifier.fillMaxWidth()
-                    .onFocusChanged { focusState -> state.changeFocusState(focusState.isFocused) }
+                    .onFocusChanged { focusState ->
+                        component.state.changeFocusState(focusState.isFocused)
+                    }
                     .then(modifier),
-            enabled = state.isEnabled,
-            readOnly = state.isReadonly,
+            enabled = component.control.isEnabled,
+            readOnly = component.state.isReadonly,
             label = { Text(text = label) },
-            isError = state.isInvalid,
+            isError = component.control.isInvalid,
             keyboardOptions = keyboardOptions,
             maxLines = maxLines,
             minLines = minLines,
@@ -566,12 +574,12 @@ fun MultilineTextField(
         )
 
         ErrorMessageWithSymbolsCounter(
-            isInvalid = state.isInvalid,
-            errorMessage = state.errorMessage,
-            isFocused = state.isFocused,
+            isInvalid = component.control.isInvalid,
+            errorMessage = component.control.errorMessage,
+            isFocused = component.state.isFocused,
             showTextLengthCounter = showTextLengthCounter,
             maxLength = maxLength,
-            currentLength = state.value.length,
+            currentLength = component.control.value.length,
             colors = colors,
         )
     }
@@ -580,7 +588,7 @@ fun MultilineTextField(
 /**
  * [DropDownTextField] - Текстовое поле с выпадающим списком
  *
- * @param state Выбранное значение
+ * @param component Компонент (контрол + состояние)
  * @param width Ширина текстового поля
  * @param modifier - Кастомные модификаторы
  * @param label Название текстового поля
@@ -593,7 +601,7 @@ fun MultilineTextField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropDownTextField(
-    state: DropDownTextFieldState<T>,
+    component: DropDownTextFieldComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     label: String = "Поле с выпадающим списком",
@@ -604,22 +612,22 @@ fun <T> DropDownTextField(
 ) {
     Column(modifier = Modifier.fillMaxWidth(width)) {
         ExposedDropdownMenuBox(
-            expanded = state.expanded,
-            onExpandedChange = { state.setExpanded(!state.expanded) },
+            expanded = component.state.expanded,
+            onExpandedChange = { component.state.setExpanded(!component.state.expanded) },
         ) {
             OutlinedTextField(
-                value = state.text,
-                onValueChange = { state.setText(it) },
+                value = component.state.text,
+                onValueChange = { value -> component.setText(value) },
                 modifier =
                     Modifier.fillMaxWidth()
-                        .onFocusChanged { state.changeFocusState(it.isFocused) }
+                        .onFocusChanged { component.state.changeFocusState(it.isFocused) }
                         .menuAnchor(
-                            if (state.isReadonly) MenuAnchorType.PrimaryNotEditable
+                            if (component.state.isReadonly) MenuAnchorType.PrimaryNotEditable
                             else MenuAnchorType.PrimaryEditable
                         )
                         .then(modifier),
-                enabled = state.isEnabled,
-                readOnly = state.isReadonly,
+                enabled = component.control.isEnabled,
+                readOnly = component.state.isReadonly,
                 label = { Text(text = label) },
                 trailingIcon = {
                     Icon(
@@ -628,22 +636,22 @@ fun <T> DropDownTextField(
                         defaultColor = colors.cursorColor,
                     )
                 },
-                isError = state.isInvalid,
+                isError = component.control.isInvalid,
                 singleLine = true,
                 shape = shape,
                 colors = colors,
             )
 
             ExposedDropdownMenu(
-                expanded = state.expanded,
-                onDismissRequest = { state.setExpanded(false) },
+                expanded = component.state.expanded,
+                onDismissRequest = { component.state.setExpanded(false) },
                 containerColor = MaterialTheme.colorScheme.surface,
             ) {
-                if (state.results.isNotEmpty()) {
-                    state.results.forEach { item ->
+                if (component.state.results.isNotEmpty()) {
+                    component.state.results.forEach { item ->
                         DropdownMenuItem(
-                            text = { Text(text = state.view(item)) },
-                            onClick = { state.setValue(item) },
+                            text = { Text(text = component.state.view(item)) },
+                            onClick = { component.selectItem(item) },
                         )
                     }
                 } else {
@@ -657,8 +665,8 @@ fun <T> DropDownTextField(
         }
 
         ErrorMessage(
-            isInvalid = state.isInvalid,
-            errorMessage = state.errorMessage,
+            isInvalid = component.control.isInvalid,
+            errorMessage = component.control.errorMessage,
             colors = colors,
         )
     }

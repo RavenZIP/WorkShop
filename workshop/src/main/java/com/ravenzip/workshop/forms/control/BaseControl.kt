@@ -1,11 +1,11 @@
-package com.ravenzip.workshop.forms.state
+package com.ravenzip.workshop.forms.control
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental
-open class BaseFormState(private val disable: Boolean = false) {
+open class BaseControl(private val disable: Boolean = false) {
     private val _isDisabled: MutableState<Boolean> = mutableStateOf(disable)
     private val _error: MutableState<String> = mutableStateOf("")
 

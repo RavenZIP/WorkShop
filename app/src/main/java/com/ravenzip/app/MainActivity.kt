@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,11 +38,13 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
+import com.ravenzip.workshop.forms.CheckBoxTreeFormState
 import com.ravenzip.workshop.forms.Validators
-import com.ravenzip.workshop.forms.state.FormState
-import com.ravenzip.workshop.forms.state.special.CheckBoxTreeFormState
-import com.ravenzip.workshop.forms.state.special.DropDownTextFieldState
-import com.ravenzip.workshop.forms.state.special.TextFieldState
+import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
+import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldState
+import com.ravenzip.workshop.forms.textfield.TextFieldComponent
+import com.ravenzip.workshop.forms.textfield.TextFieldState
 import com.ravenzip.workshop.samples.model.Item
 
 internal enum class Screen {
@@ -102,23 +105,32 @@ private fun DropDownTextFieldTest(screen: MutableState<Screen>) {
     Text("DropDownTextField", fontSize = 24.sp, fontWeight = FontWeight.W500)
     Spacer(modifier = Modifier.height(20.dp))
 
+    val composableScope = rememberCoroutineScope()
+
     val items = remember { Item.createItems() }
 
-    val dropDownFieldFormState = remember {
-        DropDownTextFieldState(
+    val formControl = remember {
+        FormControl(
             initialValue = items.first(),
             resetValue = Item.createEmptyModel(),
-            items = items,
-            itemsView = { it.name },
             validators = listOf { value -> Validators.required(value.name) },
         )
     }
 
-    DropDownTextField(state = dropDownFieldFormState)
+    val formState = remember { DropDownTextFieldState(source = items, sourceView = { it.name }) }
+
+    DropDownTextField(
+        component =
+            DropDownTextFieldComponent(
+                control = formControl,
+                state = formState,
+                scope = composableScope,
+            )
+    )
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    DropDownTextFieldInfo(dropDownFieldFormState)
+    DropDownTextFieldInfo(formControl, formState)
 
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -131,34 +143,40 @@ private fun TextFields(screen: MutableState<Screen>) {
     Text("SinglenessOutlinedTextField", fontSize = 24.sp, fontWeight = FontWeight.W500)
     Spacer(modifier = Modifier.height(20.dp))
 
-    val textFieldState = remember {
-        TextFieldState(
+    val formControl = remember {
+        FormControl(
             initialValue = "",
             validators =
                 listOf { value -> if (value.isEmpty()) "Поле не может быть пустым" else null },
         )
     }
 
-    Text("TEXTFIELD IS: ${textFieldState.value.ifEmpty { "EMPTY" }}")
+    val formState = remember { TextFieldState() }
+
+    val composableScope = rememberCoroutineScope()
+
+    Text("TEXTFIELD IS: ${formControl.value.ifEmpty { "EMPTY" }}")
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SinglenessOutlinedTextField(textFieldState)
+    SinglenessOutlinedTextField(
+        TextFieldComponent(control = formControl, state = formState, scope = composableScope)
+    )
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Отключить") { textFieldState.disable() }
+    SimpleButton(text = "Отключить") { formControl.disable() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Включить") { textFieldState.enable() }
+    SimpleButton(text = "Включить") { formControl.enable() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Только для чтения") { textFieldState.readonly() }
+    SimpleButton(text = "Только для чтения") { formState.readonly() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Разрешить редактирование") { textFieldState.editable() }
+    SimpleButton(text = "Разрешить редактирование") { formState.editable() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Сброс") { textFieldState.reset() }
+    SimpleButton(text = "Сброс") { formControl.reset() }
 
     Spacer(modifier = Modifier.height(10.dp))
     SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
@@ -177,7 +195,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
             sourceView = { it.name },
         )
 
-    val state2 = remember { FormState(initialValue = Item.createItem()) }
+    val state2 = remember { FormControl(initialValue = Item.createItem()) }
 
     CheckboxTree(state = state, parentText = "Дерево чекбоксов")
 
@@ -220,15 +238,15 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
 }
 
 @Composable
-fun DropDownTextFieldInfo(state: DropDownTextFieldState<Item>) {
+fun DropDownTextFieldInfo(control: FormControl<Item>, state: DropDownTextFieldState<Item>) {
     Card(modifier = Modifier.fillMaxWidth(0.9f)) {
         Column(modifier = Modifier.padding(10.dp)) {
-            Text("Выбранное значение: ${state.value.name.ifEmpty { "Пусто" }}")
+            Text("Выбранное значение: ${control.value.name.ifEmpty { "Пусто" }}")
             Text("Введенное значение: ${state.text.ifEmpty { "Пусто" }}")
-            Text("Включено: ${if (state.isEnabled) "Да" else "Нет"}")
-            Text("Выключено: ${if (state.isDisabled) "Да" else "Нет"}")
-            Text("Валидно: ${if (state.isValid) "Да" else "Нет"}")
-            Text("Невалидно: ${if (state.isInvalid) "Да" else "Нет"}")
+            Text("Включено: ${if (control.isEnabled) "Да" else "Нет"}")
+            Text("Выключено: ${if (control.isDisabled) "Да" else "Нет"}")
+            Text("Валидно: ${if (control.isValid) "Да" else "Нет"}")
+            Text("Невалидно: ${if (control.isInvalid) "Да" else "Нет"}")
             Text("Только для чтения: ${if (state.isReadonly) "Да" else "Нет"}")
             Text("Изменяемый: ${if (state.isEditable) "Да" else "Нет"}")
             Text("Открыто: ${if (state.expanded) "Да" else "Нет"}")
