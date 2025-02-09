@@ -38,9 +38,10 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
-import com.ravenzip.workshop.forms.CheckBoxTreeFormState
 import com.ravenzip.workshop.forms.Validators
+import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.control.FormControlMulti
 import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldState
 import com.ravenzip.workshop.forms.textfield.TextFieldComponent
@@ -188,16 +189,15 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     val items = remember { Item.createItems() }
 
     val state =
-        CheckBoxTreeFormState(
-            emptyList(),
-            items,
-            comparableKey = { it.name },
-            sourceView = { it.name },
+        CheckBoxTreeComponent(
+            children = FormControlMulti(emptyList(), comparableKey = { it.name }),
+            source = items,
+            view = { it.name },
         )
 
     val state2 = remember { FormControl(initialValue = Item.createItem()) }
 
-    CheckboxTree(state = state, parentText = "Дерево чекбоксов")
+    CheckboxTree(component = state, parentText = "Дерево чекбоксов")
 
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -233,7 +233,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     )
 
     LaunchedEffect(Unit) {
-        state.valueChanges.collect { Log.d("valueChanges", "valueChanges: $it") }
+        state.children.valueChanges.collect { Log.d("valueChanges", "valueChanges: $it") }
     }
 }
 

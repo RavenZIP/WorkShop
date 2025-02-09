@@ -41,7 +41,7 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
-import com.ravenzip.workshop.forms.CheckBoxTreeFormState
+import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
 
@@ -430,6 +430,8 @@ fun CheckBoxGroup(
  * [CheckBoxGroup] - Чекбоксы
  *
  * @param state состояние группы чекбоксов
+ * @param source источник данных
+ * @param view отображаемый текст для радиокнопок
  * @param width ширина
  * @param textConfig параметры текста
  * @param contentPadding отступ между чекбоксами
@@ -439,16 +441,18 @@ fun CheckBoxGroup(
 @ExperimentalMaterial3Api
 fun <T> CheckBoxGroup(
     state: FormControlMulti<T>,
+    source: List<T>,
+    view: (T) -> String,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textConfig: TextConfig = TextConfig.S18,
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
     colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
-        state.items.forEach { item ->
+        source.forEach { item ->
             Checkbox(
                 isSelected = state.isSelected(item),
-                text = state.view(item),
+                text = view(item),
                 textConfig = textConfig,
                 enabled = state.isEnabled,
                 colors = colors,
@@ -521,7 +525,7 @@ fun CheckboxTree(
 /**
  * [CheckboxTree] - Дерево чекбоксов
  *
- * @param state состояние дерева
+ * @param component Компонент (контрол + состояние)
  * @param width ширина
  * @param parentText текст для главного чебокса
  * @param parentTextConfig параметры текста для главного чекбокса
@@ -533,7 +537,7 @@ fun CheckboxTree(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> CheckboxTree(
-    state: CheckBoxTreeFormState<T>,
+    component: CheckBoxTreeComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     parentText: String,
     parentTextConfig: TextConfig = TextConfig.S18,
@@ -549,13 +553,13 @@ fun <T> CheckboxTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { state.changeParentState() }
+                    .clickable { component.changeParentState() }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
-                state = state.parent,
-                onClick = { state.changeParentState() },
-                enabled = state.isEnabled,
+                state = component.parent,
+                onClick = { component.changeParentState() },
+                enabled = component.children.isEnabled,
                 colors = parentColors,
             )
             Text(
@@ -567,15 +571,16 @@ fun <T> CheckboxTree(
         }
 
         Column(modifier = Modifier.padding(start = 15.dp), verticalArrangement = childPadding) {
-            state.items.forEach { item ->
+            component.source.forEach { item ->
                 Checkbox(
-                    isSelected = state.isSelected(item),
-                    text = state.view(item),
+                    isSelected = component.children.isSelected(item),
+                    text = component.view(item),
                     textConfig = childTextConfig,
-                    enabled = state.isEnabled,
+                    enabled = component.children.isEnabled,
                     colors = childColors,
                 ) {
-                    state.setValue(item)
+                    component.children.setValue(item)
+                    component.recalculateParentState()
                 }
             }
         }

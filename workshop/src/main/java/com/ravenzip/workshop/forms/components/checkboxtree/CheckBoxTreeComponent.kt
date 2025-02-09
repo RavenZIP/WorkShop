@@ -1,19 +1,16 @@
-package com.ravenzip.workshop.forms
+package com.ravenzip.workshop.forms.components.checkboxtree
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
 import com.ravenzip.workshop.forms.control.FormControlMulti
-import org.jetbrains.annotations.ApiStatus.Experimental
 
-@Experimental
-class CheckBoxTreeFormState<T>(
-    initialValue: List<T>,
-    source: List<T>,
-    comparableKey: (T) -> Any,
-    sourceView: (T) -> String,
-    validators: List<(List<T>) -> String?> = emptyList(),
-    disable: Boolean = false,
-) : FormControlMulti<T>(initialValue, source, comparableKey, sourceView, validators, disable) {
+// TODO скорее всего для дерева нужен отдельный контрол (?), чтобы при получении value у нас было
+// одновременно значение родителя и дочернего контрола
+class CheckBoxTreeComponent<T>(
+    val children: FormControlMulti<T>,
+    val source: List<T>,
+    val view: (T) -> String,
+) {
     private val _parentState = mutableStateOf(ToggleableState.Off)
 
     val parent: ToggleableState
@@ -27,27 +24,22 @@ class CheckBoxTreeFormState<T>(
             }
 
         if (_parentState.value == ToggleableState.On) {
-            super.selectAll()
+            children.selectAll(source)
         } else {
-            super.unselectAll()
+            children.unselectAll()
         }
     }
 
-    override fun setValue(value: T) {
-        super.setValue(value)
-        recalculateParentState()
-    }
-
-    private fun recalculateParentState() {
+    fun recalculateParentState() {
         val activeCheckboxCount =
-            super.value.fold(initial = 0) { acc, item ->
-                if (super.isSelected(item)) acc + 1 else acc
+            children.value.fold(initial = 0) { acc, item ->
+                if (children.isSelected(item)) acc + 1 else acc
             }
 
         _parentState.value =
             when (activeCheckboxCount) {
                 0 -> ToggleableState.Off
-                super.items.count() -> ToggleableState.On
+                source.count() -> ToggleableState.On
                 else -> ToggleableState.Indeterminate
             }
     }
