@@ -34,8 +34,6 @@ import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,59 +50,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
-import com.ravenzip.workshop.data.Error
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.textfield.TextFieldComponent
-
-/**
- * [SimpleTextField] - Простое текстовое поле
- *
- * @param text Вводимый текст
- * @param width Ширина текстового поля
- * @param textSize Размер вводимого текста и текста плейсхолдера
- * @param placeholder Временный текст
- * @param interactionSource Поток взаимодействий для поля ввода
- * @param colors Цвета текстового поля
- * @param showLine Отображать линию снизу текста
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-@Deprecated("Переходить на SimpleTextField с FormState")
-fun SimpleTextField(
-    text: MutableState<String>,
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    textSize: Int = 16,
-    placeholder: String = "",
-    interactionSource: InteractionSource = MutableInteractionSource(),
-    colors: TextFieldColors = TextFieldDefaults.colors(),
-    showLine: Boolean = true,
-) {
-    BasicTextField(
-        value = text.value,
-        onValueChange = { text.value = it },
-        textStyle = TextStyle(color = colors.unfocusedTextColor, fontSize = textSize.sp),
-        modifier = Modifier.fillMaxWidth(width),
-    ) {
-        TextFieldDefaults.DecorationBox(
-            value = text.value,
-            innerTextField = it,
-            enabled = true,
-            singleLine = true,
-            visualTransformation = VisualTransformation.None,
-            interactionSource = interactionSource,
-            placeholder = { Text(text = placeholder, fontSize = textSize.sp) },
-            colors = colors,
-            contentPadding = PaddingValues(3.dp),
-            container = {
-                if (showLine) {
-                    Line(interactionSource = interactionSource, colors = colors)
-                }
-            },
-        )
-    }
-}
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -119,7 +68,6 @@ fun SimpleTextField(
  * @param showLine Отображать линию снизу текста
  */
 @OptIn(ExperimentalMaterial3Api::class)
-@ExperimentalMaterial3Api
 @Composable
 fun SimpleTextField(
     component: TextFieldComponent<String>,
@@ -159,55 +107,6 @@ fun SimpleTextField(
 /**
  * [SinglenessTextField] - Однострочное текстовое поле
  *
- * @param text вводимый текст
- * @param width ширина текстового поля
- * @param readOnly только для чтения
- * @param placeholder подсказка текстового поля
- * @param leadingIcon иконка слева
- * @param trailingIcon иконка справа
- * @param keyboardOptions опции для клавиатуры
- * @param shape радиус скругления
- * @param colors цвета текстового поля
- */
-@Composable
-@Deprecated("Переходить на SinglenessTextField с FormState")
-fun SinglenessTextField(
-    text: MutableState<String>,
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    readOnly: Boolean = false,
-    placeholder: String? = null,
-    leadingIcon: IconData? = null,
-    leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: IconData? = null,
-    trailingIconConfig: IconConfig = IconConfig.Small,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    shape: Shape = RoundedCornerShape(10.dp),
-    colors: TextFieldColors =
-        TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-        ),
-) {
-    TextField(
-        value = text.value,
-        onValueChange = { text.value = it },
-        modifier = Modifier.fillMaxWidth(width),
-        readOnly = readOnly,
-        placeholder = getText(placeholder),
-        leadingIcon = getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
-        trailingIcon =
-            getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
-        keyboardOptions = keyboardOptions,
-        singleLine = true,
-        shape = shape,
-        colors = colors,
-    )
-}
-
-/**
- * [SinglenessTextField] - Однострочное текстовое поле
- *
  * @param component Компонент (контрол + состояние)
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
@@ -223,7 +122,6 @@ fun SinglenessTextField(
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
-@ExperimentalMaterial3Api
 @Composable
 fun SinglenessTextField(
     component: TextFieldComponent<String>,
@@ -288,93 +186,6 @@ fun SinglenessTextField(
 /**
  * [SinglenessOutlinedTextField] - Однострочное текстовое поле
  *
- * @param text Вводимый текст
- * @param maxLength Максимальная длина символов
- * @param width Ширина текстового поля
- * @param enabled Вкл\выкл текстового поля
- * @param modifier Кастомные модификаторы
- * @param readOnly Только для чтения
- * @param label Название текстового поля
- * @param leadingIcon Иконка слева
- * @param leadingIconConfig параметры иконки слева
- * @param trailingIcon Иконка справа
- * @param trailingIconConfig параметры иконки справа
- * @param error Отображение ошибки
- * @param isHiddenText Замена вводимых символов на точки
- * @param keyboardOptions Опции для клавиатуры
- * @param shape Радиус скругления
- * @param colors Цвета текстового поля
- * @param showTextLengthCounter Отображение счетчика введенных сообщений
- */
-@Composable
-@Deprecated("Переходить на SinglenessOutlinedTextField с FormState")
-fun SinglenessOutlinedTextField(
-    text: MutableState<String>,
-    maxLength: Int = 0,
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    label: String = "Простое текстовое поле",
-    leadingIcon: IconData? = null,
-    leadingIconConfig: IconConfig = IconConfig.Small,
-    trailingIcon: IconData? = null,
-    trailingIconConfig: IconConfig = IconConfig.Small,
-    error: Error = Error(),
-    isHiddenText: Boolean = false,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    shape: Shape = RoundedCornerShape(10.dp),
-    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    showTextLengthCounter: Boolean = false,
-) {
-    var isFocused by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = text.value,
-        onValueChange = { if (checkLength(it.length, maxLength)) text.value = it },
-        modifier =
-            Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused }.then(modifier),
-        enabled = enabled,
-        readOnly = readOnly,
-        label = { Text(text = label) },
-        leadingIcon =
-            getIcon(
-                icon = leadingIcon,
-                iconConfig = leadingIconConfig,
-                colors = colors,
-                isError = error.value,
-                isFocused = isFocused,
-            ),
-        trailingIcon =
-            getIcon(
-                icon = trailingIcon,
-                iconConfig = trailingIconConfig,
-                colors = colors,
-                isError = error.value,
-                isFocused = isFocused,
-            ),
-        isError = error.value,
-        visualTransformation =
-            if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
-        keyboardOptions = keyboardOptions,
-        singleLine = true,
-        shape = shape,
-        colors = colors,
-    )
-    ErrorMessageAndSymbolsCounter(
-        text.value,
-        width,
-        error,
-        maxLength,
-        isFocused,
-        colors,
-        showTextLengthCounter,
-    )
-}
-
-/**
- * [SinglenessOutlinedTextField] - Однострочное текстовое поле
- *
  * @param component Компонент (контрол + состояние)
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
@@ -391,7 +202,6 @@ fun SinglenessOutlinedTextField(
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  * @sample com.ravenzip.workshop.samples.view.SinglenessOutlinedTextFieldWithFormStateSample
  */
-@ExperimentalMaterial3Api
 @Composable
 fun SinglenessOutlinedTextField(
     component: TextFieldComponent<String>,
@@ -464,67 +274,6 @@ fun SinglenessOutlinedTextField(
 /**
  * [MultilineTextField] - Многострочное текстовое поле
  *
- * @param text Вводимый текст
- * @param maxLength Максимальная длина символов
- * @param width Ширина текстового поля
- * @param enabled Вкл\выкл текстового поля
- * @param readOnly Только для чтения
- * @param label Название текстового поля
- * @param error Отображение ошибки
- * @param keyboardOptions Опции для клавиатуры
- * @param maxLines Минимальное число строк
- * @param minLines Максимальное число строк
- * @param shape Радиус скругления
- * @param colors Цвета текстового поля
- * @param showTextLengthCounter Отображение счетчика введенных сообщений
- */
-@Composable
-@Deprecated("Переходить на MultilineTextField с FormState")
-fun MultilineTextField(
-    text: MutableState<String>,
-    maxLength: Int = 0,
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    label: String = "Многострочное текстовое поле",
-    error: Error = Error(),
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    maxLines: Int = Int.MAX_VALUE,
-    minLines: Int = 1,
-    shape: Shape = RoundedCornerShape(10.dp),
-    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
-    showTextLengthCounter: Boolean = false,
-) {
-    var isFocused by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = text.value,
-        onValueChange = { text.value = it },
-        modifier = Modifier.fillMaxWidth(width).onFocusChanged { isFocused = it.isFocused },
-        enabled = enabled,
-        readOnly = readOnly,
-        label = { Text(text = label) },
-        isError = error.value,
-        keyboardOptions = keyboardOptions,
-        maxLines = maxLines,
-        minLines = minLines,
-        shape = shape,
-        colors = colors,
-    )
-    ErrorMessageAndSymbolsCounter(
-        text.value,
-        width,
-        error,
-        maxLength,
-        isFocused,
-        colors,
-        showTextLengthCounter,
-    )
-}
-
-/**
- * [MultilineTextField] - Многострочное текстовое поле
- *
  * @param component Компонент (контрол + состояние)
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
@@ -537,7 +286,6 @@ fun MultilineTextField(
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
  */
-@ExperimentalMaterial3Api
 @Composable
 fun MultilineTextField(
     component: TextFieldComponent<String>,
@@ -702,39 +450,6 @@ internal fun SearchBarTextField(
     )
 }
 
-/** Элемент вывода сообщения об ошибке при вводе и счетчик введенных символов */
-@Composable
-@Deprecated("Не использовать")
-private fun ErrorMessageAndSymbolsCounter(
-    text: String,
-    width: Float,
-    error: Error,
-    maxLength: Int,
-    isFocused: Boolean,
-    colors: TextFieldColors,
-    showTextLengthCounter: Boolean,
-) {
-    Row(modifier = Modifier.fillMaxWidth(width)) {
-        if (error.value && error.text.isNotEmpty()) {
-            Text(
-                text = error.text,
-                modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 10.dp),
-                color = colors.errorLabelColor,
-                fontSize = 12.sp,
-            )
-        }
-        if (showTextLengthCounter) {
-            Text(
-                text = if (maxLength > 0) "${text.length} / $maxLength" else "${text.length}",
-                modifier = Modifier.fillMaxWidth().weight(1f).padding(end = 5.dp),
-                color = getColor(colors, error.value, isFocused),
-                fontSize = 12.sp,
-                textAlign = TextAlign.End,
-            )
-        }
-    }
-}
-
 /** Сообщение с описанием ошибки + счетчик введенных символов */
 @Composable
 private fun ErrorMessageWithSymbolsCounter(
@@ -784,7 +499,7 @@ private fun ErrorMessage(
 
 /** Счетчик введенных символов */
 @Composable
-fun SymbolsCounter(
+private fun SymbolsCounter(
     modifier: Modifier = Modifier,
     showTextLengthCounter: Boolean,
     maxLength: Int,
