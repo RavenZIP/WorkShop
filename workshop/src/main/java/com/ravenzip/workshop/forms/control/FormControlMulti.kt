@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.update
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 @Experimental
-// TODO при selectAll и unselectAll не делается валидация, а она скорее всего нужна
 open class FormControlMulti<T>(
     initialValue: List<T>,
     private val comparableKey: (T) -> Any,
@@ -20,17 +19,19 @@ open class FormControlMulti<T>(
     private val _state: SnapshotStateList<T> = mutableStateListOf()
 
     private val _valueChanges: MutableStateFlow<ValueChanges<List<T>>> =
-        MutableStateFlow(ValueChanges(emptyList(), ValueChangeType.INITIALIZE))
+        MutableStateFlow(ValueChanges(initialValue, ValueChangeType.INITIALIZE))
     val valueChanges = _valueChanges.asSharedFlow()
 
     val value: List<T>
         get() = _state.toList()
 
-    open fun setValue(value: T) {
-        if (isSelected(value)) {
-            _state.remove(value)
-        } else {
-            _state.add(value)
+    fun setValue(vararg value: T) {
+        value.forEach { item ->
+            if (isSelected(item)) {
+                _state.remove(item)
+            } else {
+                _state.add(item)
+            }
         }
 
         _valueChanges.update { ValueChanges(_state.toList(), ValueChangeType.SET) }
@@ -40,11 +41,15 @@ open class FormControlMulti<T>(
     fun selectAll(source: List<T>) {
         val unselectedItems = source.filter { !isSelected(it) }
         _state.addAll(unselectedItems)
+
+        _valueChanges.update { ValueChanges(_state.toList(), ValueChangeType.SET) }
+        updateValidity()
     }
 
     fun unselectAll() {
         _state.clear()
-        _valueChanges.update { ValueChanges(emptyList(), ValueChangeType.SET) }
+        _valueChanges.update { ValueChanges(_state.toList(), ValueChangeType.SET) }
+        updateValidity()
     }
 
     private fun updateValidity() {
@@ -60,11 +65,5 @@ open class FormControlMulti<T>(
         _state.clear()
         _valueChanges.update { ValueChanges(emptyList(), ValueChangeType.RESET) }
         super.reset()
-    }
-
-    init {
-        // TODO здесь тоже нужен valueChanges, но какой тогда тип для него выбрать?
-        // Снова INITIALIZE или что-то еще...
-        _state.addAll(initialValue)
     }
 }
