@@ -12,6 +12,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 @Experimental
 open class FormControlMulti<T>(
     initialValue: List<T>,
+    private val resetValue: List<T> = emptyList(),
     private val comparableKey: (T) -> Any,
     private val validators: List<(List<T>) -> String?> = emptyList(),
     disable: Boolean = false,
@@ -63,7 +64,8 @@ open class FormControlMulti<T>(
 
     override fun reset() {
         _state.clear()
-        _valueChanges.update { ValueChanges(emptyList(), ValueChangeType.RESET) }
+        _state.addAll(resetValue)
+        _valueChanges.update { ValueChanges(_state.toList(), ValueChangeType.RESET) }
         super.reset()
     }
 }
