@@ -49,72 +49,6 @@ import com.ravenzip.workshop.forms.control.FormControlMulti
 /**
  * [Switch] - Переключатель
  *
- * @param width ширина
- * @param isChecked состояние свича
- * @param title заголовок
- * @param titleConfig параметры заголовка
- * @param text описание
- * @param textConfig параметры описания
- * @param enabled вкл\выкл свича
- * @param colors цвета свича
- * @param onCheckedChanged действие при нажатии на [Switch]
- */
-@Composable
-@Deprecated("Не использовать, переходить на Switch с FormState")
-fun Switch(
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    isChecked: MutableState<Boolean>,
-    title: String,
-    titleConfig: TextConfig,
-    text: String,
-    textConfig: TextConfig,
-    enabled: Boolean = true,
-    colors: SwitchColors = SwitchDefaults.colors(),
-    onCheckedChanged: () -> Unit = { isChecked.value = !isChecked.value },
-) {
-    val titleColor = remember { titleConfig.color ?: Color.Unspecified }
-    val textColor = remember { textConfig.color ?: Color.Unspecified }
-
-    Row(
-        modifier =
-            Modifier.fillMaxWidth(width)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { onCheckedChanged() }
-                .padding(15.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column {
-            Text(
-                text = title,
-                color = titleColor,
-                fontSize = titleConfig.size,
-                fontWeight = titleConfig.weight,
-                letterSpacing = titleConfig.letterSpacing,
-            )
-
-            Text(
-                text = text,
-                color = textColor,
-                fontSize = textConfig.size,
-                fontWeight = textConfig.weight,
-                letterSpacing = textConfig.letterSpacing,
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = { onCheckedChanged() },
-            enabled = enabled,
-            colors = colors,
-        )
-    }
-}
-
-/**
- * [Switch] - Переключатель
- *
  * @param state состояние свича
  * @param width ширина
  * @param title заголовок
@@ -124,7 +58,6 @@ fun Switch(
  * @param colors цвета свича
  */
 @Composable
-@ExperimentalMaterial3Api
 fun Switch(
     state: FormControl<Boolean>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
@@ -177,51 +110,6 @@ fun Switch(
 /**
  * [RadioGroup] - Радиокнопки
  *
- * @param width ширина
- * @param list список радиокнопок
- * @param textSize размер текста
- * @param enabled вкл\выкл радиокнопок
- * @param colors цвета радиокнопок
- * @param onClick действие при нажатии на радиокнопку
- */
-@Composable
-@Deprecated("Не использовать, переходить на RadioGroup с FormState")
-fun RadioGroup(
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    list: SnapshotStateList<SelectableItemConfig>,
-    textSize: Int = 18,
-    enabled: Boolean = true,
-    colors: RadioButtonColors = RadioButtonDefaults.colors(),
-    onClick: (item: SelectableItemConfig) -> Unit = { item ->
-        list.replaceAll { it.copy(isSelected = it.text == item.text) }
-    },
-) {
-    Column(modifier = Modifier.fillMaxWidth(width)) {
-        list.forEach { item ->
-            Row(
-                modifier =
-                    Modifier.fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable { onClick(item) }
-                        .padding(top = 5.dp, bottom = 5.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                RadioButton(
-                    selected = item.isSelected,
-                    onClick = { onClick(item) },
-                    enabled = enabled,
-                    colors = colors,
-                )
-
-                Text(text = item.text, fontSize = textSize.sp)
-            }
-        }
-    }
-}
-
-/**
- * [RadioGroup] - Радиокнопки
- *
  * @param state состояние радиогруппы
  * @param source источник данных
  * @param view отображаемый текст для радиокнопок
@@ -232,7 +120,6 @@ fun RadioGroup(
  * @param colors цвета радиокнопок
  */
 @Composable
-@ExperimentalMaterial3Api
 fun <T> RadioGroup(
     state: FormControl<T>,
     source: List<T>,
