@@ -42,9 +42,9 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
+import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
 import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
-import com.ravenzip.workshop.forms.control.FormControlMulti
 
 /**
  * [Switch] - Переключатель
@@ -286,66 +286,31 @@ fun Checkbox(
 /**
  * [CheckBoxGroup] - Чекбоксы
  *
- * @param width ширина
- * @param list список чекбоксов
- * @param textSize размер текста
- * @param enabled вкл\выкл чекбоксов
- * @param colors цвета чекбоксов
- * @param onClick действие при нажатии
- */
-@Composable
-@Deprecated("Не использовать, переходить на CheckBoxGroup с FormState")
-fun CheckBoxGroup(
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    list: SnapshotStateList<SelectableItemConfig>,
-    textSize: Int = 18,
-    enabled: Boolean = true,
-    colors: CheckboxColors = CheckboxDefaults.colors(),
-    onClick: (Int, SelectableItemConfig) -> Unit = { index, item ->
-        list[index] = item.copy(isSelected = !item.isSelected)
-    },
-) {
-    Column(modifier = Modifier.fillMaxWidth(width)) {
-        list.forEachIndexed { index, item ->
-            Checkbox(item = item, enabled = enabled, colors = colors, textSize = textSize) {
-                onClick(index, item)
-            }
-        }
-    }
-}
-
-/**
- * [CheckBoxGroup] - Чекбоксы
- *
- * @param state состояние группы чекбоксов
- * @param source источник данных
- * @param view отображаемый текст для радиокнопок
+ * @param component контрол + состояние
  * @param width ширина
  * @param textConfig параметры текста
  * @param contentPadding отступ между чекбоксами
  * @param colors цвета чекбоксов
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@ExperimentalMaterial3Api
 fun <T : Equatable> CheckBoxGroup(
-    state: FormControlMulti<T>,
-    source: List<T>,
-    view: (T) -> String,
+    component: CheckBoxGroupComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textConfig: TextConfig = TextConfig.S18,
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
     colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
-        source.forEach { item ->
+        component.source.forEach { item ->
             Checkbox(
-                isSelected = item in state.value,
-                text = view(item),
+                isSelected = item in component.control.value,
+                text = component.view(item),
                 textConfig = textConfig,
-                enabled = state.isEnabled,
+                enabled = component.control.isEnabled,
                 colors = colors,
             ) {
-                state.setValue(item)
+                component.control.setValue(item)
             }
         }
     }
