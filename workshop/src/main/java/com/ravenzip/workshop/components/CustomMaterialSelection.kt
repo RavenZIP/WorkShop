@@ -37,6 +37,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.ChipViewOptions
+import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableChipConfig
@@ -439,7 +440,7 @@ fun CheckBoxGroup(
  */
 @Composable
 @ExperimentalMaterial3Api
-fun <T> CheckBoxGroup(
+fun <T : Equatable> CheckBoxGroup(
     state: FormControlMulti<T>,
     source: List<T>,
     view: (T) -> String,
@@ -451,7 +452,7 @@ fun <T> CheckBoxGroup(
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
         source.forEach { item ->
             Checkbox(
-                isSelected = state.isSelected(item),
+                isSelected = item in state.value,
                 text = view(item),
                 textConfig = textConfig,
                 enabled = state.isEnabled,

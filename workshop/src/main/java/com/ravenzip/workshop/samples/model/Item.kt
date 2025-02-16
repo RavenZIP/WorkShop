@@ -1,7 +1,9 @@
 package com.ravenzip.workshop.samples.model
 
+import com.ravenzip.workshop.data.Equatable
+
 /** Пример модели, которая может быть использована в форм стейтах */
-class Item(val uid: String, val name: String, val count: Int) {
+data class Item(val uid: String, val name: String, val count: Int) : Equatable {
     companion object {
         fun createEmptyModel(): Item = Item("", "", 0)
 
