@@ -13,6 +13,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 
 // TODO реализовать запрет null значений -> надо ли?
 // TODO запоминать когда контрол потрогали -> надо ли?
+// TODO подумать над общим интерфейсом для всех контролов
 @Experimental
 open class FormControl<T>(
     private val initialValue: T,
