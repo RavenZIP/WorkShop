@@ -1,7 +1,9 @@
 package com.ravenzip.workshop.forms.control
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.ravenzip.workshop.enums.ValueChangeType
@@ -15,6 +17,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 // TODO запоминать когда контрол потрогали -> надо ли?
 // TODO подумать над общим интерфейсом для всех контролов
 @Experimental
+@Immutable
 open class FormControl<T>(
     private val initialValue: T,
     val resetValue: T = initialValue,
@@ -27,6 +30,7 @@ open class FormControl<T>(
         MutableStateFlow(ValueChanges(initialValue, ValueChangeType.INITIALIZE))
     val valueChanges = _valueChanges.asSharedFlow()
 
+    @Stable
     val value: T
         get() = _state.value
 

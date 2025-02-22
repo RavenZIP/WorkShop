@@ -43,6 +43,7 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
+import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
 
 /**
@@ -347,7 +348,7 @@ fun CheckboxTree(
  * @param childColors цвета для дочерних чекбоксов
  */
 @Composable
-fun <T> CheckboxTree(
+fun <T : Equatable> CheckboxTree(
     component: CheckBoxTreeComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     parentText: String,
@@ -368,9 +369,9 @@ fun <T> CheckboxTree(
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
-                state = component.parent,
+                state = component.control.value.parent,
                 onClick = { component.changeParentState() },
-                enabled = component.children.isEnabled,
+                enabled = component.control.isEnabled,
                 colors = parentColors,
             )
             Text(
@@ -384,14 +385,13 @@ fun <T> CheckboxTree(
         Column(modifier = Modifier.padding(start = 15.dp), verticalArrangement = childPadding) {
             component.source.forEach { item ->
                 Checkbox(
-                    isSelected = component.children.isSelected(item),
+                    isSelectedSelector = { item in component.control.value.children },
                     text = component.view(item),
                     textConfig = childTextConfig,
-                    enabled = component.children.isEnabled,
+                    enabled = component.control.isEnabled,
                     colors = childColors,
                 ) {
-                    component.children.setValue(item)
-                    component.recalculateParentState()
+                    component.control.setValue(item)
                 }
             }
         }

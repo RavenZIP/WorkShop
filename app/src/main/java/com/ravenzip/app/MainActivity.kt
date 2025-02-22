@@ -1,6 +1,7 @@
 package com.ravenzip.app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,17 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.app.ui.theme.WorkShopTheme
-import com.ravenzip.workshop.components.CheckboxTree
-import com.ravenzip.workshop.components.ChipRadioGroup
+import com.ravenzip.workshop.components.CheckBoxGroup
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.data.ChipViewOptions
-import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.forms.Validators
-import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
+import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
 import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
@@ -52,7 +47,6 @@ internal enum class Screen {
 }
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -134,7 +128,6 @@ private fun DropDownTextFieldTest(screen: MutableState<Screen>) {
     SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TextFields(screen: MutableState<Screen>) {
     Text("SinglenessOutlinedTextField", fontSize = 24.sp, fontWeight = FontWeight.W500)
@@ -182,35 +175,47 @@ private fun TextFields(screen: MutableState<Screen>) {
 @Composable
 private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     val items = remember { Item.createItems() }
-
-    val state =
-        CheckBoxTreeComponent(
-            children = FormControlMulti(emptyList(), comparableKey = { it.name }),
-            source = items,
-            view = { it.name },
-        )
-
-    val state2 = remember { FormControl(initialValue = Item.createItem()) }
-
-    CheckboxTree(component = state, parentText = "Дерево чекбоксов")
-
-    Spacer(modifier = Modifier.height(10.dp))
-
-    ChipRadioGroup(
-        state = state2,
-        source = items,
-        viewOptions =
-            items.associate { item ->
-                item.name to
-                    ChipViewOptions(
-                        text = item.name,
-                        textConfig = TextConfig.SmallMedium,
-                        icon = IconData.ResourceIcon(R.drawable.ic_launcher_foreground),
-                        iconConfig = IconConfig.PrimarySmall,
-                    )
+    val control = remember { FormControlMulti(initialValue = emptyList<Item>()) }
+    val component = remember {
+        CheckBoxGroupComponent(
+            control = control,
+            items,
+            view = {
+                Log.d("Тут жопа полная", "вызов функции")
+                it.name
             },
-        comparableKey = { it.name },
-    )
+        )
+    }
+
+    CheckBoxGroup(component = component)
+
+    //    val state =
+    //        CheckBoxTreeComponent(
+    //            children = FormControlMulti(emptyList(), comparableKey = { it.name }),
+    //            source = items,
+    //            view = { it.name },
+    //        )
+    //
+    //    CheckboxTree(component = state, parentText = "Дерево чекбоксов")
+
+    //    val state2 = remember { FormControl(initialValue = Item.createItem()) }
+    //    Spacer(modifier = Modifier.height(10.dp))
+    //
+    //    ChipRadioGroup(
+    //        state = state2,
+    //        source = items,
+    //        viewOptions =
+    //            items.associate { item ->
+    //                item.name to
+    //                    ChipViewOptions(
+    //                        text = item.name,
+    //                        textConfig = TextConfig.SmallMedium,
+    //                        icon = IconData.ResourceIcon(R.drawable.ic_launcher_foreground),
+    //                        iconConfig = IconConfig.PrimarySmall,
+    //                    )
+    //            },
+    //        comparableKey = { it.name },
+    //    )
 }
 
 @Composable
