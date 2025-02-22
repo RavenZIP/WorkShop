@@ -33,8 +33,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -200,7 +198,7 @@ fun SinglenessTextField(
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
- * @sample com.ravenzip.workshop.samples.view.SinglenessOutlinedTextFieldWithFormStateSample
+ * @sample com.ravenzip.workshop.samples.components.SinglenessOutlinedTextFieldWithFormStateSample
  */
 @Composable
 fun SinglenessOutlinedTextField(
@@ -344,7 +342,7 @@ fun MultilineTextField(
  * @param dropDownIconConfig параметры иконки выпадающего списка
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
- * @sample com.ravenzip.workshop.samples.view.DropDownTextFieldWithFormStateSample
+ * @sample com.ravenzip.workshop.samples.components.DropDownTextFieldWithFormStateSample
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
