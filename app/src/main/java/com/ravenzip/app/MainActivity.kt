@@ -1,7 +1,6 @@
 package com.ravenzip.app
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,12 +15,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -37,7 +34,6 @@ import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
-import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.forms.Validators
 import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
@@ -183,7 +179,6 @@ private fun TextFields(screen: MutableState<Screen>) {
     SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     val items = remember { Item.createItems() }
@@ -216,25 +211,6 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
             },
         comparableKey = { it.name },
     )
-
-    ChipRadioGroup(
-        list =
-            items
-                .mapIndexed { key, item ->
-                    SelectableChipConfig(
-                        isSelected = key == 0,
-                        text = item.name,
-                        textConfig = TextConfig.SmallMedium,
-                        icon = IconData.ResourceIcon(R.drawable.ic_launcher_foreground),
-                        iconConfig = IconConfig.PrimarySmall,
-                    )
-                }
-                .toMutableStateList()
-    )
-
-    LaunchedEffect(Unit) {
-        state.children.valueChanges.collect { Log.d("valueChanges", "valueChanges: $it") }
-    }
 }
 
 @Composable

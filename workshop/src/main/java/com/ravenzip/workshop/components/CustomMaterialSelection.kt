@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.RadioButtonDefaults
@@ -40,7 +39,6 @@ import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
-import com.ravenzip.workshop.data.selection.SelectableChipConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
 import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
@@ -156,45 +154,6 @@ fun <T> RadioGroup(
 /**
  * [ChipRadioGroup] - Радиогруппа с чипами
  *
- * @param width ширина
- * @param list список радиокнопок
- * @param containerPadding отступ для контейнера
- * @param contentPadding отступ между радиокнопками
- * @param onClick действие при нажатии на чип
- */
-@Composable
-@Deprecated("Не использовать, переходить на ChipRadioGroup с FormState")
-fun ChipRadioGroup(
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
-    list: SnapshotStateList<SelectableChipConfig>,
-    containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
-    contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
-    onClick: (item: SelectableChipConfig) -> Unit = { item ->
-        list.replaceAll { it.copy(isSelected = it.text == item.text) }
-    },
-) {
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(width),
-        horizontalArrangement = contentPadding,
-        contentPadding = containerPadding,
-    ) {
-        items(list, key = { it.text }, contentType = { it }) { item ->
-            SelectableChip(
-                isSelected = item.isSelected,
-                text = item.text,
-                textConfig = item.textConfig,
-                icon = item.icon,
-                iconConfig = item.iconConfig,
-            ) {
-                onClick(item)
-            }
-        }
-    }
-}
-
-/**
- * [ChipRadioGroup] - Радиогруппа с чипами
- *
  * @param state состояние радиогруппы
  * @param source источник данных
  * @param viewOptions параметры отображения чипов
@@ -204,7 +163,6 @@ fun ChipRadioGroup(
  * @param contentPadding отступ между радиокнопками
  */
 @Composable
-@ExperimentalMaterial3Api
 fun <T> ChipRadioGroup(
     state: FormControl<T>,
     source: List<T>,
@@ -251,7 +209,6 @@ fun <T> ChipRadioGroup(
  * @param onClick действие при нажатии
  */
 @Composable
-@ExperimentalMaterial3Api
 fun Checkbox(
     isSelected: Boolean,
     text: String,
@@ -292,7 +249,6 @@ fun Checkbox(
  * @param contentPadding отступ между чекбоксами
  * @param colors цвета чекбоксов
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Equatable> CheckBoxGroup(
     component: CheckBoxGroupComponent<T>,
@@ -387,7 +343,6 @@ fun CheckboxTree(
  * @param parentColors цвета для главного чекбокса
  * @param childColors цвета для дочерних чекбоксов
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> CheckboxTree(
     component: CheckBoxTreeComponent<T>,
