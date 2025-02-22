@@ -5,6 +5,7 @@ import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.forms.control.FormControlTree
 
 @Immutable
+@Deprecated("Не использовать, пока что не работает", level = DeprecationLevel.ERROR)
 class CheckBoxTreeComponent<T : Equatable>(
     val control: FormControlTree<T>,
     val source: List<T>,

@@ -348,6 +348,7 @@ fun CheckboxTree(
  * @param childColors цвета для дочерних чекбоксов
  */
 @Composable
+@Deprecated("Не использовать, пока что не работает", level = DeprecationLevel.ERROR)
 fun <T : Equatable> CheckboxTree(
     component: CheckBoxTreeComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
@@ -365,12 +366,16 @@ fun <T : Equatable> CheckboxTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { component.changeParentState() }
+                    .clickable {
+                        /** component.changeParentState() */
+                    }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
                 state = component.control.value.parent,
-                onClick = { component.changeParentState() },
+                onClick = {
+                    /** component.changeParentState() */
+                },
                 enabled = component.control.isEnabled,
                 colors = parentColors,
             )

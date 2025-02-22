@@ -1,7 +1,6 @@
 package com.ravenzip.app
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -177,14 +176,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     val items = remember { Item.createItems() }
     val control = remember { FormControlMulti(initialValue = emptyList<Item>()) }
     val component = remember {
-        CheckBoxGroupComponent(
-            control = control,
-            items,
-            view = {
-                Log.d("Тут жопа полная", "вызов функции")
-                it.name
-            },
-        )
+        CheckBoxGroupComponent(control = control, items, view = { it.name })
     }
 
     CheckBoxGroup(component = component)
