@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 
 @Immutable
-@Deprecated("Не использовать, пока что не работает", level = DeprecationLevel.ERROR)
+@Deprecated("Не использовать, пока что не работает")
 // TODO подумать над реализацией, возможно потребуются изменения внутри FormControlMulti
 // TODO необходимо обеспечить интеграцию с FormGroup
 class FormControlTree<T : Equatable>(
