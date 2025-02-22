@@ -1,5 +1,7 @@
 package com.ravenzip.workshop.forms.control
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.ravenzip.workshop.data.Equatable
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 // TODO сделать комбинированный вариант для reset (resetValue + value как параметр функции),
 // оставить как есть, либо сделать только параметр функции
 @Experimental
+@Immutable
 open class FormControlMulti<T : Equatable>(
     initialValue: List<T>,
     private val resetValue: List<T> = emptyList(),
@@ -25,8 +28,9 @@ open class FormControlMulti<T : Equatable>(
         MutableStateFlow(ValueChanges(initialValue, ValueChangeType.INITIALIZE))
     val valueChanges = _valueChanges.asSharedFlow()
 
+    @Stable
     val value: List<T>
-        get() = _state.toList()
+        get() = _state
 
     fun setValue(vararg value: T) {
         value.forEach { item ->

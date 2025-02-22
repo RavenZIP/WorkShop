@@ -26,6 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -41,7 +43,6 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.selection.RootSelectionConfig
 import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
-import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
 
 /**
@@ -210,13 +211,15 @@ fun <T> ChipRadioGroup(
  */
 @Composable
 fun Checkbox(
-    isSelected: Boolean,
+    isSelectedSelector: () -> Boolean,
     text: String,
     textConfig: TextConfig,
     enabled: Boolean,
     colors: CheckboxColors,
     onClick: () -> Unit,
 ) {
+    val isSelected by remember { derivedStateOf { isSelectedSelector() } }
+
     Row(
         modifier =
             Modifier.fillMaxWidth()
@@ -260,7 +263,7 @@ fun <T : Equatable> CheckBoxGroup(
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
         component.source.forEach { item ->
             Checkbox(
-                isSelected = item in component.control.value,
+                isSelectedSelector = { item in component.control.value },
                 text = component.view(item),
                 textConfig = textConfig,
                 enabled = component.control.isEnabled,
