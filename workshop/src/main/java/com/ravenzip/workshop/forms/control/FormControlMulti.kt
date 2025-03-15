@@ -9,6 +9,7 @@ import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.ValueChanges
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import org.jetbrains.annotations.ApiStatus.Experimental
 
@@ -26,7 +27,12 @@ open class FormControlMulti<T : Equatable>(
 
     private val _valueChanges: MutableStateFlow<ValueChanges<List<T>>> =
         MutableStateFlow(ValueChanges(initialValue, ValueChangeType.INITIALIZE))
-    val valueChanges = _valueChanges.asSharedFlow()
+    val valueChangesWithTypeChanges = _valueChanges.asSharedFlow()
+
+    val valueChanges =
+        valueChangesWithTypeChanges.map { valueChangesWithTypeChanges ->
+            valueChangesWithTypeChanges.value
+        }
 
     @Stable
     val value: List<T>

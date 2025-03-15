@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.forms.components
+package com.ravenzip.workshop.forms.component
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.state.ToggleableState
@@ -39,7 +39,7 @@ class CheckBoxTreeComponent<T : Equatable>(
     }
 
     init {
-        control.valueChanges
+        control.valueChangesWithTypeChanges
             .distinctUntilChanged { previousChanges, currentChanges ->
                 previousChanges.value.parent == currentChanges.value.parent
             }
@@ -55,7 +55,7 @@ class CheckBoxTreeComponent<T : Equatable>(
             }
             .launchIn(scope)
 
-        control.valueChanges
+        control.valueChangesWithTypeChanges
             .distinctUntilChanged { previousChanges, currentChanges ->
                 previousChanges.value.children == currentChanges.value.children
             }

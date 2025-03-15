@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
-import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
-import com.ravenzip.workshop.forms.textfield.TextFieldComponent
+import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
+import com.ravenzip.workshop.forms.component.TextFieldComponent
 
 /**
  * [SimpleTextField] - Простое текстовое поле

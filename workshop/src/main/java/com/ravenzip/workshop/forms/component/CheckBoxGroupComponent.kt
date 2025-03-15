@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.forms.components
+package com.ravenzip.workshop.forms.component
 
 import androidx.compose.runtime.Immutable
 import com.ravenzip.workshop.data.Equatable

@@ -1,9 +1,10 @@
-package com.ravenzip.workshop.forms.textfield
+package com.ravenzip.workshop.forms.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.state.TextFieldState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ class TextFieldComponent<T>(
 ) {
     init {
         scope.launch {
-            control.valueChanges
+            control.valueChangesWithTypeChanges
                 .filter { valueChanges -> valueChanges.typeChanges === ValueChangeType.RESET }
                 .collect { _ -> state.setReadonly(state.readonly) }
         }

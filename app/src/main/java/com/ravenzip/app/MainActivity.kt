@@ -30,15 +30,15 @@ import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
 import com.ravenzip.workshop.forms.Validators
-import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
-import com.ravenzip.workshop.forms.components.CheckBoxTreeComponent
+import com.ravenzip.workshop.forms.component.CheckBoxGroupComponent
+import com.ravenzip.workshop.forms.component.CheckBoxTreeComponent
+import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
+import com.ravenzip.workshop.forms.component.TextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
 import com.ravenzip.workshop.forms.control.FormControlTree
-import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
-import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldState
-import com.ravenzip.workshop.forms.textfield.TextFieldComponent
-import com.ravenzip.workshop.forms.textfield.TextFieldState
+import com.ravenzip.workshop.forms.state.DropDownTextFieldState
+import com.ravenzip.workshop.forms.state.TextFieldState
 import com.ravenzip.workshop.samples.model.Item
 
 internal enum class Screen {

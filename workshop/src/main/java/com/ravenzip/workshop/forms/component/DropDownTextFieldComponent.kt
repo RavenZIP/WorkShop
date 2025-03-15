@@ -1,10 +1,10 @@
-package com.ravenzip.workshop.forms.dropdown
+package com.ravenzip.workshop.forms.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -29,7 +29,7 @@ class DropDownTextFieldComponent<T>(
     init {
         scope.launch {
             merge(
-                    control.valueChanges
+                    control.valueChangesWithTypeChanges
                         .map { valueChanges -> state.view(valueChanges.value) }
                         .filter { value -> value.isNotEmpty() },
                     state.expandedChanges

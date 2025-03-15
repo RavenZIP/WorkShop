@@ -1,10 +1,9 @@
-package com.ravenzip.workshop.forms.dropdown
+package com.ravenzip.workshop.forms.state
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.ravenzip.workshop.forms.textfield.TextFieldState
 import java.util.Locale
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow

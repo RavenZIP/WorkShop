@@ -37,15 +37,15 @@ import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
-import com.ravenzip.workshop.forms.components.CheckBoxTreeComponent
+import com.ravenzip.workshop.forms.component.CheckBoxGroupComponent
+import com.ravenzip.workshop.forms.component.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 /**
  * [Switch] - Переключатель
  *
- * @param state состояние свича
+ * @param control контрол
  * @param width ширина
  * @param title заголовок
  * @param titleConfig параметры заголовка
@@ -56,7 +56,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 @Experimental
 @Composable
 fun Switch(
-    state: FormControl<Boolean>,
+    control: FormControl<Boolean>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     title: String,
     titleConfig: TextConfig,
@@ -71,7 +71,7 @@ fun Switch(
         modifier =
             Modifier.fillMaxWidth(width)
                 .clip(RoundedCornerShape(10.dp))
-                .clickable { state.setValue(!state.value) }
+                .clickable { control.setValue(!control.value) }
                 .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -96,9 +96,9 @@ fun Switch(
         Spacer(modifier = Modifier.weight(1f))
 
         Switch(
-            checked = state.value,
-            onCheckedChange = { state.setValue(!state.value) },
-            enabled = state.isEnabled,
+            checked = control.value,
+            onCheckedChange = { control.setValue(!control.value) },
+            enabled = control.isEnabled,
             colors = colors,
         )
     }
