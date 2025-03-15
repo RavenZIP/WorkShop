@@ -2,7 +2,6 @@ package com.ravenzip.workshop.components
 
 import android.util.Log
 import androidx.annotation.FloatRange
-import org.jetbrains.annotations.ApiStatus.Experimental
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,7 +40,7 @@ import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
 import com.ravenzip.workshop.forms.components.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
-import org.jetbrains.annotations.ApiStatus
+import org.jetbrains.annotations.ApiStatus.Experimental
 
 /**
  * [Switch] - Переключатель
