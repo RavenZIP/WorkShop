@@ -2,8 +2,11 @@ package com.ravenzip.workshop.forms
 
 import android.util.Patterns.EMAIL_ADDRESS
 import android.util.Patterns.PHONE
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 
 /** Возможные валидаторы для компонентов */
+@Immutable
 class Validators {
     companion object {
         val required = { value: String ->

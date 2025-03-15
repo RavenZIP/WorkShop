@@ -2,6 +2,7 @@ package com.ravenzip.workshop.components
 
 import android.util.Log
 import androidx.annotation.FloatRange
+import org.jetbrains.annotations.ApiStatus.Experimental
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,26 +26,22 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.selection.RootSelectionConfig
-import com.ravenzip.workshop.data.selection.SelectableItemConfig
 import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
-import com.ravenzip.workshop.forms.components.checkboxtree.CheckBoxTreeComponent
+import com.ravenzip.workshop.forms.components.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
+import org.jetbrains.annotations.ApiStatus
 
 /**
  * [Switch] - Переключатель
@@ -57,6 +54,7 @@ import com.ravenzip.workshop.forms.control.FormControl
  * @param textConfig параметры описания
  * @param colors цвета свича
  */
+@Experimental
 @Composable
 fun Switch(
     state: FormControl<Boolean>,
@@ -119,6 +117,7 @@ fun Switch(
  * @param contentPadding вертикальный отступ между радиокнопками
  * @param colors цвета радиокнопок
  */
+@Experimental
 @Composable
 fun <T> RadioGroup(
     state: FormControl<T>,
@@ -164,6 +163,7 @@ fun <T> RadioGroup(
  * @param containerPadding отступ для контейнера
  * @param contentPadding отступ между радиокнопками
  */
+@Experimental
 @Composable
 fun <T> ChipRadioGroup(
     state: FormControl<T>,
@@ -210,6 +210,7 @@ fun <T> ChipRadioGroup(
  * @param colors цвета чекбоксов
  * @param onClick действие при нажатии
  */
+@Experimental
 @Composable
 fun Checkbox(
     isSelectedSelector: () -> Boolean,
@@ -253,6 +254,7 @@ fun Checkbox(
  * @param contentPadding отступ между чекбоксами
  * @param colors цвета чекбоксов
  */
+@Experimental
 @Composable
 fun <T : Equatable> CheckBoxGroup(
     component: CheckBoxGroupComponent<T>,
@@ -279,65 +281,6 @@ fun <T : Equatable> CheckBoxGroup(
 /**
  * [CheckboxTree] - Дерево чекбоксов
  *
- * @param width ширина
- * @param root главный чекбокс
- * @param textSize размер текста
- * @param list список чекбоксов
- * @param enabled вкл\выкл чекбоксов
- * @param colors цвета чекбоксов
- * @param onClickToRoot действие при нажатии на главный чекбокс
- * @param onClickToChild действие при нажатии на дочерние чекбоксы
- */
-@Composable
-@Deprecated("Не использовать, переходить на CheckBoxTree с FormState")
-fun CheckboxTree(
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    root: RootSelectionConfig,
-    textSize: Int = 18,
-    list: SnapshotStateList<SelectableItemConfig>,
-    enabled: Boolean = true,
-    colors: CheckboxColors = CheckboxDefaults.colors(),
-    onClickToRoot: () -> Unit = { changeRootState(list, root.state) },
-    onClickToChild: (Int, SelectableItemConfig) -> Unit = { index, item ->
-        list[index] = item.copy(isSelected = !item.isSelected)
-        recalculateTreeState(list, root.state)
-    },
-) {
-    Column(modifier = Modifier.fillMaxWidth(width)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier =
-                Modifier.fillMaxWidth()
-                    .clip(RoundedCornerShape(10.dp))
-                    .clickable { onClickToRoot() }
-                    .padding(top = 5.dp, bottom = 5.dp),
-        ) {
-            TriStateCheckbox(
-                state = root.state.value,
-                onClick = { onClickToRoot() },
-                enabled = enabled,
-                colors = root.colors,
-            )
-            Text(text = root.text, fontSize = textSize.sp)
-        }
-
-        list.forEachIndexed { index, item ->
-            Checkbox(
-                item = item,
-                textSize = textSize,
-                colors = colors,
-                enabled = enabled,
-                isTree = true,
-            ) {
-                onClickToChild(index, item)
-            }
-        }
-    }
-}
-
-/**
- * [CheckboxTree] - Дерево чекбоксов
- *
  * @param component Компонент (контрол + состояние)
  * @param width ширина
  * @param parentText текст для главного чебокса
@@ -347,8 +290,8 @@ fun CheckboxTree(
  * @param parentColors цвета для главного чекбокса
  * @param childColors цвета для дочерних чекбоксов
  */
+@Experimental
 @Composable
-@Deprecated("Не использовать, пока что не работает", level = DeprecationLevel.ERROR)
 fun <T : Equatable> CheckboxTree(
     component: CheckBoxTreeComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
@@ -366,16 +309,12 @@ fun <T : Equatable> CheckboxTree(
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable {
-                        /** component.changeParentState() */
-                    }
+                    .clickable { component.changeParentState() }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
                 state = component.control.value.parent,
-                onClick = {
-                    /** component.changeParentState() */
-                },
+                onClick = { component.changeParentState() },
                 enabled = component.control.isEnabled,
                 colors = parentColors,
             )
@@ -400,75 +339,5 @@ fun <T : Equatable> CheckboxTree(
                 }
             }
         }
-    }
-}
-
-/**
- * [Checkbox] - чекбокс
- *
- * @param item параметры чекбокса
- * @param textSize размер текста
- * @param enabled вкл\выкл чекбоксов
- * @param colors цвета чекбоксов
- * @param isTree является ли этот чекбокс частью дерева чекбоксов
- * @param onClick действие при нажатии
- */
-@Composable
-@Deprecated(
-    "Не использовать, переходить на Checkbox, который используется для компонентов с FormState"
-)
-fun Checkbox(
-    item: SelectableItemConfig,
-    textSize: Int,
-    enabled: Boolean,
-    colors: CheckboxColors,
-    isTree: Boolean = false,
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier =
-            Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { onClick() }
-                .padding(start = if (isTree) 20.dp else 0.dp, top = 5.dp, bottom = 5.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Checkbox(
-            checked = item.isSelected,
-            onCheckedChange = { onClick() },
-            enabled = enabled,
-            colors = colors,
-        )
-        Text(text = item.text, fontSize = textSize.sp)
-    }
-}
-
-private fun recalculateTreeState(
-    list: SnapshotStateList<SelectableItemConfig>,
-    rootState: MutableState<ToggleableState>,
-) {
-    val activeCheckboxCount =
-        list.fold(initial = 0) { acc, item -> if (item.isSelected) acc + 1 else acc }
-
-    rootState.value =
-        when (activeCheckboxCount) {
-            0 -> ToggleableState.Off
-            list.count() -> ToggleableState.On
-            else -> ToggleableState.Indeterminate
-        }
-}
-
-private fun changeRootState(
-    list: SnapshotStateList<SelectableItemConfig>,
-    rootState: MutableState<ToggleableState>,
-) {
-    rootState.value =
-        when (rootState.value) {
-            ToggleableState.On -> ToggleableState.Off
-            else -> ToggleableState.On
-        }
-
-    list.indices.forEach { index ->
-        list[index] = list[index].copy(isSelected = rootState.value == ToggleableState.On)
     }
 }

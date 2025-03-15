@@ -14,15 +14,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 
 @Immutable
-@Deprecated("Не использовать, пока что не работает")
-// TODO подумать над реализацией, возможно потребуются изменения внутри FormControlMulti
 // TODO необходимо обеспечить интеграцию с FormGroup
 class FormControlTree<T : Equatable>(
     initialValue: List<T>,
-    private val totalItemsCount: Int,
     private val resetValue: List<T> = emptyList(),
     private val validators: List<(CheckBoxTreeValue<T>) -> String?> = emptyList(),
-    disable: Boolean,
+    disable: Boolean = false,
 ) : BaseControl(disable) {
     private val _state: MutableState<CheckBoxTreeValue<T>> =
         mutableStateOf(CheckBoxTreeValue(parent = ToggleableState.Off, children = initialValue))
@@ -35,7 +32,25 @@ class FormControlTree<T : Equatable>(
     val value
         get() = _state.value
 
+    fun setValue(value: List<T>) {
+        _state.value = _state.value.copy(children = recalculateChildren(value))
+        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
+        updateValidity()
+    }
+
     fun setValue(vararg value: T) {
+        _state.value = _state.value.copy(children = recalculateChildren(value.toList()))
+        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
+        updateValidity()
+    }
+
+    fun setValue(value: ToggleableState) {
+        _state.value = _state.value.copy(parent = value)
+        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
+        updateValidity()
+    }
+
+    private fun recalculateChildren(value: List<T>): List<T> {
         val currentChildrenValue = _state.value.children.toMutableList()
 
         value.forEach { item ->
@@ -46,11 +61,7 @@ class FormControlTree<T : Equatable>(
             }
         }
 
-        _state.value =
-            _state.value.copy(parent = recalculateParentState(), children = currentChildrenValue)
-
-        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
-        updateValidity()
+        return currentChildrenValue
     }
 
     private fun updateValidity() {
@@ -58,31 +69,9 @@ class FormControlTree<T : Equatable>(
         super.setError(error)
     }
 
-    //    override fun reset() {
-    //        _state.value = resetValue
-    //        _valueChanges.update { ValueChanges(resetValue, ValueChangeType.RESET) }
-    //        super.reset()
-    //    }
-
-    //    fun changeParentState(source: List<T>) {
-    //        parent.value =
-    //            when (parent.value) {
-    //                ToggleableState.On -> ToggleableState.Off
-    //                else -> ToggleableState.On
-    //            }
-    //
-    //        if (parent.value == ToggleableState.On) {
-    //            children.selectAll(source)
-    //        } else {
-    //            children.unselectAll()
-    //        }
-    //    }
-
-    private fun recalculateParentState(): ToggleableState {
-        return when (_state.value.children.count()) {
-            0 -> ToggleableState.Off
-            totalItemsCount -> ToggleableState.On
-            else -> ToggleableState.Indeterminate
-        }
+    override fun reset() {
+        _state.value = _state.value.copy(children = recalculateChildren(resetValue))
+        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.RESET) }
+        super.reset()
     }
 }

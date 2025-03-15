@@ -3,7 +3,9 @@ package com.ravenzip.workshop.forms.components
 import androidx.compose.runtime.Immutable
 import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.forms.control.FormControlMulti
+import org.jetbrains.annotations.ApiStatus.Experimental
 
+@Experimental
 @Immutable
 class CheckBoxGroupComponent<T : Equatable>(
     val control: FormControlMulti<T>,

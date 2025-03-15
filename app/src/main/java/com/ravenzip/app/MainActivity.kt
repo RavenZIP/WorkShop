@@ -25,13 +25,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.app.ui.theme.WorkShopTheme
 import com.ravenzip.workshop.components.CheckBoxGroup
+import com.ravenzip.workshop.components.CheckboxTree
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
 import com.ravenzip.workshop.forms.Validators
 import com.ravenzip.workshop.forms.components.CheckBoxGroupComponent
+import com.ravenzip.workshop.forms.components.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
+import com.ravenzip.workshop.forms.control.FormControlTree
 import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.dropdown.DropDownTextFieldState
 import com.ravenzip.workshop.forms.textfield.TextFieldComponent
@@ -173,6 +176,8 @@ private fun TextFields(screen: MutableState<Screen>) {
 
 @Composable
 private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
+    val composableScope = rememberCoroutineScope()
+
     val items = remember { Item.createItems() }
     val control = remember { FormControlMulti(initialValue = emptyList<Item>()) }
     val component = remember {
@@ -181,33 +186,18 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
 
     CheckBoxGroup(component = component)
 
-    //    val state =
-    //        CheckBoxTreeComponent(
-    //            children = FormControlMulti(emptyList(), comparableKey = { it.name }),
-    //            source = items,
-    //            view = { it.name },
-    //        )
-    //
-    //    CheckboxTree(component = state, parentText = "Дерево чекбоксов")
+    val items2 = remember { Item.createItems() }
+    val control2 = remember { FormControlTree(items2) }
+    val component2 = remember {
+        CheckBoxTreeComponent(
+            control = control2,
+            source = items2,
+            view = { it.name },
+            scope = composableScope,
+        )
+    }
 
-    //    val state2 = remember { FormControl(initialValue = Item.createItem()) }
-    //    Spacer(modifier = Modifier.height(10.dp))
-    //
-    //    ChipRadioGroup(
-    //        state = state2,
-    //        source = items,
-    //        viewOptions =
-    //            items.associate { item ->
-    //                item.name to
-    //                    ChipViewOptions(
-    //                        text = item.name,
-    //                        textConfig = TextConfig.SmallMedium,
-    //                        icon = IconData.ResourceIcon(R.drawable.ic_launcher_foreground),
-    //                        iconConfig = IconConfig.PrimarySmall,
-    //                    )
-    //            },
-    //        comparableKey = { it.name },
-    //    )
+    CheckboxTree(component = component2, parentText = "Главный чекбокс")
 }
 
 @Composable
