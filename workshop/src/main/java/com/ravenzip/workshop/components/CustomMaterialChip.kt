@@ -47,6 +47,7 @@ import com.ravenzip.workshop.data.icon.IconWithConfig
  *
  * @param text текст внутри чипа
  * @param textConfig параметры текста
+ * @param withCutText обрезать текст (в конце будет троеточие)
  * @param backgroundColor цвет контейнера
  * @param shape радиус скругления
  * @param onClick действие при нажатии
@@ -55,11 +56,14 @@ import com.ravenzip.workshop.data.icon.IconWithConfig
 fun Chip(
     text: String,
     textConfig: TextConfig = TextConfig.Chip,
+    withCutText: Boolean,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit = {},
 ) {
     val color = remember { textConfig.color ?: Color.Unspecified }
+    val overflow = remember { if (withCutText) TextOverflow.Ellipsis else textConfig.overflow }
+    val maxLines = remember { if (withCutText) 1 else Int.MAX_VALUE }
 
     Box(modifier = Modifier.clip(shape).background(backgroundColor).clickable { onClick() }) {
         Text(
@@ -69,7 +73,8 @@ fun Chip(
             fontSize = textConfig.size,
             fontWeight = textConfig.weight,
             letterSpacing = textConfig.letterSpacing,
-            overflow = textConfig.overflow
+            overflow = overflow,
+            maxLines = maxLines,
         )
     }
 }
@@ -81,6 +86,7 @@ fun Chip(
  * @param textConfig параметры текста
  * @param icon иконка
  * @param iconConfig параметры иконки
+ * @param withCutText обрезать текст (в конце будет троеточие)
  * @param backgroundColor цвет контейнера
  * @param shape радиус скругления
  * @param onClick действие при нажатии
@@ -91,11 +97,14 @@ fun Chip(
     textConfig: TextConfig = TextConfig.Chip,
     icon: IconData,
     iconConfig: IconConfig = IconConfig.Small,
+    withCutText: Boolean,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit = {},
 ) {
     val color = remember { textConfig.color ?: Color.Unspecified }
+    val overflow = remember { if (withCutText) TextOverflow.Ellipsis else textConfig.overflow }
+    val maxLines = remember { if (withCutText) 1 else Int.MAX_VALUE }
 
     Box(
         modifier =
@@ -119,7 +128,8 @@ fun Chip(
                 fontSize = textConfig.size,
                 fontWeight = textConfig.weight,
                 letterSpacing = textConfig.letterSpacing,
-                overflow = textConfig.overflow
+                overflow = overflow,
+                maxLines = maxLines,
             )
         }
     }
