@@ -127,7 +127,7 @@ fun InfoCard(
 ) {
     Card(modifier = Modifier.fillMaxWidth(width), shape = shape, colors = colors) {
         Column(modifier = Modifier.fillMaxWidth().padding(contentPadding)) {
-            Chip(text = chipText)
+            Chip(text = chipText, withCutText = false)
 
             Spacer(modifier = Modifier.height(10.dp))
 
