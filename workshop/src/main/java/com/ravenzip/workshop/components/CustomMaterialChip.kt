@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.button.ButtonContainerConfig
@@ -68,6 +69,7 @@ fun Chip(
             fontSize = textConfig.size,
             fontWeight = textConfig.weight,
             letterSpacing = textConfig.letterSpacing,
+            overflow = textConfig.overflow
         )
     }
 }
@@ -117,6 +119,7 @@ fun Chip(
                 fontSize = textConfig.size,
                 fontWeight = textConfig.weight,
                 letterSpacing = textConfig.letterSpacing,
+                overflow = textConfig.overflow
             )
         }
     }
