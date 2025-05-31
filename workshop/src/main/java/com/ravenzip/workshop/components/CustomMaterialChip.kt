@@ -56,7 +56,7 @@ import com.ravenzip.workshop.data.icon.IconWithConfig
 fun Chip(
     text: String,
     textConfig: TextConfig = TextConfig.Chip,
-    withCutText: Boolean,
+    withCutText: Boolean = false,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit = {},
@@ -97,7 +97,7 @@ fun Chip(
     textConfig: TextConfig = TextConfig.Chip,
     icon: IconData,
     iconConfig: IconConfig = IconConfig.Small,
-    withCutText: Boolean,
+    withCutText: Boolean = false,
     backgroundColor: Color = MaterialTheme.colorScheme.primary.copy(0.08f),
     shape: Shape = RoundedCornerShape(10.dp),
     onClick: () -> Unit = {},
