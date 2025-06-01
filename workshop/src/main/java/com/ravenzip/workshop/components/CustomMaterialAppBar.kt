@@ -52,6 +52,8 @@ import com.ravenzip.workshop.data.appbar.BottomItemsTextStateEnum
 import com.ravenzip.workshop.data.appbar.BottomNavigationItem
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.state.TextFieldState
 
 /**
  * [TopAppBar] - Верхняя панель
@@ -160,7 +162,8 @@ fun TopAppBarWithMenu(
 /**
  * [SearchBar] - Верхняя панель с поиском
  *
- * @param query запрос
+ * @param control контрол элемента
+ * @param state состояния текстового поля
  * @param placeholder временный текст
  * @param onSearch действие при нажатии на кнопку поиска
  * @param backgroundColor фоновый цвет верхней панели,
@@ -168,7 +171,8 @@ fun TopAppBarWithMenu(
  */
 @Composable
 fun SearchBar(
-    query: MutableState<String>,
+    control: FormControl<String>,
+    state: TextFieldState = TextFieldState(),
     placeholder: String?,
     onSearch: (KeyboardActionScope.() -> Unit)?,
     backgroundColor: Color = MaterialTheme.colorScheme.background,
@@ -188,7 +192,8 @@ fun SearchBar(
             Spacer(modifier = Modifier.padding(top = 10.dp))
 
             SearchTextField(
-                text = query,
+                control = control,
+                state = state,
                 placeholder = placeholder,
                 onSearch = onSearch,
                 colors = textFieldColors,

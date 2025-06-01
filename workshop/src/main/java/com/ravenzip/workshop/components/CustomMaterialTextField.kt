@@ -33,7 +33,9 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -73,10 +75,10 @@ import kotlinx.coroutines.flow.filter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTextField(
+    modifier: Modifier = Modifier,
     control: FormControl<String>,
     state: TextFieldState = TextFieldState(),
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    modifier: Modifier = Modifier,
     textSize: Int = 16,
     placeholder: String = "",
     interactionSource: InteractionSource = MutableInteractionSource(),
@@ -132,11 +134,11 @@ fun SimpleTextField(
  */
 @Composable
 fun SinglenessTextField(
+    modifier: Modifier = Modifier,
     control: FormControl<String>,
     state: TextFieldState = TextFieldState(),
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    modifier: Modifier = Modifier,
     placeholder: String? = null,
     leadingIcon: IconData? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
@@ -169,9 +171,17 @@ fun SinglenessTextField(
                 readOnly = state.isReadonly,
                 placeholder = getText(placeholder),
                 leadingIcon =
-                    getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
+                    getIcon(
+                        icon = leadingIcon,
+                        iconConfig = leadingIconConfig,
+                        colorSelector = { colors.cursorColor },
+                    ),
                 trailingIcon =
-                    getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
+                    getIcon(
+                        icon = trailingIcon,
+                        iconConfig = trailingIconConfig,
+                        colorSelector = { colors.cursorColor },
+                    ),
                 isError = control.isInvalid,
                 visualTransformation =
                     if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
@@ -216,11 +226,11 @@ fun SinglenessTextField(
  */
 @Composable
 fun SinglenessOutlinedTextField(
+    modifier: Modifier = Modifier,
     control: FormControl<String>,
     state: TextFieldState = TextFieldState(),
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    modifier: Modifier = Modifier,
     label: String = "Простое текстовое поле",
     leadingIcon: IconData? = null,
     leadingIconConfig: IconConfig = IconConfig.Small,
@@ -250,17 +260,17 @@ fun SinglenessOutlinedTextField(
                     getIcon(
                         icon = leadingIcon,
                         iconConfig = leadingIconConfig,
-                        colors = colors,
-                        isError = control.isInvalid,
-                        isFocused = state.isFocused,
+                        colorSelector = {
+                            calculateColor(colors, control.isInvalid, state.isFocused)
+                        },
                     ),
                 trailingIcon =
                     getIcon(
                         icon = trailingIcon,
                         iconConfig = trailingIconConfig,
-                        colors = colors,
-                        isError = control.isInvalid,
-                        isFocused = state.isFocused,
+                        colorSelector = {
+                            calculateColor(colors, control.isInvalid, state.isFocused)
+                        },
                     ),
                 isError = control.isInvalid,
                 visualTransformation =
@@ -302,11 +312,11 @@ fun SinglenessOutlinedTextField(
  */
 @Composable
 fun MultilineTextField(
+    modifier: Modifier = Modifier,
     control: FormControl<String>,
     state: TextFieldState = TextFieldState(),
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    modifier: Modifier = Modifier,
     label: String = "Многострочное текстовое поле",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     maxLines: Int = Int.MAX_VALUE,
@@ -366,9 +376,9 @@ fun MultilineTextField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> DropDownTextField(
+    modifier: Modifier = Modifier,
     component: DropDownTextFieldComponent<T>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    modifier: Modifier = Modifier,
     label: String = "Поле с выпадающим списком",
     dropDownIcon: IconData = IconData.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
     dropDownIconConfig: IconConfig = IconConfig.Small,
@@ -440,46 +450,6 @@ fun <T> DropDownTextField(
 /**
  * [SearchTextField] - Поисковое текстовое поле
  *
- * @param text Введенный в поле текст
- * @param width Ширина текстового поля
- * @param placeholder Подсказка текстового поля
- * @param onSearch Действие при поиске
- * @param shape Радиус скругления
- * @param colors Цвета текстового поля
- */
-@Deprecated("Устарело, переходить на SearchTextField с FormControl")
-@Composable
-fun SearchTextField(
-    text: MutableState<String>,
-    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    placeholder: String? = null,
-    onSearch: (KeyboardActionScope.() -> Unit)?,
-    shape: Shape = RoundedCornerShape(10.dp),
-    colors: TextFieldColors,
-) {
-    TextField(
-        value = text.value,
-        onValueChange = { text.value = it },
-        modifier = Modifier.fillMaxWidth(width),
-        placeholder = getText(placeholder),
-        leadingIcon = {
-            Icon(
-                icon = IconData.ImageVectorIcon(ImageVector.vectorResource(R.drawable.i_search)),
-                iconConfig = IconConfig.Big,
-            )
-        },
-        trailingIcon = getClearButton(text, colors.cursorColor),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = onSearch),
-        singleLine = true,
-        shape = shape,
-        colors = colors,
-    )
-}
-
-/**
- * [SearchTextField] - Поисковое текстовое поле
- *
  * @param control Контрол элемента
  * @param state Состояния текстового поля
  * @param width Ширина текстового поля
@@ -488,7 +458,6 @@ fun SearchTextField(
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
  */
-@ExperimentalMaterial3Api
 @Composable
 fun SearchTextField(
     control: FormControl<String>,
@@ -568,7 +537,7 @@ private fun ErrorMessageWithSymbolsCounter(
             showTextLengthCounter = showTextLengthCounter,
             maxLength = maxLength,
             currentLength = currentLength,
-            color = getColor(colors, isInvalid, isFocused),
+            color = calculateColor(colors, isInvalid, isFocused),
         )
     }
 }
@@ -642,45 +611,13 @@ private fun getText(text: String?): @Composable (() -> Unit)? {
 private fun getIcon(
     icon: IconData?,
     iconConfig: IconConfig,
-    colors: TextFieldColors,
-    isError: Boolean,
-    isFocused: Boolean,
+    colorSelector: () -> Color,
 ): @Composable (() -> Unit)? {
     return if (icon != null) {
         {
-            Icon(
-                icon = icon,
-                iconConfig = iconConfig,
-                defaultColor = getColor(colors = colors, isError = isError, isFocused = isFocused),
-            )
-        }
-    } else null
-}
+            val color by remember { derivedStateOf { colorSelector() } }
 
-private fun getIcon(
-    icon: IconData?,
-    iconConfig: IconConfig,
-    colors: TextFieldColors,
-): @Composable (() -> Unit)? {
-    return if (icon != null) {
-        { Icon(icon = icon, iconConfig = iconConfig, defaultColor = colors.cursorColor) }
-    } else null
-}
-
-@Deprecated("Устарело, т.к. появился SearchTextField с FormControl")
-private fun getClearButton(text: MutableState<String>, color: Color): @Composable (() -> Unit)? {
-    return if (text.value.isNotEmpty()) {
-        {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.i_close),
-                contentDescription = "Close",
-                modifier =
-                    Modifier.clip(RoundedCornerShape(10.dp))
-                        .clickable { text.value = "" }
-                        .padding(8.dp)
-                        .size(22.dp),
-                tint = color,
-            )
+            Icon(icon = icon, iconConfig = iconConfig, defaultColor = color)
         }
     } else null
 }
@@ -706,7 +643,7 @@ private fun getClearButton(
     } else null
 }
 
-private fun getColor(colors: TextFieldColors, isError: Boolean, isFocused: Boolean): Color {
+private fun calculateColor(colors: TextFieldColors, isError: Boolean, isFocused: Boolean): Color {
     return if (isError) colors.errorLabelColor
     else if (isFocused) colors.focusedLabelColor else colors.unfocusedLabelColor
 }
