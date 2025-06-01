@@ -209,7 +209,7 @@ fun <T> ChipRadioGroup(
 /**
  * [Checkbox] - чекбокс
  *
- * @param isSelected флаг выбора чекбокса
+ * @param isSelectedSelector селектор выбора чекбокса
  * @param text текст чекбокса
  * @param textConfig параметры текста
  * @param enabled вкл\выкл чекбоксов
@@ -254,7 +254,9 @@ fun Checkbox(
 /**
  * [CheckBoxGroup] - Чекбоксы
  *
- * @param component контрол + состояние
+ * @param control контрол элемента
+ * @param source источник данных
+ * @param view как будут отображены элементы
  * @param width ширина
  * @param textConfig параметры текста
  * @param contentPadding отступ между чекбоксами
@@ -288,7 +290,9 @@ fun <T : Equatable> CheckBoxGroup(
 /**
  * [CheckboxTree] - Дерево чекбоксов
  *
- * @param component Компонент (контрол + состояние)
+ * @param control контрол элемента
+ * @param source источник данных
+ * @param view как будут отображены элементы
  * @param width ширина
  * @param parentText текст для главного чебокса
  * @param parentTextConfig параметры текста для главного чекбокса
