@@ -1,6 +1,5 @@
 package com.ravenzip.workshop.components
 
-import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,7 +51,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 /**
  * [Switch] - Переключатель
  *
- * @param control контрол
+ * @param control контрол элемента
  * @param width ширина
  * @param title заголовок
  * @param titleConfig параметры заголовка
@@ -60,7 +59,6 @@ import org.jetbrains.annotations.ApiStatus.Experimental
  * @param textConfig параметры описания
  * @param colors цвета свича
  */
-@Experimental
 @Composable
 fun Switch(
     control: FormControl<Boolean>,
@@ -114,41 +112,42 @@ fun Switch(
 /**
  * [RadioGroup] - Радиокнопки
  *
- * @param state состояние радиогруппы
+ * @param control контрол элемента
  * @param source источник данных
  * @param view отображаемый текст для радиокнопок
- * @param comparableKey ключ для сравнения
+ * @param keySelector ключ для сравнения
  * @param width ширина
  * @param textSize размер текста
  * @param contentPadding вертикальный отступ между радиокнопками
  * @param colors цвета радиокнопок
  */
-@Experimental
 @Composable
-fun <T> RadioGroup(
-    state: FormControl<T>,
+fun <T, K : Any> RadioGroup(
+    control: FormControl<T>,
     source: List<T>,
     view: (T) -> String,
-    comparableKey: (T) -> Any,
+    keySelector: (T) -> K,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textSize: Int = 18,
     contentPadding: Arrangement.Vertical = Arrangement.spacedBy(10.dp),
     colors: RadioButtonColors = RadioButtonDefaults.colors(),
 ) {
+    val selectedKey = remember(control.value) { keySelector(control.value) }
+
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
         source.forEach { item ->
             Row(
                 modifier =
                     Modifier.fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
-                        .clickable { state.setValue(item) }
+                        .clickable { control.setValue(item) }
                         .padding(top = 5.dp, bottom = 5.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = comparableKey(state.value) == comparableKey(item),
-                    onClick = { state.setValue(item) },
-                    enabled = state.isEnabled,
+                    selected = selectedKey == keySelector(item),
+                    onClick = { control.setValue(item) },
+                    enabled = control.isEnabled,
                     colors = colors,
                 )
 
@@ -161,46 +160,42 @@ fun <T> RadioGroup(
 /**
  * [ChipRadioGroup] - Радиогруппа с чипами
  *
- * @param state состояние радиогруппы
+ * @param control контрол элемента
  * @param source источник данных
- * @param viewOptions параметры отображения чипов
- * @param comparableKey ключ для сравнения
+ * @param chipViewOptionsProvider параметры отображения чипов
+ * @param keySelector ключ для сравнения
  * @param width ширина
  * @param containerPadding отступ для контейнера
  * @param contentPadding отступ между радиокнопками
  */
-@Experimental
 @Composable
-fun <T> ChipRadioGroup(
-    state: FormControl<T>,
+fun <T, K : Any> ChipRadioGroup(
+    control: FormControl<T>,
     source: List<T>,
-    viewOptions: Map<Any, ChipViewOptions>,
-    comparableKey: (T) -> Any,
+    chipViewOptionsProvider: (T) -> ChipViewOptions,
+    keySelector: (T) -> K,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
     containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
 ) {
+    val selectedKey = remember(control.value) { keySelector(control.value) }
+
     LazyRow(
         modifier = Modifier.fillMaxWidth(width),
         horizontalArrangement = contentPadding,
         contentPadding = containerPadding,
     ) {
-        items(source, key = { item -> comparableKey(item) }, contentType = { it }) { item ->
-            val itemKey = comparableKey(item)
-            val chipOptions = viewOptions[itemKey]
+        items(source, key = { item -> keySelector(item) }, contentType = { it }) { item ->
+            val chipOptions by remember(item) { derivedStateOf { chipViewOptionsProvider(item) } }
 
-            if (chipOptions != null) {
-                SelectableChip(
-                    isSelected = comparableKey(state.value) == itemKey,
-                    text = chipOptions.text,
-                    textConfig = chipOptions.textConfig,
-                    icon = chipOptions.icon,
-                    iconConfig = chipOptions.iconConfig,
-                ) {
-                    state.setValue(item)
-                }
-            } else {
-                Log.e("ChipRadioGroup", "Не найдено настроек для чипа с ключом: $itemKey")
+            SelectableChip(
+                isSelected = selectedKey == keySelector(item),
+                text = chipOptions.text,
+                textConfig = chipOptions.textConfig,
+                icon = chipOptions.icon,
+                iconConfig = chipOptions.iconConfig,
+            ) {
+                control.setValue(item)
             }
         }
     }
