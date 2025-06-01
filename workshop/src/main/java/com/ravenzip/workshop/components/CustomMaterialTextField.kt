@@ -501,7 +501,7 @@ fun SearchTextField(
             },
             trailingIcon =
                 getClearButton(
-                    text= control.value,
+                    text = control.value,
                     color = colors.cursorColor,
                     onClear = { control.setValue("") },
                 ),

@@ -187,7 +187,7 @@ fun SearchBar(
         Column {
             Spacer(modifier = Modifier.padding(top = 10.dp))
 
-            SearchBarTextField(
+            SearchTextField(
                 text = query,
                 placeholder = placeholder,
                 onSearch = onSearch,
