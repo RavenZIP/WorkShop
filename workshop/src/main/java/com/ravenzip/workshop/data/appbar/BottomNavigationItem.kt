@@ -1,8 +1,10 @@
 package com.ravenzip.workshop.data.appbar
 
+import androidx.compose.runtime.Stable
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 
+@Stable
 data class BottomNavigationItem(
     val label: String,
     val route: String,
