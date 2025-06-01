@@ -7,7 +7,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
@@ -18,7 +17,6 @@ class TextConfig(
     val align: TextAlign = TextAlign.Unspecified,
     val weight: FontWeight = FontWeight.Normal,
     val letterSpacing: TextUnit = TextUnit.Unspecified,
-    val overflow: TextOverflow = TextOverflow.Clip,
 ) {
     companion object {
         /**
@@ -33,8 +31,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val S12 = TextConfig(size = 12.sp)
 
@@ -50,8 +46,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val S14 = TextConfig(size = 14.sp)
 
@@ -67,8 +61,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val S16 = TextConfig(size = 16.sp)
 
@@ -84,8 +76,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val S18 = TextConfig(size = 18.sp)
 
@@ -101,8 +91,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val S20 = TextConfig(size = 20.sp)
 
@@ -118,8 +106,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val S22 = TextConfig(size = 22.sp)
 
@@ -151,8 +137,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val H1 = TextConfig(size = 22.sp, weight = FontWeight.Medium)
 
@@ -166,8 +150,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val H2 = TextConfig(size = 20.sp, weight = FontWeight.Medium)
 
@@ -181,8 +163,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val H3 = TextConfig(size = 18.sp, weight = FontWeight.Medium)
 
@@ -196,8 +176,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable
         val onSurfaceH2
@@ -219,8 +197,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable
         val CenteredMedium =
@@ -236,8 +212,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable val SmallMedium = TextConfig(size = 14.sp, weight = FontWeight.Medium)
 
@@ -251,8 +225,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable
         val SmallCenteredMedium =
@@ -268,8 +240,6 @@ class TextConfig(
          * [weight] - FontWeight.Normal
          *
          * [letterSpacing] - TextUnit.Unspecified
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable
         val onSurface85Small
@@ -288,8 +258,6 @@ class TextConfig(
          * [weight] - FontWeight.W500
          *
          * [letterSpacing] - 0.sp
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable
         internal val Chip = TextConfig(size = 14.sp, weight = FontWeight.W500, letterSpacing = 0.sp)
@@ -304,8 +272,6 @@ class TextConfig(
          * [weight] - FontWeight.Medium
          *
          * [letterSpacing] - 0.5.sp
-         *
-         * [overflow] - TextOverflow.Clip
          */
         @Stable
         internal val TopAppBar =

@@ -62,8 +62,9 @@ fun Chip(
     onClick: () -> Unit = {},
 ) {
     val color = remember { textConfig.color ?: Color.Unspecified }
-    val overflow = remember { if (withCutText) TextOverflow.Ellipsis else textConfig.overflow }
-    val maxLines = remember { if (withCutText) 1 else Int.MAX_VALUE }
+    val overflow =
+        remember(withCutText) { if (withCutText) TextOverflow.Ellipsis else TextOverflow.Clip }
+    val maxLines = remember(withCutText) { if (withCutText) 1 else Int.MAX_VALUE }
 
     Box(modifier = Modifier.clip(shape).background(backgroundColor).clickable { onClick() }) {
         Text(
@@ -103,8 +104,9 @@ fun Chip(
     onClick: () -> Unit = {},
 ) {
     val color = remember { textConfig.color ?: Color.Unspecified }
-    val overflow = remember { if (withCutText) TextOverflow.Ellipsis else textConfig.overflow }
-    val maxLines = remember { if (withCutText) 1 else Int.MAX_VALUE }
+    val overflow =
+        remember(withCutText) { if (withCutText) TextOverflow.Ellipsis else TextOverflow.Clip }
+    val maxLines = remember(withCutText) { if (withCutText) 1 else Int.MAX_VALUE }
 
     Box(
         modifier =
