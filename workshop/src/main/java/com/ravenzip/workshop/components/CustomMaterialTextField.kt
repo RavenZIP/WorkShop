@@ -53,7 +53,6 @@ import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
-import com.ravenzip.workshop.forms.component.TextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.TextFieldState
 import kotlinx.coroutines.flow.filter
@@ -61,7 +60,8 @@ import kotlinx.coroutines.flow.filter
 /**
  * [SimpleTextField] - Простое текстовое поле
  *
- * @param component Компонент (контрол + состояние)
+ * @param control Контрол элемента
+ * @param state Состояния текстового поля
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
  * @param textSize Размер вводимого текста и текста плейсхолдера
@@ -73,7 +73,8 @@ import kotlinx.coroutines.flow.filter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTextField(
-    component: TextFieldComponent<String>,
+    control: FormControl<String>,
+    state: TextFieldState = TextFieldState(),
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
     textSize: Int = 16,
@@ -82,35 +83,39 @@ fun SimpleTextField(
     colors: TextFieldColors = TextFieldDefaults.colors(),
     showLine: Boolean = true,
 ) {
-    BasicTextField(
-        value = component.control.value,
-        onValueChange = { value -> component.control.setValue(value) },
-        textStyle = TextStyle(color = colors.unfocusedTextColor, fontSize = textSize.sp),
-        modifier = Modifier.fillMaxWidth(width).then(modifier),
-    ) {
-        TextFieldDefaults.DecorationBox(
-            value = component.control.value,
-            innerTextField = it,
-            enabled = component.control.isEnabled,
-            singleLine = true,
-            visualTransformation = VisualTransformation.None,
-            interactionSource = interactionSource,
-            placeholder = { Text(text = placeholder, fontSize = textSize.sp) },
-            colors = colors,
-            contentPadding = PaddingValues(3.dp),
-            container = {
-                if (showLine) {
-                    Line(interactionSource = interactionSource, colors = colors)
-                }
-            },
-        )
+    TextFieldWrapper(control, state) {
+        BasicTextField(
+            value = control.value,
+            onValueChange = { value -> control.setValue(value) },
+            readOnly = state.isReadonly,
+            textStyle = TextStyle(color = colors.unfocusedTextColor, fontSize = textSize.sp),
+            modifier = Modifier.fillMaxWidth(width).then(modifier),
+        ) {
+            TextFieldDefaults.DecorationBox(
+                value = control.value,
+                innerTextField = it,
+                enabled = control.isEnabled,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = { Text(text = placeholder, fontSize = textSize.sp) },
+                colors = colors,
+                contentPadding = PaddingValues(3.dp),
+                container = {
+                    if (showLine) {
+                        Line(interactionSource = interactionSource, colors = colors)
+                    }
+                },
+            )
+        }
     }
 }
 
 /**
  * [SinglenessTextField] - Однострочное текстовое поле
  *
- * @param component Компонент (контрол + состояние)
+ * @param control Контрол элемента
+ * @param state Состояния текстового поля
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
@@ -127,7 +132,8 @@ fun SimpleTextField(
  */
 @Composable
 fun SinglenessTextField(
-    component: TextFieldComponent<String>,
+    control: FormControl<String>,
+    state: TextFieldState = TextFieldState(),
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -147,49 +153,52 @@ fun SinglenessTextField(
         ),
     showTextLengthCounter: Boolean = false,
 ) {
-    Column(modifier = Modifier.fillMaxWidth(width)) {
-        TextField(
-            value = component.control.value,
-            onValueChange = { value ->
-                if (checkLength(value.length, maxLength)) component.control.setValue(value)
-            },
-            modifier =
-                Modifier.fillMaxWidth()
-                    .onFocusChanged { focusState ->
-                        component.state.changeFocusState(focusState.isFocused)
-                    }
-                    .then(modifier),
-            readOnly = component.state.isReadonly,
-            placeholder = getText(placeholder),
-            leadingIcon =
-                getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
-            trailingIcon =
-                getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
-            isError = component.control.isInvalid,
-            visualTransformation =
-                if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions = keyboardOptions,
-            singleLine = true,
-            shape = shape,
-            colors = colors,
-        )
+    TextFieldWrapper(control, state) {
+        Column(modifier = Modifier.fillMaxWidth(width)) {
+            TextField(
+                value = control.value,
+                onValueChange = { value ->
+                    if (checkLength(value.length, maxLength)) control.setValue(value)
+                },
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .onFocusChanged { focusState ->
+                            state.changeFocusState(focusState.isFocused)
+                        }
+                        .then(modifier),
+                readOnly = state.isReadonly,
+                placeholder = getText(placeholder),
+                leadingIcon =
+                    getIcon(icon = leadingIcon, iconConfig = leadingIconConfig, colors = colors),
+                trailingIcon =
+                    getIcon(icon = trailingIcon, iconConfig = trailingIconConfig, colors = colors),
+                isError = control.isInvalid,
+                visualTransformation =
+                    if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = keyboardOptions,
+                singleLine = true,
+                shape = shape,
+                colors = colors,
+            )
 
-        ErrorMessageWithSymbolsCounter(
-            isInvalid = component.control.isInvalid,
-            errorMessage = component.control.errorMessage,
-            isFocused = component.state.isFocused,
-            showTextLengthCounter = showTextLengthCounter,
-            maxLength = maxLength,
-            currentLength = component.control.value.length,
-            colors = colors,
-        )
+            ErrorMessageWithSymbolsCounter(
+                isInvalid = control.isInvalid,
+                errorMessage = control.errorMessage,
+                isFocused = state.isFocused,
+                showTextLengthCounter = showTextLengthCounter,
+                maxLength = maxLength,
+                currentLength = control.value.length,
+                colors = colors,
+            )
+        }
     }
 }
 
 /**
  * [SinglenessOutlinedTextField] - Однострочное текстовое поле
  *
- * @param component Компонент (контрол + состояние)
+ * @param control Контрол элемента
+ * @param state Состояния текстового поля
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
@@ -207,7 +216,8 @@ fun SinglenessTextField(
  */
 @Composable
 fun SinglenessOutlinedTextField(
-    component: TextFieldComponent<String>,
+    control: FormControl<String>,
+    state: TextFieldState = TextFieldState(),
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -222,62 +232,63 @@ fun SinglenessOutlinedTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = false,
 ) {
-    Column(modifier = Modifier.fillMaxWidth(width)) {
-        OutlinedTextField(
-            value = component.control.value,
-            onValueChange = {
-                if (checkLength(it.length, maxLength)) component.control.setValue(it)
-            },
-            modifier =
-                Modifier.fillMaxWidth()
-                    .onFocusChanged { focusState ->
-                        component.state.changeFocusState(focusState.isFocused)
-                    }
-                    .then(modifier),
-            enabled = component.control.isEnabled,
-            readOnly = component.state.isReadonly,
-            label = { Text(text = label) },
-            leadingIcon =
-                getIcon(
-                    icon = leadingIcon,
-                    iconConfig = leadingIconConfig,
-                    colors = colors,
-                    isError = component.control.isInvalid,
-                    isFocused = component.state.isFocused,
-                ),
-            trailingIcon =
-                getIcon(
-                    icon = trailingIcon,
-                    iconConfig = trailingIconConfig,
-                    colors = colors,
-                    isError = component.control.isInvalid,
-                    isFocused = component.state.isFocused,
-                ),
-            isError = component.control.isInvalid,
-            visualTransformation =
-                if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions = keyboardOptions,
-            singleLine = true,
-            shape = shape,
-            colors = colors,
-        )
+    TextFieldWrapper(control, state) {
+        Column(modifier = Modifier.fillMaxWidth(width)) {
+            OutlinedTextField(
+                value = control.value,
+                onValueChange = { if (checkLength(it.length, maxLength)) control.setValue(it) },
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .onFocusChanged { focusState ->
+                            state.changeFocusState(focusState.isFocused)
+                        }
+                        .then(modifier),
+                enabled = control.isEnabled,
+                readOnly = state.isReadonly,
+                label = { Text(text = label) },
+                leadingIcon =
+                    getIcon(
+                        icon = leadingIcon,
+                        iconConfig = leadingIconConfig,
+                        colors = colors,
+                        isError = control.isInvalid,
+                        isFocused = state.isFocused,
+                    ),
+                trailingIcon =
+                    getIcon(
+                        icon = trailingIcon,
+                        iconConfig = trailingIconConfig,
+                        colors = colors,
+                        isError = control.isInvalid,
+                        isFocused = state.isFocused,
+                    ),
+                isError = control.isInvalid,
+                visualTransformation =
+                    if (isHiddenText) PasswordVisualTransformation() else VisualTransformation.None,
+                keyboardOptions = keyboardOptions,
+                singleLine = true,
+                shape = shape,
+                colors = colors,
+            )
 
-        ErrorMessageWithSymbolsCounter(
-            isInvalid = component.control.isInvalid,
-            errorMessage = component.control.errorMessage,
-            isFocused = component.state.isFocused,
-            showTextLengthCounter = showTextLengthCounter,
-            maxLength = maxLength,
-            currentLength = component.control.value.length,
-            colors = colors,
-        )
+            ErrorMessageWithSymbolsCounter(
+                isInvalid = control.isInvalid,
+                errorMessage = control.errorMessage,
+                isFocused = state.isFocused,
+                showTextLengthCounter = showTextLengthCounter,
+                maxLength = maxLength,
+                currentLength = control.value.length,
+                colors = colors,
+            )
+        }
     }
 }
 
 /**
  * [MultilineTextField] - Многострочное текстовое поле
  *
- * @param component Компонент (контрол + состояние)
+ * @param control Контрол элемента
+ * @param state Состояния текстового поля
  * @param maxLength Максимальная длина символов
  * @param width Ширина текстового поля
  * @param modifier Кастомные модификаторы
@@ -291,7 +302,8 @@ fun SinglenessOutlinedTextField(
  */
 @Composable
 fun MultilineTextField(
-    component: TextFieldComponent<String>,
+    control: FormControl<String>,
+    state: TextFieldState = TextFieldState(),
     maxLength: Int = 0,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     modifier: Modifier = Modifier,
@@ -303,36 +315,38 @@ fun MultilineTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     showTextLengthCounter: Boolean = false,
 ) {
-    Column(modifier = Modifier.fillMaxWidth(width)) {
-        OutlinedTextField(
-            value = component.control.value,
-            onValueChange = { value -> component.control.setValue(value) },
-            modifier =
-                Modifier.fillMaxWidth()
-                    .onFocusChanged { focusState ->
-                        component.state.changeFocusState(focusState.isFocused)
-                    }
-                    .then(modifier),
-            enabled = component.control.isEnabled,
-            readOnly = component.state.isReadonly,
-            label = { Text(text = label) },
-            isError = component.control.isInvalid,
-            keyboardOptions = keyboardOptions,
-            maxLines = maxLines,
-            minLines = minLines,
-            shape = shape,
-            colors = colors,
-        )
+    TextFieldWrapper(control, state) {
+        Column(modifier = Modifier.fillMaxWidth(width)) {
+            OutlinedTextField(
+                value = control.value,
+                onValueChange = { value -> control.setValue(value) },
+                modifier =
+                    Modifier.fillMaxWidth()
+                        .onFocusChanged { focusState ->
+                            state.changeFocusState(focusState.isFocused)
+                        }
+                        .then(modifier),
+                enabled = control.isEnabled,
+                readOnly = state.isReadonly,
+                label = { Text(text = label) },
+                isError = control.isInvalid,
+                keyboardOptions = keyboardOptions,
+                maxLines = maxLines,
+                minLines = minLines,
+                shape = shape,
+                colors = colors,
+            )
 
-        ErrorMessageWithSymbolsCounter(
-            isInvalid = component.control.isInvalid,
-            errorMessage = component.control.errorMessage,
-            isFocused = component.state.isFocused,
-            showTextLengthCounter = showTextLengthCounter,
-            maxLength = maxLength,
-            currentLength = component.control.value.length,
-            colors = colors,
-        )
+            ErrorMessageWithSymbolsCounter(
+                isInvalid = control.isInvalid,
+                errorMessage = control.errorMessage,
+                isFocused = state.isFocused,
+                showTextLengthCounter = showTextLengthCounter,
+                maxLength = maxLength,
+                currentLength = control.value.length,
+                colors = colors,
+            )
+        }
     }
 }
 
