@@ -1,31 +1,31 @@
 package com.ravenzip.workshop.forms.control
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
-import com.ravenzip.workshop.data.CheckBoxTreeValue
 import com.ravenzip.workshop.data.Equatable
+import com.ravenzip.workshop.data.TreeValue
 import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.ValueChanges
+import com.ravenzip.workshop.forms.control.base.AbstractFormControl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-@Immutable
 // TODO необходимо обеспечить интеграцию с FormGroup
+@Stable
 class FormControlTree<T : Equatable>(
     initialValue: List<T>,
     private val resetValue: List<T> = emptyList(),
-    private val validators: List<(CheckBoxTreeValue<T>) -> String?> = emptyList(),
+    private val validators: List<(TreeValue<T>) -> String?> = emptyList(),
     disable: Boolean = false,
-) : BaseControl(disable) {
-    private val _state: MutableState<CheckBoxTreeValue<T>> =
-        mutableStateOf(CheckBoxTreeValue(parent = ToggleableState.Off, children = initialValue))
+) : AbstractFormControl(disable) {
+    private val _state: MutableState<TreeValue<T>> =
+        mutableStateOf(TreeValue(parent = ToggleableState.Off, children = initialValue))
 
-    private val _valueChanges: MutableStateFlow<ValueChanges<CheckBoxTreeValue<T>>> =
+    private val _valueChanges: MutableStateFlow<ValueChanges<TreeValue<T>>> =
         MutableStateFlow(ValueChanges(_state.value, ValueChangeType.INITIALIZE))
     val valueChangesWithTypeChanges = _valueChanges.asSharedFlow()
 

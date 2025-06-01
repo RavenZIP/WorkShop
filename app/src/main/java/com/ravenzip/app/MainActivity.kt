@@ -30,8 +30,6 @@ import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
 import com.ravenzip.workshop.forms.Validators
-import com.ravenzip.workshop.forms.component.CheckBoxGroupComponent
-import com.ravenzip.workshop.forms.component.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.component.TextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
@@ -176,28 +174,20 @@ private fun TextFields(screen: MutableState<Screen>) {
 
 @Composable
 private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
-    val composableScope = rememberCoroutineScope()
-
     val items = remember { Item.createItems() }
     val control = remember { FormControlMulti(initialValue = emptyList<Item>()) }
-    val component = remember {
-        CheckBoxGroupComponent(control = control, items, view = { it.name })
-    }
 
-    CheckBoxGroup(component = component)
+    CheckBoxGroup(control = control, source = items, view = { it.name })
 
     val items2 = remember { Item.createItems() }
     val control2 = remember { FormControlTree(items2) }
-    val component2 = remember {
-        CheckBoxTreeComponent(
-            control = control2,
-            source = items2,
-            view = { it.name },
-            scope = composableScope,
-        )
-    }
 
-    CheckboxTree(component = component2, parentText = "Главный чекбокс")
+    CheckboxTree(
+        control = control2,
+        source = items2,
+        view = { it.name },
+        parentText = "Главный чекбокс",
+    )
 }
 
 @Composable

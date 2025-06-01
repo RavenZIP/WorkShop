@@ -25,6 +25,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -32,14 +33,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.data.ChipViewOptions
 import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.forms.component.CheckBoxGroupComponent
-import com.ravenzip.workshop.forms.component.CheckBoxTreeComponent
 import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.control.FormControlMulti
+import com.ravenzip.workshop.forms.control.FormControlTree
+import com.ravenzip.workshop.forms.control.extension.changeParentState
+import com.ravenzip.workshop.forms.control.extension.selectAll
+import com.ravenzip.workshop.forms.control.extension.unselectAll
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEach
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 /**
@@ -253,25 +260,26 @@ fun Checkbox(
  * @param contentPadding отступ между чекбоксами
  * @param colors цвета чекбоксов
  */
-@Experimental
 @Composable
 fun <T : Equatable> CheckBoxGroup(
-    component: CheckBoxGroupComponent<T>,
+    control: FormControlMulti<T>,
+    source: List<T>,
+    view: (T) -> String,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     textConfig: TextConfig = TextConfig.S18,
     contentPadding: Arrangement.HorizontalOrVertical = Arrangement.spacedBy(10.dp),
     colors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
-        component.source.forEach { item ->
+        source.forEach { item ->
             Checkbox(
-                isSelectedSelector = { item in component.control.value },
-                text = component.view(item),
+                isSelectedSelector = { item in control.value },
+                text = view(item),
                 textConfig = textConfig,
-                enabled = component.control.isEnabled,
+                enabled = control.isEnabled,
                 colors = colors,
             ) {
-                component.control.setValue(item)
+                control.setValue(item)
             }
         }
     }
@@ -292,7 +300,9 @@ fun <T : Equatable> CheckBoxGroup(
 @Experimental
 @Composable
 fun <T : Equatable> CheckboxTree(
-    component: CheckBoxTreeComponent<T>,
+    control: FormControlTree<T>,
+    source: List<T>,
+    view: (T) -> String,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     parentText: String,
     parentTextConfig: TextConfig = TextConfig.S18,
@@ -302,19 +312,53 @@ fun <T : Equatable> CheckboxTree(
     parentColors: CheckboxColors = CheckboxDefaults.colors(),
     childColors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
+    LaunchedEffect(control) {
+        control.valueChanges
+            .distinctUntilChanged { previousChanges, currentChanges ->
+                previousChanges.parent == currentChanges.parent
+            }
+            .onEach { value ->
+                when (value.parent) {
+                    ToggleableState.On -> control.selectAll(source)
+                    ToggleableState.Off -> control.unselectAll(source)
+                    else -> {
+                        // ничего не делаем, потому что в случае indereterminate невозможно
+                        // определить какие значения добавить, а какие нет
+                    }
+                }
+            }
+            .collect {}
+
+        control.valueChanges
+            .distinctUntilChanged { previousChanges, currentChanges ->
+                previousChanges.children == currentChanges.children
+            }
+            .onEach { value ->
+                val calculatedParentValue =
+                    when (value.children.count()) {
+                        0 -> ToggleableState.Off
+                        source.count() -> ToggleableState.On
+                        else -> ToggleableState.Indeterminate
+                    }
+
+                control.setValue(calculatedParentValue)
+            }
+            .collect {}
+    }
+
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = parentPadding) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
                 Modifier.fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { component.changeParentState() }
+                    .clickable { control.changeParentState() }
                     .padding(top = 5.dp, bottom = 5.dp),
         ) {
             TriStateCheckbox(
-                state = component.control.value.parent,
-                onClick = { component.changeParentState() },
-                enabled = component.control.isEnabled,
+                state = control.value.parent,
+                onClick = { control.changeParentState() },
+                enabled = control.isEnabled,
                 colors = parentColors,
             )
             Text(
@@ -326,15 +370,15 @@ fun <T : Equatable> CheckboxTree(
         }
 
         Column(modifier = Modifier.padding(start = 15.dp), verticalArrangement = childPadding) {
-            component.source.forEach { item ->
+            source.forEach { item ->
                 Checkbox(
-                    isSelectedSelector = { item in component.control.value.children },
-                    text = component.view(item),
+                    isSelectedSelector = { item in control.value.children },
+                    text = view(item),
                     textConfig = childTextConfig,
-                    enabled = component.control.isEnabled,
+                    enabled = control.isEnabled,
                     colors = childColors,
                 ) {
-                    component.control.setValue(item)
+                    control.setValue(item)
                 }
             }
         }

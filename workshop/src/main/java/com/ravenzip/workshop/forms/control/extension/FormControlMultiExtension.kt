@@ -1,0 +1,18 @@
+package com.ravenzip.workshop.forms.control.extension
+
+import com.ravenzip.workshop.data.Equatable
+import com.ravenzip.workshop.forms.control.FormControlMulti
+
+// TODO не хочется добавлять эти два метода в сам FormControlMulti, потому что он не должен знать
+// TODO ничего про source. Как вариант оставить extension функции, либо же создать класс-обертку, но
+// TODO компонент ничего о ней не будет знать (чисто для разработчика)
+
+/** Выбрать все элементы */
+fun <T : Equatable> FormControlMulti<T>.selectAll(source: List<T>) {
+    source.filter { it !in this.value }.forEach { this.setValue(it) }
+}
+
+/** Снять выбор со всеъ элементов */
+fun <T : Equatable> FormControlMulti<T>.unselectAll(source: List<T>) {
+    source.filter { it in this.value }.forEach { this.setValue(it) }
+}
