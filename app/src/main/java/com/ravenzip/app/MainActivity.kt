@@ -26,12 +26,17 @@ import androidx.compose.ui.unit.sp
 import com.ravenzip.app.ui.theme.WorkShopTheme
 import com.ravenzip.workshop.components.CheckBoxGroup
 import com.ravenzip.workshop.components.CheckboxTree
+import com.ravenzip.workshop.components.ChipRadioGroup
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
+import com.ravenzip.workshop.data.ChipViewOptions
+import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.data.icon.IconConfig
+import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.Validators
 import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
-import com.ravenzip.workshop.forms.component.TextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
 import com.ravenzip.workshop.forms.control.FormControlTree
@@ -143,15 +148,11 @@ private fun TextFields(screen: MutableState<Screen>) {
 
     val formState = remember { TextFieldState() }
 
-    val composableScope = rememberCoroutineScope()
-
     Text("TEXTFIELD IS: ${formControl.value.ifEmpty { "EMPTY" }}")
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SinglenessOutlinedTextField(
-        TextFieldComponent(control = formControl, state = formState, scope = composableScope)
-    )
+    SinglenessOutlinedTextField(control = formControl, state = formState)
 
     Spacer(modifier = Modifier.height(10.dp))
     SimpleButton(text = "Отключить") { formControl.disable() }

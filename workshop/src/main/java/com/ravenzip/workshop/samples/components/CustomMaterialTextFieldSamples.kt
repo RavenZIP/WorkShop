@@ -6,27 +6,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
+import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
-import com.ravenzip.workshop.forms.component.TextFieldComponent
 import com.ravenzip.workshop.forms.state.TextFieldState
 import com.ravenzip.workshop.samples.model.Item
 
 @Preview
 @Composable
 fun SinglenessOutlinedTextFieldWithFormStateSample() {
-    val composableScope = rememberCoroutineScope()
+    val control = remember { FormControl(initialValue = "") }
+    val state = remember { TextFieldState() }
 
-    val component = remember {
-        TextFieldComponent(
-            control = FormControl(""),
-            state = TextFieldState(),
-            scope = composableScope,
-        )
-    }
-
-    SinglenessOutlinedTextField(component)
+    SinglenessOutlinedTextField(control = control, state = state)
 }
 
 @Preview
