@@ -54,10 +54,12 @@ import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.enums.ValueChangeType
-import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.TextFieldState
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 
 /**
  * [SimpleTextField] - Простое текстовое поле
@@ -363,7 +365,8 @@ fun MultilineTextField(
 /**
  * [DropDownTextField] - Текстовое поле с выпадающим списком
  *
- * @param component Компонент (контрол + состояние)
+ * @param control Контрол элемента
+ * @param state Состояния текстового поля
  * @param width Ширина текстового поля
  * @param modifier - Кастомные модификаторы
  * @param label Название текстового поля
@@ -377,7 +380,8 @@ fun MultilineTextField(
 @Composable
 fun <T> DropDownTextField(
     modifier: Modifier = Modifier,
-    component: DropDownTextFieldComponent<T>,
+    control: FormControl<T>,
+    state: DropDownTextFieldState<T> = DropDownTextFieldState(),
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
     label: String = "Поле с выпадающим списком",
     dropDownIcon: IconData = IconData.ImageVectorIcon(Icons.Outlined.ArrowDropDown),
@@ -385,24 +389,40 @@ fun <T> DropDownTextField(
     shape: Shape = RoundedCornerShape(10.dp),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
 ) {
+    LaunchedEffect(control, state) {
+        merge(
+                control.valueChanges
+                    .map { value -> state.view(value) }
+                    .filter { value -> value.isNotEmpty() },
+                state.expandedChanges
+                    .filter { expanded -> !expanded && control.isInvalid }
+                    .map { state.view(control.resetValue) },
+            )
+            .collect { value -> state.setText(value) }
+    }
+
     Column(modifier = Modifier.fillMaxWidth(width)) {
         ExposedDropdownMenuBox(
-            expanded = component.state.expanded,
-            onExpandedChange = { component.state.setExpanded(!component.state.expanded) },
+            expanded = state.expanded,
+            onExpandedChange = { state.setExpanded(!state.expanded) },
         ) {
             OutlinedTextField(
-                value = component.state.text,
-                onValueChange = { value -> component.setText(value) },
+                value = state.text,
+                onValueChange = { value ->
+                    control.setValue(control.resetValue)
+                    state.setText(value)
+                    state.setExpanded(true)
+                },
                 modifier =
                     Modifier.fillMaxWidth()
-                        .onFocusChanged { component.state.changeFocusState(it.isFocused) }
+                        .onFocusChanged { state.changeFocusState(it.isFocused) }
                         .menuAnchor(
-                            if (component.state.isReadonly) MenuAnchorType.PrimaryNotEditable
+                            if (state.isReadonly) MenuAnchorType.PrimaryNotEditable
                             else MenuAnchorType.PrimaryEditable
                         )
                         .then(modifier),
-                enabled = component.control.isEnabled,
-                readOnly = component.state.isReadonly,
+                enabled = control.isEnabled,
+                readOnly = state.isReadonly,
                 label = { Text(text = label) },
                 trailingIcon = {
                     Icon(
@@ -411,22 +431,25 @@ fun <T> DropDownTextField(
                         defaultColor = colors.cursorColor,
                     )
                 },
-                isError = component.control.isInvalid,
+                isError = control.isInvalid,
                 singleLine = true,
                 shape = shape,
                 colors = colors,
             )
 
             ExposedDropdownMenu(
-                expanded = component.state.expanded,
-                onDismissRequest = { component.state.setExpanded(false) },
+                expanded = state.expanded,
+                onDismissRequest = { state.setExpanded(false) },
                 containerColor = MaterialTheme.colorScheme.surface,
             ) {
-                if (component.state.results.isNotEmpty()) {
-                    component.state.results.forEach { item ->
+                if (state.results.isNotEmpty()) {
+                    state.results.forEach { item ->
                         DropdownMenuItem(
-                            text = { Text(text = component.state.view(item)) },
-                            onClick = { component.selectItem(item) },
+                            text = { Text(text = state.view(item)) },
+                            onClick = {
+                                control.setValue(item)
+                                state.setExpanded(false)
+                            },
                         )
                     }
                 } else {
@@ -440,8 +463,8 @@ fun <T> DropDownTextField(
         }
 
         ErrorMessage(
-            isInvalid = component.control.isInvalid,
-            errorMessage = component.control.errorMessage,
+            isInvalid = control.isInvalid,
+            errorMessage = control.errorMessage,
             colors = colors,
         )
     }

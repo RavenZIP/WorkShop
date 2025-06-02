@@ -2,11 +2,9 @@ package com.ravenzip.workshop.samples.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.TextFieldState
@@ -31,16 +29,10 @@ fun DropDownTextFieldWithFormStateSample() {
             Item("333333333", "Береза", 3),
         )
     }
+    val control = remember { FormControl(Item.createItem()) }
 
-    val composableScope = rememberCoroutineScope()
-
-    val component = remember {
-        DropDownTextFieldComponent(
-            control = FormControl(Item.createItem()),
-            state = DropDownTextFieldState(source = items, sourceView = { it.name }),
-            scope = composableScope,
-        )
-    }
-
-    DropDownTextField(component)
+    DropDownTextField(
+        control = control,
+        state = DropDownTextFieldState(source = items, sourceView = { it.name }),
+    )
 }

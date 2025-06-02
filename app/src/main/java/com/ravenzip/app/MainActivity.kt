@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -26,17 +25,10 @@ import androidx.compose.ui.unit.sp
 import com.ravenzip.app.ui.theme.WorkShopTheme
 import com.ravenzip.workshop.components.CheckBoxGroup
 import com.ravenzip.workshop.components.CheckboxTree
-import com.ravenzip.workshop.components.ChipRadioGroup
 import com.ravenzip.workshop.components.DropDownTextField
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
-import com.ravenzip.workshop.data.ChipViewOptions
-import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
-import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.Validators
-import com.ravenzip.workshop.forms.component.DropDownTextFieldComponent
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
 import com.ravenzip.workshop.forms.control.FormControlTree
@@ -101,8 +93,6 @@ private fun DropDownTextFieldTest(screen: MutableState<Screen>) {
     Text("DropDownTextField", fontSize = 24.sp, fontWeight = FontWeight.W500)
     Spacer(modifier = Modifier.height(20.dp))
 
-    val composableScope = rememberCoroutineScope()
-
     val items = remember { Item.createItems() }
 
     val formControl = remember {
@@ -115,14 +105,7 @@ private fun DropDownTextFieldTest(screen: MutableState<Screen>) {
 
     val formState = remember { DropDownTextFieldState(source = items, sourceView = { it.name }) }
 
-    DropDownTextField(
-        component =
-            DropDownTextFieldComponent(
-                control = formControl,
-                state = formState,
-                scope = composableScope,
-            )
-    )
+    DropDownTextField(control = formControl, state = formState)
 
     Spacer(modifier = Modifier.height(10.dp))
 

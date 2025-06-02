@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 
 class DropDownTextFieldState<T>(
-    private val source: List<T>,
-    private val sourceView: (T) -> String,
+    private val source: List<T> = emptyList(),
+    private val sourceView: (T) -> String = { "Отображение не задано" },
     readonly: Boolean = false,
 ) : TextFieldState(readonly) {
     private val _text: MutableState<String> = mutableStateOf("")
