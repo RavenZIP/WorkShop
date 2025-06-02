@@ -162,7 +162,7 @@ fun <T, K : Any> RadioGroup(
  *
  * @param control контрол элемента
  * @param source источник данных
- * @param chipViewOptionsProvider параметры отображения чипов
+ * @param viewOptionsProvider параметры отображения чипов
  * @param keySelector ключ для сравнения
  * @param width ширина
  * @param containerPadding отступ для контейнера
@@ -172,7 +172,7 @@ fun <T, K : Any> RadioGroup(
 fun <T, K : Any> ChipRadioGroup(
     control: FormControl<T>,
     source: List<T>,
-    chipViewOptionsProvider: (T) -> ChipViewOptions,
+    viewOptionsProvider: (T) -> ChipViewOptions,
     keySelector: (T) -> K,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 1f,
     containerPadding: PaddingValues = PaddingValues(horizontal = 10.dp),
@@ -186,7 +186,7 @@ fun <T, K : Any> ChipRadioGroup(
         contentPadding = containerPadding,
     ) {
         items(source, key = { item -> keySelector(item) }, contentType = { it }) { item ->
-            val chipOptions by remember(item) { derivedStateOf { chipViewOptionsProvider(item) } }
+            val chipOptions by remember(item) { derivedStateOf { viewOptionsProvider(item) } }
 
             SelectableChip(
                 isSelected = selectedKey == keySelector(item),
