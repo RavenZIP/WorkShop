@@ -1,5 +1,6 @@
 package com.ravenzip.workshop.forms.group
 
+import androidx.compose.runtime.Stable
 import com.ravenzip.workshop.forms.control.FormControl
 import org.jetbrains.annotations.ApiStatus.Experimental
 
@@ -36,11 +37,15 @@ class FormGroup internal constructor(private val _controls: Map<FormKey<*>, Form
         _controls.values.forEach { control -> control.enable() }
     }
 
-    fun isValid(): Boolean {
-        return _controls.values.all { control -> control.isValid }
-    }
+    @Stable
+    val isValid
+        get() = _controls.values.all { control -> control.isValid }
 
-    fun isInvalid(): Boolean {
-        return _controls.values.any { control -> control.isInvalid }
-    }
+    @Stable
+    val isInvalid
+        get() = _controls.values.any { control -> control.isInvalid }
+
+    @Stable
+    val errorMessage
+        get() = _controls.values.firstOrNull { control -> control.isInvalid }?.errorMessage ?: ""
 }
