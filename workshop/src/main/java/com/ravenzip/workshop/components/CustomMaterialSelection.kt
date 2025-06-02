@@ -46,6 +46,7 @@ import com.ravenzip.workshop.forms.control.extension.selectAll
 import com.ravenzip.workshop.forms.control.extension.unselectAll
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 /**
@@ -312,37 +313,41 @@ fun <T : Equatable> CheckboxTree(
     childColors: CheckboxColors = CheckboxDefaults.colors(),
 ) {
     LaunchedEffect(control) {
-        control.valueChanges
-            .distinctUntilChanged { previousChanges, currentChanges ->
-                previousChanges.parent == currentChanges.parent
-            }
-            .onEach { value ->
-                when (value.parent) {
-                    ToggleableState.On -> control.selectAll(source)
-                    ToggleableState.Off -> control.unselectAll(source)
-                    else -> {
-                        // ничего не делаем, потому что в случае indereterminate невозможно
-                        // определить какие значения добавить, а какие нет
+        launch {
+            control.valueChanges
+                .distinctUntilChanged { previousChanges, currentChanges ->
+                    previousChanges.parent == currentChanges.parent
+                }
+                .onEach { value ->
+                    when (value.parent) {
+                        ToggleableState.On -> control.selectAll(source)
+                        ToggleableState.Off -> control.unselectAll(source)
+                        else -> {
+                            // ничего не делаем, потому что в случае indereterminate невозможно
+                            // определить какие значения добавить, а какие нет
+                        }
                     }
                 }
-            }
-            .collect {}
+                .collect {}
+        }
 
-        control.valueChanges
-            .distinctUntilChanged { previousChanges, currentChanges ->
-                previousChanges.children == currentChanges.children
-            }
-            .onEach { value ->
-                val calculatedParentValue =
-                    when (value.children.count()) {
-                        0 -> ToggleableState.Off
-                        source.count() -> ToggleableState.On
-                        else -> ToggleableState.Indeterminate
-                    }
+        launch {
+            control.valueChanges
+                .distinctUntilChanged { previousChanges, currentChanges ->
+                    previousChanges.children == currentChanges.children
+                }
+                .onEach { value ->
+                    val calculatedParentValue =
+                        when (value.children.count()) {
+                            0 -> ToggleableState.Off
+                            source.count() -> ToggleableState.On
+                            else -> ToggleableState.Indeterminate
+                        }
 
-                control.setValue(calculatedParentValue)
-            }
-            .collect {}
+                    control.setValue(calculatedParentValue)
+                }
+                .collect {}
+        }
     }
 
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = parentPadding) {
