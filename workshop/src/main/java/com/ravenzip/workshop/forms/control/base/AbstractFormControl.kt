@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 
 @Stable
-open class AbstractFormControl(disable: Boolean = false) : AbstractControl(disable) {
+abstract class AbstractFormControl(disable: Boolean = false) : AbstractControl(disable) {
     private val _error: MutableState<String> = mutableStateOf("")
 
     @Stable

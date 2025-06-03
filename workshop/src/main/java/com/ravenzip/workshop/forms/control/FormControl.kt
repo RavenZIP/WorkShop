@@ -15,9 +15,8 @@ import kotlinx.coroutines.flow.update
 
 // TODO реализовать запрет null значений -> надо ли?
 // TODO запоминать когда контрол потрогали -> надо ли?
-// TODO подумать над общим интерфейсом для всех контролов
 @Stable
-open class FormControl<T>(
+class FormControl<T>(
     private val initialValue: T,
     val resetValue: T = initialValue,
     private val validators: List<(T) -> String?> = emptyList(),
@@ -38,7 +37,7 @@ open class FormControl<T>(
     val value: T
         get() = _state.value
 
-    open fun setValue(value: T) {
+    fun setValue(value: T) {
         _state.value = value
         _valueChanges.update { ValueChanges(value, ValueChangeType.SET) }
         updateValidity()

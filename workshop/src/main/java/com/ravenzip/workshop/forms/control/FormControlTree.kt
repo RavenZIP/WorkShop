@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-// TODO необходимо обеспечить интеграцию с FormGroup
 @Stable
 class FormControlTree<T : Equatable>(
     initialValue: List<T>,

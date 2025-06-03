@@ -1,16 +1,22 @@
 package com.ravenzip.workshop.samples.forms.group
 
 import com.ravenzip.workshop.forms.control.FormControl
-import com.ravenzip.workshop.forms.group.formGroup
+import com.ravenzip.workshop.forms.group.FormGroup
 
 fun createFormGroupSample() {
-    val formGroup = formGroup {
-        registerControl(UserForm.ID, FormControl(123))
-        registerControl(UserForm.NAME, FormControl("Default Name"))
-    }
+    val form =
+        FormGroup(
+            LoginForm(
+                username = FormControl(""),
+                password = FormControl(""),
+                address = AddressForm(street = FormControl(""), city = FormControl("")),
+                phone = FormControl(0),
+            )
+        )
 
-    // idControl type is Int
-    val idControl = formGroup.control(UserForm.ID)
-    // nameControl type is String
-    val nameControl = formGroup.control(UserForm.NAME)
+    val username = form.controls.username.value // ОК, тип String
+
+    val phone = form.controls.phone.value // ОК, тип Int
+
+    val street = form.controls.address.street.value // ОК, тип String
 }
