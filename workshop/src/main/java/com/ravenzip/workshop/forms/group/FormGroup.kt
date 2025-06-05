@@ -17,6 +17,8 @@ private val DEFAULT_FORM_GROUP_FIELDS =
  * @sample com.ravenzip.workshop.samples.forms.group.AddressForm
  * @sample com.ravenzip.workshop.samples.forms.group.createFormGroupSample
  */
+// TODO Попробовать реализовать value формы (возможно ли?)
+// TODO Попробовать реализовать setValue формы (возможно ли?)
 @Experimental
 open class FormGroup<T : Any>(val controls: T) {
     private val _controls = mutableListOf<AbstractFormControl>()
