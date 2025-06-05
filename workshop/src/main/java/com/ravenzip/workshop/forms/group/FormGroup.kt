@@ -7,6 +7,9 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
 import org.jetbrains.annotations.ApiStatus.Experimental
 
+private val DEFAULT_FORM_GROUP_FIELDS =
+    listOf<String>("_controls", "isValid", "isInvalid", "errorMessages", "errorMessage")
+
 /**
  * [FormGroup] - класс для управления состоянием формы
  *
@@ -15,7 +18,9 @@ import org.jetbrains.annotations.ApiStatus.Experimental
  * @sample com.ravenzip.workshop.samples.forms.group.createFormGroupSample
  */
 @Experimental
-open class FormGroup<T : IFormGroup>(val controls: T) {
+open class FormGroup<T : Any>(val controls: T) {
+    private val _controls = mutableListOf<AbstractFormControl>()
+
     init {
         validateControls(controls)
     }
@@ -23,7 +28,7 @@ open class FormGroup<T : IFormGroup>(val controls: T) {
     /**
      * Валидация FormGroup при ее создании
      *
-     * Проверяем, что объявленные в controls поля принадлежат AbstractFormControl или IFormGroup
+     * Проверяем, что объявленные в controls поля принадлежат AbstractFormControl или FormGroup
      */
     private fun validateControls(obj: Any, path: String = "") {
         val controls = obj::class
@@ -33,12 +38,18 @@ open class FormGroup<T : IFormGroup>(val controls: T) {
 
             if (controlsClassifier is KClass<*>) {
                 property.isAccessible = true
+
                 val value = property.getter.call(obj) ?: continue
+                if (DEFAULT_FORM_GROUP_FIELDS.contains(property.name)) {
+                    continue
+                }
+                println(property.name)
+
                 val fullPath = "$path.${property.name}".trimStart('.')
 
                 when (value) {
-                    is AbstractFormControl -> {} // OK
-                    is IFormGroup -> validateControls(value, fullPath) // Recurse
+                    is AbstractFormControl -> _controls.add(value)
+                    is FormGroup<*> -> validateControls(value, fullPath)
                     else ->
                         throw IllegalArgumentException(
                             "Invalid control at '$fullPath': ${value::class.simpleName}"
@@ -49,34 +60,33 @@ open class FormGroup<T : IFormGroup>(val controls: T) {
     }
 
     fun reset() {
-        controls.getAll().forEach { control -> control.reset() }
+        _controls.forEach { control -> control.reset() }
     }
 
     fun disable() {
-        controls.getAll().forEach { control -> control.disable() }
+        _controls.forEach { control -> control.disable() }
     }
 
     fun enable() {
-        controls.getAll().forEach { control -> control.enable() }
+        _controls.forEach { control -> control.enable() }
     }
 
     @Stable
     val isValid
-        get() = controls.getAll().all { control -> control.isValid }
+        get() = _controls.all { control -> control.isValid }
 
     @Stable
     val isInvalid
-        get() = controls.getAll().any { controls -> controls.isInvalid }
+        get() = _controls.any { controls -> controls.isInvalid }
 
     @Stable
     val errorMessages
         get() =
-            controls
-                .getAll()
+            _controls
                 .filter { controls -> controls.isInvalid }
                 .map { controls -> controls.errorMessage }
 
     @Stable
     val errorMessage
-        get() = controls.getAll().firstOrNull { controls -> controls.isInvalid }?.errorMessage ?: ""
+        get() = _controls.firstOrNull { controls -> controls.isInvalid }?.errorMessage ?: ""
 }

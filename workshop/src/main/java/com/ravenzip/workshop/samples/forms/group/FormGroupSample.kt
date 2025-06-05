@@ -9,7 +9,7 @@ fun createFormGroupSample() {
             LoginForm(
                 username = FormControl(""),
                 password = FormControl(""),
-                address = AddressForm(street = FormControl(""), city = FormControl("")),
+                address = FormGroup(AddressForm(street = FormControl(""), city = FormControl(""))),
                 phone = FormControl(0),
             )
         )
@@ -18,5 +18,7 @@ fun createFormGroupSample() {
 
     val phone = form.controls.phone.value // ОК, тип Int
 
-    val street = form.controls.address.street.value // ОК, тип String
+    val address = form.controls.address // ОК, тип FormGroup<AddressForm>
+
+    val street = form.controls.address.controls.street.value // ОК, тип String
 }
