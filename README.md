@@ -6,10 +6,10 @@
 
 <p align="center">
 <img alt="Android" src="https://img.shields.io/badge/Android-39ad31">
-<img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.1.0-A831F5">
+<img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.1.20-A831F5">
 <img alt="Jetpack Compose" src="https://img.shields.io/badge/Jetpack%20Compose-4181ED">
-<img alt="Static Badge" src="https://img.shields.io/badge/Material%203-1.3.1-%232310699C">
-<img alt="Static Badge" src="https://img.shields.io/badge/v2.4.1-red">
+<img alt="Static Badge" src="https://img.shields.io/badge/Material%203-1.3.2-%232310699C">
+<img alt="Static Badge" src="https://img.shields.io/badge/v2.5.0-red">
 </p>
 
 # 📄 О проекте
@@ -55,7 +55,7 @@ dependencyResolutionManagement {
 
 ```
 dependencies {
-      implementation("com.github.RavenZIP:WorkShop:2.4.1")
+      implementation("com.github.RavenZIP:WorkShop:2.5.0")
 }
 ```
 
@@ -76,7 +76,7 @@ android {
 1. Скачать sources.jar той же версии, что и версия библиотеки в вашем проекте
 
 ```
-https://jitpack.io/com/github/RavenZIP/WorkShop/2.4.1/WorkShop-2.4.1-sources.jar
+https://jitpack.io/com/github/RavenZIP/WorkShop/2.5.0/WorkShop-2.5.0-sources.jar
 ```
 
 2. Перейти в реализацию одного из методов, который есть в библиотеке. Сверху появятся три кнопки (Decompile to Java, Download Sources, Choose Sources)
