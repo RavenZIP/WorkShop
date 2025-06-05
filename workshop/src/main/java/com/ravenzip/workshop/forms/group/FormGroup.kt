@@ -45,7 +45,6 @@ open class FormGroup<T : Any>(val controls: T) {
                 if (DEFAULT_FORM_GROUP_FIELDS.contains(property.name)) {
                     continue
                 }
-                println(property.name)
 
                 val fullPath = "$path.${property.name}".trimStart('.')
 
