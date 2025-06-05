@@ -66,6 +66,8 @@ dependencies {
     // Material 3
     implementation(libs.androidx.material3)
 
+    implementation(libs.kotlin.reflect)
+
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
