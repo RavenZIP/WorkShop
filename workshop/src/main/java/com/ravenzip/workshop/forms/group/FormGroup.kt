@@ -8,19 +8,29 @@ import kotlin.reflect.jvm.isAccessible
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 private val DEFAULT_FORM_GROUP_FIELDS =
-    listOf<String>("_controls", "isValid", "isInvalid", "errorMessages", "errorMessage")
+    listOf<String>("_controls", "isValid", "isInvalid", "errorMessages", "errorMessage", "value")
 
 /**
  * [FormGroup] - класс для управления состоянием формы
  *
+ * Перед использованием необходимо описать саму форму и ее значения. Форма может содержать внутри
+ * себя другие формы.
+ *
+ * После этого при иницилизации формы необходимо указать описанную ранее форму и функции для
+ * получения и проставления значения формы
+ *
  * @sample com.ravenzip.workshop.samples.forms.group.LoginForm
+ * @sample com.ravenzip.workshop.samples.forms.group.LoginValue
  * @sample com.ravenzip.workshop.samples.forms.group.AddressForm
+ * @sample com.ravenzip.workshop.samples.forms.group.AddressValue
  * @sample com.ravenzip.workshop.samples.forms.group.createFormGroupSample
  */
-// TODO Попробовать реализовать value формы (возможно ли?)
-// TODO Попробовать реализовать setValue формы (возможно ли?)
 @Experimental
-open class FormGroup<T : Any>(val controls: T) {
+open class FormGroup<T : Any, V : Any>(
+    val controls: T,
+    private val valueMapper: (T) -> V,
+    private val setValueMapper: (T, V) -> Unit,
+) {
     private val _controls = mutableListOf<AbstractFormControl>()
 
     init {
@@ -50,7 +60,7 @@ open class FormGroup<T : Any>(val controls: T) {
 
                 when (value) {
                     is AbstractFormControl -> _controls.add(value)
-                    is FormGroup<*> -> validateControls(value, fullPath)
+                    is FormGroup<*, *> -> validateControls(value, fullPath)
                     else ->
                         throw IllegalArgumentException(
                             "Invalid control at '$fullPath': ${value::class.simpleName}"
@@ -58,6 +68,10 @@ open class FormGroup<T : Any>(val controls: T) {
                 }
             }
         }
+    }
+
+    fun setValue(value: V) {
+        setValueMapper(controls, value)
     }
 
     fun reset() {
@@ -71,6 +85,10 @@ open class FormGroup<T : Any>(val controls: T) {
     fun enable() {
         _controls.forEach { control -> control.enable() }
     }
+
+    @Stable
+    val value
+        get() = valueMapper(controls)
 
     @Stable
     val isValid

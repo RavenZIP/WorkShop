@@ -6,6 +6,13 @@ import com.ravenzip.workshop.forms.group.FormGroup
 class LoginForm(
     val username: FormControl<String>,
     val password: FormControl<String>,
-    val address: FormGroup<AddressForm>,
+    val address: FormGroup<AddressForm, AddressValue>,
     val phone: FormControl<Int>,
+)
+
+data class LoginValue(
+    val username: String,
+    val password: String,
+    val address: AddressValue,
+    val phone: Int
 )
