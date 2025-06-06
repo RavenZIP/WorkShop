@@ -14,5 +14,5 @@ data class LoginValue(
     val username: String,
     val password: String,
     val address: AddressValue,
-    val phone: Int
+    val phone: Int,
 )
