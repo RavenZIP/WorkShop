@@ -26,7 +26,7 @@ private val DEFAULT_FORM_GROUP_FIELDS =
  * @sample com.ravenzip.workshop.samples.forms.group.createFormGroupSample
  */
 @Experimental
-open class FormGroup<T : Any, V : Any>(
+class FormGroup<T : Any, V : Any>(
     val controls: T,
     private val formValueProvider: (T) -> V,
     private val setValueProvider: (T, V) -> Unit,
