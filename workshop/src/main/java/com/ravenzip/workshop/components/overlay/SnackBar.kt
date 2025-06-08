@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.components
+package com.ravenzip.workshop.components.overlay
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.Animatable
@@ -13,7 +13,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
@@ -72,7 +71,7 @@ fun SnackBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
             ) {
-                Icon(
+                com.ravenzip.workshop.components.Icon(
                     icon = visuals.icon,
                     iconConfig = visuals.iconConfig,
                     defaultColor = colors.contentColor,

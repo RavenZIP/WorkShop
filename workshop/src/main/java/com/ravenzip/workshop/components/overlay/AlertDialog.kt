@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.components
+package com.ravenzip.workshop.components.overlay
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.ravenzip.workshop.components.Icon
+import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData

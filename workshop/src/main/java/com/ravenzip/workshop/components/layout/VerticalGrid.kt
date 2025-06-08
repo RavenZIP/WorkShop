@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.components
+package com.ravenzip.workshop.components.layout
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Box

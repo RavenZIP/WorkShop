@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.components
+package com.ravenzip.workshop.components.card
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Column
@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.ravenzip.workshop.components.Chip
+import com.ravenzip.workshop.components.Icon
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
@@ -157,5 +159,3 @@ private fun TitleWithIcon(
         letterSpacing = titleConfig.letterSpacing,
     )
 }
-
-// TODO ExpandableInfoCard
