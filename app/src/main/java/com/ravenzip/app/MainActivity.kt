@@ -23,12 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.app.ui.theme.WorkShopTheme
-import com.ravenzip.workshop.components.CheckBoxGroup
-import com.ravenzip.workshop.components.CheckboxTree
-import com.ravenzip.workshop.components.DropDownTextField
-import com.ravenzip.workshop.components.RadioGroup
-import com.ravenzip.workshop.components.SimpleButton
-import com.ravenzip.workshop.components.SinglenessOutlinedTextField
+import com.ravenzip.workshop.components.button.SimpleButton
+import com.ravenzip.workshop.components.checkbox.CheckboxGroup
+import com.ravenzip.workshop.components.checkbox.CheckboxTree
+import com.ravenzip.workshop.components.radio.RadioGroup
+import com.ravenzip.workshop.components.textField.DropDownTextField
+import com.ravenzip.workshop.components.textField.SinglenessOutlinedTextField
 import com.ravenzip.workshop.forms.Validators
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.control.FormControlMulti
@@ -42,7 +42,7 @@ internal enum class Screen {
     DROP_DOWN_TEXT_FIELD,
     SIMPLE_OUTLINED_TEXT_FIELD,
     CHECK_BOX_GROUP,
-    RADIOGROUP,
+    RADIO_GROUP,
 }
 
 class MainActivity : ComponentActivity() {
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             Screen.DROP_DOWN_TEXT_FIELD -> DropDownTextFieldTest(screen)
                             Screen.SIMPLE_OUTLINED_TEXT_FIELD -> TextFields(screen)
                             Screen.CHECK_BOX_GROUP -> CheckBoxGroupTest(screen)
-                            Screen.RADIOGROUP -> RadioGroupTest(screen)
+                            Screen.RADIO_GROUP -> RadioGroupTest(screen)
                         }
                     }
                 }
@@ -90,7 +90,7 @@ private fun MainScreen(screen: MutableState<Screen>) {
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SimpleButton(text = "RadioGroup") { screen.value = Screen.RADIOGROUP }
+    SimpleButton(text = "RadioGroup") { screen.value = Screen.RADIO_GROUP }
 
     Spacer(modifier = Modifier.height(10.dp))
 }
@@ -168,7 +168,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     val items = remember { Item.createItems() }
     val control = remember { FormControlMulti(initialValue = emptyList<Item>()) }
 
-    CheckBoxGroup(control = control, source = items, view = { it.name })
+    CheckboxGroup(control = control, source = items, view = { it.name })
 
     val items2 = remember { Item.createItems() }
     val control2 = remember { FormControlTree(items2) }

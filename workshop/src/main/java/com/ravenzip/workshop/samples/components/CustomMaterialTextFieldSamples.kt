@@ -3,8 +3,8 @@ package com.ravenzip.workshop.samples.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import com.ravenzip.workshop.components.DropDownTextField
-import com.ravenzip.workshop.components.SinglenessOutlinedTextField
+import com.ravenzip.workshop.components.textField.DropDownTextField
+import com.ravenzip.workshop.components.textField.SinglenessOutlinedTextField
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.TextFieldState
