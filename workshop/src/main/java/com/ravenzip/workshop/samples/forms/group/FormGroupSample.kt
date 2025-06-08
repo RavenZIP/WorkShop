@@ -7,10 +7,10 @@ fun createFormGroupSample() {
     val addressForm =
         FormGroup(
             controls = AddressForm(street = FormControl(""), city = FormControl("")),
-            valueMapper = { controls ->
+            formValueProvider = { controls ->
                 AddressValue(street = controls.street.value, city = controls.city.value)
             },
-            setValueMapper = { controls, value ->
+            setValueProvider = { controls, value ->
                 controls.street.setValue(value.street)
                 controls.city.setValue(value.city)
             },
@@ -25,7 +25,7 @@ fun createFormGroupSample() {
                     address = addressForm,
                     phone = FormControl(0),
                 ),
-            valueMapper = { controls ->
+            formValueProvider = { controls ->
                 LoginValue(
                     username = controls.username.value,
                     password = controls.password.value,
@@ -33,7 +33,7 @@ fun createFormGroupSample() {
                     address = controls.address.value,
                 )
             },
-            setValueMapper = { controls, value ->
+            setValueProvider = { controls, value ->
                 controls.username.setValue(value.username)
                 controls.password.setValue(value.password)
                 controls.address.setValue(value.address)

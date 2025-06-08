@@ -28,8 +28,8 @@ private val DEFAULT_FORM_GROUP_FIELDS =
 @Experimental
 open class FormGroup<T : Any, V : Any>(
     val controls: T,
-    private val valueMapper: (T) -> V,
-    private val setValueMapper: (T, V) -> Unit,
+    private val formValueProvider: (T) -> V,
+    private val setValueProvider: (T, V) -> Unit,
 ) {
     private val _controls = mutableListOf<AbstractFormControl>()
 
@@ -71,7 +71,7 @@ open class FormGroup<T : Any, V : Any>(
     }
 
     fun setValue(value: V) {
-        setValueMapper(controls, value)
+        setValueProvider(controls, value)
     }
 
     fun reset() {
@@ -88,7 +88,7 @@ open class FormGroup<T : Any, V : Any>(
 
     @Stable
     val value
-        get() = valueMapper(controls)
+        get() = formValueProvider(controls)
 
     @Stable
     val isValid
