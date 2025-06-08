@@ -39,7 +39,7 @@ import com.ravenzip.workshop.forms.state.TextFieldState
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
  * @param showTextLengthCounter Отображение счетчика введенных сообщений
- * @sample com.ravenzip.workshop.sample.components.SinglenessOutlinedTextFieldWithFormStateSample
+ * @sample com.ravenzip.workshop.components.textField.sample.SinglenessOutlinedTextFieldSample
  */
 @Composable
 fun SinglenessOutlinedTextField(

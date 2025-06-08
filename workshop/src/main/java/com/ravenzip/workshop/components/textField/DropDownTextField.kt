@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.merge
  * @param dropDownIconConfig параметры иконки выпадающего списка
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
- * @sample com.ravenzip.workshop.sample.components.DropDownTextFieldWithFormStateSample
+ * @sample com.ravenzip.workshop.components.textField.sample.DropDownTextFieldSample
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
