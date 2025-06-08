@@ -4,9 +4,9 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.ravenzip.workshop.data.Equatable
-import com.ravenzip.workshop.enums.ValueChangeType
-import com.ravenzip.workshop.forms.ValueChange
 import com.ravenzip.workshop.forms.control.base.AbstractFormControl
+import com.ravenzip.workshop.forms.valueChange.ValueChange
+import com.ravenzip.workshop.forms.valueChange.ValueChangeType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
@@ -26,7 +26,7 @@ open class FormControlMulti<T : Equatable>(
     private val _state: SnapshotStateList<T> = mutableStateListOf()
 
     private val _valueChanges: MutableStateFlow<ValueChange<List<T>>> =
-        MutableStateFlow(ValueChange(initialValue, ValueChangeType.INITIALIZE))
+        MutableStateFlow(ValueChange(initialValue, ValueChangeType.Initialize))
     val valueChangesWithTypeChanges = _valueChanges.asSharedFlow()
 
     val valueChanges =
@@ -47,7 +47,7 @@ open class FormControlMulti<T : Equatable>(
             }
         }
 
-        _valueChanges.update { ValueChange(_state.toList(), ValueChangeType.SET) }
+        _valueChanges.update { ValueChange(_state.toList(), ValueChangeType.Set) }
         updateValidity()
     }
 
@@ -59,7 +59,7 @@ open class FormControlMulti<T : Equatable>(
     override fun reset() {
         _state.clear()
         _state.addAll(resetValue)
-        _valueChanges.update { ValueChange(_state.toList(), ValueChangeType.RESET) }
+        _valueChanges.update { ValueChange(_state.toList(), ValueChangeType.Reset) }
         super.reset()
     }
 }

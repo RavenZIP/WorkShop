@@ -1,6 +1,5 @@
-package com.ravenzip.workshop.forms
+package com.ravenzip.workshop.forms.valueChange
 
 import androidx.compose.runtime.Stable
-import com.ravenzip.workshop.enums.ValueChangeType
 
 @Stable data class ValueChange<T>(val value: T, val typeChanges: ValueChangeType)

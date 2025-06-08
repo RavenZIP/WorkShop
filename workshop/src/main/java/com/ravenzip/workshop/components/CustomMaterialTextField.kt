@@ -53,10 +53,10 @@ import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
-import com.ravenzip.workshop.enums.ValueChangeType
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.TextFieldState
+import com.ravenzip.workshop.forms.valueChange.ValueChangeType
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -529,7 +529,7 @@ private fun <T> TextFieldWrapper(
 ) {
     LaunchedEffect(control) {
         control.valueChangesWithTypeChanges
-            .filter { valueChanges -> valueChanges.typeChanges == ValueChangeType.RESET }
+            .filter { valueChanges -> valueChanges.typeChanges is ValueChangeType.Reset }
             .collect { state.setReadonly(state.readonly) }
     }
 
