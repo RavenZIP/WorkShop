@@ -16,10 +16,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.model.icon.IconConfig
-import com.ravenzip.workshop.model.icon.IconData
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.TextFieldState
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 
 /**
  * [SinglenessOutlinedTextField] - Однострочное текстовое поле
