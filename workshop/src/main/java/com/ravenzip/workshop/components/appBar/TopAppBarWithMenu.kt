@@ -30,9 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.components.appBar.shared.AppBarButton
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.appbar.AppBarMenuItem
-import com.ravenzip.workshop.data.appbar.BackArrow
+import com.ravenzip.workshop.model.TextConfig
+import com.ravenzip.workshop.components.appBar.model.AppBarMenuItem
+import com.ravenzip.workshop.components.appBar.model.BackArrow
 
 /**
  * [TopAppBarWithMenu] - Верхняя панель, в которой кнопки спрятаны в меню

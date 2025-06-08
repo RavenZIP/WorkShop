@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.model.TextConfig
 import org.jetbrains.annotations.ApiStatus.Experimental
 
 /**

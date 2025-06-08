@@ -22,8 +22,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import kotlinx.coroutines.flow.filter
@@ -42,7 +42,7 @@ import kotlinx.coroutines.flow.merge
  * @param dropDownIconConfig параметры иконки выпадающего списка
  * @param shape Радиус скругления
  * @param colors Цвета текстового поля
- * @sample com.ravenzip.workshop.samples.components.DropDownTextFieldWithFormStateSample
+ * @sample com.ravenzip.workshop.sample.components.DropDownTextFieldWithFormStateSample
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

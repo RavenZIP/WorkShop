@@ -4,11 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
-import com.ravenzip.workshop.data.Equatable
-import com.ravenzip.workshop.data.TreeValue
+import com.ravenzip.workshop.model.Equatable
+import com.ravenzip.workshop.forms.control.model.TreeValue
 import com.ravenzip.workshop.forms.control.base.AbstractFormControl
-import com.ravenzip.workshop.forms.valueChange.ValueChange
-import com.ravenzip.workshop.forms.valueChange.ValueChangeType
+import com.ravenzip.workshop.forms.control.model.ValueChange
+import com.ravenzip.workshop.forms.control.model.ValueChangeType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map

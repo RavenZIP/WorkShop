@@ -10,8 +10,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.components.icon.Icon
 import com.ravenzip.workshop.components.layout.RoundedBox
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 
 /**
  * [BoxedChip] - Чип c иконкой и скругленным квадратным контейнером

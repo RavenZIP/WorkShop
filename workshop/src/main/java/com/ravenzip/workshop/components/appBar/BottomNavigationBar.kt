@@ -30,8 +30,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.appbar.BottomItemsTextStateEnum
-import com.ravenzip.workshop.data.appbar.BottomNavigationItem
+import com.ravenzip.workshop.components.appBar.model.BottomItemsTextStateEnum
+import com.ravenzip.workshop.components.appBar.model.BottomNavigationItem
 import kotlin.collections.forEach
 
 /**

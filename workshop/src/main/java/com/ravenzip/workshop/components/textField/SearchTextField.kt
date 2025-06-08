@@ -22,8 +22,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.R
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.TextFieldState
 

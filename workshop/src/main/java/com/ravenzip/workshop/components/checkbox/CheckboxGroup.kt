@@ -9,8 +9,8 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.data.Equatable
-import com.ravenzip.workshop.data.TextConfig
+import com.ravenzip.workshop.model.Equatable
+import com.ravenzip.workshop.model.TextConfig
 import com.ravenzip.workshop.forms.control.FormControlMulti
 
 /**

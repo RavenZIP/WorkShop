@@ -1,7 +1,7 @@
 package com.ravenzip.workshop.forms.control.extension
 
 import androidx.compose.ui.state.ToggleableState
-import com.ravenzip.workshop.data.Equatable
+import com.ravenzip.workshop.model.Equatable
 import com.ravenzip.workshop.forms.control.FormControlTree
 
 // TODO аналогичные вопросы\обсуждение как и для FormControlMulti

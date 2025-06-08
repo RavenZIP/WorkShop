@@ -12,9 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.components.button.RowIconButton
-import com.ravenzip.workshop.data.button.ButtonContainerConfig
-import com.ravenzip.workshop.data.button.ButtonContentConfig
-import com.ravenzip.workshop.data.icon.IconWithConfig
+import com.ravenzip.workshop.model.button.ButtonContainerConfig
+import com.ravenzip.workshop.model.button.ButtonContentConfig
+import com.ravenzip.workshop.model.icon.IconWithConfig
 
 /**
  * [BoxedChipGroup] - Групповой контейнер для [BoxedChip] с кнопкой

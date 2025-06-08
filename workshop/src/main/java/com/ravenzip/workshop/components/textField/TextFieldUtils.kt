@@ -3,7 +3,6 @@ package com.ravenzip.workshop.components.textField
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
@@ -17,11 +16,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 import com.ravenzip.workshop.forms.control.FormControl
 import com.ravenzip.workshop.forms.state.TextFieldState
-import com.ravenzip.workshop.forms.valueChange.ValueChangeType
+import com.ravenzip.workshop.forms.control.model.ValueChangeType
 import kotlinx.coroutines.flow.filter
 
 /** Обертка над текстовыми полями */

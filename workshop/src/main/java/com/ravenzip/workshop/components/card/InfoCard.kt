@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.components.chip.Chip
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.model.TextConfig
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 import com.ravenzip.workshop.paddingEnd
 import com.ravenzip.workshop.paddingTop
 

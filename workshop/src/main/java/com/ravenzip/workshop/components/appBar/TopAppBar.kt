@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.components.appBar.shared.AppBarButton
-import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.appbar.AppBarItem
-import com.ravenzip.workshop.data.appbar.BackArrow
+import com.ravenzip.workshop.model.TextConfig
+import com.ravenzip.workshop.components.appBar.model.AppBarItem
+import com.ravenzip.workshop.components.appBar.model.BackArrow
 
 /**
  * [TopAppBar] - Верхняя панель

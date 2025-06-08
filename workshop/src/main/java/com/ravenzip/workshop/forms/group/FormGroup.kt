@@ -19,11 +19,11 @@ private val DEFAULT_FORM_GROUP_FIELDS =
  * После этого при иницилизации формы необходимо указать описанную ранее форму и функции для
  * получения и проставления значения формы
  *
- * @sample com.ravenzip.workshop.samples.forms.group.LoginForm
- * @sample com.ravenzip.workshop.samples.forms.group.LoginValue
- * @sample com.ravenzip.workshop.samples.forms.group.AddressForm
- * @sample com.ravenzip.workshop.samples.forms.group.AddressValue
- * @sample com.ravenzip.workshop.samples.forms.group.createFormGroupSample
+ * @sample com.ravenzip.workshop.forms.group.sample.model.LoginForm
+ * @sample com.ravenzip.workshop.forms.group.sample.model.LoginValue
+ * @sample com.ravenzip.workshop.forms.group.sample.model.AddressForm
+ * @sample com.ravenzip.workshop.forms.group.sample.model.AddressValue
+ * @sample com.ravenzip.workshop.forms.group.sample.createFormGroupSample
  */
 @Experimental
 class FormGroup<T : Any, V : Any>(

@@ -35,7 +35,7 @@ import com.ravenzip.workshop.forms.control.FormControlMulti
 import com.ravenzip.workshop.forms.control.FormControlTree
 import com.ravenzip.workshop.forms.state.DropDownTextFieldState
 import com.ravenzip.workshop.forms.state.TextFieldState
-import com.ravenzip.workshop.samples.model.Item
+import com.ravenzip.workshop.model.sample.Item
 
 internal enum class Screen {
     MAIN,

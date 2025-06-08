@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.ravenzip.workshop.components.button.SimpleButton
 import com.ravenzip.workshop.components.icon.Icon
-import com.ravenzip.workshop.data.TextConfig
-import com.ravenzip.workshop.data.icon.IconConfig
-import com.ravenzip.workshop.data.icon.IconData
+import com.ravenzip.workshop.model.TextConfig
+import com.ravenzip.workshop.model.icon.IconConfig
+import com.ravenzip.workshop.model.icon.IconData
 
 /**
  * [AlertDialog] - Диалоговое окно
