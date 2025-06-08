@@ -26,6 +26,7 @@ import com.ravenzip.app.ui.theme.WorkShopTheme
 import com.ravenzip.workshop.components.CheckBoxGroup
 import com.ravenzip.workshop.components.CheckboxTree
 import com.ravenzip.workshop.components.DropDownTextField
+import com.ravenzip.workshop.components.RadioGroup
 import com.ravenzip.workshop.components.SimpleButton
 import com.ravenzip.workshop.components.SinglenessOutlinedTextField
 import com.ravenzip.workshop.forms.Validators
@@ -41,6 +42,7 @@ internal enum class Screen {
     DROP_DOWN_TEXT_FIELD,
     SIMPLE_OUTLINED_TEXT_FIELD,
     CHECK_BOX_GROUP,
+    RADIOGROUP,
 }
 
 class MainActivity : ComponentActivity() {
@@ -63,6 +65,7 @@ class MainActivity : ComponentActivity() {
                             Screen.DROP_DOWN_TEXT_FIELD -> DropDownTextFieldTest(screen)
                             Screen.SIMPLE_OUTLINED_TEXT_FIELD -> TextFields(screen)
                             Screen.CHECK_BOX_GROUP -> CheckBoxGroupTest(screen)
+                            Screen.RADIOGROUP -> RadioGroupTest(screen)
                         }
                     }
                 }
@@ -84,6 +87,10 @@ private fun MainScreen(screen: MutableState<Screen>) {
     Spacer(modifier = Modifier.height(10.dp))
 
     SimpleButton(text = "CheckBoxGroup") { screen.value = Screen.CHECK_BOX_GROUP }
+
+    Spacer(modifier = Modifier.height(10.dp))
+
+    SimpleButton(text = "RadioGroup") { screen.value = Screen.RADIOGROUP }
 
     Spacer(modifier = Modifier.height(10.dp))
 }
@@ -172,6 +179,20 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
         view = { it.name },
         parentText = "Главный чекбокс",
     )
+
+    Spacer(modifier = Modifier.height(10.dp))
+    SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
+}
+
+@Composable
+private fun RadioGroupTest(screen: MutableState<Screen>) {
+    val items = remember { Item.createItems() }
+    val control = remember { FormControl(Item.createItem()) }
+
+    RadioGroup(control = control, source = items, view = { it.name }, keySelector = { it.name })
+
+    Spacer(modifier = Modifier.height(10.dp))
+    SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
 }
 
 @Composable
