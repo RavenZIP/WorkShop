@@ -51,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.workshop.R
+import com.ravenzip.workshop.components.icon.Icon
 import com.ravenzip.workshop.data.icon.IconConfig
 import com.ravenzip.workshop.data.icon.IconData
 import com.ravenzip.workshop.forms.control.FormControl
@@ -425,7 +426,7 @@ fun <T> DropDownTextField(
                 readOnly = state.isReadonly,
                 label = { Text(text = label) },
                 trailingIcon = {
-                    com.ravenzip.workshop.components.icon.Icon(
+                    Icon(
                         icon = dropDownIcon,
                         iconConfig = dropDownIconConfig,
                         defaultColor = colors.cursorColor,
@@ -499,7 +500,7 @@ fun SearchTextField(
             modifier = Modifier.fillMaxWidth(width),
             placeholder = getText(placeholder),
             leadingIcon = {
-                com.ravenzip.workshop.components.icon.Icon(
+                Icon(
                     icon =
                         IconData.ImageVectorIcon(ImageVector.vectorResource(R.drawable.i_search)),
                     iconConfig = IconConfig.Big,
@@ -640,11 +641,7 @@ private fun getIcon(
         {
             val color by remember { derivedStateOf { colorSelector() } }
 
-            com.ravenzip.workshop.components.icon.Icon(
-                icon = icon,
-                iconConfig = iconConfig,
-                defaultColor = color,
-            )
+            Icon(icon = icon, iconConfig = iconConfig, defaultColor = color)
         }
     } else null
 }

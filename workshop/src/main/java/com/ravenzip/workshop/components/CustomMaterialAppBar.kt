@@ -44,6 +44,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ravenzip.workshop.components.icon.Icon
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.appbar.AppBarItem
 import com.ravenzip.workshop.data.appbar.AppBarMenuItem
@@ -210,7 +211,7 @@ private fun AppBarButton(icon: IconData, iconConfig: IconConfig, onClick: () -> 
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
-        com.ravenzip.workshop.components.icon.Icon(
+        Icon(
             icon = icon,
             iconConfig = iconConfig,
             defaultColor = MaterialTheme.colorScheme.onSurface,
@@ -257,7 +258,7 @@ private fun AppBarMenu(
                     },
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)),
                     leadingIcon = {
-                        com.ravenzip.workshop.components.icon.Icon(
+                        Icon(
                             icon = menuItem.icon,
                             iconConfig = menuItem.iconConfig,
                             defaultColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -334,11 +335,7 @@ private fun NavigationBarItem(
                         .clickable { item.onClick(navController = navController) },
                 contentAlignment = Alignment.Center,
             ) {
-                com.ravenzip.workshop.components.icon.Icon(
-                    icon = item.icon,
-                    iconConfig = item.iconConfig,
-                    defaultColor = tint,
-                )
+                Icon(icon = item.icon, iconConfig = item.iconConfig, defaultColor = tint)
             }
         }
 
