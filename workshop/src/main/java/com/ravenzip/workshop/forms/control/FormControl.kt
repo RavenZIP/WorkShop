@@ -6,7 +6,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.ravenzip.workshop.enums.ValueChangeType
-import com.ravenzip.workshop.forms.ValueChanges
+import com.ravenzip.workshop.forms.ValueChange
 import com.ravenzip.workshop.forms.control.base.AbstractFormControl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -24,8 +24,8 @@ class FormControl<T>(
 ) : AbstractFormControl(disable) {
     private val _state: MutableState<T> = mutableStateOf(initialValue)
 
-    private val _valueChanges: MutableStateFlow<ValueChanges<T>> =
-        MutableStateFlow(ValueChanges(initialValue, ValueChangeType.INITIALIZE))
+    private val _valueChanges: MutableStateFlow<ValueChange<T>> =
+        MutableStateFlow(ValueChange(initialValue, ValueChangeType.INITIALIZE))
     val valueChangesWithTypeChanges = _valueChanges.asSharedFlow()
 
     val valueChanges =
@@ -39,7 +39,7 @@ class FormControl<T>(
 
     fun setValue(value: T) {
         _state.value = value
-        _valueChanges.update { ValueChanges(value, ValueChangeType.SET) }
+        _valueChanges.update { ValueChange(value, ValueChangeType.SET) }
         updateValidity()
     }
 
@@ -50,7 +50,7 @@ class FormControl<T>(
 
     override fun reset() {
         _state.value = resetValue
-        _valueChanges.update { ValueChanges(resetValue, ValueChangeType.RESET) }
+        _valueChanges.update { ValueChange(resetValue, ValueChangeType.RESET) }
         super.reset()
     }
 

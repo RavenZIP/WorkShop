@@ -7,7 +7,7 @@ import androidx.compose.ui.state.ToggleableState
 import com.ravenzip.workshop.data.Equatable
 import com.ravenzip.workshop.data.TreeValue
 import com.ravenzip.workshop.enums.ValueChangeType
-import com.ravenzip.workshop.forms.ValueChanges
+import com.ravenzip.workshop.forms.ValueChange
 import com.ravenzip.workshop.forms.control.base.AbstractFormControl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -24,8 +24,8 @@ class FormControlTree<T : Equatable>(
     private val _state: MutableState<TreeValue<T>> =
         mutableStateOf(TreeValue(parent = ToggleableState.Off, children = initialValue))
 
-    private val _valueChanges: MutableStateFlow<ValueChanges<TreeValue<T>>> =
-        MutableStateFlow(ValueChanges(_state.value, ValueChangeType.INITIALIZE))
+    private val _valueChanges: MutableStateFlow<ValueChange<TreeValue<T>>> =
+        MutableStateFlow(ValueChange(_state.value, ValueChangeType.INITIALIZE))
     val valueChangesWithTypeChanges = _valueChanges.asSharedFlow()
 
     val valueChanges =
@@ -39,19 +39,19 @@ class FormControlTree<T : Equatable>(
 
     fun setValue(value: List<T>) {
         _state.value = _state.value.copy(children = recalculateChildren(value))
-        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
+        _valueChanges.update { ValueChange(_state.value, ValueChangeType.SET) }
         updateValidity()
     }
 
     fun setValue(vararg value: T) {
         _state.value = _state.value.copy(children = recalculateChildren(value.toList()))
-        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
+        _valueChanges.update { ValueChange(_state.value, ValueChangeType.SET) }
         updateValidity()
     }
 
     fun setValue(value: ToggleableState) {
         _state.value = _state.value.copy(parent = value)
-        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.SET) }
+        _valueChanges.update { ValueChange(_state.value, ValueChangeType.SET) }
         updateValidity()
     }
 
@@ -76,7 +76,7 @@ class FormControlTree<T : Equatable>(
 
     override fun reset() {
         _state.value = _state.value.copy(children = recalculateChildren(resetValue))
-        _valueChanges.update { ValueChanges(_state.value, ValueChangeType.RESET) }
+        _valueChanges.update { ValueChange(_state.value, ValueChangeType.RESET) }
         super.reset()
     }
 }
