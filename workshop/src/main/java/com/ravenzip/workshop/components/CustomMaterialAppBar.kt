@@ -210,7 +210,7 @@ private fun AppBarButton(icon: IconData, iconConfig: IconConfig, onClick: () -> 
         modifier = Modifier.size(40.dp).clip(RoundedCornerShape(15)).clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
-        Icon(
+        com.ravenzip.workshop.components.icon.Icon(
             icon = icon,
             iconConfig = iconConfig,
             defaultColor = MaterialTheme.colorScheme.onSurface,
@@ -257,7 +257,7 @@ private fun AppBarMenu(
                     },
                     modifier = Modifier.clip(RoundedCornerShape(10.dp)),
                     leadingIcon = {
-                        Icon(
+                        com.ravenzip.workshop.components.icon.Icon(
                             icon = menuItem.icon,
                             iconConfig = menuItem.iconConfig,
                             defaultColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -334,7 +334,11 @@ private fun NavigationBarItem(
                         .clickable { item.onClick(navController = navController) },
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(icon = item.icon, iconConfig = item.iconConfig, defaultColor = tint)
+                com.ravenzip.workshop.components.icon.Icon(
+                    icon = item.icon,
+                    iconConfig = item.iconConfig,
+                    defaultColor = tint,
+                )
             }
         }
 

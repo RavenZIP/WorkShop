@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ravenzip.workshop.components.icon.Icon
 import com.ravenzip.workshop.data.SnackBarVisualsConfig
 
 /**
@@ -71,7 +72,7 @@ fun SnackBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
             ) {
-                com.ravenzip.workshop.components.Icon(
+                Icon(
                     icon = visuals.icon,
                     iconConfig = visuals.iconConfig,
                     defaultColor = colors.contentColor,

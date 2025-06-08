@@ -425,7 +425,7 @@ fun <T> DropDownTextField(
                 readOnly = state.isReadonly,
                 label = { Text(text = label) },
                 trailingIcon = {
-                    Icon(
+                    com.ravenzip.workshop.components.icon.Icon(
                         icon = dropDownIcon,
                         iconConfig = dropDownIconConfig,
                         defaultColor = colors.cursorColor,
@@ -499,7 +499,7 @@ fun SearchTextField(
             modifier = Modifier.fillMaxWidth(width),
             placeholder = getText(placeholder),
             leadingIcon = {
-                Icon(
+                com.ravenzip.workshop.components.icon.Icon(
                     icon =
                         IconData.ImageVectorIcon(ImageVector.vectorResource(R.drawable.i_search)),
                     iconConfig = IconConfig.Big,
@@ -640,7 +640,11 @@ private fun getIcon(
         {
             val color by remember { derivedStateOf { colorSelector() } }
 
-            Icon(icon = icon, iconConfig = iconConfig, defaultColor = color)
+            com.ravenzip.workshop.components.icon.Icon(
+                icon = icon,
+                iconConfig = iconConfig,
+                defaultColor = color,
+            )
         }
     } else null
 }

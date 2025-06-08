@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ravenzip.workshop.components.icon.Icon
 import com.ravenzip.workshop.components.layout.RoundedBox
 import com.ravenzip.workshop.data.TextConfig
 import com.ravenzip.workshop.data.button.ButtonContainerConfig

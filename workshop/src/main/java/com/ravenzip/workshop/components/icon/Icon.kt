@@ -1,4 +1,4 @@
-package com.ravenzip.workshop.components
+package com.ravenzip.workshop.components.icon
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
