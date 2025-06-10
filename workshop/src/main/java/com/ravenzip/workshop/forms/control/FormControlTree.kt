@@ -18,10 +18,11 @@ import kotlinx.coroutines.flow.update
 class FormControlTree<T>(
     initialValue: List<T>,
     private val equals: (T, T) -> Boolean,
-    private val resetValue: List<T> = emptyList(),
     private val validators: List<(TreeValue<T>) -> String?> = emptyList(),
     disable: Boolean = false,
 ) : AbstractFormControl(disable) {
+    private val resetValue = initialValue
+
     private val _state: MutableState<TreeValue<T>> =
         mutableStateOf(TreeValue(parent = ToggleableState.Off, children = initialValue))
 
@@ -79,8 +80,14 @@ class FormControlTree<T>(
         super.setError(error)
     }
 
-    override fun reset() {
-        _state.value = _state.value.copy(children = recalculateChildren(resetValue))
+    override fun reset() = resetStateTo(resetValue)
+
+    fun reset(vararg value: T) = resetStateTo(value.toList())
+
+    fun reset(value: List<T>) = resetStateTo(value)
+
+    private fun resetStateTo(value: List<T>) {
+        _state.value = _state.value.copy(children = recalculateChildren(value))
         _valueChanges.update { ValueChange(_state.value, ValueChangeType.Reset) }
         super.reset()
     }

@@ -17,11 +17,12 @@ import kotlinx.coroutines.flow.update
 // TODO запоминать когда контрол потрогали -> надо ли?
 @Stable
 class FormControl<T>(
-    private val initialValue: T,
-    val resetValue: T = initialValue,
+    initialValue: T,
     private val validators: List<(T) -> String?> = emptyList(),
     disable: Boolean = false,
 ) : AbstractFormControl(disable) {
+    internal val resetValue = initialValue
+
     private val _state: MutableState<T> = mutableStateOf(initialValue)
 
     private val _valueChanges: MutableStateFlow<ValueChange<T>> =
@@ -48,9 +49,13 @@ class FormControl<T>(
         super.setError(error)
     }
 
-    override fun reset() {
-        _state.value = resetValue
-        _valueChanges.update { ValueChange(resetValue, ValueChangeType.Reset) }
+    override fun reset() = resetStateTo(resetValue)
+
+    fun reset(value: T) = resetStateTo(value)
+
+    private fun resetStateTo(value: T) {
+        _state.value = value
+        _valueChanges.update { ValueChange(value, ValueChangeType.Reset) }
         super.reset()
     }
 
@@ -58,11 +63,10 @@ class FormControl<T>(
         @Composable
         fun <T> create(
             initialValue: T,
-            resetValue: T = initialValue,
             validators: List<(T) -> String?> = emptyList(),
             disable: Boolean = false,
         ): FormControl<T> where T : Any {
-            return remember { FormControl(initialValue, resetValue, validators, disable) }
+            return remember { FormControl(initialValue, validators, disable) }
         }
     }
 }

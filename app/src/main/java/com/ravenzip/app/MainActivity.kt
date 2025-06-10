@@ -108,7 +108,6 @@ private fun DropDownTextFieldTest(screen: MutableState<Screen>) {
     val formControl = remember {
         FormControl(
             initialValue = items.first(),
-            resetValue = Item.createEmptyModel(),
             validators = listOf { value -> Validators.required(value.name) },
         )
     }

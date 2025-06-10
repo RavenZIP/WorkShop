@@ -11,16 +11,15 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
-// TODO сделать комбинированный вариант для reset (resetValue + value как параметр функции),
-// оставить как есть, либо сделать только параметр функции
 @Stable
 class FormControlMulti<T>(
     initialValue: List<T>,
     private val equals: (T, T) -> Boolean,
-    private val resetValue: List<T> = emptyList(),
     private val validators: List<(List<T>) -> String?> = emptyList(),
     disable: Boolean = false,
 ) : AbstractFormControl(disable) {
+    private val resetValue = initialValue
+
     private val _state: SnapshotStateList<T> = mutableStateListOf()
 
     private val _valueChanges: MutableStateFlow<ValueChange<List<T>>> =
@@ -58,9 +57,15 @@ class FormControlMulti<T>(
         super.setError(error)
     }
 
-    override fun reset() {
+    override fun reset() = resetStateTo(resetValue)
+
+    fun reset(vararg value: T) = resetStateTo(value.toList())
+
+    fun reset(value: List<T>) = resetStateTo(value)
+
+    private fun resetStateTo(value: List<T>) {
         _state.clear()
-        _state.addAll(resetValue)
+        _state.addAll(value)
         _valueChanges.update { ValueChange(_state.toList(), ValueChangeType.Reset) }
         super.reset()
     }
