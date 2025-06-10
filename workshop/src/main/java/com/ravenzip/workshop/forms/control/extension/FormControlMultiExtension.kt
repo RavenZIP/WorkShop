@@ -1,6 +1,5 @@
 package com.ravenzip.workshop.forms.control.extension
 
-import com.ravenzip.workshop.model.Equatable
 import com.ravenzip.workshop.forms.control.FormControlMulti
 
 // TODO не хочется добавлять эти два метода в сам FormControlMulti, потому что он не должен знать
