@@ -19,32 +19,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.model.TextConfig
 import com.ravenzip.workshop.forms.control.FormControl
+import com.ravenzip.workshop.model.TextConfig
 
 /**
  * [Switch] - Переключатель
  *
  * @param control контрол элемента
  * @param width ширина
- * @param title заголовок
- * @param titleConfig параметры заголовка
- * @param text описание
- * @param textConfig параметры описания
+ * @param label заголовок
+ * @param labelConfig параметры заголовка
+ * @param description описание
+ * @param descriptionConfig параметры описания
  * @param colors цвета свича
  */
 @Composable
 fun Switch(
     control: FormControl<Boolean>,
     @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
-    title: String,
-    titleConfig: TextConfig,
-    text: String,
-    textConfig: TextConfig,
+    label: String? = null,
+    labelConfig: TextConfig? = null,
+    description: String = "Описание",
+    descriptionConfig: TextConfig = TextConfig.Small,
     colors: SwitchColors = SwitchDefaults.colors(),
 ) {
-    val titleColor = remember { titleConfig.color ?: Color.Unspecified }
-    val textColor = remember { textConfig.color ?: Color.Unspecified }
+    val textColor = remember { descriptionConfig.color ?: Color.Unspecified }
 
     Row(
         modifier =
@@ -54,21 +53,33 @@ fun Switch(
                 .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column {
-            Text(
-                text = title,
-                color = titleColor,
-                fontSize = titleConfig.size,
-                fontWeight = titleConfig.weight,
-                letterSpacing = titleConfig.letterSpacing,
-            )
+        if (label != null && labelConfig !== null) {
+            val titleColor = remember { labelConfig.color ?: Color.Unspecified }
 
+            Column {
+                Text(
+                    text = label,
+                    color = titleColor,
+                    fontSize = labelConfig.size,
+                    fontWeight = labelConfig.weight,
+                    letterSpacing = labelConfig.letterSpacing,
+                )
+
+                Text(
+                    text = description,
+                    color = textColor,
+                    fontSize = descriptionConfig.size,
+                    fontWeight = descriptionConfig.weight,
+                    letterSpacing = descriptionConfig.letterSpacing,
+                )
+            }
+        } else {
             Text(
-                text = text,
+                text = description,
                 color = textColor,
-                fontSize = textConfig.size,
-                fontWeight = textConfig.weight,
-                letterSpacing = textConfig.letterSpacing,
+                fontSize = descriptionConfig.size,
+                fontWeight = descriptionConfig.weight,
+                letterSpacing = descriptionConfig.letterSpacing,
             )
         }
 
@@ -78,6 +89,81 @@ fun Switch(
             checked = control.value,
             onCheckedChange = { control.setValue(!control.value) },
             enabled = control.isEnabled,
+            colors = colors,
+        )
+    }
+}
+
+/**
+ * [Switch] - Переключатель
+ *
+ * @param isSelected выбран
+ * @param isEnabled включен
+ * @param width ширина
+ * @param label заголовок
+ * @param labelConfig параметры заголовка
+ * @param description описание
+ * @param descriptionConfig параметры описания
+ * @param colors цвета свича
+ */
+@Composable
+fun Switch(
+    isSelected: Boolean,
+    isEnabled: Boolean = true,
+    @FloatRange(from = 0.0, to = 1.0) width: Float = 0.9f,
+    label: String? = null,
+    labelConfig: TextConfig? = null,
+    description: String = "Описание",
+    descriptionConfig: TextConfig = TextConfig.Small,
+    colors: SwitchColors = SwitchDefaults.colors(),
+    onClick: () -> Unit,
+) {
+    val textColor = remember { descriptionConfig.color ?: Color.Unspecified }
+
+    Row(
+        modifier =
+            Modifier.fillMaxWidth(width)
+                .clip(RoundedCornerShape(10.dp))
+                .clickable { onClick() }
+                .padding(15.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (label != null && labelConfig !== null) {
+            val titleColor = remember { labelConfig.color ?: Color.Unspecified }
+
+            Column {
+                Text(
+                    text = label,
+                    color = titleColor,
+                    fontSize = labelConfig.size,
+                    fontWeight = labelConfig.weight,
+                    letterSpacing = labelConfig.letterSpacing,
+                )
+
+                Text(
+                    text = description,
+                    color = textColor,
+                    fontSize = descriptionConfig.size,
+                    fontWeight = descriptionConfig.weight,
+                    letterSpacing = descriptionConfig.letterSpacing,
+                )
+            }
+        } else {
+            Text(
+                text = description,
+                color = textColor,
+                fontSize = descriptionConfig.size,
+                fontWeight = descriptionConfig.weight,
+                letterSpacing = descriptionConfig.letterSpacing,
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Switch(
+            checked = isSelected,
+            onCheckedChange = { onClick() },
+            enabled = isEnabled,
             colors = colors,
         )
     }
