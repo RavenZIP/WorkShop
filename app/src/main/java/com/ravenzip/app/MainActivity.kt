@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ravenzip.app.ui.theme.WorkShopTheme
-import com.ravenzip.workshop.components.button.SimpleButton
+import com.ravenzip.workshop.components.button.Button
 import com.ravenzip.workshop.components.checkbox.CheckboxGroup
 import com.ravenzip.workshop.components.checkbox.CheckboxTree
 import com.ravenzip.workshop.components.radio.RadioGroup
@@ -81,21 +81,21 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MainScreen(screen: MutableState<Screen>) {
-    SimpleButton(text = "DropDownTextField") { screen.value = Screen.DROP_DOWN_TEXT_FIELD }
+    Button(text = "DropDownTextField") { screen.value = Screen.DROP_DOWN_TEXT_FIELD }
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SimpleButton(text = "SimpleOutlinedTextField") {
+    Button(text = "SimpleOutlinedTextField") {
         screen.value = Screen.SIMPLE_OUTLINED_TEXT_FIELD
     }
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SimpleButton(text = "CheckBoxGroup") { screen.value = Screen.CHECK_BOX_GROUP }
+    Button(text = "CheckBoxGroup") { screen.value = Screen.CHECK_BOX_GROUP }
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SimpleButton(text = "RadioGroup") { screen.value = Screen.RADIO_GROUP }
+    Button(text = "RadioGroup") { screen.value = Screen.RADIO_GROUP }
 
     Spacer(modifier = Modifier.height(10.dp))
 }
@@ -125,7 +125,7 @@ private fun DropDownTextFieldTest(screen: MutableState<Screen>) {
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
+    Button(text = "Назад") { screen.value = Screen.MAIN }
 }
 
 @Composable
@@ -150,22 +150,22 @@ private fun TextFields(screen: MutableState<Screen>) {
     SinglenessOutlinedTextField(control = formControl, state = formState)
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Отключить") { formControl.disable() }
+    Button(text = "Отключить") { formControl.disable() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Включить") { formControl.enable() }
+    Button(text = "Включить") { formControl.enable() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Только для чтения") { formState.readonly() }
+    Button(text = "Только для чтения") { formState.readonly() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Разрешить редактирование") { formState.editable() }
+    Button(text = "Разрешить редактирование") { formState.editable() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Сброс") { formControl.reset() }
+    Button(text = "Сброс") { formControl.reset() }
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
+    Button(text = "Назад") { screen.value = Screen.MAIN }
 }
 
 @Composable
@@ -188,7 +188,7 @@ private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     )
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
+    Button(text = "Назад") { screen.value = Screen.MAIN }
 }
 
 @Composable
@@ -199,7 +199,7 @@ private fun RadioGroupTest(screen: MutableState<Screen>) {
     RadioGroup(control = control, source = items, view = { it.name }, keySelector = { it.name })
 
     Spacer(modifier = Modifier.height(10.dp))
-    SimpleButton(text = "Назад") { screen.value = Screen.MAIN }
+    Button(text = "Назад") { screen.value = Screen.MAIN }
 }
 
 @Composable

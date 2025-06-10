@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.ravenzip.workshop.components.button.SimpleButton
+import com.ravenzip.workshop.components.button.Button
 import com.ravenzip.workshop.components.icon.Icon
 import com.ravenzip.workshop.model.TextConfig
 import com.ravenzip.workshop.model.icon.IconConfig
@@ -98,7 +98,7 @@ fun AlertDialog(
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 Row {
-                    SimpleButton(
+                    Button(
                         width = 0.5f,
                         text = onDismissText,
                         textConfig = onDismissTextConfig,
@@ -114,7 +114,7 @@ fun AlertDialog(
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    SimpleButton(
+                    Button(
                         text = onConfirmationText,
                         textConfig = onConfirmationTextConfig,
                         contentPadding = PaddingValues(0.dp),
