@@ -14,9 +14,8 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 
 // TODO сделать комбинированный вариант для reset (resetValue + value как параметр функции),
 // оставить как есть, либо сделать только параметр функции
-@Experimental
 @Stable
-open class FormControlMulti<T>(
+class FormControlMulti<T>(
     initialValue: List<T>,
     private val equals: (T, T) -> Boolean,
     private val resetValue: List<T> = emptyList(),
