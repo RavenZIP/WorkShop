@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -55,7 +57,10 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold { padding ->
                     Column(
-                        modifier = Modifier.fillMaxSize().padding(padding),
+                        modifier =
+                            Modifier.fillMaxSize()
+                                .padding(padding)
+                                .verticalScroll(rememberScrollState()),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Spacer(modifier = Modifier.height(20.dp))
@@ -166,12 +171,14 @@ private fun TextFields(screen: MutableState<Screen>) {
 @Composable
 private fun CheckBoxGroupTest(screen: MutableState<Screen>) {
     val items = remember { Item.createItems() }
-    val control = remember { FormControlMulti(initialValue = emptyList<Item>()) }
+    val control = remember {
+        FormControlMulti(initialValue = emptyList<Item>(), equals = { x, y -> x.uid == y.uid })
+    }
 
     CheckboxGroup(control = control, source = items, view = { it.name })
 
     val items2 = remember { Item.createItems() }
-    val control2 = remember { FormControlTree(items2) }
+    val control2 = remember { FormControlTree(items2, equals = { x, y -> x.uid == y.uid }) }
 
     CheckboxTree(
         control = control2,
