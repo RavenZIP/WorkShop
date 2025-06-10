@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import org.jetbrains.annotations.ApiStatus.Experimental
 
 // TODO сделать комбинированный вариант для reset (resetValue + value как параметр функции),
 // оставить как есть, либо сделать только параметр функции

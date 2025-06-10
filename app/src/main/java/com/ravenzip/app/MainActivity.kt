@@ -85,9 +85,7 @@ private fun MainScreen(screen: MutableState<Screen>) {
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    Button(text = "SimpleOutlinedTextField") {
-        screen.value = Screen.SIMPLE_OUTLINED_TEXT_FIELD
-    }
+    Button(text = "SimpleOutlinedTextField") { screen.value = Screen.SIMPLE_OUTLINED_TEXT_FIELD }
 
     Spacer(modifier = Modifier.height(10.dp))
 
