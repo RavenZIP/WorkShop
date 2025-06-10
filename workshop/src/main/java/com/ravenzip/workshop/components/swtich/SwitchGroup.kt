@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ravenzip.workshop.forms.control.FormControlMulti
-import com.ravenzip.workshop.model.Equatable
 import com.ravenzip.workshop.model.TextConfig
 
 /**
@@ -27,7 +26,7 @@ import com.ravenzip.workshop.model.TextConfig
  * @param colors цвета чекбоксов
  */
 @Composable
-fun <T : Equatable> SwitchGroup(
+fun <T> SwitchGroup(
     control: FormControlMulti<T>,
     source: List<T>,
     labelProvider: ((T) -> String)? = null,
@@ -41,7 +40,7 @@ fun <T : Equatable> SwitchGroup(
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
         source.forEach { item ->
             Switch(
-                isSelected = item in control.value,
+                isSelected = control.isSelected(item),
                 isEnabled = control.isEnabled,
                 width = 1f,
                 label = labelProvider?.invoke(item),

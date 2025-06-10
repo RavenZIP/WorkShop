@@ -3,7 +3,6 @@ package com.ravenzip.workshop.forms.control
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.ravenzip.workshop.model.Equatable
 import com.ravenzip.workshop.forms.control.base.AbstractFormControl
 import com.ravenzip.workshop.forms.control.model.ValueChange
 import com.ravenzip.workshop.forms.control.model.ValueChangeType
@@ -17,8 +16,9 @@ import org.jetbrains.annotations.ApiStatus.Experimental
 // оставить как есть, либо сделать только параметр функции
 @Experimental
 @Stable
-open class FormControlMulti<T : Equatable>(
+open class FormControlMulti<T>(
     initialValue: List<T>,
+    private val equals: (T, T) -> Boolean,
     private val resetValue: List<T> = emptyList(),
     private val validators: List<(List<T>) -> String?> = emptyList(),
     disable: Boolean = false,
@@ -40,7 +40,7 @@ open class FormControlMulti<T : Equatable>(
 
     fun setValue(vararg value: T) {
         value.forEach { item ->
-            if (item in _state) {
+            if (isSelected(item)) {
                 _state.remove(item)
             } else {
                 _state.add(item)
@@ -49,6 +49,10 @@ open class FormControlMulti<T : Equatable>(
 
         _valueChanges.update { ValueChange(_state.toList(), ValueChangeType.Set) }
         updateValidity()
+    }
+
+    internal fun isSelected(item: T): Boolean {
+        return _state.any { x -> equals(x, item) }
     }
 
     private fun updateValidity() {

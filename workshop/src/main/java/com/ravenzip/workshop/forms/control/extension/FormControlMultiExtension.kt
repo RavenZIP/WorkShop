@@ -8,11 +8,11 @@ import com.ravenzip.workshop.forms.control.FormControlMulti
 // TODO компонент ничего о ней не будет знать (чисто для разработчика)
 
 /** Выбрать все элементы */
-fun <T : Equatable> FormControlMulti<T>.selectAll(source: List<T>) {
+fun <T> FormControlMulti<T>.selectAll(source: List<T>) {
     source.filter { it !in this.value }.forEach { this.setValue(it) }
 }
 
 /** Снять выбор со всеъ элементов */
-fun <T : Equatable> FormControlMulti<T>.unselectAll(source: List<T>) {
+fun <T> FormControlMulti<T>.unselectAll(source: List<T>) {
     source.filter { it in this.value }.forEach { this.setValue(it) }
 }

@@ -10,9 +10,7 @@ import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,7 +63,7 @@ fun Checkbox(
 /**
  * [Checkbox] - чекбокс
  *
- * @param isSelectedSelector селектор выбора чекбокса
+ * @param isSelected выбран
  * @param text текст чекбокса
  * @param textConfig параметры текста
  * @param enabled вкл\выкл чекбоксов
@@ -75,15 +73,13 @@ fun Checkbox(
 @Experimental
 @Composable
 fun Checkbox(
-    isSelectedSelector: () -> Boolean,
+    isSelected: Boolean,
     text: String = "Текст Checkbox",
     textConfig: TextConfig = TextConfig.S18,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(),
     onClick: () -> Unit,
 ) {
-    val isSelected by remember { derivedStateOf { isSelectedSelector() } }
-
     Row(
         modifier =
             Modifier.fillMaxWidth()

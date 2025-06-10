@@ -9,9 +9,8 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.model.Equatable
-import com.ravenzip.workshop.model.TextConfig
 import com.ravenzip.workshop.forms.control.FormControlMulti
+import com.ravenzip.workshop.model.TextConfig
 
 /**
  * [CheckboxGroup] - Чекбоксы
@@ -25,7 +24,7 @@ import com.ravenzip.workshop.forms.control.FormControlMulti
  * @param colors цвета чекбоксов
  */
 @Composable
-fun <T : Equatable> CheckboxGroup(
+fun <T> CheckboxGroup(
     control: FormControlMulti<T>,
     source: List<T>,
     view: (T) -> String,
@@ -37,7 +36,7 @@ fun <T : Equatable> CheckboxGroup(
     Column(modifier = Modifier.fillMaxWidth(width), verticalArrangement = contentPadding) {
         source.forEach { item ->
             Checkbox(
-                isSelectedSelector = { item in control.value },
+                isSelected = control.isSelected(item),
                 text = view(item),
                 textConfig = textConfig,
                 enabled = control.isEnabled,

@@ -19,12 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
-import com.ravenzip.workshop.model.Equatable
-import com.ravenzip.workshop.model.TextConfig
 import com.ravenzip.workshop.forms.control.FormControlTree
 import com.ravenzip.workshop.forms.control.extension.changeParentState
 import com.ravenzip.workshop.forms.control.extension.selectAll
 import com.ravenzip.workshop.forms.control.extension.unselectAll
+import com.ravenzip.workshop.model.TextConfig
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -46,7 +45,7 @@ import org.jetbrains.annotations.ApiStatus.Experimental
  */
 @Experimental
 @Composable
-fun <T : Equatable> CheckboxTree(
+fun <T> CheckboxTree(
     control: FormControlTree<T>,
     source: List<T>,
     view: (T) -> String,
@@ -123,7 +122,7 @@ fun <T : Equatable> CheckboxTree(
         Column(modifier = Modifier.padding(start = 15.dp), verticalArrangement = childPadding) {
             source.forEach { item ->
                 Checkbox(
-                    isSelectedSelector = { item in control.value.children },
+                    isSelected = control.isSelected(item),
                     text = view(item),
                     textConfig = childTextConfig,
                     enabled = control.isEnabled,

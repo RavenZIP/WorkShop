@@ -4,19 +4,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
-import com.ravenzip.workshop.model.Equatable
-import com.ravenzip.workshop.forms.control.model.TreeValue
 import com.ravenzip.workshop.forms.control.base.AbstractFormControl
+import com.ravenzip.workshop.forms.control.model.TreeValue
 import com.ravenzip.workshop.forms.control.model.ValueChange
 import com.ravenzip.workshop.forms.control.model.ValueChangeType
+import kotlin.collections.any
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 @Stable
-class FormControlTree<T : Equatable>(
+class FormControlTree<T>(
     initialValue: List<T>,
+    private val equals: (T, T) -> Boolean,
     private val resetValue: List<T> = emptyList(),
     private val validators: List<(TreeValue<T>) -> String?> = emptyList(),
     disable: Boolean = false,
@@ -59,7 +60,7 @@ class FormControlTree<T : Equatable>(
         val currentChildrenValue = _state.value.children.toMutableList()
 
         value.forEach { item ->
-            if (item in _state.value.children) {
+            if (isSelected(item)) {
                 currentChildrenValue.remove(item)
             } else {
                 currentChildrenValue.add(item)
@@ -67,6 +68,10 @@ class FormControlTree<T : Equatable>(
         }
 
         return currentChildrenValue
+    }
+
+    internal fun isSelected(item: T): Boolean {
+        return _state.value.children.any { x -> equals(x, item) }
     }
 
     private fun updateValidity() {
