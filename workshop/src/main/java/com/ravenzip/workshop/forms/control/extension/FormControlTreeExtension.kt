@@ -16,11 +16,11 @@ fun <T> FormControlTree<T>.changeParentState() {
 }
 
 fun <T> FormControlTree<T>.selectAll(source: List<T>) {
-    val unselectedItems = source.filter { item -> item !in this.value.children }
+    val unselectedItems = source.filter { x -> !this.isSelected(x) }
     this.setValue(unselectedItems)
 }
 
 fun <T> FormControlTree<T>.unselectAll(source: List<T>) {
-    val selectedItems = source.filter { item -> item in this.value.children }
+    val selectedItems = source.filter { x -> this.isSelected(x) }
     this.setValue(selectedItems)
 }

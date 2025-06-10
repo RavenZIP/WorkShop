@@ -8,10 +8,10 @@ import com.ravenzip.workshop.forms.control.FormControlMulti
 
 /** Выбрать все элементы */
 fun <T> FormControlMulti<T>.selectAll(source: List<T>) {
-    source.filter { it !in this.value }.forEach { this.setValue(it) }
+    source.filter { x -> !this.isSelected(x) }.forEach { this.setValue(it) }
 }
 
 /** Снять выбор со всеъ элементов */
 fun <T> FormControlMulti<T>.unselectAll(source: List<T>) {
-    source.filter { it in this.value }.forEach { this.setValue(it) }
+    source.filter { x -> this.isSelected(x) }.forEach { this.setValue(it) }
 }
